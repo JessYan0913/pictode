@@ -1,0 +1,7 @@
+dist
+coverage
+node_modules
+dest
+types
+lib
+public/

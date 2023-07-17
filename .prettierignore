@@ -1,0 +1,10 @@
+dist
+coverage
+node_modules
+dest
+types
+
+*.mjs
+*.mjs.map
+*.umd.js
+*.umd.js.map
