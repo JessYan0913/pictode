@@ -17,9 +17,9 @@ export const routes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: '/example/command-dialog',
+        path: '/example/canvas',
         name: 'Dialog',
-        component: () => import('../view/command-dialog/index.vue'),
+        component: () => import('../view/canvas/index.vue'),
         meta: {
           menu: true,
         },
@@ -34,7 +34,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      redirect: '/example/component-dialog',
+      redirect: '/example/canvas',
       component: () => import('../layout/index.vue'),
       children: routes,
     },

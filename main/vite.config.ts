@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
       alias: [
         { find: '@', replacement: r('./src') },
         { find: /^@pictode\/utils/, replacement: join(__dirname, '../packages/utils/src/index.ts') },
+        { find: /^@pictode\/core/, replacement: join(__dirname, '../packages/core/src/index.ts') },
         { find: 'vue', replacement: join(__dirname, './node_modules/vue/dist/vue.esm-bundler.js') },
       ],
     },
