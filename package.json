@@ -7,7 +7,7 @@
     "bootstrap": "pnpm i && pnpm build",
     "main": "pnpm --filter \"main\" dev",
     "renderer": "pnpm --filter \"renderer\" dev",
-    "build": "pnpm --filter \"@tmp/*\" build",
+    "build": "pnpm --filter \"@pictode/*\" build",
     "lint": "eslint . --ext .js,.vue,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.vue,.ts,.tsx",
     "commit": "git-cz",
@@ -17,7 +17,7 @@
     "node": ">=16"
   },
   "workspaces": [
-    "@tmp/utils"
+    "@pictode/utils"
   ],
   "devDependencies": {
     "@babel/core": "^7.20.12",

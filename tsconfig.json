@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "paths": {
-      "@tmp/*": ["packages/*/src"],
+      "@pictode/*": ["packages/*/src"],
       "third-lib": ["node_modules/third-lib"]
     },
     "types": ["node", "vite/client"]

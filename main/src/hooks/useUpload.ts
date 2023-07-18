@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { BaseError } from '@tmp/utils';
+import { BaseError } from '@pictode/utils';
 import Crypto from 'crypto-js';
 
 export class UploadError extends BaseError {

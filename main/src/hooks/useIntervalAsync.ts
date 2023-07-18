@@ -1,5 +1,5 @@
 import { onUnmounted, ref } from 'vue';
-import { TimeUnit, toMilliseconds } from '@tmp/utils';
+import { TimeUnit, toMilliseconds } from '@pictode/utils';
 
 export type Cleanup = () => any;
 

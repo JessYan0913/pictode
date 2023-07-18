@@ -14,7 +14,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@tmp/utils': r('./packages/utils/src'),
+      '@pictode/utils': r('./packages/utils/src'),
     },
   },
 });

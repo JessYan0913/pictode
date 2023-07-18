@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { FileSelectCancelError, IllegalFileError, selectFile } from '@tmp/utils';
+import { FileSelectCancelError, IllegalFileError, selectFile } from '@pictode/utils';
 
 export const useSelectFile = () => {
   const loading = ref<boolean>(false);
