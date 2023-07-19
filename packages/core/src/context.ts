@@ -4,21 +4,22 @@ import { fabric } from 'fabric';
 import { Event } from './types';
 
 export class Context extends BaseService<Event.ContextArgs> {
-  public canvas?: fabric.Canvas;
+  public canvas: fabric.Canvas;
   private canvasEl: HTMLCanvasElement;
 
   constructor() {
     super();
     this.canvasEl = document.createElement('canvas');
-  }
-
-  public mount(element: HTMLElement) {
-    element.appendChild(this.canvasEl);
-    this.canvas = new fabric.Canvas(this.canvasEl, {
+    this.canvas = new fabric.Canvas(null, {
       backgroundColor: 'lightgray',
       width: 500,
       height: 500,
     });
+  }
+
+  public mount(element: HTMLElement) {
+    element.appendChild(this.canvasEl);
+    this.canvas.initialize(this.canvasEl);
     this.addRect();
   }
 
