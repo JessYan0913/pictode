@@ -1,42 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Context, Plugin } from '@pictode/core';
+import { Context } from '@pictode/core';
+import { History } from '@pictode/plugin-history';
 
 const containerRef = ref<HTMLDivElement>();
 
-class MyPlugin implements Plugin {
-  public name: string = 'my-plugin';
-
-  constructor() {
-    console.log('=====>');
-  }
-
-  public install(context: Context) {
-    console.log('context', context);
-  }
-
-  public dispose() {
-    console.log('卸载');
-  }
-
-  public zoom() {
-    console.log('zoom');
-  }
-}
-
-// TODO: 插件开发参考Antv/X6
-declare module '@pictode/core' {
-  interface Context {
-    zoom: () => void;
-  }
-}
-
-Context.prototype.zoom = () => {};
+const history = new History();
 
 const context = new Context();
-const myPlugin = new MyPlugin();
-context.use(myPlugin);
-context.zoom();
+context.use(history);
 onMounted(() => {
   if (containerRef.value) {
     context.mount(containerRef.value);

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pictode/core": "workspace:^0.0.1",
+    "@pictode/plugin-history": "workspace:^0.0.1",
     "@pictode/utils": "workspace:^0.0.1",
     "crypto-js": "^4.1.1",
     "element-plus": "^2.2.28",

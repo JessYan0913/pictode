@@ -1,13 +1,182 @@
-import { BaseService, Context, Plugin } from '@pictode/core';
+import { BaseService, Context, isSubclass, Plugin } from '@pictode/core';
 
-import './api';
+import { BaseCmd } from './commands/base';
+import { CmdNotOptionsError, CmdNotRegisterError } from './errors';
+import { Cmd, EventArgs, Options } from './types';
 
-export class History extends BaseService implements Plugin {
+export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cmd.Options> = new (
+  context?: Context,
+  options?: O
+) => T;
+
+export class History extends BaseService<EventArgs> implements Plugin {
   public name: string = 'history';
   private context?: Context;
+  private enabled: boolean;
+  private stackSize: number;
 
-  constructor() {
+  private commands: Record<string, CommandClass> = {};
+  private undoStack: BaseCmd[] = [];
+  private redoStack: BaseCmd[] = [];
+  private idCounter: number = 0;
+
+  constructor(options?: Options) {
     super();
+    const { enabled = true, stackSize = 500 } = options ?? {};
+    this.enabled = enabled;
+    this.stackSize = stackSize;
+  }
+
+  public setStackSize(size: number): void {
+    this.stackSize = size;
+  }
+
+  public registerCommands<T extends BaseCmd>(commandClasses: CommandClass<T> | Array<CommandClass<T>>): void {
+    if (!Array.isArray(commandClasses)) {
+      commandClasses = [commandClasses];
+    }
+    commandClasses.forEach((commandClass) => {
+      if (isSubclass(commandClass, BaseCmd)) {
+        this.commands[commandClass.name] = commandClass;
+      }
+    });
+  }
+
+  public getCommandClass(command: BaseCmd | string): CommandClass {
+    let result: CommandClass;
+    if (command instanceof BaseCmd) {
+      result = this.commands[command.name];
+    } else {
+      result = this.commands[command];
+    }
+    if (!result) {
+      throw new CmdNotRegisterError(command);
+    }
+    return result;
+  }
+
+  public execute<T extends Cmd.Options>(command: BaseCmd | string, options?: T): void {
+    let executeCommand: BaseCmd;
+    const Command = this.getCommandClass(command);
+    if (command instanceof BaseCmd) {
+      executeCommand = command;
+    } else {
+      if (!options) {
+        throw new CmdNotOptionsError(command);
+      }
+      executeCommand = new Command(this.context, options);
+    }
+
+    // 如果命令栈中的命令长度已经超出了最大栈长，则将最早的命令清除
+    if (this.undoStack.length > this.stackSize) {
+      this.undoStack.shift();
+    }
+
+    this.undoStack.push(executeCommand);
+    executeCommand.id = ++this.idCounter;
+
+    executeCommand.execute();
+    executeCommand.executed = true;
+    executeCommand.executeTime = new Date().getTime();
+    this.redoStack = [];
+    this.emit('stack:changed', {
+      undoStack: this.undoStack,
+      redoStack: this.redoStack,
+    });
+  }
+
+  public undo(step: number = 1): BaseCmd | undefined {
+    if (!this.enabled) {
+      return;
+    }
+
+    let command: BaseCmd | undefined;
+    while (step) {
+      if (this.undoStack.length > 0) {
+        command = this.undoStack.pop();
+
+        if (command) {
+          command.undo();
+          this.redoStack.push(command);
+          this.emit('stack:changed', {
+            undoStack: this.undoStack,
+            redoStack: this.redoStack,
+          });
+        }
+      }
+      --step;
+    }
+    this.emit('history:undo', {
+      step,
+      command: command?.toJSON(),
+    });
+    return command;
+  }
+
+  public redo(step: number = 1): BaseCmd | undefined {
+    if (!this.enabled) {
+      return;
+    }
+    let command: BaseCmd | undefined;
+    while (step) {
+      if (this.redoStack.length > 0) {
+        command = this.redoStack.pop();
+        if (command) {
+          command.execute();
+          this.undoStack.push(command);
+          this.emit('stack:changed', {
+            undoStack: this.undoStack,
+            redoStack: this.redoStack,
+          });
+        }
+      }
+      --step;
+    }
+    this.emit('history:redo', {
+      command: command?.toJSON(),
+      step,
+    });
+    return command;
+  }
+
+  public canUndo(): boolean {
+    return this.undoStack.length > 0;
+  }
+
+  public canRedo(): boolean {
+    return this.redoStack.length > 0;
+  }
+
+  public jump(id: number): void {
+    if (!this.enabled) {
+      return;
+    }
+
+    let command: BaseCmd | undefined =
+      this.undoStack.length > 0 ? this.undoStack[this.undoStack.length - 1] : undefined;
+
+    if (command === undefined || id > command.id) {
+      command = this.redo();
+
+      while (command !== undefined && id > command.id) {
+        command = this.redo();
+      }
+    } else {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        command = this.undoStack[this.undoStack.length - 1];
+
+        if (command === undefined || id === command.id) {
+          break;
+        }
+        this.undo();
+      }
+    }
+
+    this.emit('stack:changed', {
+      undoStack: this.undoStack,
+      redoStack: this.redoStack,
+    });
   }
 
   public install(context: Context) {
@@ -15,19 +184,27 @@ export class History extends BaseService implements Plugin {
   }
 
   public dispose(): void {
-    throw new Error('Method not implemented.');
+    this.undoStack = [];
+    this.redoStack = [];
+    this.emit('stack:changed', {
+      undoStack: this.undoStack,
+      redoStack: this.redoStack,
+    });
+    this.emit('history:destroy', {
+      history: this,
+    });
   }
 
   public enable(): void {
-    throw new Error('Method not implemented.');
+    this.enabled = true;
   }
 
   public disable(): void {
-    throw new Error('Method not implemented.');
+    this.enabled = false;
   }
 
   public isEnabled(): boolean {
-    throw new Error('Method not implemented.');
+    return this.enabled ?? false;
   }
 }
 

@@ -1,0 +1,15 @@
+import { BaseError } from '@pictode/core';
+
+import { BaseCmd } from '../commands/base';
+
+export class CmdNotRegisterError extends BaseError {
+  constructor(command: BaseCmd | string) {
+    super(`${command instanceof BaseCmd ? command.name : command} not registered`);
+  }
+}
+
+export class CmdNotOptionsError extends BaseError {
+  constructor(command: BaseCmd | string) {
+    super(`The options of the ${command instanceof BaseCmd ? command.name : command} command cannot be undefine`);
+  }
+}
