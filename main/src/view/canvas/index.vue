@@ -31,6 +31,8 @@ declare module '@pictode/core' {
   }
 }
 
+Context.prototype.zoom = () => {};
+
 const context = new Context();
 const myPlugin = new MyPlugin();
 context.use(myPlugin);
