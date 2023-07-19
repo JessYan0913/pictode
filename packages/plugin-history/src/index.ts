@@ -1,5 +1,7 @@
 import { BaseService, Context, Plugin } from '@pictode/core';
 
+import './api';
+
 export class History extends BaseService implements Plugin {
   public name: string = 'history';
   private context?: Context;
