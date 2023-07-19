@@ -3,7 +3,11 @@ import Context from './context';
 
 export interface Plugin {
   name: string;
-  install: (context: Context) => void;
+  install: (context: Context, ...options: any[]) => any;
+  dispose: () => void;
+  enable?: () => void;
+  disable?: () => void;
+  isEnabled?: () => boolean;
 }
 
 export namespace Cmd {
