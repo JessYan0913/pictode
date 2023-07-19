@@ -1,6 +1,11 @@
 import History from './services/history';
 import Context from './context';
 
+export interface Plugin {
+  name: string;
+  install: (context: Context) => void;
+}
+
 export namespace Cmd {
   export interface Options {
     [key: string]: any;
