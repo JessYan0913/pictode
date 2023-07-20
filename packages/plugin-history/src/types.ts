@@ -1,7 +1,7 @@
 import { History } from './index';
 
 declare module '@pictode/core' {
-  export interface Context {
+  export interface App {
     undo(): void;
   }
 }

@@ -1,4 +1,4 @@
-import { BaseService, Context, isSubclass, Plugin } from '@pictode/core';
+import { App, BaseService, isSubclass, Plugin } from '@pictode/core';
 
 import './methods';
 
@@ -7,13 +7,13 @@ import { CmdNotOptionsError, CmdNotRegisterError } from './errors';
 import { Cmd, EventArgs, Options } from './types';
 
 export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cmd.Options> = new (
-  context?: Context,
+  context?: App,
   options?: O
 ) => T;
 
 export class History extends BaseService<EventArgs> implements Plugin {
   public name: string = 'history';
-  private context?: Context;
+  private context?: App;
   private enabled: boolean;
   private stackSize: number;
 
@@ -181,7 +181,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
     });
   }
 
-  public install(context: Context) {
+  public install(context: App) {
     this.context = context;
   }
 

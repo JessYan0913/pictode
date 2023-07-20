@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Context } from '@pictode/core';
+import { App } from '@pictode/core';
 import { History } from '@pictode/plugin-history';
 
 const containerRef = ref<HTMLDivElement>();
 
 const history = new History();
 
-const context = new Context();
-context.use(history);
-context.undo();
+const app = new App();
+app.use(history);
+app.undo();
 onMounted(() => {
   if (containerRef.value) {
-    context.mount(containerRef.value);
+    app.mount(containerRef.value);
   }
 });
 </script>

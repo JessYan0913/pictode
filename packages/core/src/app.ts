@@ -3,7 +3,7 @@ import { fabric } from 'fabric';
 
 import { EventArgs, Plugin } from './types';
 
-export class Context extends BaseService<EventArgs> {
+export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
 
   private installedPlugins: Map<string, Plugin> = new Map();
@@ -19,7 +19,7 @@ export class Context extends BaseService<EventArgs> {
     });
   }
 
-  public use(plugin: Plugin, ...options: any[]): Context {
+  public use(plugin: Plugin, ...options: any[]): App {
     if (!this.installedPlugins.has(plugin.name)) {
       this.installedPlugins.set(plugin.name, plugin);
       plugin.install(this, ...options);
@@ -35,7 +35,7 @@ export class Context extends BaseService<EventArgs> {
     return pluginNames.map((pluginName) => this.getPlugin(pluginName)) as T;
   }
 
-  public enablePlugin(plugins: string | string[]): Context {
+  public enablePlugin(plugins: string | string[]): App {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
@@ -44,7 +44,7 @@ export class Context extends BaseService<EventArgs> {
     return this;
   }
 
-  public disablePlugin(plugins: string | string[]): Context {
+  public disablePlugin(plugins: string | string[]): App {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
@@ -57,7 +57,7 @@ export class Context extends BaseService<EventArgs> {
     return this.getPlugin(pluginName)?.isEnabled?.() ?? false;
   }
 
-  public disposePlugins(plugins: string | string[]): Context {
+  public disposePlugins(plugins: string | string[]): App {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
@@ -87,4 +87,4 @@ export class Context extends BaseService<EventArgs> {
   }
 }
 
-export default Context;
+export default App;
