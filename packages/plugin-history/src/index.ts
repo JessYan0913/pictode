@@ -1,4 +1,5 @@
-import { App, isSubclass, Plugin } from '@pictode/core';
+import { App, Plugin } from '@pictode/core';
+import { isSubclass } from '@pictode/utils';
 
 import './methods';
 

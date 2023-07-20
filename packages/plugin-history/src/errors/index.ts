@@ -1,4 +1,4 @@
-import { BaseError } from '@pictode/core';
+import { BaseError } from '@pictode/utils';
 
 import { BaseCmd } from '../commands/base';
 
