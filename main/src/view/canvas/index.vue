@@ -18,13 +18,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>canvas</h1>
   <div ref="containerRef" class="container"></div>
 </template>
 
 <style scoped lang="scss">
 .container {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
 }
 </style>
