@@ -2,21 +2,23 @@ import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
 import { Rect } from './customs/rect';
-import { EventArgs, Plugin } from './types';
+import { AppOptions, EventArgs, Plugin } from './types';
 
 type Model = 'select' | 'drawing' | 'rect' | 'circle';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
 
+  private options?: AppOptions;
   private installedPlugins: Map<string, Plugin> = new Map();
   private canvasEl: HTMLCanvasElement;
 
-  constructor() {
+  constructor(options?: AppOptions) {
     super();
+    this.options = options;
     this.canvasEl = document.createElement('canvas');
     this.canvas = new fabric.Canvas(null, {
-      backgroundColor: 'lightgray',
+      backgroundColor: options?.backgroundColor,
     });
   }
 
