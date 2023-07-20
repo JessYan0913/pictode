@@ -17,6 +17,7 @@ onMounted(() => {
     <div class="tools">
       <button @click="app.setModel('select')">选择🖱️</button>
       <button @click="app.setModel('drawing')">铅笔✏️</button>
+      <button @click="app.setModel('rect')">矩形⬜️</button>
     </div>
     <div ref="containerRef" class="container"></div>
   </div>

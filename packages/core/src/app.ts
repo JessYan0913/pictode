@@ -1,7 +1,10 @@
 import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
+import { Rect } from './customs/rect';
 import { EventArgs, Plugin } from './types';
+
+type Model = 'select' | 'drawing' | 'rect' | 'circle';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
@@ -23,20 +26,42 @@ export class App extends BaseService<EventArgs> {
       width: element.clientWidth,
       height: element.clientHeight,
     });
+    this.setModel('select');
   }
 
-  public setModel(model: string): App {
-    if (model === 'select') {
-      this.canvas.isDrawingMode = false;
-      this.canvas.selection = true;
-      this.canvas.selectionColor = 'rgba(157, 157, 231, 0.5)';
-      this.canvas.selectionBorderColor = 'rgb(157, 157, 231)';
-      this.canvas.selectionLineWidth = 2;
-    } else {
-      this.canvas.isDrawingMode = true;
-      this.canvas.selection = false;
-      this.canvas.freeDrawingBrush.color = 'red';
-      this.canvas.freeDrawingBrush.width = 20;
+  public setModel(model: Model): App {
+    const rect = new Rect({
+      width: 200,
+      height: 100,
+      top: 20,
+      left: 20,
+      fill: 'transparent',
+      stroke: 'blue',
+      strokeWidth: 5,
+      borderColor: 'rgb(93, 94, 214)',
+      cornerColor: 'rgb(93, 94, 214)',
+      cornerSize: 8,
+      cornerStyle: 'circle',
+      rx: 5,
+      ry: 5,
+    });
+    switch (model) {
+      case 'select':
+        this.canvas.isDrawingMode = false;
+        this.canvas.selection = true;
+        this.canvas.selectionColor = 'rgba(157, 157, 231, 0.5)';
+        this.canvas.selectionBorderColor = 'rgb(157, 157, 231)';
+        this.canvas.selectionLineWidth = 2;
+        break;
+      case 'drawing':
+        this.canvas.isDrawingMode = true;
+        this.canvas.selection = false;
+        this.canvas.freeDrawingBrush.color = 'red';
+        this.canvas.freeDrawingBrush.width = 20;
+        break;
+      case 'rect':
+        this.canvas.add(rect);
+        break;
     }
     return this;
   }
