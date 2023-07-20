@@ -13,12 +13,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="containerRef" class="container"></div>
+  <div class="wrapper">
+    <div class="tools">
+      <button @click="app.setModel('select')">选择🖱️</button>
+      <button @click="app.setModel('drawing')">铅笔✏️</button>
+    </div>
+    <div ref="containerRef" class="container"></div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.container {
+.wrapper {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tools {
+  height: 30px;
+}
+
+.container {
+  flex: 1;
 }
 </style>

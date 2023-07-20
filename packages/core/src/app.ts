@@ -25,6 +25,22 @@ export class App extends BaseService<EventArgs> {
     });
   }
 
+  public setModel(model: string): App {
+    if (model === 'select') {
+      this.canvas.isDrawingMode = false;
+      this.canvas.selection = true;
+      this.canvas.selectionColor = 'rgba(157, 157, 231, 0.5)';
+      this.canvas.selectionBorderColor = 'rgb(157, 157, 231)';
+      this.canvas.selectionLineWidth = 2;
+    } else {
+      this.canvas.isDrawingMode = true;
+      this.canvas.selection = false;
+      this.canvas.freeDrawingBrush.color = 'red';
+      this.canvas.freeDrawingBrush.width = 20;
+    }
+    return this;
+  }
+
   public use(plugin: Plugin, ...options: any[]): App {
     if (!this.installedPlugins.has(plugin.name)) {
       this.installedPlugins.set(plugin.name, plugin);
