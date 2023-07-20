@@ -1,8 +1,15 @@
-import { History } from './index';
+import { BaseCmd } from './commands/base';
+import { CommandClass, History } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    undo(): void;
+    registerCommands<T extends BaseCmd>(commandClasses: CommandClass<T> | Array<CommandClass<T>>): App;
+    execute<T extends Cmd.Options>(command: BaseCmd | string, options?: T): App;
+    undo(step: number): App;
+    redo(step: number): App;
+    canUndo(): boolean;
+    canRedo(): boolean;
+    jump(id: number): App;
   }
 
   export interface EventArgs {
