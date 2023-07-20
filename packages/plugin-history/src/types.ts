@@ -1,5 +1,10 @@
 import { History } from './index';
-export interface PluginMethods {}
+
+declare module '@pictode/core' {
+  export interface Context {
+    undo(): void;
+  }
+}
 
 export namespace Cmd {
   export interface Options {

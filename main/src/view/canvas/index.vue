@@ -9,6 +9,7 @@ const history = new History();
 
 const context = new Context();
 context.use(history);
+context.undo();
 onMounted(() => {
   if (containerRef.value) {
     context.mount(containerRef.value);

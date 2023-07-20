@@ -1,5 +1,7 @@
 import { BaseService, Context, isSubclass, Plugin } from '@pictode/core';
 
+import './methods';
+
 import { BaseCmd } from './commands/base';
 import { CmdNotOptionsError, CmdNotRegisterError } from './errors';
 import { Cmd, EventArgs, Options } from './types';
