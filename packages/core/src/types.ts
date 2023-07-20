@@ -9,6 +9,4 @@ export interface Plugin {
   isEnabled?(): boolean;
 }
 
-export namespace Event {
-  export interface ContextArgs {}
-}
+export interface EventArgs {}

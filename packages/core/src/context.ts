@@ -1,9 +1,9 @@
 import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
-import { Event, Plugin } from './types';
+import { EventArgs, Plugin } from './types';
 
-export class Context extends BaseService<Event.ContextArgs> {
+export class Context extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
 
   private installedPlugins: Map<string, Plugin> = new Map();

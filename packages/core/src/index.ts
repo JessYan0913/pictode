@@ -1,3 +1,3 @@
-export * from '@pictode/utils';
+export { BaseService, isSubclass, BaseError } from '@pictode/utils';
 export * from './context';
 export * from './types';
