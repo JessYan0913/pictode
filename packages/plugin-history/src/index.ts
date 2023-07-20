@@ -1,17 +1,17 @@
-import { App, BaseService, isSubclass, Plugin } from '@pictode/core';
+import { App, isSubclass, Plugin } from '@pictode/core';
 
 import './methods';
 
 import { BaseCmd } from './commands/base';
 import { CmdNotOptionsError, CmdNotRegisterError } from './errors';
-import { Cmd, EventArgs, Options } from './types';
+import { Cmd, Options } from './types';
 
 export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cmd.Options> = new (
   app?: App,
   options?: O
 ) => T;
 
-export class History extends BaseService<EventArgs> implements Plugin {
+export class History implements Plugin {
   public name: string = 'history';
   private app?: App;
   private enabled: boolean;
@@ -23,7 +23,6 @@ export class History extends BaseService<EventArgs> implements Plugin {
   private idCounter: number = 0;
 
   constructor(options?: Options) {
-    super();
     const { enabled = true, stackSize = 500 } = options ?? {};
     this.enabled = enabled;
     this.stackSize = stackSize;
@@ -81,7 +80,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
     executeCommand.executed = true;
     executeCommand.executeTime = new Date().getTime();
     this.redoStack = [];
-    this.emit('stack:changed', {
+    this.app?.emit('stack:changed', {
       undoStack: this.undoStack,
       redoStack: this.redoStack,
     });
@@ -100,7 +99,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
         if (command) {
           command.undo();
           this.redoStack.push(command);
-          this.emit('stack:changed', {
+          this.app?.emit('stack:changed', {
             undoStack: this.undoStack,
             redoStack: this.redoStack,
           });
@@ -108,7 +107,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
       }
       --step;
     }
-    this.emit('history:undo', {
+    this.app?.emit('history:undo', {
       step,
       command: command?.toJSON(),
     });
@@ -126,7 +125,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
         if (command) {
           command.execute();
           this.undoStack.push(command);
-          this.emit('stack:changed', {
+          this.app?.emit('stack:changed', {
             undoStack: this.undoStack,
             redoStack: this.redoStack,
           });
@@ -134,7 +133,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
       }
       --step;
     }
-    this.emit('history:redo', {
+    this.app?.emit('history:redo', {
       command: command?.toJSON(),
       step,
     });
@@ -175,7 +174,7 @@ export class History extends BaseService<EventArgs> implements Plugin {
       }
     }
 
-    this.emit('stack:changed', {
+    this.app?.emit('stack:changed', {
       undoStack: this.undoStack,
       redoStack: this.redoStack,
     });
@@ -188,11 +187,11 @@ export class History extends BaseService<EventArgs> implements Plugin {
   public dispose(): void {
     this.undoStack = [];
     this.redoStack = [];
-    this.emit('stack:changed', {
+    this.app?.emit('stack:changed', {
       undoStack: this.undoStack,
       redoStack: this.redoStack,
     });
-    this.emit('history:destroy', {
+    this.app?.emit('history:destroy', {
       history: this,
     });
   }
