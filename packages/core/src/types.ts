@@ -23,7 +23,7 @@ export interface ControlVisible {
   mtr?: boolean;
 }
 
-export interface Controls {
+export interface ControlsOption {
   enable?: boolean;
   padding?: number;
   borderColor?: string;
@@ -38,7 +38,7 @@ export interface Controls {
   controlVisible?: ControlVisible;
 }
 
-export interface AppOptions {
+export interface AppOption {
   backgroundColor?: string;
-  controls?: Controls;
+  controls?: ControlsOption;
 }

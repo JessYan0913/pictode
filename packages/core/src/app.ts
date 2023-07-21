@@ -2,23 +2,23 @@ import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
 import { Rect } from './customs/rect';
-import { AppOptions, EventArgs, Plugin } from './types';
+import { AppOption, ControlsOption, EventArgs, Plugin } from './types';
 
 type Model = 'select' | 'drawing' | 'rect' | 'circle';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
 
-  private options?: AppOptions;
+  private option?: AppOption;
   private installedPlugins: Map<string, Plugin> = new Map();
   private canvasEl: HTMLCanvasElement;
 
-  constructor(options?: AppOptions) {
+  constructor(option?: AppOption) {
     super();
-    this.options = options;
+    this.option = option;
     this.canvasEl = document.createElement('canvas');
     this.canvas = new fabric.Canvas(null, {
-      backgroundColor: options?.backgroundColor,
+      backgroundColor: option?.backgroundColor,
     });
   }
 
@@ -29,6 +29,14 @@ export class App extends BaseService<EventArgs> {
       height: element.clientHeight,
     });
     this.setModel('select');
+  }
+
+  public setControls(controls?: ControlsOption | boolean): App {
+    if (!controls) {
+      Reflect.set(fabric.Object.prototype, 'hasControls', false);
+    }
+    this.render(true);
+    return this;
   }
 
   public setModel(model: Model): App {
@@ -66,6 +74,14 @@ export class App extends BaseService<EventArgs> {
         break;
     }
     return this;
+  }
+
+  public render(asyncRedraw?: boolean): void {
+    if (asyncRedraw) {
+      this.canvas.requestRenderAll();
+    } else {
+      this.canvas.renderAll();
+    }
   }
 
   public use(plugin: Plugin, ...options: any[]): App {
