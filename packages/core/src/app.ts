@@ -2,12 +2,13 @@ import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
 import { Rect } from './customs/rect';
-import { AppOption, ControlsOption, EventArgs, Model, Plugin } from './types';
+import { AppOption, ControlsOption, EventArgs, Model, Plugin, ToolStrategy } from './types';
 import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
 
+  private currentTool: ToolStrategy | null = null;
   private option: AppOption & { controls: ControlsOption };
   private installedPlugins: Map<string, Plugin> = new Map();
   private canvasEl: HTMLCanvasElement;
@@ -45,6 +46,11 @@ export class App extends BaseService<EventArgs> {
       }
     });
     this.render(true);
+    return this;
+  }
+
+  public setTool(tool: ToolStrategy): App {
+    this.currentTool = tool;
     return this;
   }
 
