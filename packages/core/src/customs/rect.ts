@@ -1,8 +1,7 @@
 import { fabric } from 'fabric';
 
 const isTransparent = (color: string): boolean => {
-  const alpha = new fabric.Color(color).getAlpha();
-  return alpha === 0;
+  return new fabric.Color(color).getAlpha() === 0;
 };
 
 export class Rect extends fabric.Rect {
@@ -17,16 +16,17 @@ export class Rect extends fabric.Rect {
     if (isFillTransparent && !activeObjects?.includes(this)) {
       const tolerance = 3;
       const boundingRect = this.getBoundingRect();
+      const strokeWidth = this.strokeWidth || 1; // 边框宽度，默认为 1
       const distanceToTop = Math.abs(point.y - boundingRect.top);
       const distanceToBottom = Math.abs(point.y - boundingRect.top - boundingRect.height);
       const distanceToLeft = Math.abs(point.x - boundingRect.left);
       const distanceToRight = Math.abs(point.x - boundingRect.left - boundingRect.width);
-      return (
-        distanceToTop <= tolerance ||
-        distanceToBottom <= tolerance ||
-        distanceToLeft <= tolerance ||
-        distanceToRight <= tolerance
-      );
+      const onBorder =
+        distanceToTop <= strokeWidth + tolerance ||
+        distanceToBottom <= strokeWidth + tolerance ||
+        distanceToLeft <= strokeWidth + tolerance ||
+        distanceToRight <= strokeWidth + tolerance;
+      return onBorder;
     }
     return super.containsPoint(point, lines, absolute, calculate);
   }

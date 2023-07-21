@@ -11,6 +11,8 @@ export interface Plugin {
 
 export interface EventArgs {}
 
+export type Model = 'select' | 'drawing' | 'rect' | 'circle';
+
 export interface ControlVisible {
   bl?: boolean;
   br?: boolean;
@@ -24,11 +26,11 @@ export interface ControlVisible {
 }
 
 export interface ControlsOption {
-  enable?: boolean;
+  hasControls?: boolean;
   padding?: number;
   borderColor?: string;
   cornerColor?: string;
-  connerStrokeColor?: string;
+  cornerStrokeColor?: string;
   cornerStyle?: 'rect' | 'circle';
   cornerSize?: number;
   rotatingPointOffset?: number;
@@ -40,5 +42,5 @@ export interface ControlsOption {
 
 export interface AppOption {
   backgroundColor?: string;
-  controls?: ControlsOption;
+  controls?: ControlsOption | boolean;
 }

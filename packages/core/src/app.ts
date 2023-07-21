@@ -2,24 +2,24 @@ import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
 import { Rect } from './customs/rect';
-import { AppOption, ControlsOption, EventArgs, Plugin } from './types';
-
-type Model = 'select' | 'drawing' | 'rect' | 'circle';
+import { AppOption, ControlsOption, EventArgs, Model, Plugin } from './types';
+import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
 
-  private option?: AppOption;
+  private option: AppOption & { controls: ControlsOption };
   private installedPlugins: Map<string, Plugin> = new Map();
   private canvasEl: HTMLCanvasElement;
 
   constructor(option?: AppOption) {
     super();
-    this.option = option;
+    this.option = Object.assign({}, DEFAULT_APP_OPTION, option ?? DEFAULT_APP_OPTION);
     this.canvasEl = document.createElement('canvas');
     this.canvas = new fabric.Canvas(null, {
       backgroundColor: option?.backgroundColor,
     });
+    this.setControls(this.option.controls);
   }
 
   public mount(element: HTMLElement) {
@@ -31,10 +31,19 @@ export class App extends BaseService<EventArgs> {
     this.setModel('select');
   }
 
-  public setControls(controls?: ControlsOption | boolean): App {
-    if (!controls) {
-      Reflect.set(fabric.Object.prototype, 'hasControls', false);
+  public setControls(controls: ControlsOption | boolean): App {
+    this.option.controls = controls;
+    if (typeof controls === 'boolean') {
+      this.option.controls.hasControls = controls;
     }
+
+    Object.entries(this.option.controls).forEach(([key, value]) => {
+      if (key === 'controlVisible') {
+        fabric.Object.prototype.setControlsVisibility(value);
+      } else {
+        Reflect.set(fabric.Object.prototype, key, value);
+      }
+    });
     this.render(true);
     return this;
   }
@@ -48,10 +57,6 @@ export class App extends BaseService<EventArgs> {
       fill: 'transparent',
       stroke: 'blue',
       strokeWidth: 5,
-      borderColor: 'rgb(93, 94, 214)',
-      cornerColor: 'rgb(93, 94, 214)',
-      cornerSize: 8,
-      cornerStyle: 'circle',
       rx: 5,
       ry: 5,
     });
