@@ -9,6 +9,12 @@ export interface Plugin {
   isEnabled?(): boolean;
 }
 
+export interface ToolStrategy {
+  onMouseDown(event: MouseEvent): void;
+  onMouseMove(event: MouseEvent): void;
+  onMouseUp(event: MouseEvent): void;
+}
+
 export interface EventArgs {}
 
 export type Model = 'select' | 'drawing' | 'rect' | 'circle';
