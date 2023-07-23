@@ -12,6 +12,7 @@ export class App extends BaseService<EventArgs> {
   private option: AppOption & { controls: ControlsOption };
   private installedPlugins: Map<string, Plugin> = new Map();
   private canvasEl: HTMLCanvasElement;
+  private curPointer: fabric.Point = new fabric.Point(0, 0);
 
   constructor(option?: AppOption) {
     super();
@@ -21,6 +22,11 @@ export class App extends BaseService<EventArgs> {
       backgroundColor: option?.backgroundColor,
     });
     this.setControls(this.option.controls);
+    this.canvas.on('mouse:move', ({ e }: fabric.IEvent<MouseEvent>) => {
+      const { x, y } = this.canvas.getPointer(e);
+      this.curPointer.setXY(x, y);
+      console.log('===>', x, y);
+    });
   }
 
   public mount(element: HTMLElement) {

@@ -1,13 +1,13 @@
 import { ToolStrategy } from '../types';
 
-export class SelectTool implements ToolStrategy {
-  onMouseDown(event: MouseEvent): void {
-    console.log('Method not implemented.', event);
+export class SelectTool extends ToolStrategy {
+  public onMouseDown(): void {
+    this.app.canvas.selection = true;
   }
-  onMouseMove(event: MouseEvent): void {
-    console.log('Method not implemented.', event);
-  }
-  onMouseUp(event: MouseEvent): void {
-    console.log('Method not implemented.', event);
+
+  public onMouseMove(): void {}
+
+  public onMouseUp(): void {
+    this.app.canvas.selection = false;
   }
 }

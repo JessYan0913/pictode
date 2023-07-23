@@ -9,10 +9,28 @@ export interface Plugin {
   isEnabled?(): boolean;
 }
 
-export interface ToolStrategy {
-  onMouseDown(event: MouseEvent): void;
-  onMouseMove(event: MouseEvent): void;
-  onMouseUp(event: MouseEvent): void;
+export abstract class ToolStrategy {
+  protected app: App;
+
+  constructor(app: App) {
+    this.app = app;
+  }
+
+  public abstract onMouseDown(event: MouseEvent): void;
+
+  public abstract onMouseMove(event: MouseEvent): void;
+
+  public abstract onMouseUp(event: MouseEvent): void;
+}
+
+export abstract class Service {
+  protected app: App;
+
+  constructor(app: App) {
+    this.app = app;
+  }
+
+  public abstract dispose(): void;
 }
 
 export interface EventArgs {}
