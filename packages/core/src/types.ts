@@ -1,3 +1,5 @@
+import { fabric } from 'fabric';
+
 import App from './app';
 
 export interface Plugin {
@@ -9,18 +11,15 @@ export interface Plugin {
   isEnabled?(): boolean;
 }
 
-export abstract class ToolStrategy {
-  protected app: App;
+export interface AppMouseEvent {
+  event: fabric.IEvent<MouseEvent>;
+  app: App;
+}
 
-  constructor(app: App) {
-    this.app = app;
-  }
-
-  public abstract onMouseDown(event: MouseEvent): void;
-
-  public abstract onMouseMove(event: MouseEvent): void;
-
-  public abstract onMouseUp(event: MouseEvent): void;
+export interface ToolStrategy {
+  onMouseDown(event: AppMouseEvent): void;
+  onMouseMove(event: AppMouseEvent): void;
+  onMouseUp(event: AppMouseEvent): void;
 }
 
 export abstract class Service {
