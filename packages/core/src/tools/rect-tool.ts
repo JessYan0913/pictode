@@ -3,11 +3,14 @@ import { fabric } from 'fabric';
 import { Rect } from '../customs/rect';
 import { AppMouseEvent, ToolStrategy } from '../types';
 
-export class RectTool implements ToolStrategy {
+import { selectTool } from './select-tool';
+
+class RectTool implements ToolStrategy {
   private startPointer: fabric.Point = new fabric.Point(0, 0);
   private rectangle: Rect | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
+    app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.rectangle = new Rect({
       left: this.startPointer.x,
@@ -33,9 +36,16 @@ export class RectTool implements ToolStrategy {
     app.render();
   }
 
-  public onMouseUp(): void {
+  public onMouseUp({ app }: AppMouseEvent): void {
+    // app.canvas.selection = true;
+    app.setTool(selectTool);
+    this.startPointer.setXY(0, 0);
+    this.rectangle && app.canvas.setActiveObject(this.rectangle);
+    app.render();
     this.rectangle = null;
   }
 }
 
-export default RectTool;
+export const rectTool = new RectTool();
+
+export default rectTool;

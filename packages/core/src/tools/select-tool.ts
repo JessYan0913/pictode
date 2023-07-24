@@ -1,6 +1,6 @@
 import { AppMouseEvent, ToolStrategy } from '../types';
 
-export class SelectTool implements ToolStrategy {
+class SelectTool implements ToolStrategy {
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = true;
     app.canvas.isDrawingMode = false;
@@ -14,4 +14,6 @@ export class SelectTool implements ToolStrategy {
   public onMouseUp(): void {}
 }
 
-export default SelectTool;
+export const selectTool = new SelectTool();
+
+export default selectTool;

@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { App, RectTool, SelectTool } from '@pictode/core';
+import { App, rectTool, selectTool } from '@pictode/core';
 
 const containerRef = ref<HTMLDivElement>();
 
 const app = new App();
-const selectTool = new SelectTool(app);
-const rectTool = new RectTool(app);
 onMounted(() => {
   if (containerRef.value) {
     app.mount(containerRef.value);
