@@ -35,6 +35,23 @@ export class MouseService extends Service {
     return new fabric.Point(x, y);
   }
 
+  public toGlobal(point: fabric.Point): fabric.Point {
+    /**
+     * 变换矩阵包含了画布的平移、缩放和旋转信息
+     * [  a, b, c,  d, e, f]
+     *
+     * viewportX = canvasX * a + canvasY * c + e
+     * viewportY = canvasX * b + canvasY * d + f
+     */
+    const transformMatrix = this.app.canvas.viewportTransform;
+    if (!transformMatrix) {
+      return point;
+    }
+    const x = point.x * transformMatrix[0] + point.y * transformMatrix[2] + transformMatrix[4];
+    const y = point.x * transformMatrix[1] + point.y * transformMatrix[3] + transformMatrix[5];
+    return new fabric.Point(x, y);
+  }
+
   private onMouseDown(event: IMouseEvent): void {
     this.event = event.e;
   }
