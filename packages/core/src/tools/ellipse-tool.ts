@@ -1,18 +1,18 @@
 import { fabric } from 'fabric';
 
-import { Circle } from '../customs/circle';
+import { Ellipse } from '../customs/ellipse';
 import { AppMouseEvent, ToolStrategy } from '../types';
 
 import { selectTool } from './select-tool';
 
-class CircleTool implements ToolStrategy {
+class EllipseTool implements ToolStrategy {
   private startPointer: fabric.Point = new fabric.Point(0, 0);
-  private circle: Circle | null = null;
+  private ellipse: Ellipse | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
-    this.circle = new Circle({
+    this.ellipse = new Ellipse({
       left: this.startPointer.x,
       top: this.startPointer.y,
       rx: 0,
@@ -21,11 +21,11 @@ class CircleTool implements ToolStrategy {
       stroke: 'black',
       strokeWidth: 2,
     });
-    app.canvas.add(this.circle);
+    app.canvas.add(this.ellipse);
   }
 
   public onMouseMove({ app }: AppMouseEvent): void {
-    if (!this.circle) {
+    if (!this.ellipse) {
       return;
     }
     app.canvas.discardActiveObject();
@@ -43,19 +43,19 @@ class CircleTool implements ToolStrategy {
     const centerX = this.startPointer.x + dx / 2;
     const centerY = this.startPointer.y + dy / 2;
 
-    this.circle.set({ rx: radiusX, ry: radiusY, left: centerX - radiusX, top: centerY - radiusY });
+    this.ellipse.set({ rx: radiusX, ry: radiusY, left: centerX - radiusX, top: centerY - radiusY });
     app.render();
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
-    this.circle && app.canvas.setActiveObject(this.circle);
-    this.circle = null;
+    this.ellipse && app.canvas.setActiveObject(this.ellipse);
+    this.ellipse = null;
     app.render(true);
   }
 }
 
-export const circleTool = new CircleTool();
+export const ellipseTool = new EllipseTool();
 
-export default circleTool;
+export default ellipseTool;
