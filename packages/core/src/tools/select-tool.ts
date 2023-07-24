@@ -11,9 +11,7 @@ export class SelectTool implements ToolStrategy {
 
   public onMouseMove(): void {}
 
-  public onMouseUp({ app }: AppMouseEvent): void {
-    app.canvas.selection = false;
-  }
+  public onMouseUp(): void {}
 }
 
 export default SelectTool;
