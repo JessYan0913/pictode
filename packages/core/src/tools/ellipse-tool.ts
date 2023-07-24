@@ -10,6 +10,7 @@ class EllipseTool implements ToolStrategy {
   private ellipse: Ellipse | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
+    app.canvas.discardActiveObject();
     app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.ellipse = new Ellipse({
@@ -25,6 +26,17 @@ class EllipseTool implements ToolStrategy {
   }
 
   public onMouseMove({ app }: AppMouseEvent): void {
+    const activeObject = app.canvas.getActiveObject();
+
+    app.canvas.forEachObject((obj) => {
+      if (obj !== activeObject) {
+        obj.set({
+          evented: false,
+        });
+      }
+    });
+
+    app.canvas.renderAll();
     if (!this.ellipse) {
       return;
     }
@@ -46,6 +58,11 @@ class EllipseTool implements ToolStrategy {
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
+    app.canvas.forEachObject((obj) => {
+      obj.set({
+        evented: true,
+      });
+    });
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
     this.ellipse && app.canvas.setActiveObject(this.ellipse);
