@@ -9,6 +9,7 @@ type IMouseEventHandler = (event: IMouseEvent) => void;
 
 export class MouseService extends Service {
   private event?: MouseEvent;
+  private targets: fabric.Object[];
   private handleMouseDown: IMouseEventHandler;
   private handleMouseUp: IMouseEventHandler;
   private handleMouseMove: IMouseEventHandler;
@@ -16,6 +17,7 @@ export class MouseService extends Service {
 
   constructor(app: App) {
     super(app);
+    this.targets = [];
     this.handleMouseDown = this.onMouseDown.bind(this);
     this.handleMouseUp = this.onMouseUp.bind(this);
     this.handleMouseMove = this.onMouseMove.bind(this);
@@ -54,6 +56,10 @@ export class MouseService extends Service {
 
   private onMouseDown(event: IMouseEvent): void {
     this.event = event.e;
+    if (event.target) {
+      this.targets.push(event.target);
+      event.target.set({ evented: false });
+    }
     if (this.app.currentTool) {
       this.app.currentTool.onMouseDown({ event, app: this.app });
     }
@@ -61,6 +67,9 @@ export class MouseService extends Service {
 
   private onMouseUp(event: IMouseEvent): void {
     this.event = event.e;
+    this.targets.forEach((obj) => {
+      obj.set({ evented: true });
+    });
     if (this.app.currentTool) {
       this.app.currentTool.onMouseUp({ event, app: this.app });
     }
@@ -68,6 +77,10 @@ export class MouseService extends Service {
 
   private onMouseMove(event: IMouseEvent): void {
     this.event = event.e;
+    if (event.target) {
+      this.targets.push(event.target);
+      event.target.set({ evented: false });
+    }
     if (this.app.currentTool) {
       this.app.currentTool.onMouseMove({ event, app: this.app });
     }

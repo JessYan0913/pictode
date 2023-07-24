@@ -8,12 +8,8 @@ import { selectTool } from './select-tool';
 class EllipseTool implements ToolStrategy {
   private startPointer: fabric.Point = new fabric.Point(0, 0);
   private ellipse: Ellipse | null = null;
-  private targets: fabric.Object[] = [];
 
-  public onMouseDown({ app, event }: AppMouseEvent): void {
-    if (event.target) {
-      this.targets.push(event.target);
-    }
+  public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.ellipse = new Ellipse({
@@ -28,15 +24,7 @@ class EllipseTool implements ToolStrategy {
     app.canvas.add(this.ellipse);
   }
 
-  public onMouseMove({ app, event }: AppMouseEvent): void {
-    if (event.target) {
-      this.targets.push(event.target);
-      event.target.set({
-        evented: false,
-      });
-    }
-
-    app.render();
+  public onMouseMove({ app }: AppMouseEvent): void {
     if (!this.ellipse) {
       return;
     }
@@ -58,11 +46,6 @@ class EllipseTool implements ToolStrategy {
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
-    this.targets.forEach((obj) => {
-      obj.set({
-        evented: true,
-      });
-    });
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
     this.ellipse && app.canvas.setActiveObject(this.ellipse);
