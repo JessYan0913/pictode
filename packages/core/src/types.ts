@@ -35,8 +35,6 @@ export abstract class Service {
 
 export interface EventArgs {}
 
-export type Model = 'select' | 'drawing' | 'rect' | 'circle';
-
 export interface ControlVisible {
   bl?: boolean;
   br?: boolean;

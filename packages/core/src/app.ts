@@ -1,18 +1,18 @@
 import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
-import { Rect } from './customs/rect';
-import { AppOption, ControlsOption, EventArgs, Model, Plugin, ToolStrategy } from './types';
+import { MouseService } from './services/mouse';
+import { AppOption, ControlsOption, EventArgs, Plugin, ToolStrategy } from './types';
 import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
+  public mouseService: MouseService;
+  public currentTool: ToolStrategy | null = null;
 
-  private currentTool: ToolStrategy | null = null;
   private option: AppOption & { controls: ControlsOption };
   private installedPlugins: Map<string, Plugin> = new Map();
   private canvasEl: HTMLCanvasElement;
-  private curPointer: fabric.Point = new fabric.Point(0, 0);
 
   constructor(option?: AppOption) {
     super();
@@ -22,11 +22,11 @@ export class App extends BaseService<EventArgs> {
       backgroundColor: option?.backgroundColor,
     });
     this.setControls(this.option.controls);
-    this.canvas.on('mouse:move', ({ e }: fabric.IEvent<MouseEvent>) => {
-      const { x, y } = this.canvas.getPointer(e);
-      this.curPointer.setXY(x, y);
-      console.log('===>', x, y);
-    });
+    this.mouseService = new MouseService(this);
+  }
+
+  public get pointer(): fabric.Point {
+    return this.mouseService.pointer;
   }
 
   public mount(element: HTMLElement) {
@@ -35,10 +35,9 @@ export class App extends BaseService<EventArgs> {
       width: element.clientWidth,
       height: element.clientHeight,
     });
-    this.setModel('select');
   }
 
-  public setControls(controls: ControlsOption | boolean): App {
+  public setControls(controls: ControlsOption | boolean): void {
     this.option.controls = controls;
     if (typeof controls === 'boolean') {
       this.option.controls.hasControls = controls;
@@ -52,45 +51,10 @@ export class App extends BaseService<EventArgs> {
       }
     });
     this.render(true);
-    return this;
   }
 
-  public setTool(tool: ToolStrategy): App {
+  public setTool(tool: ToolStrategy): void {
     this.currentTool = tool;
-    return this;
-  }
-
-  public setModel(model: Model): App {
-    const rect = new Rect({
-      width: 200,
-      height: 100,
-      top: 20,
-      left: 20,
-      fill: 'transparent',
-      stroke: 'blue',
-      strokeWidth: 5,
-      rx: 5,
-      ry: 5,
-    });
-    switch (model) {
-      case 'select':
-        this.canvas.isDrawingMode = false;
-        this.canvas.selection = true;
-        this.canvas.selectionColor = 'rgba(157, 157, 231, 0.5)';
-        this.canvas.selectionBorderColor = 'rgb(157, 157, 231)';
-        this.canvas.selectionLineWidth = 2;
-        break;
-      case 'drawing':
-        this.canvas.isDrawingMode = true;
-        this.canvas.selection = false;
-        this.canvas.freeDrawingBrush.color = 'red';
-        this.canvas.freeDrawingBrush.width = 20;
-        break;
-      case 'rect':
-        this.canvas.add(rect);
-        break;
-    }
-    return this;
   }
 
   public render(asyncRedraw?: boolean): void {

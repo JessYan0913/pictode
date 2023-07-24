@@ -54,14 +54,23 @@ export class MouseService extends Service {
 
   private onMouseDown(event: IMouseEvent): void {
     this.event = event.e;
+    if (this.app.currentTool) {
+      this.app.currentTool.onMouseDown(this.event);
+    }
   }
 
   private onMouseUp(event: IMouseEvent): void {
     this.event = event.e;
+    if (this.app.currentTool) {
+      this.app.currentTool.onMouseUp(this.event);
+    }
   }
 
   private onMouseMove(event: IMouseEvent): void {
     this.event = event.e;
+    if (this.app.currentTool) {
+      this.app.currentTool.onMouseMove(this.event);
+    }
   }
 
   private onMouseDoubleClick(event: IMouseEvent): void {
