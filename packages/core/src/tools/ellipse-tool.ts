@@ -6,6 +6,7 @@ import { AppMouseEvent, ToolStrategy } from '../types';
 import { selectTool } from './select-tool';
 
 class EllipseTool implements ToolStrategy {
+  public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);
   private ellipse: Ellipse | null = null;
 

@@ -17,6 +17,7 @@ export interface AppMouseEvent {
 }
 
 export interface ToolStrategy {
+  drawable: boolean;
   onMouseDown(event: AppMouseEvent): void;
   onMouseMove(event: AppMouseEvent): void;
   onMouseUp(event: AppMouseEvent): void;

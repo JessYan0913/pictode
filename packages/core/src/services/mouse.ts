@@ -56,34 +56,38 @@ export class MouseService extends Service {
 
   private onMouseDown(event: IMouseEvent): void {
     this.event = event.e;
-    if (event.target) {
+    if (!this.app.currentTool) {
+      return;
+    }
+    if (this.app.currentTool.drawable && event.target) {
       this.targets.push(event.target);
       event.target.set({ evented: false });
     }
-    if (this.app.currentTool) {
-      this.app.currentTool.onMouseDown({ event, app: this.app });
-    }
+    this.app.currentTool.onMouseDown({ event, app: this.app });
   }
 
   private onMouseUp(event: IMouseEvent): void {
     this.event = event.e;
+    if (!this.app.currentTool) {
+      return;
+    }
     this.targets.forEach((obj) => {
       obj.set({ evented: true });
     });
-    if (this.app.currentTool) {
-      this.app.currentTool.onMouseUp({ event, app: this.app });
-    }
+    this.targets = [];
+    this.app.currentTool.onMouseUp({ event, app: this.app });
   }
 
   private onMouseMove(event: IMouseEvent): void {
     this.event = event.e;
-    if (event.target) {
+    if (!this.app.currentTool) {
+      return;
+    }
+    if (this.app.currentTool.drawable && event.target) {
       this.targets.push(event.target);
       event.target.set({ evented: false });
     }
-    if (this.app.currentTool) {
-      this.app.currentTool.onMouseMove({ event, app: this.app });
-    }
+    this.app.currentTool.onMouseMove({ event, app: this.app });
   }
 
   private onMouseDoubleClick(event: IMouseEvent): void {

@@ -1,6 +1,7 @@
 import { AppMouseEvent, ToolStrategy } from '../types';
 
 class SelectTool implements ToolStrategy {
+  public drawable: boolean = false;
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = true;
     app.canvas.isDrawingMode = false;
