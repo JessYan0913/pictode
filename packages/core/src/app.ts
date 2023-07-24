@@ -21,6 +21,8 @@ export class App extends BaseService<EventArgs> {
     this.canvas = new fabric.Canvas(null, {
       backgroundColor: option?.backgroundColor,
     });
+    // 关闭对象缓存，缩放时不会模糊
+    fabric.Object.prototype.objectCaching = false;
     this.setControls(this.option.controls);
     this.mouseService = new MouseService(this);
   }
