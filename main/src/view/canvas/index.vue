@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { App, rectTool, selectTool } from '@pictode/core';
+import { App, circleTool, rectTool, selectTool } from '@pictode/core';
 
 const containerRef = ref<HTMLDivElement>();
 
@@ -18,6 +18,7 @@ onMounted(() => {
       <button @click="app.setTool(selectTool)">选择🖱️</button>
       <!-- <button @click="app.setModel('drawing')">铅笔✏️</button> -->
       <button @click="app.setTool(rectTool)">矩形⬜️</button>
+      <button @click="app.setTool(circleTool)">圆形⭕️</button>
     </div>
     <div ref="containerRef" class="container"></div>
   </div>

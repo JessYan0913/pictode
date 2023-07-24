@@ -41,8 +41,8 @@ class RectTool implements ToolStrategy {
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
     this.rectangle && app.canvas.setActiveObject(this.rectangle);
-    app.render();
     this.rectangle = null;
+    app.render(true);
   }
 }
 
