@@ -28,8 +28,6 @@ class EllipseTool implements ToolStrategy {
     if (!this.ellipse) {
       return;
     }
-    app.canvas.discardActiveObject();
-    app.render();
 
     // 计算起点和当前鼠标位置之间的距离
     const dx = app.pointer.x - this.startPointer.x;

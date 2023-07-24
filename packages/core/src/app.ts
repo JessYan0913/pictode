@@ -57,6 +57,8 @@ export class App extends BaseService<EventArgs> {
 
   public setTool(tool: ToolStrategy): void {
     this.currentTool = tool;
+    this.canvas.discardActiveObject();
+    this.render();
   }
 
   public render(asyncRedraw?: boolean): void {

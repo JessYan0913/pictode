@@ -28,8 +28,6 @@ class RectTool implements ToolStrategy {
     if (!this.rectangle) {
       return;
     }
-    app.canvas.discardActiveObject();
-    app.render();
     const width = app.pointer.x - this.startPointer.x;
     const height = app.pointer.y - this.startPointer.y;
     this.rectangle.set({ width, height });
@@ -37,7 +35,6 @@ class RectTool implements ToolStrategy {
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
-    // app.canvas.selection = true;
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
     this.rectangle && app.canvas.setActiveObject(this.rectangle);
