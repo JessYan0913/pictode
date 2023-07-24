@@ -8,9 +8,12 @@ import { selectTool } from './select-tool';
 class RectTool implements ToolStrategy {
   private startPointer: fabric.Point = new fabric.Point(0, 0);
   private rectangle: Rect | null = null;
+  private targets: fabric.Object[] = [];
 
-  public onMouseDown({ app }: AppMouseEvent): void {
-    app.canvas.discardActiveObject();
+  public onMouseDown({ app, event }: AppMouseEvent): void {
+    if (event.target) {
+      this.targets.push(event.target);
+    }
     app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.rectangle = new Rect({
@@ -25,18 +28,15 @@ class RectTool implements ToolStrategy {
     app.canvas.add(this.rectangle);
   }
 
-  public onMouseMove({ app }: AppMouseEvent): void {
-    const activeObject = app.canvas.getActiveObject();
+  public onMouseMove({ app, event }: AppMouseEvent): void {
+    if (event.target) {
+      this.targets.push(event.target);
+      event.target.set({
+        evented: false,
+      });
+    }
 
-    app.canvas.forEachObject((obj) => {
-      if (obj !== activeObject) {
-        obj.set({
-          evented: false,
-        });
-      }
-    });
-
-    app.canvas.renderAll();
+    app.render();
     if (!this.rectangle) {
       return;
     }
@@ -47,7 +47,7 @@ class RectTool implements ToolStrategy {
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
-    app.canvas.forEachObject((obj) => {
+    this.targets.forEach((obj) => {
       obj.set({
         evented: true,
       });
