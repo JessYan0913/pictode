@@ -6,6 +6,7 @@ import { AppMouseEvent, ToolStrategy } from '../types';
 import { selectTool } from './select-tool';
 
 class TriangleTool implements ToolStrategy {
+  public name: string = 'triangleTool';
   public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);
   private triangle: Triangle | null = null;

@@ -17,10 +17,11 @@ export interface AppMouseEvent {
 }
 
 export interface ToolStrategy {
+  name: string;
   drawable: boolean;
-  onMouseDown(event: AppMouseEvent): void;
-  onMouseMove(event: AppMouseEvent): void;
-  onMouseUp(event: AppMouseEvent): void;
+  onMouseDown?: (event: AppMouseEvent) => void;
+  onMouseMove?: (event: AppMouseEvent) => void;
+  onMouseUp?: (event: AppMouseEvent) => void;
 }
 
 export abstract class Service {

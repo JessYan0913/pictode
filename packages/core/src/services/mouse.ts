@@ -63,7 +63,9 @@ export class MouseService extends Service {
       this.targets.push(event.target);
       event.target.set({ evented: false });
     }
-    this.app.currentTool.onMouseDown({ event, app: this.app });
+    if (typeof this.app.currentTool.onMouseDown === 'function') {
+      this.app.currentTool.onMouseDown({ event, app: this.app });
+    }
   }
 
   private onMouseUp(event: IMouseEvent): void {
@@ -75,7 +77,9 @@ export class MouseService extends Service {
       obj.set({ evented: true });
     });
     this.targets = [];
-    this.app.currentTool.onMouseUp({ event, app: this.app });
+    if (typeof this.app.currentTool.onMouseUp === 'function') {
+      this.app.currentTool.onMouseUp({ event, app: this.app });
+    }
   }
 
   private onMouseMove(event: IMouseEvent): void {
@@ -87,7 +91,9 @@ export class MouseService extends Service {
       this.targets.push(event.target);
       event.target.set({ evented: false });
     }
-    this.app.currentTool.onMouseMove({ event, app: this.app });
+    if (typeof this.app.currentTool.onMouseMove === 'function') {
+      this.app.currentTool.onMouseMove({ event, app: this.app });
+    }
   }
 
   private onMouseDoubleClick(event: IMouseEvent): void {

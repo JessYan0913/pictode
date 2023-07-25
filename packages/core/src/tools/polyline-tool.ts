@@ -6,6 +6,7 @@ import { AppMouseEvent, ToolStrategy } from '../types';
 import { selectTool } from './select-tool';
 
 class PolylineTool implements ToolStrategy {
+  public name: string = 'polylineTool';
   public drawable: boolean = true;
   private points: fabric.Point[] = [];
   private polyline: Polyline | null = null;

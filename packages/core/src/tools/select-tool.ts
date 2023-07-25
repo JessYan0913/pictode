@@ -1,7 +1,9 @@
 import { AppMouseEvent, ToolStrategy } from '../types';
 
 class SelectTool implements ToolStrategy {
+  public name: string = 'selectTool';
   public drawable: boolean = false;
+
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = true;
     app.canvas.isDrawingMode = false;
@@ -9,10 +11,6 @@ class SelectTool implements ToolStrategy {
     app.canvas.selectionBorderColor = 'rgb(157, 157, 231)';
     app.canvas.selectionLineWidth = 2;
   }
-
-  public onMouseMove(): void {}
-
-  public onMouseUp(): void {}
 }
 
 export const selectTool = new SelectTool();
