@@ -17,16 +17,15 @@ class PolylineTool implements Tool {
     if (!lastPoint || !lastPoint.eq(app.pointer)) {
       this.points.push(app.pointer);
     }
-    if (!this.polyline) {
-      this.polyline = new Polyline(this.points, {
-        fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
-      });
-      app.canvas.add(this.polyline);
-    } else {
-      this.polyline.set({ points: this.points });
+    if (this.polyline) {
+      app.canvas.remove(this.polyline);
     }
+    this.polyline = new Polyline(this.points, {
+      fill: 'transparent',
+      stroke: 'black',
+      strokeWidth: 2,
+    });
+    app.canvas.add(this.polyline);
   }
 
   public onMouseMove({ app }: AppMouseEvent): void {
@@ -34,15 +33,13 @@ class PolylineTool implements Tool {
       return;
     }
     this.polyline.set({ points: this.points.concat(app.pointer) });
-    app.render(); // Call render after updating the polyline
+    app.render();
   }
 
   public onMouseDoubleClick({ app }: AppMouseEvent) {
     app.setTool(selectTool);
 
     if (this.polyline) {
-      console.log('====>', this.polyline.points, this.points);
-
       app.canvas.setActiveObject(this.polyline);
     }
 
