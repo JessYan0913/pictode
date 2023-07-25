@@ -39,7 +39,9 @@ class RectTool implements Tool {
   public onMouseUp({ app }: AppMouseEvent): void {
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
-    this.rectangle && app.canvas.setActiveObject(this.rectangle);
+    if (this.rectangle) {
+      app.canvas.setActiveObject(this.rectangle);
+    }
     this.rectangle = null;
     app.render(true);
   }

@@ -12,14 +12,21 @@ class PolylineTool implements Tool {
   private polyline: Polyline | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
+    console.log('mouseDown');
+
     app.canvas.selection = false;
     this.points.push(app.pointer);
-    this.polyline = new Polyline(this.points, {
-      fill: 'transparent',
-      stroke: 'black',
-      strokeWidth: 2,
-    });
-    app.canvas.add(this.polyline);
+    if (!this.polyline) {
+      this.polyline = new Polyline(this.points, {
+        fill: 'transparent',
+        stroke: 'black',
+        strokeWidth: 2,
+      });
+      app.canvas.add(this.polyline);
+    } else {
+      this.polyline.points = this.points;
+      app.render();
+    }
   }
 
   public onMouseMove({ app }: AppMouseEvent): void {
@@ -34,13 +41,11 @@ class PolylineTool implements Tool {
     app.render(); // Call render after updating the polyline
   }
 
-  public onMouseUp({ app, event }: AppMouseEvent): void {
+  public onMouseDoubleClick({ app }: AppMouseEvent) {
     app.setTool(selectTool);
+
     if (this.polyline) {
-      // Use setTimeout to delay the selection after the fabric.js selection process is done
-      setTimeout(() => {
-        app.canvas.setActiveObject(this.polyline!, event.e);
-      }, 10);
+      app.canvas.setActiveObject(this.polyline);
     }
 
     this.points = [];

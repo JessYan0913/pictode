@@ -39,7 +39,9 @@ class TriangleTool implements Tool {
   public onMouseUp({ app }: AppMouseEvent): void {
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
-    this.triangle && app.canvas.setActiveObject(this.triangle);
+    if (this.triangle) {
+      app.canvas.setActiveObject(this.triangle);
+    }
     this.triangle = null;
     app.render(true);
   }

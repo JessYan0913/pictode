@@ -50,7 +50,9 @@ class EllipseTool implements Tool {
   public onMouseUp({ app }: AppMouseEvent): void {
     app.setTool(selectTool);
     this.startPointer.setXY(0, 0);
-    this.ellipse && app.canvas.setActiveObject(this.ellipse);
+    if (this.ellipse) {
+      app.canvas.setActiveObject(this.ellipse);
+    }
     this.ellipse = null;
     app.render(true);
   }
