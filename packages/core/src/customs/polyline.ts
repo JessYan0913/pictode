@@ -1,9 +1,9 @@
 import { fabric } from 'fabric';
 
-export class Line extends fabric.Line {
+export class Polyline extends fabric.Polyline {
   public render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
   }
 }
 
-export default Line;
+export default Polyline;
