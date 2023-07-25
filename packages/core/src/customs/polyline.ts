@@ -1,6 +1,9 @@
 import { fabric } from 'fabric';
 
 export class Polyline extends fabric.Polyline {
+  private selectedControl: string | null = null;
+  private originalPoint: fabric.Point | null = null;
+
   public onSelect(options: { e?: Event | undefined }): boolean {
     const points = this.points ?? [];
     this.controls = points.reduce<Record<string, fabric.Control>>(
@@ -17,6 +20,16 @@ export class Polyline extends fabric.Polyline {
                 fabricObject.calcTransformMatrix()
               )
             );
+          },
+          actionHandler: (eventData, transformData, x, y) => {
+            // 更新点的位置
+            points[index].x = x;
+            points[index].y = y;
+            // 重新设置points
+            this.points = points;
+            // 更新坐标
+            this.setCoords();
+            return true;
           },
         });
         return controls;
