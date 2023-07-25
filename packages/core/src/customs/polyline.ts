@@ -39,10 +39,6 @@ export class Polyline extends fabric.Polyline {
     return super.onSelect(options);
   }
 
-  public onDeselect(options: { e?: Event | undefined; object?: fabric.Object | undefined }): boolean {
-    return super.onDeselect(options);
-  }
-
   public render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
   }
