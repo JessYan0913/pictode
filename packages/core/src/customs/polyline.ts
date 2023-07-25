@@ -1,9 +1,6 @@
 import { fabric } from 'fabric';
 
 export class Polyline extends fabric.Polyline {
-  private selectedControl: string | null = null;
-  private originalPoint: fabric.Point | null = null;
-
   public onSelect(options: { e?: Event | undefined }): boolean {
     const points = this.points ?? [];
     this.controls = points.reduce<Record<string, fabric.Control>>(
