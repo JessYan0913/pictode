@@ -1,11 +1,11 @@
 import { fabric } from 'fabric';
 
 import { Ellipse } from '../customs/ellipse';
-import { AppMouseEvent, ToolStrategy } from '../types';
+import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
 
-class EllipseTool implements ToolStrategy {
+class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
   public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);

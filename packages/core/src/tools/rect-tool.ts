@@ -1,11 +1,11 @@
 import { fabric } from 'fabric';
 
 import { Rect } from '../customs/rect';
-import { AppMouseEvent, ToolStrategy } from '../types';
+import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
 
-class RectTool implements ToolStrategy {
+class RectTool implements Tool {
   public name: string = 'rectTool';
   public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);

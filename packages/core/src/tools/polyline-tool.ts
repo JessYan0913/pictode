@@ -1,11 +1,11 @@
 import { fabric } from 'fabric';
 
 import { Polyline } from '../customs/polyline';
-import { AppMouseEvent, ToolStrategy } from '../types';
+import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
 
-class PolylineTool implements ToolStrategy {
+class PolylineTool implements Tool {
   public name: string = 'polylineTool';
   public drawable: boolean = true;
   private points: fabric.Point[] = [];

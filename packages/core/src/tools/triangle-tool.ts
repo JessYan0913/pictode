@@ -1,11 +1,11 @@
 import { fabric } from 'fabric';
 
 import { Triangle } from '../customs/triangle';
-import { AppMouseEvent, ToolStrategy } from '../types';
+import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
 
-class TriangleTool implements ToolStrategy {
+class TriangleTool implements Tool {
   public name: string = 'triangleTool';
   public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);

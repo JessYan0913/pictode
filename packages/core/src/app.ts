@@ -2,13 +2,13 @@ import { BaseService } from '@pictode/utils';
 import { fabric } from 'fabric';
 
 import { MouseService } from './services/mouse';
-import { AppOption, ControlsOption, EventArgs, Plugin, ToolStrategy } from './types';
+import { AppOption, ControlsOption, EventArgs, Plugin, Tool } from './types';
 import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public canvas: fabric.Canvas;
   public mouseService: MouseService;
-  public currentTool: ToolStrategy | null = null;
+  public currentTool: Tool | null = null;
 
   private option: AppOption & { controls: ControlsOption };
   private installedPlugins: Map<string, Plugin> = new Map();
@@ -55,7 +55,7 @@ export class App extends BaseService<EventArgs> {
     this.render(true);
   }
 
-  public setTool(tool: ToolStrategy): void {
+  public setTool(tool: Tool): void {
     this.currentTool = tool;
     this.canvas.discardActiveObject();
     this.render();

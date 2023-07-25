@@ -16,7 +16,7 @@ export interface AppMouseEvent {
   app: App;
 }
 
-export interface ToolStrategy {
+export interface Tool {
   name: string;
   drawable: boolean;
   onMouseDown?: (event: AppMouseEvent) => void;

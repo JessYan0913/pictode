@@ -1,6 +1,6 @@
-import { AppMouseEvent, ToolStrategy } from '../types';
+import { AppMouseEvent, Tool } from '../types';
 
-class SelectTool implements ToolStrategy {
+class SelectTool implements Tool {
   public name: string = 'selectTool';
   public drawable: boolean = false;
 
