@@ -26,9 +26,10 @@ export class Polyline extends fabric.Polyline {
             points[index].x = transformedPoint.x + polyline.pathOffset.x;
             points[index].y = transformedPoint.y + polyline.pathOffset.y;
             // 重新设置points
-            this.points = points;
+            polyline.points = points;
             // 更新坐标
-            this.setCoords();
+            polyline.setCoords();
+            polyline.canvas?.renderAll();
             return true;
           },
         });
