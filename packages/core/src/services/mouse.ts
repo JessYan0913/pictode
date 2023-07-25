@@ -3,17 +3,19 @@ import { fabric } from 'fabric';
 import { App } from '../app';
 import { Service } from '../types';
 
-type IMouseEvent = fabric.IEvent<MouseEvent>;
+type IMouseEvent = fabric.IEvent<Event>;
 
 type IMouseEventHandler = (event: IMouseEvent) => void;
 
 export class MouseService extends Service {
-  private event?: MouseEvent;
+  private event?: Event;
   private targets: fabric.Object[];
   private handleMouseDown: IMouseEventHandler;
   private handleMouseUp: IMouseEventHandler;
   private handleMouseMove: IMouseEventHandler;
   private handleMouseDoubleClick: IMouseEventHandler;
+  private handleMouseOver: IMouseEventHandler;
+  private handleMouseOut: IMouseEventHandler;
 
   constructor(app: App) {
     super(app);
@@ -22,11 +24,15 @@ export class MouseService extends Service {
     this.handleMouseUp = this.onMouseUp.bind(this);
     this.handleMouseMove = this.onMouseMove.bind(this);
     this.handleMouseDoubleClick = this.onMouseDoubleClick.bind(this);
+    this.handleMouseOver = this.onMouseOver.bind(this);
+    this.handleMouseOut = this.onMouseOut.bind(this);
 
     this.app.canvas.on('mouse:down', this.handleMouseDown);
     this.app.canvas.on('mouse:up', this.handleMouseUp);
     this.app.canvas.on('mouse:move', this.handleMouseMove);
     this.app.canvas.on('mouse:dblclick', this.handleMouseDoubleClick);
+    this.app.canvas.on('mouse:over', this.handleMouseOver);
+    this.app.canvas.on('mouse:out', this.handleMouseOut);
   }
 
   public get pointer(): fabric.Point {
@@ -98,9 +104,28 @@ export class MouseService extends Service {
 
   private onMouseDoubleClick(event: IMouseEvent): void {
     this.event = event.e;
+    if (!this.app.currentTool) {
+      return;
+    }
+    if (typeof this.app.currentTool.onMouseDoubleClick === 'function') {
+      this.app.currentTool.onMouseDoubleClick({ event, app: this.app });
+    }
+  }
+
+  private onMouseOver(event: IMouseEvent): void {
+    this.event = event.e;
+  }
+
+  private onMouseOut(event: IMouseEvent): void {
+    this.event = event.e;
   }
 
   public dispose(): void {
-    throw new Error('Method not implemented.');
+    this.app.canvas.off('mouse:down', this.handleMouseDown);
+    this.app.canvas.off('mouse:up', this.handleMouseUp);
+    this.app.canvas.off('mouse:move', this.handleMouseMove);
+    this.app.canvas.off('mouse:dblclick', this.handleMouseDoubleClick);
+    this.app.canvas.off('mouse:over', this.handleMouseOver);
+    this.app.canvas.off('mouse:out', this.handleMouseOut);
   }
 }

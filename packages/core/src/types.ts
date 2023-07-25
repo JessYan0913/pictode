@@ -12,7 +12,7 @@ export interface Plugin {
 }
 
 export interface AppMouseEvent {
-  event: fabric.IEvent<MouseEvent>;
+  event: fabric.IEvent<Event>;
   app: App;
 }
 
@@ -22,6 +22,9 @@ export interface Tool {
   onMouseDown?: (event: AppMouseEvent) => void;
   onMouseMove?: (event: AppMouseEvent) => void;
   onMouseUp?: (event: AppMouseEvent) => void;
+  onMouseDoubleClick?: (event: AppMouseEvent) => void;
+  onMouseOver?: (event: AppMouseEvent) => void;
+  onMouseOut?: (event: AppMouseEvent) => void;
 }
 
 export abstract class Service {
