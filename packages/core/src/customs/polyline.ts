@@ -1,13 +1,13 @@
 import { fabric } from 'fabric';
 
-export class Polyline extends fabric.Polyline {
+export class PPolyline extends fabric.Polyline {
   public onSelect(options: { e?: Event | undefined }): boolean {
     const points = this.points ?? [];
     this.controls = points.reduce<Record<string, fabric.Control>>(
       (controls, point, index) => {
         controls[`p${index}`] = new fabric.Control({
           actionName: 'modifyPolyline',
-          positionHandler: (dim, finalMatrix, fabricObject: Polyline): fabric.Point => {
+          positionHandler: (dim, finalMatrix, fabricObject: PPolyline): fabric.Point => {
             const x = point.x - fabricObject.pathOffset.x;
             const y = point.y - fabricObject.pathOffset.y;
             return fabric.util.transformPoint(
@@ -19,7 +19,7 @@ export class Polyline extends fabric.Polyline {
             );
           },
           actionHandler: (eventData, transformData, x, y): boolean => {
-            const polyline = transformData.target as Polyline;
+            const polyline = transformData.target as PPolyline;
             const invertedMatrix = fabric.util.invertTransform(polyline.calcTransformMatrix());
             const transformedPoint = fabric.util.transformPoint(new fabric.Point(x, y), invertedMatrix);
             // 更新点的位置
@@ -45,4 +45,4 @@ export class Polyline extends fabric.Polyline {
   }
 }
 
-export default Polyline;
+export default PPolyline;

@@ -1,9 +1,9 @@
 import { fabric } from 'fabric';
 
-export class Triangle extends fabric.Triangle {
+export class PTriangle extends fabric.Triangle {
   public render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
   }
 }
 
-export default Triangle;
+export default PTriangle;

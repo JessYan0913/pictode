@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 
-import { Triangle } from '../customs/triangle';
+import { PTriangle } from '../customs/triangle';
 import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
@@ -9,12 +9,12 @@ class TriangleTool implements Tool {
   public name: string = 'triangleTool';
   public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);
-  private triangle: Triangle | null = null;
+  private triangle: PTriangle | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
-    this.triangle = new Triangle({
+    this.triangle = new PTriangle({
       top: this.startPointer.y,
       left: this.startPointer.x,
       width: 0,

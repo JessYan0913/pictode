@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 
-import { Polyline } from '../customs/polyline';
+import { PPolyline } from '../customs/polyline';
 import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
@@ -9,7 +9,7 @@ class PolylineTool implements Tool {
   public name: string = 'polylineTool';
   public drawable: boolean = true;
   private points: fabric.Point[] = [];
-  private polyline: Polyline | null = null;
+  private polyline: PPolyline | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = false;
@@ -20,7 +20,7 @@ class PolylineTool implements Tool {
     if (this.polyline) {
       app.canvas.remove(this.polyline);
     }
-    this.polyline = new Polyline(this.points, {
+    this.polyline = new PPolyline(this.points, {
       fill: 'transparent',
       stroke: 'black',
       strokeWidth: 2,

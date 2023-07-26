@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 
-import { Ellipse } from '../customs/ellipse';
+import { PEllipse } from '../customs/ellipse';
 import { AppMouseEvent, Tool } from '../types';
 
 import { selectTool } from './select-tool';
@@ -9,12 +9,12 @@ class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
   public drawable: boolean = true;
   private startPointer: fabric.Point = new fabric.Point(0, 0);
-  private ellipse: Ellipse | null = null;
+  private ellipse: PEllipse | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
-    this.ellipse = new Ellipse({
+    this.ellipse = new PEllipse({
       left: this.startPointer.x,
       top: this.startPointer.y,
       rx: 0,
