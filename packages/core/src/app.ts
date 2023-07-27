@@ -2,7 +2,7 @@ import { BaseService } from '@pictode/utils';
 import { Canvas, Object as FabricObject, Point } from 'fabric';
 
 import { MouseService } from './services/mouse';
-import { AppOption, ControlsOption, EventArgs, Plugin, Tool } from './types';
+import { AppOption, EventArgs, ObjectConfig, Plugin, Tool } from './types';
 import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
@@ -10,7 +10,7 @@ export class App extends BaseService<EventArgs> {
   public mouseService: MouseService;
   public currentTool: Tool | null = null;
 
-  private option: AppOption & { controls: ControlsOption };
+  private option: AppOption & { objectConfig: ObjectConfig };
   private installedPlugins: Map<string, Plugin> = new Map();
 
   constructor(option?: AppOption) {
@@ -21,7 +21,7 @@ export class App extends BaseService<EventArgs> {
     });
     // 关闭对象缓存，缩放时不会模糊
     FabricObject.prototype.objectCaching = false;
-    this.setControls(this.option.controls);
+    this.setObjectConfig(this.option.objectConfig);
     this.mouseService = new MouseService(this);
   }
 
@@ -37,16 +37,16 @@ export class App extends BaseService<EventArgs> {
     });
   }
 
-  public setControls(controls: ControlsOption | boolean): void {
-    this.option.controls = controls;
-    if (typeof controls === 'boolean') {
-      this.option.controls.hasControls = controls;
+  public setObjectConfig(objectConfig: ObjectConfig | boolean): void {
+    this.option.objectConfig = objectConfig;
+    if (typeof objectConfig === 'boolean') {
+      this.option.objectConfig.hasControls = objectConfig;
     }
 
     const originalDefaults = FabricObject.getDefaults;
     FabricObject.getDefaults = (): Record<string, any> => ({
       ...originalDefaults(),
-      ...(this.option.controls as ControlsOption),
+      ...(this.option.objectConfig as ObjectConfig),
     });
     this.render(true);
   }

@@ -51,7 +51,8 @@ export interface ControlVisible {
   mtr?: boolean;
 }
 
-export interface ControlsOption {
+export interface ObjectConfig {
+  objectCaching?: boolean;
   hasControls?: boolean;
   padding?: number;
   borderColor?: string;
@@ -68,5 +69,5 @@ export interface ControlsOption {
 
 export interface AppOption {
   backgroundColor?: string;
-  controls?: ControlsOption | boolean;
+  objectConfig?: ObjectConfig | boolean;
 }

@@ -1,10 +1,11 @@
 import { Color } from 'fabric';
 
-import { AppOption, ControlsOption } from '../types';
+import { AppOption, ObjectConfig } from '../types';
 
-export const DEFAULT_APP_OPTION: AppOption & { controls: ControlsOption } = {
+export const DEFAULT_APP_OPTION: AppOption & { objectConfig: ObjectConfig } = {
   backgroundColor: '#ffffff',
-  controls: {
+  objectConfig: {
+    objectCaching: false,
     hasControls: true,
     padding: 3,
     borderColor: 'rgb(157, 157, 231)',
