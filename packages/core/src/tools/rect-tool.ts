@@ -30,9 +30,13 @@ class RectTool implements Tool {
     if (!this.rectangle) {
       return;
     }
-    const width = app.pointer.x - this.startPointer.x;
-    const height = app.pointer.y - this.startPointer.y;
-    this.rectangle.set({ width, height });
+
+    const width = Math.abs(app.pointer.x - this.startPointer.x);
+    const height = Math.abs(app.pointer.y - this.startPointer.y);
+    const left = Math.min(this.startPointer.x, app.pointer.x);
+    const top = Math.min(this.startPointer.y, app.pointer.y);
+
+    this.rectangle.set({ left, top, width, height });
     app.render();
   }
 

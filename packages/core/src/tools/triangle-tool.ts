@@ -32,8 +32,12 @@ class TriangleTool implements Tool {
     }
     const width = Math.abs(app.pointer.x - this.startPointer.x);
     const height = Math.abs(app.pointer.y - this.startPointer.y);
-    this.triangle.set({ width, height });
-    app.render(); // Call render after updating the triangle
+
+    const left = Math.min(this.startPointer.x, app.pointer.x);
+    const top = Math.min(this.startPointer.y, app.pointer.y);
+
+    this.triangle.set({ width, height, left, top });
+    app.render();
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
