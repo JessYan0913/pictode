@@ -43,12 +43,10 @@ export class App extends BaseService<EventArgs> {
       this.option.controls.hasControls = controls;
     }
 
-    Object.entries(this.option.controls).forEach(([key, value]) => {
-      if (key === 'controlVisible') {
-        FabricObject.prototype.setControlsVisibility(value);
-      } else {
-        Reflect.set(FabricObject.prototype, key, value);
-      }
+    const originalDefaults = FabricObject.getDefaults;
+    FabricObject.getDefaults = (): Record<string, any> => ({
+      ...originalDefaults(),
+      ...(this.option.controls as ControlsOption),
     });
     this.render(true);
   }
