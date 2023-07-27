@@ -3,7 +3,7 @@ import { Color } from 'fabric';
 import { AppOption, ControlsOption } from '../types';
 
 export const DEFAULT_APP_OPTION: AppOption & { controls: ControlsOption } = {
-  backgroundColor: '#999999',
+  backgroundColor: '#ffffff',
   controls: {
     hasControls: true,
     padding: 3,
