@@ -26,9 +26,9 @@ export class PPolyline extends Polyline {
             points[index].x = transformedPoint.x + polyline.pathOffset.x;
             points[index].y = transformedPoint.y + polyline.pathOffset.y;
             // 重新设置points
-            polyline.points = points;
-            // 更新坐标
+            polyline.set({ points });
             polyline.setCoords();
+            polyline.setDimensions();
             polyline.canvas?.renderAll();
             return true;
           },
