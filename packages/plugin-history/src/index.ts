@@ -1,4 +1,4 @@
-import { App, Plugin } from '@pictode/core';
+import { App, BaseFabricObject, Plugin } from '@pictode/core';
 
 import './methods';
 
@@ -149,7 +149,7 @@ export class History implements Plugin {
 
   public install(app: App) {
     this.app = app;
-    this.app.canvas.on('object:added', ({ target }) => {
+    this.app.canvas.on('object:added', ({ target }: { target: BaseFabricObject }) => {
       if (this.app) {
         this.execute(new AddObjectCmd(this.app, { object: target }));
       }
