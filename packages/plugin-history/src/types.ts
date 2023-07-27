@@ -1,3 +1,5 @@
+import { Object as FabricObject } from '@pictode/core';
+
 import { BaseCmd } from './commands/base';
 import { CommandClass, History } from './index';
 
@@ -31,6 +33,10 @@ declare module '@pictode/core' {
 export namespace Cmd {
   export interface Options {
     [key: string]: any;
+  }
+
+  export interface AddObjectOptions {
+    object: FabricObject;
   }
 }
 

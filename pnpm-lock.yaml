@@ -152,6 +152,7 @@ importers:
       '@pictode/utils': workspace:^0.0.1
       '@types/fabric': ^5.3.3
       dot: 2.0.0-beta.1
+      fabric: ^6.0.0-beta9
       rimraf: ^3.0.2
       roughjs: ^4.5.2
       typescript: ^4.9.3
@@ -160,6 +161,7 @@ importers:
       '@pictode/core': link:../core
       '@pictode/utils': link:../utils
       dot: 2.0.0-beta.1
+      fabric: 6.0.0-beta9
       rimraf: 3.0.2
       roughjs: 4.5.2
     devDependencies:

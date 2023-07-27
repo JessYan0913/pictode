@@ -1,10 +1,9 @@
 import { App, Plugin } from '@pictode/core';
-import { isSubclass } from '@pictode/utils';
 
 import './methods';
 
 import { BaseCmd } from './commands/base';
-import { CmdNotOptionsError, CmdNotRegisterError } from './errors';
+import { AddObjectCmd } from './commands';
 import { Cmd, Options } from './types';
 
 export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cmd.Options> = new (
@@ -33,53 +32,20 @@ export class History implements Plugin {
     this.stackSize = size;
   }
 
-  public registerCommands<T extends BaseCmd>(commandClasses: CommandClass<T> | Array<CommandClass<T>>): void {
-    if (!Array.isArray(commandClasses)) {
-      commandClasses = [commandClasses];
-    }
-    commandClasses.forEach((commandClass) => {
-      if (isSubclass(commandClass, BaseCmd)) {
-        this.commands[commandClass.name] = commandClass;
-      }
-    });
-  }
-
-  public getCommandClass(command: BaseCmd | string): CommandClass {
-    let result: CommandClass;
-    if (command instanceof BaseCmd) {
-      result = this.commands[command.name];
-    } else {
-      result = this.commands[command];
-    }
-    if (!result) {
-      throw new CmdNotRegisterError(command);
-    }
-    return result;
-  }
-
-  public execute<T extends Cmd.Options>(command: BaseCmd | string, options?: T): void {
-    let executeCommand: BaseCmd;
-    const Command = this.getCommandClass(command);
-    if (command instanceof BaseCmd) {
-      executeCommand = command;
-    } else {
-      if (!options) {
-        throw new CmdNotOptionsError(command);
-      }
-      executeCommand = new Command(this.app, options);
-    }
-
+  public execute(command: BaseCmd, needExecute?: boolean): void {
     // 如果命令栈中的命令长度已经超出了最大栈长，则将最早的命令清除
     if (this.undoStack.length > this.stackSize) {
       this.undoStack.shift();
     }
 
-    this.undoStack.push(executeCommand);
-    executeCommand.id = ++this.idCounter;
+    this.undoStack.push(command);
+    command.id = ++this.idCounter;
 
-    executeCommand.execute();
-    executeCommand.executed = true;
-    executeCommand.executeTime = new Date().getTime();
+    if (needExecute) {
+      command.execute();
+    }
+    command.executed = true;
+    command.executeTime = new Date().getTime();
     this.redoStack = [];
     this.app?.emit('stack:changed', {
       undoStack: this.undoStack,
@@ -183,6 +149,11 @@ export class History implements Plugin {
 
   public install(app: App) {
     this.app = app;
+    this.app.canvas.on('object:added', ({ target }) => {
+      if (this.app) {
+        this.execute(new AddObjectCmd(this.app, { object: target }));
+      }
+    });
   }
 
   public dispose(): void {
