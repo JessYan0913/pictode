@@ -18,14 +18,15 @@ class PolylineTool implements Tool {
       this.points.push(app.pointer);
     }
     if (this.polyline) {
-      app.canvas.remove(this.polyline);
+      this.polyline.set({ points: this.points });
+    } else {
+      this.polyline = new PPolyline(this.points, {
+        fill: 'transparent',
+        stroke: 'black',
+        strokeWidth: 2,
+      });
+      app.canvas.add(this.polyline);
     }
-    this.polyline = new PPolyline(this.points, {
-      fill: 'transparent',
-      stroke: 'black',
-      strokeWidth: 2,
-    });
-    app.canvas.add(this.polyline);
   }
 
   public onMouseMove({ app }: AppMouseEvent): void {
