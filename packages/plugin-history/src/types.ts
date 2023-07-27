@@ -1,7 +1,7 @@
 import { BaseFabricObject } from '@pictode/core';
 
 import { BaseCmd } from './commands/base';
-import { CommandClass, History } from './index';
+import { CommandClass, HistoryPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
@@ -16,8 +16,11 @@ declare module '@pictode/core' {
 
   export interface EventArgs {
     'stack:changed': CmdStack;
+    'history:installed': {
+      history: HistoryPlugin;
+    };
     'history:destroy': {
-      history: History;
+      history: HistoryPlugin;
     };
     'history:undo': {
       command: Command | undefined;

@@ -1,9 +1,9 @@
 import { App } from '@pictode/core';
 
-import { History } from './index';
+import { HistoryPlugin } from './index';
 
 App.prototype.undo = function (step: number = 1): App {
-  const history = this.getPlugin('history') as History;
+  const history = this.getPlugin('history') as HistoryPlugin;
   if (history) {
     history.undo(step);
   }
@@ -11,7 +11,7 @@ App.prototype.undo = function (step: number = 1): App {
 };
 
 App.prototype.redo = function (step: number = 1): App {
-  const history = this.getPlugin('history') as History;
+  const history = this.getPlugin('history') as HistoryPlugin;
   if (history) {
     history.redo(step);
   }
@@ -19,7 +19,7 @@ App.prototype.redo = function (step: number = 1): App {
 };
 
 App.prototype.canUndo = function (): boolean {
-  const history = this.getPlugin('history') as History;
+  const history = this.getPlugin('history') as HistoryPlugin;
   if (history) {
     return history.canUndo();
   }
@@ -27,7 +27,7 @@ App.prototype.canUndo = function (): boolean {
 };
 
 App.prototype.canRedo = function (): boolean {
-  const history = this.getPlugin('history') as History;
+  const history = this.getPlugin('history') as HistoryPlugin;
   if (history) {
     return history.canRedo();
   }
@@ -35,7 +35,7 @@ App.prototype.canRedo = function (): boolean {
 };
 
 App.prototype.jump = function (id: number): App {
-  const history = this.getPlugin('history') as History;
+  const history = this.getPlugin('history') as HistoryPlugin;
   if (history) {
     history.jump(id);
   }
