@@ -1,15 +1,15 @@
-import { fabric } from 'fabric';
+import { Object, Point, TPointerEvent, TPointerEventInfo } from 'fabric';
 
 import { App } from '../app';
 import { Service } from '../types';
 
-type IMouseEvent = fabric.IEvent<Event>;
+type IMouseEvent = TPointerEventInfo<TPointerEvent>;
 
 type IMouseEventHandler = (event: IMouseEvent) => void;
 
 export class MouseService extends Service {
-  private event?: Event;
-  private targets: fabric.Object[];
+  private event?: TPointerEvent;
+  private targets: Object[];
   private handleMouseDown: IMouseEventHandler;
   private handleMouseUp: IMouseEventHandler;
   private handleMouseMove: IMouseEventHandler;
@@ -35,15 +35,15 @@ export class MouseService extends Service {
     this.app.canvas.on('mouse:out', this.handleMouseOut);
   }
 
-  public get pointer(): fabric.Point {
+  public get pointer(): Point {
     if (!this.event) {
-      return new fabric.Point(0, 0);
+      return new Point(0, 0);
     }
     const { x, y } = this.app.canvas.getPointer(this.event);
-    return new fabric.Point(x, y);
+    return new Point(x, y);
   }
 
-  public toGlobal(point: fabric.Point): fabric.Point {
+  public toGlobal(point: Point): Point {
     /**
      * 变换矩阵包含了画布的平移、缩放和旋转信息
      * [  a, b, c,  d, e, f]
@@ -57,7 +57,7 @@ export class MouseService extends Service {
     }
     const x = point.x * transformMatrix[0] + point.y * transformMatrix[2] + transformMatrix[4];
     const y = point.x * transformMatrix[1] + point.y * transformMatrix[3] + transformMatrix[5];
-    return new fabric.Point(x, y);
+    return new Point(x, y);
   }
 
   private onMouseDown(event: IMouseEvent): void {

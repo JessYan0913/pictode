@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import { TPointerEvent, TPointerEventInfo } from 'fabric';
 
 import App from './app';
 
@@ -12,7 +12,7 @@ export interface Plugin {
 }
 
 export interface AppMouseEvent {
-  event: fabric.IEvent<Event>;
+  event: TPointerEventInfo<TPointerEvent>;
   app: App;
 }
 

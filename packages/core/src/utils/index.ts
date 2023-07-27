@@ -1,9 +1,9 @@
-import { fabric } from 'fabric';
+import { Color } from 'fabric';
 
 import { AppOption, ControlsOption } from '../types';
 
 export const DEFAULT_APP_OPTION: AppOption & { controls: ControlsOption } = {
-  backgroundColor: '#ffffff',
+  backgroundColor: '#999999',
   controls: {
     hasControls: true,
     padding: 3,
@@ -18,5 +18,5 @@ export const DEFAULT_APP_OPTION: AppOption & { controls: ControlsOption } = {
 };
 
 export const isTransparent = (color: string): boolean => {
-  return new fabric.Color(color).getAlpha() === 0;
+  return new Color(color).getAlpha() === 0;
 };

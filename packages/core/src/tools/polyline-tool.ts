@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import { Point } from 'fabric';
 
 import { PPolyline } from '../customs/polyline';
 import { AppMouseEvent, Tool } from '../types';
@@ -8,7 +8,7 @@ import { selectTool } from './select-tool';
 class PolylineTool implements Tool {
   public name: string = 'polylineTool';
   public drawable: boolean = true;
-  private points: fabric.Point[] = [];
+  private points: Point[] = [];
   private polyline: PPolyline | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {

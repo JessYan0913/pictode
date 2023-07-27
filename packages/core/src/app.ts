@@ -1,39 +1,37 @@
 import { BaseService } from '@pictode/utils';
-import { fabric } from 'fabric';
+import { Canvas, Object as FabricObject, Point } from 'fabric';
 
 import { MouseService } from './services/mouse';
 import { AppOption, ControlsOption, EventArgs, Plugin, Tool } from './types';
 import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
-  public canvas: fabric.Canvas;
+  public canvas: Canvas;
   public mouseService: MouseService;
   public currentTool: Tool | null = null;
 
   private option: AppOption & { controls: ControlsOption };
   private installedPlugins: Map<string, Plugin> = new Map();
-  private canvasEl: HTMLCanvasElement;
 
   constructor(option?: AppOption) {
     super();
     this.option = Object.assign({}, DEFAULT_APP_OPTION, option ?? DEFAULT_APP_OPTION);
-    this.canvasEl = document.createElement('canvas');
-    this.canvas = new fabric.Canvas(null, {
-      backgroundColor: option?.backgroundColor,
+    this.canvas = new Canvas('canvas', {
+      backgroundColor: this.option.backgroundColor,
     });
     // 关闭对象缓存，缩放时不会模糊
-    fabric.Object.prototype.objectCaching = false;
+    FabricObject.prototype.objectCaching = false;
     this.setControls(this.option.controls);
     this.mouseService = new MouseService(this);
   }
 
-  public get pointer(): fabric.Point {
+  public get pointer(): Point {
     return this.mouseService.pointer;
   }
 
   public mount(element: HTMLElement) {
-    element.appendChild(this.canvasEl);
-    this.canvas.initialize(this.canvasEl, {
+    element.appendChild(this.canvas.elements.container);
+    this.canvas.setDimensions({
       width: element.clientWidth,
       height: element.clientHeight,
     });
@@ -47,9 +45,9 @@ export class App extends BaseService<EventArgs> {
 
     Object.entries(this.option.controls).forEach(([key, value]) => {
       if (key === 'controlVisible') {
-        fabric.Object.prototype.setControlsVisibility(value);
+        FabricObject.prototype.setControlsVisibility(value);
       } else {
-        Reflect.set(fabric.Object.prototype, key, value);
+        Reflect.set(FabricObject.prototype, key, value);
       }
     });
     this.render(true);

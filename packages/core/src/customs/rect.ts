@@ -1,6 +1,6 @@
-import { fabric } from 'fabric';
+import { Rect } from 'fabric';
 
-export class PRect extends fabric.Rect {
+export class PRect extends Rect {
   public render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
   }

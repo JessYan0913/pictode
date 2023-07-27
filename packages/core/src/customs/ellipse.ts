@@ -1,6 +1,6 @@
-import { fabric } from 'fabric';
+import { Ellipse } from 'fabric';
 
-export class PEllipse extends fabric.Ellipse {
+export class PEllipse extends Ellipse {
   public render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
   }

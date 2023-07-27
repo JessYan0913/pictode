@@ -1,27 +1,27 @@
-import { fabric } from 'fabric';
+import { Control, Point, Polyline, TPointerEvent, util } from 'fabric';
 
-export class PPolyline extends fabric.Polyline {
-  public onSelect(options: { e?: Event | undefined }): boolean {
+export class PPolyline extends Polyline {
+  public onSelect(options: { e?: TPointerEvent | undefined }): boolean {
     const points = this.points ?? [];
-    this.controls = points.reduce<Record<string, fabric.Control>>(
+    this.controls = points.reduce<Record<string, Control>>(
       (controls, point, index) => {
-        controls[`p${index}`] = new fabric.Control({
+        controls[`p${index}`] = new Control({
           actionName: 'modifyPolyline',
-          positionHandler: (dim, finalMatrix, fabricObject: PPolyline): fabric.Point => {
+          positionHandler: (dim, finalMatrix, fabricObject: PPolyline): Point => {
             const x = point.x - fabricObject.pathOffset.x;
             const y = point.y - fabricObject.pathOffset.y;
-            return fabric.util.transformPoint(
-              new fabric.Point(x, y),
-              fabric.util.multiplyTransformMatrices(
-                fabricObject.canvas?.viewportTransform ?? [],
+            return util.transformPoint(
+              new Point(x, y),
+              util.multiplyTransformMatrices(
+                fabricObject.canvas?.viewportTransform ?? [0, 0, 0, 0, 0, 0],
                 fabricObject.calcTransformMatrix()
               )
             );
           },
           actionHandler: (eventData, transformData, x, y): boolean => {
             const polyline = transformData.target as PPolyline;
-            const invertedMatrix = fabric.util.invertTransform(polyline.calcTransformMatrix());
-            const transformedPoint = fabric.util.transformPoint(new fabric.Point(x, y), invertedMatrix);
+            const invertedMatrix = util.invertTransform(polyline.calcTransformMatrix());
+            const transformedPoint = util.transformPoint(new Point(x, y), invertedMatrix);
             // 更新点的位置
             points[index].x = transformedPoint.x + polyline.pathOffset.x;
             points[index].y = transformedPoint.y + polyline.pathOffset.y;

@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import { Point } from 'fabric';
 
 import { PRect } from '../customs/rect';
 import { AppMouseEvent, Tool } from '../types';
@@ -8,7 +8,7 @@ import { selectTool } from './select-tool';
 class RectTool implements Tool {
   public name: string = 'rectTool';
   public drawable: boolean = true;
-  private startPointer: fabric.Point = new fabric.Point(0, 0);
+  private startPointer: Point = new Point(0, 0);
   private rectangle: PRect | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
