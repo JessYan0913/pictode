@@ -8,7 +8,7 @@ type IMouseEvent = TPointerEventInfo<TPointerEvent>;
 type IMouseEventHandler = (event: IMouseEvent) => void;
 
 export class MouseService extends Service {
-  private event?: TPointerEvent;
+  private event?: IMouseEvent;
   private targets: Object[];
   private handleMouseDown: IMouseEventHandler;
   private handleMouseUp: IMouseEventHandler;
@@ -39,8 +39,7 @@ export class MouseService extends Service {
     if (!this.event) {
       return new Point(0, 0);
     }
-    const { x, y } = this.app.canvas.getPointer(this.event);
-    return new Point(x, y);
+    return this.event.pointer;
   }
 
   public toGlobal(point: Point): Point {
@@ -61,7 +60,7 @@ export class MouseService extends Service {
   }
 
   private onMouseDown(event: IMouseEvent): void {
-    this.event = event.e;
+    this.event = event;
     if (!this.app.currentTool) {
       return;
     }
@@ -75,7 +74,7 @@ export class MouseService extends Service {
   }
 
   private onMouseUp(event: IMouseEvent): void {
-    this.event = event.e;
+    this.event = event;
     if (!this.app.currentTool) {
       return;
     }
@@ -89,7 +88,7 @@ export class MouseService extends Service {
   }
 
   private onMouseMove(event: IMouseEvent): void {
-    this.event = event.e;
+    this.event = event;
     if (!this.app.currentTool) {
       return;
     }
@@ -103,7 +102,7 @@ export class MouseService extends Service {
   }
 
   private onMouseDoubleClick(event: IMouseEvent): void {
-    this.event = event.e;
+    this.event = event;
     if (!this.app.currentTool) {
       return;
     }
@@ -113,11 +112,11 @@ export class MouseService extends Service {
   }
 
   private onMouseOver(event: IMouseEvent): void {
-    this.event = event.e;
+    this.event = event;
   }
 
   private onMouseOut(event: IMouseEvent): void {
-    this.event = event.e;
+    this.event = event;
   }
 
   public dispose(): void {
