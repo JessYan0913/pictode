@@ -1,6 +1,9 @@
-import { TPointerEvent, TPointerEventInfo } from 'fabric';
+import Konva from 'konva';
 
 import App from './app';
+
+export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
+export type ChildType = Konva.Group | Konva.Shape;
 
 export interface Plugin {
   name: string;
@@ -10,9 +13,8 @@ export interface Plugin {
   disable?(): void;
   isEnabled?(): boolean;
 }
-
 export interface AppMouseEvent {
-  event: TPointerEventInfo<TPointerEvent>;
+  event: KonvaMouseEvent;
   app: App;
 }
 
@@ -23,6 +25,7 @@ export interface Tool {
   onMouseMove?: (event: AppMouseEvent) => void;
   onMouseUp?: (event: AppMouseEvent) => void;
   onMouseDoubleClick?: (event: AppMouseEvent) => void;
+  onMouseClick?: (event: AppMouseEvent) => void;
   onMouseOver?: (event: AppMouseEvent) => void;
   onMouseOut?: (event: AppMouseEvent) => void;
 }

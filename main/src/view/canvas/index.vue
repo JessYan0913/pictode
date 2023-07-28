@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { App, drawingTool, ellipseTool, polylineTool, rectTool, selectTool, triangleTool } from '@pictode/core';
-import { HistoryPlugin } from '@pictode/plugin-history';
-
 const containerRef = ref<HTMLDivElement>();
 
 const app = new App();
-app.use(new HistoryPlugin());
 onMounted(() => {
   if (containerRef.value) {
     app.mount(containerRef.value);
@@ -17,8 +14,6 @@ onMounted(() => {
 <template>
   <div class="wrapper">
     <div class="tools">
-      <button @click="app.undo()">回退</button>
-      <button @click="app.redo()">恢复</button>
       <button @click="app.setTool(selectTool)">选择🖱️</button>
       <button @click="app.setTool(rectTool)">矩形⬜️</button>
       <button @click="app.setTool(ellipseTool)">圆形⭕️</button>

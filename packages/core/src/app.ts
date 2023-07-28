@@ -1,78 +1,60 @@
 import { BaseService } from '@pictode/utils';
-import { Canvas, Object as FabricObject, Point } from 'fabric';
+import Konva from 'konva';
 
 import { MouseService } from './services/mouse';
-import { AppOption, CanvasConfig, EventArgs, ObjectConfig, Plugin, Tool } from './types';
-import { DEFAULT_APP_OPTION } from './utils';
+import { ChildType, EventArgs, Plugin, Tool } from './types';
 
 export class App extends BaseService<EventArgs> {
-  public canvas: Canvas;
-  public mouseService: MouseService;
+  public stage: Konva.Stage;
   public currentTool: Tool | null = null;
+  public mainLayer: Konva.Layer;
 
-  private option: AppOption & { canvasConfig: CanvasConfig; objectConfig: ObjectConfig };
+  private mouse: MouseService;
+  private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
 
-  constructor(option?: AppOption) {
+  constructor() {
     super();
-    this.option = Object.assign({}, DEFAULT_APP_OPTION, option ?? DEFAULT_APP_OPTION);
-    this.canvas = new Canvas('canvas', {
-      backgroundColor: this.option.backgroundColor,
+    this.containerElement = document.createElement('div');
+    this.containerElement.setAttribute(
+      'style',
+      `
+      width: 100%;
+      height: 100%;
+    `
+    );
+    this.stage = new Konva.Stage({
+      container: this.containerElement,
+      width: 500,
+      height: 500,
     });
-    this.setCanvasConfig(this.option.canvasConfig);
-    this.setObjectConfig(this.option.objectConfig);
-    this.mouseService = new MouseService(this);
-  }
+    this.mainLayer = new Konva.Layer();
+    this.mainLayer.name('pictode:main:layer');
+    this.stage.add(this.mainLayer);
 
-  public get pointer(): Point {
-    return this.mouseService.pointer;
+    this.mouse = new MouseService(this);
   }
 
   public mount(element: HTMLElement) {
-    element.appendChild(this.canvas.elements.container);
-    this.canvas.setDimensions({
+    element.appendChild(this.containerElement);
+    this.stage.setSize({
       width: element.clientWidth,
       height: element.clientHeight,
     });
+
+    this.mouse = new MouseService(this);
   }
 
-  public setObjectConfig(objectConfig: ObjectConfig | boolean): void {
-    this.option.objectConfig = objectConfig;
-    if (typeof objectConfig === 'boolean') {
-      this.option.objectConfig.hasControls = objectConfig;
-    }
-
-    const originalDefaults = FabricObject.getDefaults;
-    FabricObject.getDefaults = (): Record<string, any> => ({
-      ...originalDefaults(),
-      ...(this.option.objectConfig as ObjectConfig),
-    });
-    this.render(true);
+  public setTool(tool: Tool): void {
+    console.log('===>', tool);
   }
 
-  public setCanvasConfig(canvasConfig: CanvasConfig | boolean): void {
-    this.option.canvasConfig = canvasConfig;
-    if (typeof canvasConfig === 'boolean') {
-      this.option.canvasConfig.selection = canvasConfig;
-    }
-    Object.entries(this.option.canvasConfig).forEach(([key, value]) => this.canvas.set({ [key]: value }));
+  public add(...children: ChildType[]): void {
+    this.mainLayer.add(...children);
   }
 
-  public setTool(curTool: Tool): void {
-    const oldTool = this.currentTool;
-    this.currentTool = curTool;
-    this.canvas.selection = !curTool.drawable;
-    this.canvas.discardActiveObject();
-    this.render();
-    this.emit('tool:changed', { oldTool, curTool });
-  }
-
-  public render(asyncRedraw?: boolean): void {
-    if (asyncRedraw) {
-      this.canvas.requestRenderAll();
-    } else {
-      this.canvas.renderAll();
-    }
+  public render(): void {
+    this.mainLayer.draw();
   }
 
   public use(plugin: Plugin, ...options: any[]): App {
@@ -125,7 +107,7 @@ export class App extends BaseService<EventArgs> {
   public dispose(): void {
     this.currentTool = null;
     this.disposePlugins(Array.from(this.installedPlugins.keys()));
-    this.canvas.dispose();
+    // this.canvas.dispose();
     this.removeAllListeners();
   }
 }

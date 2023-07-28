@@ -20,6 +20,7 @@
     "@pictode/utils": "workspace:^0.0.1",
     "dot": "2.0.0-beta.1",
     "fabric": "6.0.0-beta9",
+    "konva": "^9.2.0",
     "rimraf": "^3.0.2",
     "roughjs": "^4.5.2"
   },

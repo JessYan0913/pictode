@@ -1,9 +1,7 @@
 import { Point } from 'fabric';
 
 import { PPolyline } from '../customs/polyline';
-import { AppMouseEvent, Tool } from '../types';
-
-import { selectTool } from './select-tool';
+import { Tool } from '../types';
 
 class PolylineTool implements Tool {
   public name: string = 'polylineTool';
@@ -11,43 +9,11 @@ class PolylineTool implements Tool {
   private points: Point[] = [];
   private polyline: PPolyline | null = null;
 
-  public onMouseDown({ app }: AppMouseEvent): void {
-    const lastPoint = this.points.at(-1);
-    if (!lastPoint || !lastPoint.eq(app.pointer)) {
-      this.points.push(app.pointer);
-    }
-    if (this.polyline) {
-      this.polyline.set({ points: this.points });
-    } else {
-      this.polyline = new PPolyline(this.points, {
-        id: Date.now().toString(),
-        fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
-      });
-      app.canvas.add(this.polyline);
-    }
-  }
+  public onMouseDown(): void {}
 
-  public onMouseMove({ app }: AppMouseEvent): void {
-    if (!this.polyline) {
-      return;
-    }
-    this.polyline.set({ points: this.points.concat(app.pointer) });
-    app.render();
-  }
+  public onMouseMove(): void {}
 
-  public onMouseDoubleClick({ app }: AppMouseEvent) {
-    app.setTool(selectTool);
-
-    if (this.polyline) {
-      app.canvas.setActiveObject(this.polyline);
-    }
-
-    this.points = [];
-    this.polyline = null;
-    app.render(true);
-  }
+  public onMouseDoubleClick() {}
 }
 
 export const polylineTool = new PolylineTool();

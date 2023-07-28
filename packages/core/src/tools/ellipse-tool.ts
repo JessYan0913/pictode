@@ -1,9 +1,7 @@
 import { Point } from 'fabric';
 
 import { PEllipse } from '../customs/ellipse';
-import { AppMouseEvent, Tool } from '../types';
-
-import { selectTool } from './select-tool';
+import { Tool } from '../types';
 
 class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
@@ -11,51 +9,11 @@ class EllipseTool implements Tool {
   private startPointer: Point = new Point(0, 0);
   private ellipse: PEllipse | null = null;
 
-  public onMouseDown({ app }: AppMouseEvent): void {
-    this.startPointer = app.pointer;
-    this.ellipse = new PEllipse({
-      id: Date.now().toString(),
-      left: this.startPointer.x,
-      top: this.startPointer.y,
-      rx: 0,
-      ry: 0,
-      fill: 'transparent',
-      stroke: 'black',
-      strokeWidth: 2,
-    });
-    app.canvas.add(this.ellipse);
-  }
+  public onMouseDown(): void {}
 
-  public onMouseMove({ app }: AppMouseEvent): void {
-    if (!this.ellipse) {
-      return;
-    }
+  public onMouseMove(): void {}
 
-    // 计算起点和当前鼠标位置之间的距离
-    const dx = app.pointer.x - this.startPointer.x;
-    const dy = app.pointer.y - this.startPointer.y;
-
-    // 计算椭圆的宽度和高度的绝对值
-    const radiusX = Math.abs(dx) / 2;
-    const radiusY = Math.abs(dy) / 2;
-
-    // 根据起点和鼠标位置计算椭圆的中心位置
-    const centerX = this.startPointer.x + dx / 2;
-    const centerY = this.startPointer.y + dy / 2;
-
-    this.ellipse.set({ rx: radiusX, ry: radiusY, left: centerX - radiusX, top: centerY - radiusY });
-    app.render();
-  }
-
-  public onMouseUp({ app }: AppMouseEvent): void {
-    app.setTool(selectTool);
-    this.startPointer.setXY(0, 0);
-    if (this.ellipse) {
-      app.canvas.setActiveObject(this.ellipse);
-    }
-    this.ellipse = null;
-    app.render(true);
-  }
+  public onMouseUp(): void {}
 }
 
 export const ellipseTool = new EllipseTool();
