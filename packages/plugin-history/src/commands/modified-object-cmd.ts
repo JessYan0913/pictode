@@ -9,15 +9,9 @@ export class ModifiedObjectCmd extends BaseCmd<Cmd.ModifiedObjectOptions> {
     super(app, options);
   }
 
-  public execute(): void {
-    if (!this.app || !this.options?.newObject) {
-      return;
-    }
-  }
+  public execute(): void {}
 
-  public undo(): void {
-    throw new Error('Method not implemented.');
-  }
+  public undo(): void {}
 }
 
 export default ModifiedObjectCmd;
