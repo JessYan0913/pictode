@@ -1,13 +1,13 @@
 import { Point } from 'fabric';
 
-import { PPolyline } from '../customs/polyline';
+import { Line } from '../customs/line';
 import { Tool } from '../types';
 
-class PolylineTool implements Tool {
+class LineTool implements Tool {
   public name: string = 'polylineTool';
   public drawable: boolean = true;
   private points: Point[] = [];
-  private polyline: PPolyline | null = null;
+  private polyline: Line | null = null;
 
   public onMouseDown(): void {}
 
@@ -16,6 +16,6 @@ class PolylineTool implements Tool {
   public onMouseDoubleClick() {}
 }
 
-export const polylineTool = new PolylineTool();
+export const lineTool = new LineTool();
 
-export default polylineTool;
+export default lineTool;

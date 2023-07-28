@@ -1,20 +1,13 @@
-import { BaseFabricObject, Triangle } from 'fabric';
+import Konva from 'konva';
 
-export class PTriangle extends Triangle {
-  public id: string;
-
-  constructor(options: Partial<Triangle> & { id: string }) {
-    super(options);
-    this.id = options.id;
+export class Triangle extends Konva.RegularPolygon {
+  constructor(config: Konva.RegularPolygonConfig) {
+    super({ ...config, sides: 3 });
   }
 
-  public render(ctx: CanvasRenderingContext2D): void {
-    super.render(ctx);
-  }
-
-  public toJSON(): BaseFabricObject {
-    return { ...super.toJSON(), id: this.id };
+  public draw(): this {
+    return super.draw();
   }
 }
 
-export default PTriangle;
+export default Triangle;

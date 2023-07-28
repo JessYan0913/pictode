@@ -1,13 +1,13 @@
 import { Point } from 'fabric';
 
-import { PTriangle } from '../customs/triangle';
+import { Triangle } from '../customs/triangle';
 import { Tool } from '../types';
 
 class TriangleTool implements Tool {
   public name: string = 'triangleTool';
   public drawable: boolean = true;
   private startPointer: Point = new Point(0, 0);
-  private triangle: PTriangle | null = null;
+  private triangle: Triangle | null = null;
 
   public onMouseDown(): void {}
 

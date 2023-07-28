@@ -1,20 +1,13 @@
-import { BaseFabricObject, Ellipse } from 'fabric';
+import Konva from 'konva';
 
-export class PEllipse extends Ellipse {
-  public id: string;
-
-  constructor(options: Partial<Ellipse> & { id: string }) {
-    super(options);
-    this.id = options.id;
+export class Ellipse extends Konva.Ellipse {
+  constructor(config: Konva.EllipseConfig) {
+    super(config);
   }
 
-  public render(ctx: CanvasRenderingContext2D): void {
-    super.render(ctx);
-  }
-
-  public toJSON(): BaseFabricObject {
-    return { ...super.toJSON(), id: this.id };
+  public draw(): this {
+    return super.draw();
   }
 }
 
-export default PEllipse;
+export default Ellipse;
