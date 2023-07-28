@@ -15,6 +15,7 @@ class EllipseTool implements Tool {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.ellipse = new PEllipse({
+      id: Date.now().toString(),
       left: this.startPointer.x,
       top: this.startPointer.y,
       rx: 0,

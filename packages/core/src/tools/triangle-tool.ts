@@ -15,6 +15,7 @@ class TriangleTool implements Tool {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.triangle = new PTriangle({
+      id: Date.now().toString(),
       top: this.startPointer.y,
       left: this.startPointer.x,
       width: 0,

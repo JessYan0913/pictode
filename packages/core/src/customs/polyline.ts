@@ -1,6 +1,13 @@
-import { Control, Point, Polyline, TPointerEvent, util } from 'fabric';
+import { BaseFabricObject, Control, Point, Polyline, TPointerEvent, util, XY } from 'fabric';
 
 export class PPolyline extends Polyline {
+  public id?: string;
+
+  constructor(points?: XY[], options?: Partial<Polyline> & { id: string }) {
+    super(points, options);
+    this.id = options?.id;
+  }
+
   public onSelect(options: { e?: TPointerEvent | undefined }): boolean {
     const points = this.points ?? [];
     this.controls = points.reduce<Record<string, Control>>(
@@ -42,6 +49,10 @@ export class PPolyline extends Polyline {
 
   public render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
+  }
+
+  public toJSON(): BaseFabricObject {
+    return { ...super.toJSON(), id: this.id };
   }
 }
 

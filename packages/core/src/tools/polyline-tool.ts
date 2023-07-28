@@ -21,6 +21,7 @@ class PolylineTool implements Tool {
       this.polyline.set({ points: this.points });
     } else {
       this.polyline = new PPolyline(this.points, {
+        id: Date.now().toString(),
         fill: 'transparent',
         stroke: 'black',
         strokeWidth: 2,

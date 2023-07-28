@@ -15,6 +15,7 @@ class RectTool implements Tool {
     app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.rectangle = new PRect({
+      id: Date.now().toString(),
       left: this.startPointer.x,
       top: this.startPointer.y,
       width: 10,
@@ -23,6 +24,7 @@ class RectTool implements Tool {
       stroke: 'black',
       strokeWidth: 2,
     });
+    this.rectangle.set({ id: Date.now() });
     app.canvas.add(this.rectangle);
   }
 
