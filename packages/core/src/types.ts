@@ -75,7 +75,16 @@ export interface ObjectConfig {
   controlVisible?: ControlVisible;
 }
 
+export interface CanvasConfig {
+  isDrawingMode?: boolean;
+  selection?: boolean;
+  selectionColor?: string;
+  selectionBorderColor?: string;
+  selectionLineWidth?: number;
+}
+
 export interface AppOption {
   backgroundColor?: string;
+  canvasConfig?: CanvasConfig | boolean;
   objectConfig?: ObjectConfig | boolean;
 }

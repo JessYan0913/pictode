@@ -2,7 +2,7 @@ import { BaseService } from '@pictode/utils';
 import { Canvas, Object as FabricObject, Point } from 'fabric';
 
 import { MouseService } from './services/mouse';
-import { AppOption, EventArgs, ObjectConfig, Plugin, Tool } from './types';
+import { AppOption, CanvasConfig, EventArgs, ObjectConfig, Plugin, Tool } from './types';
 import { DEFAULT_APP_OPTION } from './utils';
 
 export class App extends BaseService<EventArgs> {
@@ -10,7 +10,7 @@ export class App extends BaseService<EventArgs> {
   public mouseService: MouseService;
   public currentTool: Tool | null = null;
 
-  private option: AppOption & { objectConfig: ObjectConfig };
+  private option: AppOption & { canvasConfig: CanvasConfig; objectConfig: ObjectConfig };
   private installedPlugins: Map<string, Plugin> = new Map();
 
   constructor(option?: AppOption) {
@@ -19,6 +19,7 @@ export class App extends BaseService<EventArgs> {
     this.canvas = new Canvas('canvas', {
       backgroundColor: this.option.backgroundColor,
     });
+    this.setCanvasConfig(this.option.canvasConfig);
     this.setObjectConfig(this.option.objectConfig);
     this.mouseService = new MouseService(this);
   }
@@ -47,6 +48,14 @@ export class App extends BaseService<EventArgs> {
       ...(this.option.objectConfig as ObjectConfig),
     });
     this.render(true);
+  }
+
+  public setCanvasConfig(canvasConfig: CanvasConfig | boolean): void {
+    this.option.canvasConfig = canvasConfig;
+    if (typeof canvasConfig === 'boolean') {
+      this.option.canvasConfig.selection = canvasConfig;
+    }
+    Object.entries(this.option.canvasConfig).forEach(([key, value]) => this.canvas.set({ [key]: value }));
   }
 
   public setTool(curTool: Tool): void {
