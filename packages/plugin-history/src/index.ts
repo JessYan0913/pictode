@@ -14,12 +14,13 @@ export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cm
 
 export class HistoryPlugin implements Plugin {
   public name: string = 'historyPlugin';
-  public history: History;
+  public history?: History;
   public app?: App;
+  public options?: Options;
 
   constructor(options?: Options) {
-    this.history = new History(undefined, options);
-    (['onObjectAdded'] as (keyof this)[]).forEach((method) => {
+    this.options = options;
+    (['onObjectAdded', 'onObjectRemove'] as (keyof this)[]).forEach((method) => {
       method = method as keyof HistoryPlugin;
       this[method] = (this[method] as Function).bind(this);
     });
@@ -27,13 +28,14 @@ export class HistoryPlugin implements Plugin {
 
   public install(app: App) {
     this.app = app;
+    this.history = new History(app, this.options);
     this.history.app = app;
     this.app.canvas.on('object:added', this.onObjectAdded);
     this.app.canvas.on('object:removed', this.onObjectRemove);
   }
 
   public dispose(): void {
-    this.history.dispose();
+    this.history?.dispose();
     this.app?.canvas.off('object:added', this.onObjectAdded);
     this.app?.canvas.off('object:added', this.onObjectRemove);
     this.app?.emit('history:destroy', {
@@ -42,29 +44,35 @@ export class HistoryPlugin implements Plugin {
   }
 
   public enable(): void {
+    if (!this.history) {
+      return;
+    }
     this.history.enabled = true;
   }
 
   public disable(): void {
+    if (!this.history) {
+      return;
+    }
     this.history.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return this.history.enabled;
+    return this.history?.enabled ?? false;
   }
 
   private onObjectAdded({ target }: { target: BaseFabricObject }) {
-    if (!this.app) {
+    if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new AddObjectCmd(this.app, { object: target }));
+    this.history.execute(new AddObjectCmd(this.app, { object: target.toJSON() }));
   }
 
   private onObjectRemove({ target }: { target: BaseFabricObject }) {
-    if (!this.app) {
+    if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new RemoveObjectCmd(this.app, { object: target }));
+    this.history.execute(new RemoveObjectCmd(this.app, { object: target.toJSON() }));
   }
 }
 

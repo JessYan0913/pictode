@@ -5,7 +5,7 @@ import { HistoryPlugin } from './index';
 App.prototype.undo = function (step: number = 1): App {
   const historyPlugin = this.getPlugin('historyPlugin') as HistoryPlugin;
   if (historyPlugin) {
-    historyPlugin.history.undo(step);
+    historyPlugin.history?.undo(step);
   }
   return this;
 };
@@ -13,7 +13,7 @@ App.prototype.undo = function (step: number = 1): App {
 App.prototype.redo = function (step: number = 1): App {
   const historyPlugin = this.getPlugin('historyPlugin') as HistoryPlugin;
   if (historyPlugin) {
-    historyPlugin.history.redo(step);
+    historyPlugin.history?.redo(step);
   }
   return this;
 };
@@ -21,7 +21,7 @@ App.prototype.redo = function (step: number = 1): App {
 App.prototype.canUndo = function (): boolean {
   const historyPlugin = this.getPlugin('historyPlugin') as HistoryPlugin;
   if (historyPlugin) {
-    return historyPlugin.history.canUndo();
+    return historyPlugin.history?.canUndo() ?? false;
   }
   return false;
 };
@@ -29,7 +29,7 @@ App.prototype.canUndo = function (): boolean {
 App.prototype.canRedo = function (): boolean {
   const historyPlugin = this.getPlugin('historyPlugin') as HistoryPlugin;
   if (historyPlugin) {
-    return historyPlugin.history.canRedo();
+    return historyPlugin.history?.canRedo() ?? false;
   }
   return false;
 };
@@ -37,7 +37,7 @@ App.prototype.canRedo = function (): boolean {
 App.prototype.jump = function (id: number): App {
   const historyPlugin = this.getPlugin('historyPlugin') as HistoryPlugin;
   if (historyPlugin) {
-    historyPlugin.history.jump(id);
+    historyPlugin.history?.jump(id);
   }
   return this;
 };
