@@ -62,32 +62,6 @@ export interface ControlVisible {
   mtr?: boolean;
 }
 
-export interface ObjectConfig {
-  objectCaching?: boolean;
-  hasControls?: boolean;
-  padding?: number;
-  borderColor?: string;
-  cornerColor?: string;
-  cornerStrokeColor?: string;
-  cornerStyle?: 'rect' | 'circle';
-  cornerSize?: number;
-  rotatingPointOffset?: number;
-  transparentCorners?: boolean;
-  centeredScaling?: boolean;
-  centeredRotation?: boolean;
-  controlVisible?: ControlVisible;
-}
-
-export interface CanvasConfig {
-  isDrawingMode?: boolean;
-  selection?: boolean;
-  selectionColor?: string;
-  selectionBorderColor?: string;
-  selectionLineWidth?: number;
-}
-
-export interface AppOption {
+export interface AppConfig {
   backgroundColor?: string;
-  canvasConfig?: CanvasConfig | boolean;
-  objectConfig?: ObjectConfig | boolean;
 }
