@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { App, ellipseTool, polylineTool, rectTool, selectTool, triangleTool } from '@pictode/core';
-import { History } from '@pictode/plugin-history';
+import { HistoryPlugin } from '@pictode/plugin-history';
 
 const containerRef = ref<HTMLDivElement>();
 
 const app = new App();
-app.use(new History());
+app.use(new HistoryPlugin());
 onMounted(() => {
   if (containerRef.value) {
     app.mount(containerRef.value);

@@ -12,24 +12,19 @@ export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cm
 
 export class History {
   public name: string = 'history';
-  private app: App;
-  private enabled: boolean;
-  private stackSize: number;
+  public app?: App;
+  public enabled: boolean;
+  public stackSize: number;
 
-  private commands: Record<string, CommandClass> = {};
   private undoStack: BaseCmd[] = [];
   private redoStack: BaseCmd[] = [];
   private idCounter: number = 0;
 
-  constructor(app: App, options?: Options) {
+  constructor(app?: App, options?: Options) {
     const { enabled = true, stackSize = 500 } = options ?? {};
     this.app = app;
     this.enabled = enabled;
     this.stackSize = stackSize;
-  }
-
-  public setStackSize(size: number): void {
-    this.stackSize = size;
   }
 
   public execute(command: BaseCmd, needExecute?: boolean): void {
@@ -47,7 +42,7 @@ export class History {
     command.executed = true;
     command.executeTime = new Date().getTime();
     this.redoStack = [];
-    this.app.emit('stack:changed', {
+    this.app?.emit('stack:changed', {
       undoStack: this.undoStack,
       redoStack: this.redoStack,
     });
@@ -66,7 +61,7 @@ export class History {
         if (command) {
           command.undo();
           this.redoStack.push(command);
-          this.app.emit('stack:changed', {
+          this.app?.emit('stack:changed', {
             undoStack: this.undoStack,
             redoStack: this.redoStack,
           });
@@ -74,7 +69,7 @@ export class History {
       }
       --step;
     }
-    this.app.emit('history:undo', {
+    this.app?.emit('history:undo', {
       step,
       command: command?.toJSON(),
     });
@@ -92,7 +87,7 @@ export class History {
         if (command) {
           command.execute();
           this.undoStack.push(command);
-          this.app.emit('stack:changed', {
+          this.app?.emit('stack:changed', {
             undoStack: this.undoStack,
             redoStack: this.redoStack,
           });
@@ -100,7 +95,7 @@ export class History {
       }
       --step;
     }
-    this.app.emit('history:redo', {
+    this.app?.emit('history:redo', {
       command: command?.toJSON(),
       step,
     });
@@ -141,7 +136,16 @@ export class History {
       }
     }
 
-    this.app.emit('stack:changed', {
+    this.app?.emit('stack:changed', {
+      undoStack: this.undoStack,
+      redoStack: this.redoStack,
+    });
+  }
+
+  public dispose(): void {
+    this.undoStack = [];
+    this.redoStack = [];
+    this.app?.emit('stack:changed', {
       undoStack: this.undoStack,
       redoStack: this.redoStack,
     });
