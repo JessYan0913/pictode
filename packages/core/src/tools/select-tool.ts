@@ -1,14 +1,8 @@
-import { AppMouseEvent, Tool } from '../types';
+import { Tool } from '../types';
 
-class SelectTool implements Tool {
-  public name: string = 'selectTool';
-  public drawable: boolean = false;
-
-  public onMouseDown({ app }: AppMouseEvent): void {
-    app.canvas.selection = true;
-  }
-}
-
-export const selectTool = new SelectTool();
+export const selectTool: Tool = {
+  name: 'selectTool',
+  drawable: false,
+};
 
 export default selectTool;

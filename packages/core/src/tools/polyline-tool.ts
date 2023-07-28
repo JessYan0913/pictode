@@ -12,7 +12,6 @@ class PolylineTool implements Tool {
   private polyline: PPolyline | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
-    app.canvas.selection = false;
     const lastPoint = this.points.at(-1);
     if (!lastPoint || !lastPoint.eq(app.pointer)) {
       this.points.push(app.pointer);

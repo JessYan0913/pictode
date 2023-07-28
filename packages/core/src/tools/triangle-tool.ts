@@ -12,7 +12,6 @@ class TriangleTool implements Tool {
   private triangle: PTriangle | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
-    app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.triangle = new PTriangle({
       id: Date.now().toString(),

@@ -12,7 +12,6 @@ class EllipseTool implements Tool {
   private ellipse: PEllipse | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
-    app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.ellipse = new PEllipse({
       id: Date.now().toString(),

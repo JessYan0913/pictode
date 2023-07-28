@@ -12,7 +12,6 @@ class RectTool implements Tool {
   private rectangle: PRect | null = null;
 
   public onMouseDown({ app }: AppMouseEvent): void {
-    app.canvas.selection = false;
     this.startPointer = app.pointer;
     this.rectangle = new PRect({
       id: Date.now().toString(),
