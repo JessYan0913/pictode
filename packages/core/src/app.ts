@@ -19,8 +19,6 @@ export class App extends BaseService<EventArgs> {
     this.canvas = new Canvas('canvas', {
       backgroundColor: this.option.backgroundColor,
     });
-    // 关闭对象缓存，缩放时不会模糊
-    FabricObject.prototype.objectCaching = false;
     this.setObjectConfig(this.option.objectConfig);
     this.mouseService = new MouseService(this);
   }
@@ -51,10 +49,12 @@ export class App extends BaseService<EventArgs> {
     this.render(true);
   }
 
-  public setTool(tool: Tool): void {
-    this.currentTool = tool;
+  public setTool(curTool: Tool): void {
+    const oldTool = this.currentTool;
+    this.currentTool = curTool;
     this.canvas.discardActiveObject();
     this.render();
+    this.emit('tool:changed', { oldTool, curTool });
   }
 
   public render(asyncRedraw?: boolean): void {

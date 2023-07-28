@@ -37,7 +37,15 @@ export abstract class Service {
   public abstract dispose(): void;
 }
 
-export interface EventArgs {}
+export interface EventArgs {
+  'tool:changed': {
+    oldTool: Tool | null;
+    curTool: Tool;
+  };
+  'canvas:rendered': {
+    time: number;
+  };
+}
 
 export interface ControlVisible {
   bl?: boolean;
