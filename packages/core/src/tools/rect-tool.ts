@@ -35,9 +35,7 @@ class RectTool implements Tool {
   public onMouseUp({ app }: AppMouseEvent): void {
     this.startPointer = { x: 0, y: 0 };
     if (this.rectangle) {
-      let tr = new Konva.Transformer();
-      app.add(tr);
-      tr.nodes([this.rectangle]);
+      app.select(this.rectangle);
     }
     this.rectangle = null;
   }

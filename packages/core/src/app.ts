@@ -9,6 +9,7 @@ export class App extends BaseService<EventArgs> {
   public currentTool: Tool | null = null;
   public mainLayer: Konva.Layer;
 
+  private selector: Konva.Transformer;
   private mouse: MouseService;
   private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
@@ -31,6 +32,9 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer = new Konva.Layer();
     this.mainLayer.name('pictode:main:layer');
     this.stage.add(this.mainLayer);
+
+    this.selector = new Konva.Transformer();
+    this.mainLayer.add(this.selector);
 
     this.mouse = new MouseService(this);
   }
@@ -59,6 +63,10 @@ export class App extends BaseService<EventArgs> {
   public add(...children: ChildType[]): void {
     this.mainLayer.add(...children);
     this.render();
+  }
+
+  public select(...children: ChildType[]): void {
+    this.selector.nodes(children);
   }
 
   public render(): void {
