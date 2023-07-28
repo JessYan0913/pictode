@@ -5,34 +5,26 @@ import { Service } from '../types';
 
 type IMouseEvent = TPointerEventInfo<TPointerEvent>;
 
-type IMouseEventHandler = (event: IMouseEvent) => void;
-
 export class MouseService extends Service {
   private event?: IMouseEvent;
   private targets: Object[];
-  private handleMouseDown: IMouseEventHandler;
-  private handleMouseUp: IMouseEventHandler;
-  private handleMouseMove: IMouseEventHandler;
-  private handleMouseDoubleClick: IMouseEventHandler;
-  private handleMouseOver: IMouseEventHandler;
-  private handleMouseOut: IMouseEventHandler;
 
   constructor(app: App) {
     super(app);
     this.targets = [];
-    this.handleMouseDown = this.onMouseDown.bind(this);
-    this.handleMouseUp = this.onMouseUp.bind(this);
-    this.handleMouseMove = this.onMouseMove.bind(this);
-    this.handleMouseDoubleClick = this.onMouseDoubleClick.bind(this);
-    this.handleMouseOver = this.onMouseOver.bind(this);
-    this.handleMouseOut = this.onMouseOut.bind(this);
+    (
+      ['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseDoubleClick', 'onMouseOver', 'onMouseOut'] as (keyof this)[]
+    ).forEach((method) => {
+      method = method as keyof MouseService;
+      this[method] = (this[method] as Function).bind(this);
+    });
 
-    this.app.canvas.on('mouse:down', this.handleMouseDown);
-    this.app.canvas.on('mouse:up', this.handleMouseUp);
-    this.app.canvas.on('mouse:move', this.handleMouseMove);
-    this.app.canvas.on('mouse:dblclick', this.handleMouseDoubleClick);
-    this.app.canvas.on('mouse:over', this.handleMouseOver);
-    this.app.canvas.on('mouse:out', this.handleMouseOut);
+    this.app.canvas.on('mouse:down', this.onMouseDown);
+    this.app.canvas.on('mouse:up', this.onMouseUp);
+    this.app.canvas.on('mouse:move', this.onMouseMove);
+    this.app.canvas.on('mouse:dblclick', this.onMouseDoubleClick);
+    this.app.canvas.on('mouse:over', this.onMouseOver);
+    this.app.canvas.on('mouse:out', this.onMouseOut);
   }
 
   public get pointer(): Point {
@@ -120,11 +112,11 @@ export class MouseService extends Service {
   }
 
   public dispose(): void {
-    this.app.canvas.off('mouse:down', this.handleMouseDown);
-    this.app.canvas.off('mouse:up', this.handleMouseUp);
-    this.app.canvas.off('mouse:move', this.handleMouseMove);
-    this.app.canvas.off('mouse:dblclick', this.handleMouseDoubleClick);
-    this.app.canvas.off('mouse:over', this.handleMouseOver);
-    this.app.canvas.off('mouse:out', this.handleMouseOut);
+    this.app.canvas.off('mouse:down', this.onMouseDown);
+    this.app.canvas.off('mouse:up', this.onMouseUp);
+    this.app.canvas.off('mouse:move', this.onMouseMove);
+    this.app.canvas.off('mouse:dblclick', this.onMouseDoubleClick);
+    this.app.canvas.off('mouse:over', this.onMouseOver);
+    this.app.canvas.off('mouse:out', this.onMouseOut);
   }
 }
