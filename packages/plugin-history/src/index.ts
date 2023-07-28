@@ -1,4 +1,4 @@
-import { App, BaseFabricObject, Plugin } from '@pictode/core';
+import { App, EventArgs, Plugin } from '@pictode/core';
 
 import './methods';
 
@@ -24,14 +24,14 @@ export class HistoryPlugin implements Plugin {
     this.app = app;
     this.history = new History(app, this.options);
     this.history.app = app;
-    this.app.canvas.on('object:added', this.onObjectAdded);
-    this.app.canvas.on('object:removed', this.onObjectRemove);
+    this.app.on('shape:added', this.onObjectAdded);
+    this.app.on('shape:removed', this.onObjectRemove);
   }
 
   public dispose(): void {
     this.history?.dispose();
-    this.app?.canvas.off('object:added', this.onObjectAdded);
-    this.app?.canvas.off('object:added', this.onObjectRemove);
+    this.app?.off('shape:added', this.onObjectAdded);
+    this.app?.off('shape:added', this.onObjectRemove);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -55,18 +55,18 @@ export class HistoryPlugin implements Plugin {
     return this.history?.enabled ?? false;
   }
 
-  private onObjectAdded({ target }: { target: BaseFabricObject }) {
+  private onObjectAdded({ object }: EventArgs['shape:added']) {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new AddObjectCmd(this.app, { object: target.toJSON() }));
+    this.history.execute(new AddObjectCmd(this.app, { object }));
   }
 
-  private onObjectRemove({ target }: { target: BaseFabricObject }) {
+  private onObjectRemove({ object }: EventArgs['shape:removed']) {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new RemoveObjectCmd(this.app, { object: target.toJSON() }));
+    this.history.execute(new RemoveObjectCmd(this.app, { object }));
   }
 }
 

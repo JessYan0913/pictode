@@ -1,12 +1,9 @@
-import { BaseFabricObject } from '@pictode/core';
+import { ChildType } from '@pictode/core';
 
-import { BaseCmd } from './commands/base';
-import { CommandClass, HistoryPlugin } from './index';
+import { HistoryPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    registerCommands<T extends BaseCmd>(commandClasses: CommandClass<T> | Array<CommandClass<T>>): App;
-    execute<T extends Cmd.Options>(command: BaseCmd | string, options?: T): App;
     undo(step?: number): App;
     redo(step?: number): App;
     canUndo(): boolean;
@@ -39,16 +36,16 @@ export namespace Cmd {
   }
 
   export interface AddObjectOptions {
-    object: BaseFabricObject;
+    object: ChildType;
   }
 
   export interface RemoveObjectOptions {
-    object: BaseFabricObject;
+    object: ChildType;
   }
 
   export interface ModifiedObjectOptions {
-    oldObject: BaseFabricObject;
-    newObject: BaseFabricObject;
+    oldObject: ChildType;
+    newObject: ChildType;
   }
 }
 

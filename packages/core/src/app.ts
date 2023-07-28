@@ -58,6 +58,7 @@ export class App extends BaseService<EventArgs> {
 
   public add(...children: ChildType[]): void {
     this.mainLayer.add(...children);
+    this.render();
   }
 
   public render(): void {

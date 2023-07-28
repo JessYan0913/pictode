@@ -48,6 +48,12 @@ export interface EventArgs {
   'canvas:rendered': {
     time: number;
   };
+  'shape:added': {
+    object: ChildType;
+  };
+  'shape:removed': {
+    object: ChildType;
+  };
 }
 
 export interface ControlVisible {

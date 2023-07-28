@@ -1,4 +1,4 @@
-import { Point } from 'fabric';
+import Konva from 'konva';
 
 import { Triangle } from '../customs/triangle';
 import { Tool } from '../types';
@@ -6,7 +6,7 @@ import { Tool } from '../types';
 class TriangleTool implements Tool {
   public name: string = 'triangleTool';
   public drawable: boolean = true;
-  private startPointer: Point = new Point(0, 0);
+  private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private triangle: Triangle | null = null;
 
   public onMouseDown(): void {}

@@ -1,4 +1,4 @@
-import { Point } from 'fabric';
+import Konva from 'konva';
 
 import { Ellipse } from '../customs/ellipse';
 import { Tool } from '../types';
@@ -6,7 +6,7 @@ import { Tool } from '../types';
 class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
   public drawable: boolean = true;
-  private startPointer: Point = new Point(0, 0);
+  private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private ellipse: Ellipse | null = null;
 
   public onMouseDown(): void {}
