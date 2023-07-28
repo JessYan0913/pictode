@@ -4,8 +4,8 @@ import { Cmd } from '../types';
 
 import { BaseCmd } from './base';
 
-export class RemoveObjectCmd extends BaseCmd<Cmd.RemoveObjectCmd> {
-  constructor(app: App, options: Cmd.RemoveObjectCmd) {
+export class RemoveObjectCmd extends BaseCmd<Cmd.RemoveObjectOptions> {
+  constructor(app: App, options: Cmd.RemoveObjectOptions) {
     super(app, options);
   }
 

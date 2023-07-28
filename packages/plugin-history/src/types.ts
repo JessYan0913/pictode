@@ -42,8 +42,13 @@ export namespace Cmd {
     object: BaseFabricObject;
   }
 
-  export interface RemoveObjectCmd {
+  export interface RemoveObjectOptions {
     object: BaseFabricObject;
+  }
+
+  export interface ModifiedObjectOptions {
+    oldObject: BaseFabricObject;
+    newObject: BaseFabricObject;
   }
 }
 
