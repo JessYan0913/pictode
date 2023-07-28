@@ -1,20 +1,13 @@
-import { BaseFabricObject, Rect } from 'fabric';
+import Konva from 'konva';
 
-export class PRect extends Rect {
-  public id: string;
-
-  constructor(options: Partial<Rect> & { id: string }) {
-    super(options);
-    this.id = options.id;
+export class Rect extends Konva.Rect {
+  constructor(config: Konva.RectConfig) {
+    super(config);
   }
 
-  public render(ctx: CanvasRenderingContext2D): void {
-    super.render(ctx);
-  }
-
-  public toJSON(): BaseFabricObject {
-    return { ...super.toJSON(), id: this.id };
+  public draw(): this {
+    return super.draw();
   }
 }
 
-export default PRect;
+export default Rect;

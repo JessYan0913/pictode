@@ -35,6 +35,10 @@ export class App extends BaseService<EventArgs> {
     this.mouse = new MouseService(this);
   }
 
+  public get pointer(): Konva.Vector2d {
+    return this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+  }
+
   public mount(element: HTMLElement) {
     element.appendChild(this.containerElement);
     this.stage.setSize({
@@ -45,8 +49,11 @@ export class App extends BaseService<EventArgs> {
     this.mouse = new MouseService(this);
   }
 
-  public setTool(tool: Tool): void {
-    console.log('===>', tool);
+  public setTool(curTool: Tool): void {
+    const oldTool = this.currentTool;
+    this.currentTool = curTool;
+    this.render();
+    this.emit('tool:changed', { oldTool, curTool });
   }
 
   public add(...children: ChildType[]): void {
