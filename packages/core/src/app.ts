@@ -111,6 +111,13 @@ export class App extends BaseService<EventArgs> {
     aboutToChangePlugins?.forEach((plugin) => plugin?.dispose());
     return this;
   }
+
+  public dispose(): void {
+    this.currentTool = null;
+    this.disposePlugins(Array.from(this.installedPlugins.keys()));
+    this.canvas.dispose();
+    this.removeAllListeners();
+  }
 }
 
 export default App;

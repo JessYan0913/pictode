@@ -41,6 +41,10 @@ export namespace Cmd {
   export interface AddObjectOptions {
     object: BaseFabricObject;
   }
+
+  export interface RemoveObjectCmd {
+    object: BaseFabricObject;
+  }
 }
 
 export interface Options {
