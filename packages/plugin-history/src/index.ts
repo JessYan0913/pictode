@@ -2,15 +2,9 @@ import { App, BaseFabricObject, Plugin } from '@pictode/core';
 
 import './methods';
 
-import { BaseCmd } from './commands/base';
 import { AddObjectCmd, RemoveObjectCmd } from './commands';
 import { History } from './history';
-import { Cmd, Options } from './types';
-
-export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cmd.Options> = new (
-  app?: App,
-  options?: O
-) => T;
+import { Options } from './types';
 
 export class HistoryPlugin implements Plugin {
   public name: string = 'historyPlugin';

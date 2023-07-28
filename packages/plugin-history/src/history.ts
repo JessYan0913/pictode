@@ -3,12 +3,7 @@ import { App } from '@pictode/core';
 import './methods';
 
 import { BaseCmd } from './commands/base';
-import { Cmd, Options } from './types';
-
-export type CommandClass<T extends BaseCmd = BaseCmd, O extends Cmd.Options = Cmd.Options> = new (
-  app: App,
-  options?: O
-) => T;
+import { Options } from './types';
 
 export class History {
   public name: string = 'history';

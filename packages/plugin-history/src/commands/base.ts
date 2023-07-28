@@ -3,14 +3,14 @@ import { App } from '@pictode/core';
 import { Cmd, Command } from '../types';
 
 export abstract class BaseCmd<T extends Cmd.Options = Cmd.Options> implements Command<T> {
-  public app?: App;
+  public app: App;
   public name: string;
   public id: number = 0;
   public executed: boolean = false;
-  public options?: T;
+  public options: T;
   public executeTime: number = new Date().getTime();
 
-  constructor(app?: App, options?: T) {
+  constructor(app: App, options: T) {
     this.app = app;
     this.name = this.constructor.name;
     this.options = options;

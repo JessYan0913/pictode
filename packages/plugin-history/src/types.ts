@@ -60,7 +60,7 @@ export interface Options {
 export interface Command<T extends Cmd.Options = Cmd.Options> {
   id: number;
   name: string;
-  options?: T;
+  options: T;
   executed: boolean;
   executeTime: number;
 }
