@@ -3,20 +3,27 @@ import Konva from 'konva';
 import { Rect } from '../customs/rect';
 import { AppMouseEvent, Tool } from '../types';
 
+import { selectTool } from './select-tool';
+
 class RectTool implements Tool {
   public name: string = 'rectTool';
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private rectangle: Rect | null = null;
 
-  public onActive(): void {}
+  public onActive(): void {
+    this.startPointer = { x: 0, y: 0 };
+  }
 
-  public onInactive(): void {}
+  public onInactive(): void {
+    this.rectangle = null;
+    this.startPointer = { x: 0, y: 0 };
+  }
 
   public onMouseDown({ app }: AppMouseEvent): void {
     this.startPointer = app.pointer;
     this.rectangle = new Rect({
-      x: this.startPointer?.x,
-      y: this.startPointer?.y,
+      x: this.startPointer.x,
+      y: this.startPointer.y,
       fill: 'transparent',
       stroke: 'black',
       strokeWidth: 2,
@@ -36,11 +43,11 @@ class RectTool implements Tool {
   }
 
   public onMouseUp({ app }: AppMouseEvent): void {
-    this.startPointer = { x: 0, y: 0 };
-    if (this.rectangle) {
-      app.select(this.rectangle);
+    if (!this.rectangle) {
+      return;
     }
-    this.rectangle = null;
+    app.select(this.rectangle);
+    app.setTool(selectTool);
   }
 }
 
