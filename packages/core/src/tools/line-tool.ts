@@ -3,7 +3,6 @@ import { Tool } from '../types';
 
 class LineTool implements Tool {
   public name: string = 'polylineTool';
-  public drawable: boolean = true;
   private polyline: Line | null = null;
 
   public onActive(): void {

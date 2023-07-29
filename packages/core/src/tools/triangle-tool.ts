@@ -5,7 +5,6 @@ import { Tool } from '../types';
 
 class TriangleTool implements Tool {
   public name: string = 'triangleTool';
-  public drawable: boolean = true;
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private triangle: Triangle | null = null;
 

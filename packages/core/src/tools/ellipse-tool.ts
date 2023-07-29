@@ -5,7 +5,6 @@ import { Tool } from '../types';
 
 class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
-  public drawable: boolean = true;
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private ellipse: Ellipse | null = null;
 

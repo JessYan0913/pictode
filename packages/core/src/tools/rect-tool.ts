@@ -5,7 +5,6 @@ import { AppMouseEvent, Tool } from '../types';
 
 class RectTool implements Tool {
   public name: string = 'rectTool';
-  public drawable: boolean = true;
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private rectangle: Rect | null = null;
 
