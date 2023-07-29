@@ -47,8 +47,7 @@ export const lineTool = (): Tool => {
       if (!line) {
         return;
       }
-      app.select(line);
-      app.setTool(selectTool());
+      app.setTool(selectTool(line));
     },
   };
 };

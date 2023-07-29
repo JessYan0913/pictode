@@ -1,9 +1,11 @@
-import { Tool } from '../types';
+import { ChildType, Tool } from '../types';
 
-export const selectTool = (): Tool => {
+export const selectTool = (...shapes: ChildType[]): Tool => {
   return {
     name: 'selectTool',
-    onActive() {},
+    onActive(app) {
+      app.select(...shapes);
+    },
     onInactive() {},
     onMouseDown() {},
   };

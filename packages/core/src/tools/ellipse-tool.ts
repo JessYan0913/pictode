@@ -52,8 +52,7 @@ export const ellipseTool = (): Tool => {
       if (!ellipse) {
         return;
       }
-      app.select(ellipse);
-      app.setTool(selectTool());
+      app.setTool(selectTool(ellipse));
     },
   };
 };

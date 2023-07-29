@@ -43,8 +43,7 @@ export const rectTool = (): Tool => {
       if (!rectangle) {
         return;
       }
-      app.select(rectangle);
-      app.setTool(selectTool());
+      app.setTool(selectTool(rectangle));
     },
   };
 };
