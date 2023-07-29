@@ -1,14 +1,13 @@
-import Konva from 'konva';
-
 import App from '../app';
 import { Ellipse } from '../customs/ellipse';
 import { AppMouseEvent, Tool } from '../types';
+import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
-  private startPointer: Konva.Vector2d = { x: 0, y: 0 };
+  private startPointer: Point = new Point(0, 0);
   private ellipse: Ellipse | null = null;
 
   public onActive(app: App): void {
@@ -17,7 +16,7 @@ class EllipseTool implements Tool {
 
   public onInactive(): void {
     this.ellipse = null;
-    this.startPointer = { x: 0, y: 0 };
+    this.startPointer.setXY(0, 0);
   }
 
   public onMouseDown({ app }: AppMouseEvent): void {

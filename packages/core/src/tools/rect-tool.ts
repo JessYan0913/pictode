@@ -1,24 +1,22 @@
-import Konva from 'konva';
-
 import App from '../app';
 import { Rect } from '../customs/rect';
 import { AppMouseEvent, Tool } from '../types';
+import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 class RectTool implements Tool {
   public name: string = 'rectTool';
-  private startPointer: Konva.Vector2d = { x: 0, y: 0 };
+  private startPointer: Point = new Point(0, 0);
   private rectangle: Rect | null = null;
 
   public onActive(app: App): void {
     app.select();
-    this.startPointer = { x: 0, y: 0 };
   }
 
   public onInactive(): void {
     this.rectangle = null;
-    this.startPointer = { x: 0, y: 0 };
+    this.startPointer.setXY(0, 0);
   }
 
   public onMouseDown({ app }: AppMouseEvent): void {

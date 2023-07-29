@@ -1,12 +1,11 @@
-import Konva from 'konva';
-
 import App from '../app';
 import { Line } from '../customs/line';
 import { AppMouseEvent, Tool } from '../types';
+import { Point } from '../utils';
 
 class LineTool implements Tool {
   public name: string = 'polylineTool';
-  private points: Konva.Vector2d[] = [];
+  private points: Point[] = [];
   private line: Line | null = null;
 
   public onActive(app: App): void {

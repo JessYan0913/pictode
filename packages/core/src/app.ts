@@ -3,6 +3,7 @@ import Konva from 'konva';
 
 import { MouseService } from './services/mouse';
 import { ChildType, EventArgs, Plugin, Tool } from './types';
+import { Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
@@ -41,8 +42,9 @@ export class App extends BaseService<EventArgs> {
     this.mouse = new MouseService(this);
   }
 
-  public get pointer(): Konva.Vector2d {
-    return this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+  public get pointer(): Point {
+    const { x, y } = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+    return new Point(x, y);
   }
 
   public mount(element: HTMLElement) {

@@ -1,11 +1,10 @@
-import Konva from 'konva';
-
 import { Triangle } from '../customs/triangle';
 import { Tool } from '../types';
+import { Point } from '../utils';
 
 class TriangleTool implements Tool {
   public name: string = 'triangleTool';
-  private startPointer: Konva.Vector2d = { x: 0, y: 0 };
+  private startPointer: Point = new Point(0, 0);
   private triangle: Triangle | null = null;
 
   public onActive(): void {}
