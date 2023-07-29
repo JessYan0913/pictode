@@ -1,19 +1,26 @@
+import Konva from 'konva';
+
+import App from '../app';
 import { Line } from '../customs/line';
-import { Tool } from '../types';
+import { AppMouseEvent, Tool } from '../types';
 
 class LineTool implements Tool {
   public name: string = 'polylineTool';
-  private polyline: Line | null = null;
+  private points: Konva.Vector2d[] = [];
+  private line: Line | null = null;
 
-  public onActive(): void {
-    throw new Error('Method not implemented.');
+  public onActive(app: App): void {
+    app.select();
   }
 
   public onInactive(): void {
-    throw new Error('Method not implemented.');
+    this.line = null;
+    this.points = [];
   }
 
-  public onMouseDown(): void {}
+  public onMouseDown({ app }: AppMouseEvent): void {
+    console.log('===>', app);
+  }
 
   public onMouseMove(): void {}
 
