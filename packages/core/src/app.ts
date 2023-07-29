@@ -102,6 +102,7 @@ export class App extends BaseService<EventArgs> {
 
   public select(...children: ChildType[]): void {
     this.selected.forEach((child) => child.draggable(false));
+    this.selector.nodes([]);
     this.selected = children.map((child) => {
       child.draggable(true);
       return child;

@@ -1,4 +1,6 @@
-import { ChildType, Tool } from '../types';
+import Konva from 'konva';
+
+import { AppMouseEvent, ChildType, Tool } from '../types';
 
 export const selectTool = (...shapes: ChildType[]): Tool => {
   return {
@@ -7,7 +9,13 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       app.select(...shapes);
     },
     onInactive() {},
-    onMouseDown() {},
+    onMouseClick({ app, event }: AppMouseEvent) {
+      if (event.target instanceof Konva.Stage) {
+        app.select();
+      } else {
+        app.select(event.target);
+      }
+    },
   };
 };
 
