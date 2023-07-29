@@ -56,7 +56,11 @@ export class App extends BaseService<EventArgs> {
 
   public setTool(curTool: Tool): void {
     const oldTool = this.currentTool;
+    if (oldTool) {
+      oldTool.onInactive(this);
+    }
     this.currentTool = curTool;
+    this.currentTool.onActive(this);
     this.render();
     this.emit('tool:changed', { oldTool, curTool });
   }

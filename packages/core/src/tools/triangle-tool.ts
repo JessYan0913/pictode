@@ -9,6 +9,10 @@ class TriangleTool implements Tool {
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private triangle: Triangle | null = null;
 
+  public onActive(): void {}
+
+  public onInactive(): void {}
+
   public onMouseDown(): void {}
 
   public onMouseMove(): void {}

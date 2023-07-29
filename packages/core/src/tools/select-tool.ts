@@ -3,9 +3,8 @@ import { Tool } from '../types';
 export const selectTool: Tool = {
   name: 'selectTool',
   drawable: false,
-  onMouseClick(event) {
-    console.log('====>', event);
-  },
+  onActive() {},
+  onInactive() {},
 };
 
 export default selectTool;

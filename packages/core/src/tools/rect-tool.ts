@@ -9,6 +9,10 @@ class RectTool implements Tool {
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private rectangle: Rect | null = null;
 
+  public onActive(): void {}
+
+  public onInactive(): void {}
+
   public onMouseDown({ app }: AppMouseEvent): void {
     this.startPointer = app.pointer;
     this.rectangle = new Rect({

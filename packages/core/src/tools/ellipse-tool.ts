@@ -9,6 +9,14 @@ class EllipseTool implements Tool {
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private ellipse: Ellipse | null = null;
 
+  public onActive(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  public onInactive(): void {
+    throw new Error('Method not implemented.');
+  }
+
   public onMouseDown(): void {}
 
   public onMouseMove(): void {}

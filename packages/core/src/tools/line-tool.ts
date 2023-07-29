@@ -6,6 +6,14 @@ class LineTool implements Tool {
   public drawable: boolean = true;
   private polyline: Line | null = null;
 
+  public onActive(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  public onInactive(): void {
+    throw new Error('Method not implemented.');
+  }
+
   public onMouseDown(): void {}
 
   public onMouseMove(): void {}
