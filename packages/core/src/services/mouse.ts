@@ -1,5 +1,3 @@
-import Konva from 'konva';
-
 import { App } from '../app';
 import { KonvaMouseEvent, Service } from '../types';
 
@@ -7,15 +5,7 @@ export class MouseService extends Service {
   constructor(app: App) {
     super(app);
     (
-      [
-        'onMouseDown',
-        'onMouseUp',
-        'onMouseMove',
-        'onMouseDoubleClick',
-        'onMouseOver',
-        'onMouseOut',
-        'onMouseClick',
-      ] as (keyof this)[]
+      ['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseDoubleClick', 'onMouseOver', 'onMouseOut'] as (keyof this)[]
     ).forEach((method) => {
       method = method as keyof MouseService;
       this[method] = (this[method] as Function).bind(this);
@@ -27,7 +17,6 @@ export class MouseService extends Service {
     this.app.stage.on('mouseover', this.onMouseOver);
     this.app.stage.on('mouseout', this.onMouseOut);
     this.app.stage.on('dblclick', this.onMouseDoubleClick);
-    this.app.stage.on('click', this.onMouseClick);
   }
 
   private onMouseDown(event: KonvaMouseEvent): void {
@@ -72,19 +61,6 @@ export class MouseService extends Service {
     this.app.currentTool.onMouseDoubleClick({ event, app: this.app });
   }
 
-  private onMouseClick(event: KonvaMouseEvent): void {
-    if (event.target instanceof Konva.Stage) {
-      this.app.select();
-    } else {
-      this.app.select(event.target);
-    }
-
-    if (!this.app.currentTool || !this.app.currentTool.onMouseClick) {
-      return;
-    }
-    this.app.currentTool.onMouseClick({ event, app: this.app });
-  }
-
   public dispose(): void {
     this.app.stage.off('mousedown', this.onMouseDown);
     this.app.stage.off('mouseup', this.onMouseUp);
@@ -92,6 +68,5 @@ export class MouseService extends Service {
     this.app.stage.off('mouseover', this.onMouseOver);
     this.app.stage.off('mouseout', this.onMouseOut);
     this.app.stage.off('dblclick', this.onMouseDoubleClick);
-    this.app.stage.off('click', this.onMouseClick);
   }
 }

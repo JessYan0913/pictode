@@ -26,7 +26,6 @@ export interface Tool {
   onMouseMove?: (event: AppMouseEvent) => void;
   onMouseUp?: (event: AppMouseEvent) => void;
   onMouseDoubleClick?: (event: AppMouseEvent) => void;
-  onMouseClick?: (event: AppMouseEvent) => void;
   onMouseOver?: (event: AppMouseEvent) => void;
   onMouseOut?: (event: AppMouseEvent) => void;
 }
