@@ -29,6 +29,7 @@ export class App extends BaseService<EventArgs> {
       width: 500,
       height: 500,
     });
+    this.stage.container().style.backgroundColor = '#fff';
     this.mainLayer = new Konva.Layer();
     this.mainLayer.name('pictode:main:layer');
     this.stage.add(this.mainLayer);
