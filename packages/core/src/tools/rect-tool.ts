@@ -1,5 +1,6 @@
 import Konva from 'konva';
 
+import App from '../app';
 import { Rect } from '../customs/rect';
 import { AppMouseEvent, Tool } from '../types';
 
@@ -10,7 +11,8 @@ class RectTool implements Tool {
   private startPointer: Konva.Vector2d = { x: 0, y: 0 };
   private rectangle: Rect | null = null;
 
-  public onActive(): void {
+  public onActive(app: App): void {
+    app.select();
     this.startPointer = { x: 0, y: 0 };
   }
 
