@@ -36,7 +36,34 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer.name('pictode:main:layer');
     this.stage.add(this.mainLayer);
 
-    this.selector = new Konva.Transformer();
+    this.selector = new Konva.Transformer({
+      padding: 3,
+      borderStroke: 'rgb(157, 157, 231)',
+      borderStrokeWidth: 1,
+      anchorSize: 8,
+      anchorStroke: 'rgb(157, 157, 231)',
+      anchorCornerRadius: 3,
+      anchorStrokeWidth: 1,
+      rotateAnchorOffset: 20,
+    });
+    this.selector.anchorStyleFunc((anchor) => {
+      if (!anchor.hasName('rotater')) {
+        return;
+      }
+      const setAnchorCursor = (cursor: string = '') => {
+        const anchorStage = anchor.getStage();
+        if (!anchorStage || !anchorStage.content) {
+          return;
+        }
+        anchorStage.content.style.cursor = cursor;
+      };
+      anchor.on('mouseenter', () => {
+        setAnchorCursor('grab');
+      });
+      anchor.on('mouseout', () => {
+        setAnchorCursor();
+      });
+    });
     this.mainLayer.add(this.selector);
 
     this.mouse = new MouseService(this);
