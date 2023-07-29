@@ -14,12 +14,12 @@ onMounted(() => {
 <template>
   <div class="wrapper">
     <div class="tools">
-      <button @click="app.setTool(selectTool)">选择🖱️</button>
-      <button @click="app.setTool(rectTool)">矩形⬜️</button>
-      <button @click="app.setTool(ellipseTool)">圆形⭕️</button>
-      <button @click="app.setTool(triangleTool)">三角形🔺</button>
-      <button @click="app.setTool(lineTool)">线条📉</button>
-      <button @click="app.setTool(drawingTool)">铅笔✏️</button>
+      <button @click="app.setTool(selectTool())">选择🖱️</button>
+      <button @click="app.setTool(rectTool())">矩形⬜️</button>
+      <button @click="app.setTool(ellipseTool())">圆形⭕️</button>
+      <button @click="app.setTool(triangleTool())">三角形🔺</button>
+      <button @click="app.setTool(lineTool())">线条📉</button>
+      <button @click="app.setTool(drawingTool())">铅笔✏️</button>
     </div>
     <div ref="containerRef" class="container"></div>
   </div>
