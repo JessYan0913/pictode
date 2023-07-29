@@ -48,8 +48,7 @@ class EllipseTool implements Tool {
     // 根据起点和鼠标位置计算椭圆的中心位置
     const centerX = this.startPointer.x + dx / 2;
     const centerY = this.startPointer.y + dy / 2;
-    this.ellipse.x(centerX);
-    this.ellipse.y(centerY);
+    this.ellipse.setPosition(new Point(centerX, centerY));
     this.ellipse.radiusX(radiusX);
     this.ellipse.radiusY(radiusY);
     app.render();

@@ -21,4 +21,12 @@ export class Point implements Konva.Vector2d {
     this.x = x;
     this.y = y;
   }
+
+  public eq(point: Point): boolean {
+    return this.x === point.x && this.y === point.y;
+  }
+
+  public toArray(): number[] {
+    return [this.x, this.y];
+  }
 }
