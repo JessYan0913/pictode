@@ -8,6 +8,7 @@ export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public currentTool: Tool | null = null;
   public mainLayer: Konva.Layer;
+  public selected: ChildType[] = [];
 
   private selector: Konva.Transformer;
   private mouse: MouseService;
@@ -57,7 +58,6 @@ export class App extends BaseService<EventArgs> {
   public setTool(curTool: Tool): void {
     const oldTool = this.currentTool;
     if (oldTool) {
-      console.log('oldTool', oldTool);
       oldTool.onInactive(this);
     }
     this.currentTool = curTool;
@@ -72,6 +72,11 @@ export class App extends BaseService<EventArgs> {
   }
 
   public select(...children: ChildType[]): void {
+    this.selected.forEach((child) => child.draggable(false));
+    this.selected = children.map((child) => {
+      child.draggable(true);
+      return child;
+    });
     this.selector.nodes(children);
   }
 

@@ -1,3 +1,5 @@
+import Konva from 'konva';
+
 import { App } from '../app';
 import { KonvaMouseEvent, Service } from '../types';
 
@@ -71,6 +73,12 @@ export class MouseService extends Service {
   }
 
   private onMouseClick(event: KonvaMouseEvent): void {
+    if (event.target instanceof Konva.Stage) {
+      this.app.select();
+    } else {
+      this.app.select(event.target);
+    }
+
     if (!this.app.currentTool || !this.app.currentTool.onMouseClick) {
       return;
     }
