@@ -70,7 +70,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public get pointer(): Point {
-    const { x, y } = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+    const { x, y } = this.stage.getRelativePointerPosition() ?? { x: 0, y: 0 };
     return new Point(x, y);
   }
 
@@ -108,6 +108,29 @@ export class App extends BaseService<EventArgs> {
       return child;
     });
     this.selector.nodes(children);
+  }
+
+  public async getShapesInArea(shape: Konva.Shape): Promise<(Konva.Shape | Konva.Group)[]> {
+    return await this.mainLayer.getChildren(
+      (node) => node instanceof Konva.Shape && node.visible() && node !== shape && this.haveIntersection(shape, node)
+    );
+  }
+
+  public haveIntersection(shape1: Konva.Shape, shape2: Konva.Shape): boolean {
+    /** getClientRect()方法用于获取图形的边界矩形（bounding rectangle）。
+     * 假设你有一个Konva.js的舞台（stage）和多个图形（shapes），这些图形有可能被嵌套在不同的容器中，
+     * 而容器又被嵌套在其他容器中。如果你想获取某个图形相对于舞台的边界矩形，直接使用shape.getClientRect()将会得到相对于该图形自身的边界矩形。
+     * 而这并不能满足你对整个舞台上图形相对位置的需求。
+     * 但是，通过设置relativeTo: stage参数，shape.getClientRect({relativeTo: stage})将会返回该图形相对于舞台的边界矩形，
+     * 这样你就能够正确获取图形在整个舞台上的相对位置和尺寸信息。
+     * 这对于一些场景很重要，例如碰撞检测、相交检测、拖放功能等。
+     * 使用relativeTo参数，可以在复杂的图形结构中正确地定位图形，并在需要时进行适当的计算。这样就可以更灵活和准确地处理图形之间的交互。
+     *
+     */
+    const r1 = shape1.getClientRect({ relativeTo: this.stage });
+    const r2 = shape2.getClientRect({ relativeTo: this.stage });
+
+    return !(r2.x > r1.x + r1.width || r2.x + r2.width < r1.x || r2.y > r1.y + r1.height || r2.y + r2.height < r1.y);
   }
 
   public render(): void {

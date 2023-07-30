@@ -3,6 +3,7 @@ import Konva from 'konva';
 import App from './app';
 
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
+export type Shape = Konva.Shape;
 export type ChildType = Konva.Group | Konva.Shape;
 
 export interface Plugin {
