@@ -1,7 +1,7 @@
 import { App } from '../app';
 import { KonvaMouseEvent, Service } from '../types';
 
-export class MouseService extends Service {
+export class Mouse extends Service {
   constructor(app: App) {
     super(app);
     (
@@ -15,7 +15,7 @@ export class MouseService extends Service {
         'onMouseClick',
       ] as (keyof this)[]
     ).forEach((method) => {
-      method = method as keyof MouseService;
+      method = method as keyof Mouse;
       this[method] = (this[method] as Function).bind(this);
     });
 

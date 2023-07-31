@@ -1,7 +1,7 @@
 import { BaseService } from '@pictode/utils';
 import Konva from 'konva';
 
-import { MouseService } from './services/mouse';
+import { Mouse } from './services/mouse';
 import { Selector } from './services/selector';
 import { ChildType, EventArgs, KonvaMouseEvent, Plugin, Tool } from './types';
 import { Point } from './utils';
@@ -11,7 +11,7 @@ export class App extends BaseService<EventArgs> {
   public currentTool: Tool | null = null;
   public mainLayer: Konva.Layer;
 
-  private mouse: MouseService;
+  private mouse: Mouse;
   private selector: Selector;
   private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
@@ -37,7 +37,7 @@ export class App extends BaseService<EventArgs> {
     this.stage.add(this.mainLayer);
 
     this.selector = new Selector(this);
-    this.mouse = new MouseService(this);
+    this.mouse = new Mouse(this);
   }
 
   public get pointer(): Point {
@@ -52,7 +52,7 @@ export class App extends BaseService<EventArgs> {
       height: element.clientHeight,
     });
 
-    this.mouse = new MouseService(this);
+    this.mouse = new Mouse(this);
   }
 
   public setTool(curTool: Tool): void {
