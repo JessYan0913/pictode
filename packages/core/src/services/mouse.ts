@@ -1,3 +1,5 @@
+import Konva from 'konva';
+
 import { App } from '../app';
 import { KonvaMouseEvent, Service } from '../types';
 
@@ -43,6 +45,12 @@ export class Mouse extends Service {
   }
 
   private onMouseMove(event: KonvaMouseEvent): void {
+    if (event.target instanceof Konva.Stage) {
+      document.body.style.cursor = 'default';
+    } else {
+      document.body.style.cursor = 'move';
+    }
+
     if (!this.app.currentTool || !this.app.currentTool.onMouseMove) {
       return;
     }

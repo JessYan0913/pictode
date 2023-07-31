@@ -7,6 +7,7 @@ import { ChildType, Service } from '../types';
 export class Selector extends Service {
   public selected: ChildType[];
   public optionLayer: Konva.Layer;
+  public enable: boolean = false;
 
   private selector: Konva.Transformer;
   private rubberRect: Rect;
@@ -66,7 +67,6 @@ export class Selector extends Service {
       this.selected.push(child);
     });
     this.selector.nodes(children);
-    this.selector.moveToTop();
     this.app.render();
   }
 
