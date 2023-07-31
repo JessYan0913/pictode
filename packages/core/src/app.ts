@@ -108,6 +108,7 @@ export class App extends BaseService<EventArgs> {
       return child;
     });
     this.selector.nodes(children);
+    this.selector.moveToTop();
   }
 
   public async getShapesInArea(shape: Konva.Shape): Promise<(Konva.Shape | Konva.Group)[]> {
