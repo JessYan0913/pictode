@@ -41,12 +41,7 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       rubberRect.height(height);
       rubberRect.visible(true);
     },
-    onMouseUp({ app }) {
-      console.log('rubber Rect id', rubberRect);
-
-      app.getShapesInArea(rubberRect).then((res) => {
-        console.log('====>', res);
-      });
+    onMouseUp() {
       isRubberSelector = false;
       rubberRect.visible(false);
     },
