@@ -2,7 +2,7 @@ import Konva from 'konva';
 
 import { App } from '../app';
 import { Rect } from '../customs/rect';
-import { ChildType, Service } from '../types';
+import { ChildType, EventArgs, Service } from '../types';
 import { Point } from '../utils';
 
 export class Selector extends Service {
@@ -59,7 +59,7 @@ export class Selector extends Service {
     });
     this.optionLayer.add(this.rubberRect);
 
-    (['onMouseDown', 'onMouseUp', 'onMouseMove'] as (keyof this)[]).forEach((method) => {
+    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick'] as (keyof this)[]).forEach((method) => {
       method = method as keyof Selector;
       this[method] = (this[method] as Function).bind(this);
     });
@@ -67,6 +67,7 @@ export class Selector extends Service {
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
+    this.app.on('mouse:click', this.onMouseClick);
   }
 
   public select(...children: ChildType[]): void {
@@ -103,10 +104,19 @@ export class Selector extends Service {
     this.rubberRect.visible(false);
   }
 
+  private onMouseClick({ event }: EventArgs['mouse:click']): void {
+    if (event.target instanceof Konva.Stage) {
+      this.select();
+    } else {
+      this.select(event.target);
+    }
+  }
+
   public dispose(): void {
     this.app.off('mouse:down', this.onMouseDown);
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
+    this.app.off('mouse:click', this.onMouseClick);
     this.selected = [];
     this.selector.destroy();
     this.optionLayer.destroy();
