@@ -71,6 +71,9 @@ export class Selector extends Service {
   }
 
   public select(...children: ChildType[]): void {
+    if (!this.enable) {
+      return;
+    }
     this.selected.forEach((child) => child.draggable(false));
     this.selected = [];
     this.selector.nodes([]);
@@ -83,11 +86,22 @@ export class Selector extends Service {
   }
 
   private onMouseDown(): void {
+    if (!this.enable) {
+      return;
+    }
     this.rubberStartPoint.clone(this.app.pointer);
     this.rubberRect.setPosition(this.rubberStartPoint);
   }
 
-  private onMouseMove(): void {
+  private onMouseMove({ event }: EventArgs['mouse:move']): void {
+    if (!this.enable) {
+      return;
+    }
+    if (event.target instanceof Konva.Stage) {
+      document.body.style.cursor = 'default';
+    } else {
+      document.body.style.cursor = 'move';
+    }
     const position = new Point(
       Math.min(this.app.pointer.x, this.rubberStartPoint.x),
       Math.min(this.app.pointer.y, this.rubberStartPoint.y)
@@ -101,10 +115,16 @@ export class Selector extends Service {
   }
 
   private onMouseUp(): void {
+    if (!this.enable) {
+      return;
+    }
     this.rubberRect.visible(false);
   }
 
   private onMouseClick({ event }: EventArgs['mouse:click']): void {
+    if (!this.enable) {
+      return;
+    }
     if (event.target instanceof Konva.Stage) {
       this.select();
     } else {
@@ -118,6 +138,7 @@ export class Selector extends Service {
     this.app.off('mouse:up', this.onMouseUp);
     this.app.off('mouse:click', this.onMouseClick);
     this.selected = [];
+    this.enable = false;
     this.selector.destroy();
     this.optionLayer.destroy();
   }

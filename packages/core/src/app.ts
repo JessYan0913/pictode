@@ -53,6 +53,8 @@ export class App extends BaseService<EventArgs> {
     });
   }
 
+  public triggerSelector(): void {}
+
   public setTool(curTool: Tool): void {
     const oldTool = this.currentTool;
     if (oldTool) {
