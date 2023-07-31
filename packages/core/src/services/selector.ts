@@ -3,6 +3,7 @@ import Konva from 'konva';
 import { App } from '../app';
 import { Rect } from '../customs/rect';
 import { ChildType, Service } from '../types';
+import { Point } from '../utils';
 
 export class Selector extends Service {
   public selected: ChildType[];
@@ -11,6 +12,7 @@ export class Selector extends Service {
 
   private selector: Konva.Transformer;
   private rubberRect: Rect;
+  private rubberStartPoint: Point = new Point(0, 0);
 
   constructor(app: App) {
     super(app);
@@ -56,6 +58,15 @@ export class Selector extends Service {
       listening: false,
     });
     this.optionLayer.add(this.rubberRect);
+
+    (['onMouseDown', 'onMouseUp', 'onMouseMove'] as (keyof this)[]).forEach((method) => {
+      method = method as keyof Selector;
+      this[method] = (this[method] as Function).bind(this);
+    });
+
+    this.app.on('mouse:down', this.onMouseDown);
+    this.app.on('mouse:move', this.onMouseMove);
+    this.app.on('mouse:up', this.onMouseUp);
   }
 
   public select(...children: ChildType[]): void {
@@ -70,7 +81,32 @@ export class Selector extends Service {
     this.app.render();
   }
 
+  private onMouseDown(): void {
+    this.rubberStartPoint.clone(this.app.pointer);
+    this.rubberRect.setPosition(this.rubberStartPoint);
+  }
+
+  private onMouseMove(): void {
+    const position = new Point(
+      Math.min(this.app.pointer.x, this.rubberStartPoint.x),
+      Math.min(this.app.pointer.y, this.rubberStartPoint.y)
+    );
+    const width = Math.max(this.app.pointer.x, this.rubberStartPoint.x) - position.x;
+    const height = Math.max(this.app.pointer.y, this.rubberStartPoint.y) - position.y;
+    this.rubberRect.setPosition(position);
+    this.rubberRect.width(width);
+    this.rubberRect.height(height);
+    this.rubberRect.visible(true);
+  }
+
+  private onMouseUp(): void {
+    this.rubberRect.visible(false);
+  }
+
   public dispose(): void {
+    this.app.off('mouse:down', this.onMouseDown);
+    this.app.off('mouse:move', this.onMouseMove);
+    this.app.off('mouse:up', this.onMouseUp);
     this.selected = [];
     this.selector.destroy();
     this.optionLayer.destroy();

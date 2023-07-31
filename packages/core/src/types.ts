@@ -56,6 +56,27 @@ export interface EventArgs {
   'shape:removed': {
     object: ChildType;
   };
+  'mouse:down': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:up': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:move': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:click': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:dbclick': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:over': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:out': {
+    event: KonvaMouseEvent;
+  };
 }
 
 export interface ControlVisible {

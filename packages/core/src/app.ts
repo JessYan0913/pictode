@@ -51,8 +51,6 @@ export class App extends BaseService<EventArgs> {
       width: element.clientWidth,
       height: element.clientHeight,
     });
-
-    this.mouse = new Mouse(this);
   }
 
   public setTool(curTool: Tool): void {

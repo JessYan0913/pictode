@@ -31,6 +31,7 @@ export class Mouse extends Service {
   }
 
   private onMouseDown(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:down', { event });
     if (!this.app.currentTool || !this.app.currentTool.onMouseDown) {
       return;
     }
@@ -38,6 +39,7 @@ export class Mouse extends Service {
   }
 
   private onMouseUp(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:up', { event });
     if (!this.app.currentTool || !this.app.currentTool.onMouseUp) {
       return;
     }
@@ -45,6 +47,7 @@ export class Mouse extends Service {
   }
 
   private onMouseMove(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:move', { event });
     if (event.target instanceof Konva.Stage) {
       document.body.style.cursor = 'default';
     } else {
@@ -58,6 +61,7 @@ export class Mouse extends Service {
   }
 
   private onMouseOver(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:over', { event });
     if (!this.app.currentTool || !this.app.currentTool.onMouseOver) {
       return;
     }
@@ -65,6 +69,7 @@ export class Mouse extends Service {
   }
 
   private onMouseOut(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:out', { event });
     if (!this.app.currentTool || !this.app.currentTool.onMouseOut) {
       return;
     }
@@ -72,6 +77,7 @@ export class Mouse extends Service {
   }
 
   private onMouseDoubleClick(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:dbclick', { event });
     if (!this.app.currentTool || !this.app.currentTool.onMouseDoubleClick) {
       return;
     }
@@ -79,6 +85,7 @@ export class Mouse extends Service {
   }
 
   private onMouseClick(event: KonvaMouseEvent): void {
+    this.app.emit('mouse:click', { event });
     if (!this.app.currentTool || !this.app.currentTool.onMouseClick) {
       return;
     }
