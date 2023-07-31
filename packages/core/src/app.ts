@@ -2,6 +2,7 @@ import { BaseService } from '@pictode/utils';
 import Konva from 'konva';
 
 import { MouseService } from './services/mouse';
+import { Selector } from './services/selector';
 import { ChildType, EventArgs, KonvaMouseEvent, Plugin, Tool } from './types';
 import { Point } from './utils';
 
@@ -9,10 +10,9 @@ export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public currentTool: Tool | null = null;
   public mainLayer: Konva.Layer;
-  public selected: ChildType[] = [];
 
-  private selector: Konva.Transformer;
   private mouse: MouseService;
+  private selector: Selector;
   private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
 
@@ -36,36 +36,7 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer.name('pictode:main:layer');
     this.stage.add(this.mainLayer);
 
-    this.selector = new Konva.Transformer({
-      padding: 3,
-      borderStroke: 'rgb(157, 157, 231)',
-      borderStrokeWidth: 1,
-      anchorSize: 8,
-      anchorStroke: 'rgb(157, 157, 231)',
-      anchorCornerRadius: 3,
-      anchorStrokeWidth: 1,
-      rotateAnchorOffset: 20,
-    });
-    this.selector.anchorStyleFunc((anchor) => {
-      if (!anchor.hasName('rotater')) {
-        return;
-      }
-      const setAnchorCursor = (cursor: string = '') => {
-        const anchorStage = anchor.getStage();
-        if (!anchorStage || !anchorStage.content) {
-          return;
-        }
-        anchorStage.content.style.cursor = cursor;
-      };
-      anchor.on('mouseenter', () => {
-        setAnchorCursor('grab');
-      });
-      anchor.on('mouseout', () => {
-        setAnchorCursor();
-      });
-    });
-    this.mainLayer.add(this.selector);
-
+    this.selector = new Selector(this);
     this.mouse = new MouseService(this);
   }
 
@@ -101,15 +72,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public select(...children: ChildType[]): void {
-    this.selected.forEach((child) => child.draggable(false));
-    this.selected = [];
-    this.selector.nodes([]);
-    children.forEach((child) => {
-      child.draggable(true);
-      this.selected.push(child);
-    });
-    this.selector.nodes(children);
-    this.selector.moveToTop();
+    this.selector.select(...children);
   }
 
   public selectByEvent(event: KonvaMouseEvent): void {
