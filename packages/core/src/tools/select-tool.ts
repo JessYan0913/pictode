@@ -16,6 +16,7 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
     listening: false,
   });
   let isRubberSelector: boolean = false;
+
   return {
     name: 'selectTool',
     onActive(app) {
@@ -23,6 +24,7 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       app.add(rubberRect);
     },
     onInactive() {
+      rubberRect.destroy();
       startPointer.setXY(0, 0);
     },
     onMouseDown({ app }) {

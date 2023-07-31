@@ -5,8 +5,12 @@ import { Point } from '../utils';
 import { selectTool } from './select-tool';
 
 export const rectTool = (): Tool => {
-  let startPointer: Point = new Point(0, 0);
-  let rectangle: Rect | null = null;
+  const startPointer: Point = new Point(0, 0);
+  const rectangle: Rect = new Rect({
+    fill: 'transparent',
+    stroke: 'black',
+    strokeWidth: 2,
+  });
 
   return {
     name: 'rectTool',
@@ -14,18 +18,15 @@ export const rectTool = (): Tool => {
       app.select();
     },
     onInactive() {
-      rectangle = null;
       startPointer.setXY(0, 0);
     },
     onMouseDown({ app }: AppMouseEvent): void {
-      startPointer = app.pointer;
-      rectangle = new Rect({
-        x: startPointer.x,
-        y: startPointer.y,
-        fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
-      });
+      startPointer.clone(app.pointer);
+      rectangle.setPosition(
+        new Point(Math.min(startPointer.x, app.pointer.x), Math.min(startPointer.y, app.pointer.y))
+      );
+      rectangle.width(0);
+      rectangle.height(0);
       app.add(rectangle);
     },
     onMouseMove({ app }: AppMouseEvent): void {

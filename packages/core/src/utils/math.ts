@@ -29,4 +29,8 @@ export class Point implements Konva.Vector2d {
   public toArray(): number[] {
     return [this.x, this.y];
   }
+
+  public clone(point: Point): void {
+    this.setXY(point.x, point.y);
+  }
 }
