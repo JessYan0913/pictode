@@ -17,6 +17,14 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
   });
   let isRubberSelector: boolean = false;
 
+  const selectByEvent = ({ app, event }: AppMouseEvent) => {
+    if (event.target instanceof Konva.Stage) {
+      app.select();
+    } else {
+      app.select(event.target);
+    }
+  };
+
   return {
     name: 'selectTool',
     onActive(app) {
@@ -27,7 +35,8 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       rubberRect.destroy();
       startPointer.setXY(0, 0);
     },
-    onMouseDown({ app }) {
+    onMouseDown({ app, event }) {
+      selectByEvent({ app, event });
       isRubberSelector = true;
       startPointer.setXY(app.pointer.x, app.pointer.y);
     },
@@ -48,11 +57,7 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       rubberRect.visible(false);
     },
     onMouseClick({ app, event }: AppMouseEvent) {
-      if (event.target instanceof Konva.Stage) {
-        app.select();
-      } else {
-        app.select(event.target);
-      }
+      selectByEvent({ app, event });
     },
   };
 };
