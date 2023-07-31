@@ -20,12 +20,12 @@ export class MouseService extends Service {
     });
 
     this.app.stage.on<'mousedown'>('mousedown', this.onMouseDown);
-    this.app.stage.on('mouseup', this.onMouseUp);
-    this.app.stage.on('mousemove', this.onMouseMove);
-    this.app.stage.on('mouseover', this.onMouseOver);
-    this.app.stage.on('mouseout', this.onMouseOut);
-    this.app.stage.on('dblclick', this.onMouseDoubleClick);
-    this.app.stage.on('click', this.onMouseClick);
+    this.app.stage.on<'mouseup'>('mouseup', this.onMouseUp);
+    this.app.stage.on<'mousemove'>('mousemove', this.onMouseMove);
+    this.app.stage.on<'mouseover'>('mouseover', this.onMouseOver);
+    this.app.stage.on<'mouseout'>('mouseout', this.onMouseOut);
+    this.app.stage.on<'dblclick'>('dblclick', this.onMouseDoubleClick);
+    this.app.stage.on<'click'>('click', this.onMouseClick);
   }
 
   private onMouseDown(event: KonvaMouseEvent): void {
