@@ -2,7 +2,7 @@ import { BaseService } from '@pictode/utils';
 import Konva from 'konva';
 
 import { MouseService } from './services/mouse';
-import { ChildType, EventArgs, Plugin, Tool } from './types';
+import { ChildType, EventArgs, KonvaMouseEvent, Plugin, Tool } from './types';
 import { Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
@@ -110,6 +110,14 @@ export class App extends BaseService<EventArgs> {
     });
     this.selector.nodes(children);
     this.selector.moveToTop();
+  }
+
+  public selectByEvent(event: KonvaMouseEvent): void {
+    if (event.target instanceof Konva.Stage) {
+      this.select();
+    } else {
+      this.select(event.target);
+    }
   }
 
   public async getShapesInArea(shape: Konva.Shape): Promise<(Konva.Shape | Konva.Group)[]> {

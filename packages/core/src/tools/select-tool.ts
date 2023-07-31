@@ -1,5 +1,3 @@
-import Konva from 'konva';
-
 import { Rect } from '../customs/rect';
 import { AppMouseEvent, ChildType, Tool } from '../types';
 import { Point } from '../utils';
@@ -17,14 +15,6 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
   });
   let isRubberSelector: boolean = false;
 
-  const selectByEvent = ({ app, event }: AppMouseEvent) => {
-    if (event.target instanceof Konva.Stage) {
-      app.select();
-    } else {
-      app.select(event.target);
-    }
-  };
-
   return {
     name: 'selectTool',
     onActive(app) {
@@ -36,7 +26,7 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       startPointer.setXY(0, 0);
     },
     onMouseDown({ app, event }) {
-      selectByEvent({ app, event });
+      app.selectByEvent(event);
       isRubberSelector = true;
       startPointer.setXY(app.pointer.x, app.pointer.y);
     },
@@ -57,7 +47,7 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
       rubberRect.visible(false);
     },
     onMouseClick({ app, event }: AppMouseEvent) {
-      selectByEvent({ app, event });
+      app.selectByEvent(event);
     },
   };
 };
