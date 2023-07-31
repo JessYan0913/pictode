@@ -22,9 +22,7 @@ export const rectTool = (): Tool => {
     },
     onMouseDown({ app }: AppMouseEvent): void {
       startPointer.clone(app.pointer);
-      rectangle.setPosition(
-        new Point(Math.min(startPointer.x, app.pointer.x), Math.min(startPointer.y, app.pointer.y))
-      );
+      rectangle.setPosition(startPointer);
       rectangle.width(0);
       rectangle.height(0);
       app.add(rectangle);

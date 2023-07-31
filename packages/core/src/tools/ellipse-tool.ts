@@ -5,8 +5,14 @@ import { Point } from '../utils';
 import { selectTool } from './select-tool';
 
 export const ellipseTool = (): Tool => {
-  let startPointer: Point = new Point(0, 0);
-  let ellipse: Ellipse | null = null;
+  const startPointer: Point = new Point(0, 0);
+  const ellipse: Ellipse = new Ellipse({
+    radiusX: 0,
+    radiusY: 0,
+    fill: 'transparent',
+    stroke: 'black',
+    strokeWidth: 2,
+  });
 
   return {
     name: 'ellipseTool',
@@ -14,20 +20,12 @@ export const ellipseTool = (): Tool => {
       app.select();
     },
     onInactive() {
-      ellipse = null;
       startPointer.setXY(0, 0);
     },
     onMouseDown({ app }: AppMouseEvent): void {
-      startPointer = app.pointer;
-      ellipse = new Ellipse({
-        x: startPointer.x,
-        y: startPointer.y,
-        radiusX: 0,
-        radiusY: 0,
-        fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
-      });
+      startPointer.clone(app.pointer);
+      ellipse.setPosition(startPointer);
+      ellipse.radius(new Point(0, 0));
       app.add(ellipse);
     },
     onMouseMove({ app }: AppMouseEvent): void {
@@ -39,13 +37,10 @@ export const ellipseTool = (): Tool => {
       const dy = app.pointer.y - startPointer.y;
 
       // 计算椭圆的宽度和高度的绝对值
-      const radiusX = Math.abs(dx) / 2;
-      const radiusY = Math.abs(dy) / 2;
-
+      const radius = new Point(Math.abs(dx) / 2, Math.abs(dy) / 2);
       // 根据起点和鼠标位置计算椭圆的中心位置
       ellipse.setPosition(new Point(startPointer.x + dx / 2, startPointer.y + dy / 2));
-      ellipse.radiusX(radiusX);
-      ellipse.radiusY(radiusY);
+      ellipse.radius(radius);
       app.render();
     },
     onMouseUp({ app }: AppMouseEvent): void {
