@@ -9,7 +9,6 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
     },
     onInactive(app) {
       app.triggerSelector(false);
-      app.select();
     },
   };
 };

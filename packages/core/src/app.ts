@@ -70,6 +70,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public triggerSelector(enable?: boolean): void {
+    this.select();
     this.selector.triggerSelector(enable);
   }
 
