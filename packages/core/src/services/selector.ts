@@ -13,6 +13,7 @@ export class Selector extends Service {
   private selector: Konva.Transformer;
   private rubberRect: Rect;
   private rubberStartPoint: Point = new Point(0, 0);
+  private rubberEnable: boolean = false;
 
   constructor(app: App) {
     super(app);
@@ -59,7 +60,7 @@ export class Selector extends Service {
     });
     this.optionLayer.add(this.rubberRect);
 
-    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick'] as (keyof this)[]).forEach((method) => {
+    (['onMouseDown', 'onMouseUp', 'onMouseMove'] as (keyof this)[]).forEach((method) => {
       method = method as keyof Selector;
       this[method] = (this[method] as Function).bind(this);
     });
@@ -67,7 +68,6 @@ export class Selector extends Service {
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
-    this.app.on('mouse:click', this.onMouseClick);
   }
 
   public select(...children: ChildType[]): void {
@@ -85,12 +85,30 @@ export class Selector extends Service {
     this.app.render();
   }
 
-  private onMouseDown(): void {
+  public triggerSelector(enable?: boolean): void {
+    if (enable === void 0) {
+      this.enable = !this.enable;
+    } else {
+      this.enable = enable;
+    }
+    if (!this.enable) {
+      this.rubberEnable = false;
+    }
+  }
+
+  private onMouseDown({ event }: EventArgs['mouse:down']): void {
     if (!this.enable) {
       return;
     }
-    this.rubberStartPoint.clone(this.app.pointer);
-    this.rubberRect.setPosition(this.rubberStartPoint);
+    if (event.target instanceof Konva.Stage) {
+      this.select();
+      this.rubberStartPoint.clone(this.app.pointer);
+      this.rubberRect.setPosition(this.rubberStartPoint);
+      this.rubberRect.visible(false);
+      this.rubberEnable = true;
+    } else {
+      this.select(event.target);
+    }
   }
 
   private onMouseMove({ event }: EventArgs['mouse:move']): void {
@@ -101,6 +119,9 @@ export class Selector extends Service {
       document.body.style.cursor = 'default';
     } else {
       document.body.style.cursor = 'move';
+    }
+    if (!this.rubberEnable) {
+      return;
     }
     const position = new Point(
       Math.min(this.app.pointer.x, this.rubberStartPoint.x),
@@ -119,24 +140,13 @@ export class Selector extends Service {
       return;
     }
     this.rubberRect.visible(false);
-  }
-
-  private onMouseClick({ event }: EventArgs['mouse:click']): void {
-    if (!this.enable) {
-      return;
-    }
-    if (event.target instanceof Konva.Stage) {
-      this.select();
-    } else {
-      this.select(event.target);
-    }
+    this.rubberEnable = false;
   }
 
   public dispose(): void {
     this.app.off('mouse:down', this.onMouseDown);
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
-    this.app.off('mouse:click', this.onMouseClick);
     this.selected = [];
     this.enable = false;
     this.selector.destroy();

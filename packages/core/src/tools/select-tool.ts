@@ -4,9 +4,13 @@ export const selectTool = (...shapes: ChildType[]): Tool => {
   return {
     name: 'selectTool',
     onActive(app) {
+      app.triggerSelector(true);
       app.select(...shapes);
     },
-    onInactive() {},
+    onInactive(app) {
+      app.triggerSelector(false);
+      app.select();
+    },
   };
 };
 
