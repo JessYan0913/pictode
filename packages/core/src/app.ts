@@ -104,8 +104,8 @@ export class App extends BaseService<EventArgs> {
     return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
   }
 
-  public async getShapesInArea(shape: Konva.Shape): Promise<(Konva.Shape | Konva.Group)[]> {
-    return await this.mainLayer.getChildren(
+  public getShapesInArea(shape: Konva.Shape): (Konva.Shape | Konva.Group)[] {
+    return this.mainLayer.getChildren(
       (node) => node instanceof Konva.Shape && node.visible() && node !== shape && this.haveIntersection(shape, node)
     );
   }

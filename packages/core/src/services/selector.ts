@@ -158,7 +158,7 @@ export class Selector extends Service {
       return;
     }
     if (this.rubberEnable) {
-      this.app.getShapesInArea(this.rubberRect).then((res) => this.select(...res));
+      this.select(...this.app.getShapesInArea(this.rubberRect));
     }
     this.rubberRect.visible(false);
     this.rubberEnable = false;
