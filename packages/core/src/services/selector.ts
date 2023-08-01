@@ -6,7 +6,7 @@ import { ChildType, EventArgs, Service } from '../types';
 import { Point } from '../utils';
 
 export class Selector extends Service {
-  public selected: ChildType[];
+  public selected: Map<number | string, ChildType>;
   public optionLayer: Konva.Layer;
   public enable: boolean = false;
 
@@ -17,7 +17,7 @@ export class Selector extends Service {
 
   constructor(app: App) {
     super(app);
-    this.selected = [];
+    this.selected = new Map();
     this.optionLayer = new Konva.Layer();
     this.optionLayer.name('pictode:option:layer');
     this.app.stage.add(this.optionLayer);
@@ -71,18 +71,15 @@ export class Selector extends Service {
     });
     this.optionLayer.add(this.rubberRect);
 
-    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick', 'onShapeRemoved'] as (keyof this)[]).forEach(
-      (method) => {
-        method = method as keyof Selector;
-        this[method] = (this[method] as Function).bind(this);
-      }
-    );
+    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick'] as (keyof this)[]).forEach((method) => {
+      method = method as keyof Selector;
+      this[method] = (this[method] as Function).bind(this);
+    });
 
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
     this.app.on('mouse:click', this.onMouseClick);
-    this.app.on('shape:removed', this.onShapeRemoved);
   }
 
   public select(...children: ChildType[]): void {
@@ -90,11 +87,11 @@ export class Selector extends Service {
       return;
     }
     this.selected.forEach((child) => child.draggable(false));
-    this.selected = [];
+    this.selected.clear();
     this.selector.nodes([]);
     children.forEach((child) => {
       child.draggable(true);
-      this.selected.push(child);
+      this.selected.set(child._id, child);
     });
     this.selector.nodes(children);
     this.app.render();
@@ -109,6 +106,10 @@ export class Selector extends Service {
     if (!this.enable) {
       this.rubberEnable = false;
     }
+  }
+
+  public isSelected(child: ChildType): boolean {
+    return this.selected.has(child._id);
   }
 
   private onMouseDown({ event }: EventArgs['mouse:down']): void {
@@ -171,10 +172,12 @@ export class Selector extends Service {
     this.select(event.target);
   }
 
-  private onShapeRemoved({ object }: EventArgs['shape:removed']): void {
-    const removed = object.map((child) => child.id());
-    const result = this.selected.filter((child) => !removed.includes(child.id()));
-    this.select(...result);
+  public cancelSelect(...children: ChildType[]): void {
+    console.log('====>', children);
+
+    const removed = children.map((child) => child._id);
+    removed.forEach((id) => this.selected.delete(id));
+    this.select(...this.selected.values());
   }
 
   public dispose(): void {
@@ -182,7 +185,7 @@ export class Selector extends Service {
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
     this.app.off('mouse:click', this.onMouseClick);
-    this.selected = [];
+    this.selected.clear();
     this.enable = false;
     this.selector.destroy();
     this.optionLayer.destroy();

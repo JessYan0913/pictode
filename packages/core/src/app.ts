@@ -46,7 +46,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public get selected(): ChildType[] {
-    return this.selector.selected;
+    return [...this.selector.selected.values()];
   }
 
   public mount(element: HTMLElement) {
@@ -87,6 +87,7 @@ export class App extends BaseService<EventArgs> {
     children.forEach((child) => {
       child.remove();
     });
+    this.cancelSelect(...children);
     this.render();
   }
 
@@ -105,6 +106,10 @@ export class App extends BaseService<EventArgs> {
     } else {
       this.select(event.target);
     }
+  }
+
+  public cancelSelect(...children: ChildType[]): void {
+    this.selector.cancelSelect(...children);
   }
 
   public isPointInArea(point: Point, area: { width: number; height: number; x: number; y: number }): boolean {
