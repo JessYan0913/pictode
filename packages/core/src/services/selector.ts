@@ -71,15 +71,18 @@ export class Selector extends Service {
     });
     this.optionLayer.add(this.rubberRect);
 
-    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick'] as (keyof this)[]).forEach((method) => {
-      method = method as keyof Selector;
-      this[method] = (this[method] as Function).bind(this);
-    });
+    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick', 'onShapeRemoved'] as (keyof this)[]).forEach(
+      (method) => {
+        method = method as keyof Selector;
+        this[method] = (this[method] as Function).bind(this);
+      }
+    );
 
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
     this.app.on('mouse:click', this.onMouseClick);
+    this.app.on('shape:removed', this.onShapeRemoved);
   }
 
   public select(...children: ChildType[]): void {
@@ -163,6 +166,12 @@ export class Selector extends Service {
       return;
     }
     this.select(event.target);
+  }
+
+  private onShapeRemoved({ object }: EventArgs['shape:removed']): void {
+    const removed = object.map((child) => child.id());
+    const result = this.selected.filter((child) => !removed.includes(child.id()));
+    this.select(...result);
   }
 
   public dispose(): void {

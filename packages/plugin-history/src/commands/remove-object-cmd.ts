@@ -10,8 +10,7 @@ export class RemoveObjectCmd extends BaseCmd<Cmd.RemoveObjectOptions> {
   }
 
   public execute(): void {
-    // this.app.mainLayer.findOne(this.options.object.id())?.destroy();
-    this.app.render();
+    this.app.remove(...this.options.object);
   }
 
   public undo(): void {

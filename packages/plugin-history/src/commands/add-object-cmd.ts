@@ -14,8 +14,7 @@ export class AddObjectCmd extends BaseCmd<Cmd.AddObjectOptions> {
   }
 
   public undo(): void {
-    // this.app.mainLayer.find((obj) => {})?.destroy();
-    this.app.render();
+    this.app.remove(...this.options.object);
   }
 }
 

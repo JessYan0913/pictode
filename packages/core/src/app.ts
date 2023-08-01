@@ -45,6 +45,10 @@ export class App extends BaseService<EventArgs> {
     return new Point(x, y);
   }
 
+  public get selected(): ChildType[] {
+    return this.selector.selected;
+  }
+
   public mount(element: HTMLElement) {
     element.appendChild(this.containerElement);
     this.stage.setSize({
@@ -71,11 +75,11 @@ export class App extends BaseService<EventArgs> {
   }
 
   public remove(...children: ChildType[]): void {
-    console.log('====>', children);
-
-    this.mainLayer.find((node: any) => {
-      console.log('=====>', node);
+    children.forEach((child) => {
+      child.remove();
     });
+    this.render();
+    this.emit('shape:removed', { object: children });
   }
 
   public triggerSelector(enable?: boolean): void {
