@@ -33,9 +33,6 @@ export class Selector extends Service {
       rotateAnchorOffset: 20,
     });
     this.selector.anchorStyleFunc((anchor) => {
-      if (!anchor.hasName('rotater')) {
-        return;
-      }
       const setAnchorCursor = (cursor: string = '') => {
         const anchorStage = anchor.getStage();
         if (!anchorStage || !anchorStage.content) {
@@ -43,10 +40,24 @@ export class Selector extends Service {
         }
         anchorStage.content.style.cursor = cursor;
       };
+      anchor.on('mousedown', () => {
+        this.enable = false;
+      });
+      anchor.on('mouseup', () => {
+        this.enable = true;
+      });
       anchor.on('mouseenter', () => {
+        this.enable = false;
+        if (!anchor.hasName('rotater')) {
+          return;
+        }
         setAnchorCursor('grab');
       });
       anchor.on('mouseout', () => {
+        this.enable = true;
+        if (!anchor.hasName('rotater')) {
+          return;
+        }
         setAnchorCursor();
       });
     });
