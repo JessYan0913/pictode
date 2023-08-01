@@ -69,17 +69,25 @@ export class App extends BaseService<EventArgs> {
   }
 
   public add(...children: ChildType[]): void {
-    this.mainLayer.add(...children);
-    this.render();
+    this._add(...children);
     this.emit('shape:added', { object: children });
   }
 
+  public _add(...children: ChildType[]): void {
+    this.mainLayer.add(...children);
+    this.render();
+  }
+
   public remove(...children: ChildType[]): void {
+    this._remove(...children);
+    this.emit('shape:removed', { object: children });
+  }
+
+  public _remove(...children: ChildType[]): void {
     children.forEach((child) => {
       child.remove();
     });
     this.render();
-    this.emit('shape:removed', { object: children });
   }
 
   public triggerSelector(enable?: boolean): void {
