@@ -84,10 +84,10 @@ export class App extends BaseService<EventArgs> {
   }
 
   public _remove(...children: ChildType[]): void {
+    this.cancelSelect(...children);
     children.forEach((child) => {
       child.remove();
     });
-    this.cancelSelect(...children);
     this.render();
   }
 

@@ -86,9 +86,7 @@ export class Selector extends Service {
     if (!this.enable) {
       return;
     }
-    [...this.selected.values()].forEach((child) => child.draggable(false));
-    this.selected.clear();
-    this.transformer.nodes([]);
+    this.cancelSelect();
     children.forEach((child) => {
       child.draggable(true);
       this.selected.set(child._id, child);
@@ -98,9 +96,15 @@ export class Selector extends Service {
   }
 
   public cancelSelect(...children: ChildType[]): void {
-    const removed = children.map((child) => child._id);
+    if (children.length === 0) {
+      children = [...this.selected.values()];
+    }
+    const removed = children.map((child) => {
+      child.draggable(false);
+      return child._id;
+    });
     removed.forEach((id) => this.selected.delete(id));
-    this.select(...this.selected.values());
+    this.transformer.nodes([...this.selected.values()]);
   }
 
   public triggerSelector(enable?: boolean): void {
@@ -123,7 +127,7 @@ export class Selector extends Service {
       return;
     }
     if (event.target instanceof Konva.Stage) {
-      this.select();
+      this.cancelSelect();
       this.rubberStartPoint.clone(this.app.pointer);
       this.rubberRect.setPosition(this.rubberStartPoint);
       this.rubberRect.width(0);
