@@ -127,7 +127,7 @@ export class Selector extends Service {
     if (!this.enable) {
       return;
     }
-    if (event.target instanceof Konva.Stage) {
+    if (event.target instanceof Konva.Stage || !this.app.isPointInArea(this.app.pointer, this.selector.toObject())) {
       document.body.style.cursor = 'default';
     } else {
       document.body.style.cursor = 'move';

@@ -86,6 +86,11 @@ export class App extends BaseService<EventArgs> {
     }
   }
 
+  public isPointInArea(point: Point, area: { width: number; height: number; x: number; y: number }): boolean {
+    const { width, height, x, y } = area;
+    return point.x >= x && point.x <= x + width && y >= y && y <= y + height;
+  }
+
   public async getShapesInArea(shape: Konva.Shape): Promise<(Konva.Shape | Konva.Group)[]> {
     return await this.mainLayer.getChildren(
       (node) => node instanceof Konva.Shape && node.visible() && node !== shape && this.haveIntersection(shape, node)
