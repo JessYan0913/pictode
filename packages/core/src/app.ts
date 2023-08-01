@@ -67,6 +67,15 @@ export class App extends BaseService<EventArgs> {
   public add(...children: ChildType[]): void {
     this.mainLayer.add(...children);
     this.render();
+    this.emit('shape:added', { object: children });
+  }
+
+  public remove(...children: ChildType[]): void {
+    console.log('====>', children);
+
+    this.mainLayer.find((node: any) => {
+      console.log('=====>', node);
+    });
   }
 
   public triggerSelector(enable?: boolean): void {

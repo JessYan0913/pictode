@@ -36,11 +36,11 @@ export namespace Cmd {
   }
 
   export interface AddObjectOptions {
-    object: ChildType;
+    object: ChildType[];
   }
 
   export interface RemoveObjectOptions {
-    object: ChildType;
+    object: ChildType[];
   }
 
   export interface ModifiedObjectOptions {

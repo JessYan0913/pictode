@@ -51,10 +51,10 @@ export interface EventArgs {
     time: number;
   };
   'shape:added': {
-    object: ChildType;
+    object: ChildType[];
   };
   'shape:removed': {
-    object: ChildType;
+    object: ChildType[];
   };
   'mouse:down': {
     event: KonvaMouseEvent;
