@@ -101,7 +101,7 @@ export class App extends BaseService<EventArgs> {
 
   public isPointInArea(point: Point, area: { width: number; height: number; x: number; y: number }): boolean {
     const { width, height, x, y } = area;
-    return point.x >= x && point.x <= x + width && y >= y && y <= y + height;
+    return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
   }
 
   public async getShapesInArea(shape: Konva.Shape): Promise<(Konva.Shape | Konva.Group)[]> {
