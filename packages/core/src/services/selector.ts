@@ -65,9 +65,9 @@ export class Selector extends Service {
     this.optionLayer.add(this.selector);
 
     this.rubberRect = new Rect({
-      stroke: 'red',
-      dash: [2, 2],
-      listening: false,
+      stroke: 'rgb(157, 157, 231)',
+      fill: 'rgba(157, 157, 231, 0.5)',
+      strokeWidth: 2,
     });
     this.optionLayer.add(this.rubberRect);
 
