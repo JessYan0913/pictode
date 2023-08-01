@@ -26,6 +26,12 @@ export class Point implements Konva.Vector2d {
     return this.x === point.x && this.y === point.y;
   }
 
+  public distanceTo(point: Point): number {
+    const dx = this.x - point.x;
+    const dy = this.y - point.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
   public toArray(): number[] {
     return [this.x, this.y];
   }
