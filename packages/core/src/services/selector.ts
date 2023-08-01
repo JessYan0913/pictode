@@ -10,7 +10,7 @@ export class Selector extends Service {
   public optionLayer: Konva.Layer;
   public enable: boolean = false;
 
-  private selector: Konva.Transformer;
+  private transformer: Konva.Transformer;
   private rubberRect: Rect;
   private rubberStartPoint: Point = new Point(0, 0);
   private rubberEnable: boolean = false;
@@ -22,7 +22,7 @@ export class Selector extends Service {
     this.optionLayer.name('pictode:option:layer');
     this.app.stage.add(this.optionLayer);
 
-    this.selector = new Konva.Transformer({
+    this.transformer = new Konva.Transformer({
       padding: 3,
       borderStroke: 'rgb(157, 157, 231)',
       borderStrokeWidth: 1,
@@ -32,7 +32,7 @@ export class Selector extends Service {
       anchorStrokeWidth: 1,
       rotateAnchorOffset: 20,
     });
-    this.selector.anchorStyleFunc((anchor) => {
+    this.transformer.anchorStyleFunc((anchor) => {
       const setAnchorCursor = (cursor: string = '') => {
         const anchorStage = anchor.getStage();
         if (!anchorStage || !anchorStage.content) {
@@ -62,7 +62,7 @@ export class Selector extends Service {
       });
     });
 
-    this.optionLayer.add(this.selector);
+    this.optionLayer.add(this.transformer);
 
     this.rubberRect = new Rect({
       stroke: 'rgb(157, 157, 231)',
@@ -88,12 +88,12 @@ export class Selector extends Service {
     }
     [...this.selected.values()].forEach((child) => child.draggable(false));
     this.selected.clear();
-    this.selector.nodes([]);
+    this.transformer.nodes([]);
     children.forEach((child) => {
       child.draggable(true);
       this.selected.set(child._id, child);
     });
-    this.selector.nodes(children);
+    this.transformer.nodes(children);
     this.app.render();
   }
 
@@ -139,7 +139,7 @@ export class Selector extends Service {
     }
     if (
       event.target instanceof Konva.Stage ||
-      !this.app.isPointInArea(this.app.pointer, this.selector.getClientRect())
+      !this.app.isPointInArea(this.app.pointer, this.transformer.getClientRect())
     ) {
       document.body.style.cursor = 'default';
     } else {
@@ -185,7 +185,7 @@ export class Selector extends Service {
     this.app.off('mouse:click', this.onMouseClick);
     this.selected.clear();
     this.enable = false;
-    this.selector.destroy();
+    this.transformer.destroy();
     this.optionLayer.destroy();
   }
 }
