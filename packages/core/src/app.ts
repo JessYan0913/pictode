@@ -92,7 +92,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public triggerSelector(enable?: boolean): void {
-    this.select();
+    this.cancelSelect();
     this.selector.triggerSelector(enable);
   }
 
@@ -102,7 +102,7 @@ export class App extends BaseService<EventArgs> {
 
   public selectByEvent(event: KonvaMouseEvent): void {
     if (event.target instanceof Konva.Stage) {
-      this.select();
+      this.cancelSelect();
     } else {
       this.select(event.target);
     }

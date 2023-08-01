@@ -15,7 +15,7 @@ export const rectTool = (): Tool => {
   return {
     name: 'rectTool',
     onActive(app) {
-      app.select();
+      app.cancelSelect();
     },
     onInactive() {
       startPointer.setXY(0, 0);

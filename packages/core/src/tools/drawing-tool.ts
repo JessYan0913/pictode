@@ -20,7 +20,7 @@ export const drawingTool = (): Tool => {
   return {
     name: 'drawingTool',
     onActive(app) {
-      app.select();
+      app.cancelSelect();
     },
     onInactive() {
       points = [];

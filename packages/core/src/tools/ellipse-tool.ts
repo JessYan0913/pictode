@@ -17,7 +17,7 @@ export const ellipseTool = (): Tool => {
   return {
     name: 'ellipseTool',
     onActive(app) {
-      app.select();
+      app.cancelSelect();
     },
     onInactive() {
       startPointer.setXY(0, 0);

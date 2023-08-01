@@ -13,7 +13,7 @@ export const lineTool = (): Tool => {
   return {
     name: 'lineTool',
     onActive(app) {
-      app.select();
+      app.cancelSelect();
     },
     onInactive() {
       line = null;
