@@ -105,8 +105,14 @@ export class App extends BaseService<EventArgs> {
      */
     const r1 = shape1.getClientRect({ relativeTo: this.stage });
     const r2 = shape2.getClientRect({ relativeTo: this.stage });
+    // 判断r2的四个角点是否都在r1内部
+    const topLeftContained = r1.x <= r2.x && r1.y <= r2.y;
+    const topRightContained = r1.x + r1.width >= r2.x + r2.width && r1.y <= r2.y;
+    const bottomLeftContained = r1.x <= r2.x && r1.y + r1.height >= r2.y + r2.height;
+    const bottomRightContained = r1.x + r1.width >= r2.x + r2.width && r1.y + r1.height >= r2.y + r2.height;
 
-    return !(r2.x > r1.x + r1.width || r2.x + r2.width < r1.x || r2.y > r1.y + r1.height || r2.y + r2.height < r1.y);
+    // 如果r2的四个角点都在r1内部，则认为r2完全包含在r1内部
+    return topLeftContained && topRightContained && bottomLeftContained && bottomRightContained;
   }
 
   public render(): void {
