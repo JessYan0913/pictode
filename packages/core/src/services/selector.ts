@@ -86,7 +86,7 @@ export class Selector extends Service {
     if (!this.enable) {
       return;
     }
-    this.selected.forEach((child) => child.draggable(false));
+    [...this.selected.values()].forEach((child) => child.draggable(false));
     this.selected.clear();
     this.selector.nodes([]);
     children.forEach((child) => {
@@ -95,6 +95,12 @@ export class Selector extends Service {
     });
     this.selector.nodes(children);
     this.app.render();
+  }
+
+  public cancelSelect(...children: ChildType[]): void {
+    const removed = children.map((child) => child._id);
+    removed.forEach((id) => this.selected.delete(id));
+    this.select(...this.selected.values());
   }
 
   public triggerSelector(enable?: boolean): void {
@@ -170,14 +176,6 @@ export class Selector extends Service {
       return;
     }
     this.select(event.target);
-  }
-
-  public cancelSelect(...children: ChildType[]): void {
-    console.log('====>', children);
-
-    const removed = children.map((child) => child._id);
-    removed.forEach((id) => this.selected.delete(id));
-    this.select(...this.selected.values());
   }
 
   public dispose(): void {
