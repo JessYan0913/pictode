@@ -1,5 +1,5 @@
 import { Line } from '../customs/line';
-import { AppMouseEvent, Tool } from '../types';
+import { Tool } from '../types';
 import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
@@ -19,7 +19,7 @@ export const lineTool = (): Tool => {
       line = null;
       points = [];
     },
-    onMouseDown({ app }: AppMouseEvent): void {
+    onMouseDown({ app }): void {
       const lastPoint = points.at(-1);
       if (!lastPoint || !lastPoint.eq(app.pointer)) {
         points.push(app.pointer);
@@ -36,14 +36,14 @@ export const lineTool = (): Tool => {
         app.add(line);
       }
     },
-    onMouseMove({ app }: AppMouseEvent): void {
+    onMouseMove({ app }): void {
       if (!line) {
         return;
       }
       line.points(flatPoints().concat(app.pointer.x, app.pointer.y));
       app.render();
     },
-    onMouseDoubleClick({ app }: AppMouseEvent): void {
+    onMouseDoubleClick({ app }): void {
       if (!line) {
         return;
       }
