@@ -3,7 +3,7 @@ import Konva from 'konva';
 import { App } from '../app';
 import { Rect } from '../customs/rect';
 import { ChildType, EventArgs, Service } from '../types';
-import { Point } from '../utils';
+import { Point, shapeArrayEqual } from '../utils';
 
 export class Selector extends Service {
   public selected: Map<number | string, ChildType>;
@@ -84,6 +84,9 @@ export class Selector extends Service {
 
   public select(...children: ChildType[]): void {
     if (!this.enable) {
+      return;
+    }
+    if (shapeArrayEqual(children, [...this.selected.values()])) {
       return;
     }
     this.cancelSelect();
