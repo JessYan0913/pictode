@@ -89,7 +89,7 @@ export class Selector extends Service {
     this.cancelSelect();
     children.forEach((child) => {
       child.draggable(true);
-      this.selected.set(child._id, child);
+      this.selected.set(child.id(), child);
     });
     this.transformer.nodes(children);
     this.app.render();
@@ -101,7 +101,7 @@ export class Selector extends Service {
     }
     const removed = children.map((child) => {
       child.draggable(false);
-      return child._id;
+      return child.id();
     });
     removed.forEach((id) => this.selected.delete(id));
     this.transformer.nodes([...this.selected.values()]);
@@ -119,7 +119,7 @@ export class Selector extends Service {
   }
 
   public isSelected(child: ChildType): boolean {
-    return this.selected.has(child._id);
+    return this.selected.has(child.id());
   }
 
   private onTransformStart = (): void => {
