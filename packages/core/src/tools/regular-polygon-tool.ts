@@ -10,12 +10,12 @@ export const regularPolygonTool = (): Tool => {
     fill: 'transparent',
     stroke: 'black',
     strokeWidth: 2,
-    sides: 3,
+    sides: 4,
     radius: 0,
   });
 
   return {
-    name: 'triangleTool',
+    name: 'regularPolygonTool',
     onActive(app) {
       app.cancelSelect();
     },
