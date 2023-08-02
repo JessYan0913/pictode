@@ -3,7 +3,7 @@ import Konva from 'konva';
 
 import { Mouse } from './services/mouse';
 import { Selector } from './services/selector';
-import { ChildType, EventArgs, KonvaMouseEvent, Plugin, Tool } from './types';
+import { EventArgs, KonvaMouseEvent, KonvaNode, Plugin, Tool } from './types';
 import { guid, Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
@@ -45,7 +45,7 @@ export class App extends BaseService<EventArgs> {
     return new Point(x, y);
   }
 
-  public get selected(): ChildType[] {
+  public get selected(): KonvaNode[] {
     return [...this.selector.selected.values()];
   }
 
@@ -68,12 +68,12 @@ export class App extends BaseService<EventArgs> {
     this.emit('tool:changed', { oldTool, curTool });
   }
 
-  public add(...children: ChildType[]): void {
+  public add(...children: KonvaNode[]): void {
     this._add(...children);
     this.emit('shape:added', { object: children });
   }
 
-  public _add(...children: ChildType[]): void {
+  public _add(...children: KonvaNode[]): void {
     this.mainLayer.add(
       ...children.map((child) => {
         if (!child.id()) {
@@ -85,12 +85,12 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public remove(...children: ChildType[]): void {
+  public remove(...children: KonvaNode[]): void {
     this._remove(...children);
     this.emit('shape:removed', { object: children });
   }
 
-  public _remove(...children: ChildType[]): void {
+  public _remove(...children: KonvaNode[]): void {
     this.cancelSelect(...children);
     children.forEach((child) => {
       child.remove();
@@ -100,11 +100,11 @@ export class App extends BaseService<EventArgs> {
 
   public _update(): void {}
 
-  public getChildrenById(id: string): ChildType | undefined {
+  public getChildrenById(id: string): KonvaNode | undefined {
     return this.getChildren((child) => child.id() === id)?.[0];
   }
 
-  public getChildren(selector: (child: ChildType) => boolean): ChildType[] {
+  public getChildren(selector: (child: KonvaNode) => boolean): KonvaNode[] {
     return this.mainLayer.find(selector) ?? [];
   }
 
@@ -113,7 +113,7 @@ export class App extends BaseService<EventArgs> {
     this.selector.triggerSelector(enable);
   }
 
-  public select(...children: ChildType[]): void {
+  public select(...children: KonvaNode[]): void {
     this.selector.select(...children);
   }
 
@@ -125,7 +125,7 @@ export class App extends BaseService<EventArgs> {
     }
   }
 
-  public cancelSelect(...children: ChildType[]): void {
+  public cancelSelect(...children: KonvaNode[]): void {
     this.selector.cancelSelect(...children);
   }
 

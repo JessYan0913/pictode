@@ -1,6 +1,6 @@
-import { ChildType, Tool } from '../types';
+import { KonvaNode, Tool } from '../types';
 
-export const selectTool = (...shapes: ChildType[]): Tool => {
+export const selectTool = (...shapes: KonvaNode[]): Tool => {
   return {
     name: 'selectTool',
     onActive(app) {

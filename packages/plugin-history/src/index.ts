@@ -1,4 +1,4 @@
-import { App, ChildType, EventArgs, Plugin } from '@pictode/core';
+import { App, EventArgs, KonvaNode, Plugin } from '@pictode/core';
 
 import './methods';
 
@@ -12,7 +12,7 @@ export class HistoryPlugin implements Plugin {
   public app?: App;
   public options?: Options;
 
-  private oldObjects: ChildType[] = [];
+  private oldObjects: KonvaNode[] = [];
 
   constructor(options?: Options) {
     this.options = options;

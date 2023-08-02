@@ -1,4 +1,4 @@
-import { ChildType } from '@pictode/core';
+import { KonvaNode } from '@pictode/core';
 
 import { HistoryPlugin } from './index';
 
@@ -36,16 +36,16 @@ export namespace Cmd {
   }
 
   export interface AddObjectOptions {
-    object: ChildType[];
+    object: KonvaNode[];
   }
 
   export interface RemoveObjectOptions {
-    object: ChildType[];
+    object: KonvaNode[];
   }
 
   export interface ModifiedObjectOptions {
-    oldObject: ChildType[];
-    newObject: ChildType[];
+    oldObject: KonvaNode[];
+    newObject: KonvaNode[];
   }
 }
 

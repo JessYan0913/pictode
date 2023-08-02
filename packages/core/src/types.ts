@@ -4,8 +4,7 @@ import App from './app';
 
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
 export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
-export type Shape = Konva.Shape;
-export type ChildType = Konva.Group | Konva.Shape;
+export type KonvaNode = Konva.Group | Konva.Shape;
 
 export interface Plugin {
   name: string;
@@ -52,22 +51,22 @@ export interface EventArgs {
     time: number;
   };
   'selected:changed': {
-    selected: ChildType[];
+    selected: KonvaNode[];
   };
   'shape:added': {
-    object: ChildType[];
+    object: KonvaNode[];
   };
   'shape:removed': {
-    object: ChildType[];
+    object: KonvaNode[];
   };
   'shape:updated': {
-    object: ChildType[];
+    object: KonvaNode[];
   };
   'shape:transform:start': {
-    object: ChildType[];
+    object: KonvaNode[];
   };
   'shape:transform:end': {
-    object: ChildType[];
+    object: KonvaNode[];
   };
   'mouse:down': {
     event: KonvaMouseEvent;

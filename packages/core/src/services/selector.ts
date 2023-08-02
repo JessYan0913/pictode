@@ -2,11 +2,11 @@ import Konva from 'konva';
 
 import { App } from '../app';
 import { Rect } from '../customs/rect';
-import { ChildType, EventArgs, Service } from '../types';
+import { EventArgs, KonvaNode, Service } from '../types';
 import { Point, shapeArrayEqual } from '../utils';
 
 export class Selector extends Service {
-  public selected: Map<number | string, ChildType>;
+  public selected: Map<number | string, KonvaNode>;
   public optionLayer: Konva.Layer;
   public enable: boolean = false;
 
@@ -82,7 +82,7 @@ export class Selector extends Service {
     this.app.on('mouse:click', this.onMouseClick);
   }
 
-  public select(...children: ChildType[]): void {
+  public select(...children: KonvaNode[]): void {
     if (!this.enable) {
       return;
     }
@@ -99,7 +99,7 @@ export class Selector extends Service {
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
-  public cancelSelect(...children: ChildType[]): void {
+  public cancelSelect(...children: KonvaNode[]): void {
     if (children.length === 0) {
       children = [...this.selected.values()];
     }
@@ -123,7 +123,7 @@ export class Selector extends Service {
     }
   }
 
-  public isSelected(child: ChildType): boolean {
+  public isSelected(child: KonvaNode): boolean {
     return this.selected.has(child.id());
   }
 

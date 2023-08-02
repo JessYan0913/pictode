@@ -1,4 +1,4 @@
-import { AppConfig, ChildType } from '../types';
+import { AppConfig, KonvaNode } from '../types';
 
 export * from './math';
 
@@ -8,7 +8,7 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
   backgroundColor: '#ffffff',
 };
 
-export const shapeArrayEqual = (arr1: ChildType[], arr2: ChildType[]): boolean => {
+export const shapeArrayEqual = (arr1: KonvaNode[], arr2: KonvaNode[]): boolean => {
   if (arr1.length !== arr2.length) {
     return false; // 长度不同，两个数组肯定不相同
   }
@@ -29,6 +29,6 @@ export const shapeArrayEqual = (arr1: ChildType[], arr2: ChildType[]): boolean =
   return true;
 };
 
-const isShapeEqual = (obj1: ChildType, obj2: ChildType): boolean => {
+const isShapeEqual = (obj1: KonvaNode, obj2: KonvaNode): boolean => {
   return obj1.id() === obj2.id() && obj1._id === obj2._id;
 };
