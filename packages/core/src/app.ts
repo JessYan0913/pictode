@@ -91,6 +91,16 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
+  public _update(): void {}
+
+  public getChildrenById(id: string): ChildType | undefined {
+    return this.getChildren((child) => child.id() === id)?.[0];
+  }
+
+  public getChildren(selector: (child: ChildType) => boolean): ChildType[] {
+    return this.mainLayer.find(selector) ?? [];
+  }
+
   public triggerSelector(enable?: boolean): void {
     this.cancelSelect();
     this.selector.triggerSelector(enable);
