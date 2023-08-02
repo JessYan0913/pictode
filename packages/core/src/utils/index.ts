@@ -8,14 +8,14 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
   backgroundColor: '#ffffff',
 };
 
-export const shapeArrayEqual = (arr1: KonvaNode[], arr2: KonvaNode[]): boolean => {
-  if (arr1.length !== arr2.length) {
+export const shapeArrayEqual = (nodes1: KonvaNode[], nodes2: KonvaNode[]): boolean => {
+  if (nodes1.length !== nodes2.length) {
     return false; // 长度不同，两个数组肯定不相同
   }
 
-  for (let i = 0; i < arr1.length; i++) {
-    const obj1 = arr1[i];
-    const obj2 = arr2.find((item) => item.id === obj1.id);
+  for (let i = 0; i < nodes1.length; i++) {
+    const obj1 = nodes1[i];
+    const obj2 = nodes2.find((item) => item.id === obj1.id);
 
     if (!obj2) {
       return false;
@@ -29,6 +29,6 @@ export const shapeArrayEqual = (arr1: KonvaNode[], arr2: KonvaNode[]): boolean =
   return true;
 };
 
-const isShapeEqual = (obj1: KonvaNode, obj2: KonvaNode): boolean => {
-  return obj1.id() === obj2.id() && obj1._id === obj2._id;
+const isShapeEqual = (node1: KonvaNode, node2: KonvaNode): boolean => {
+  return node1.id() === node2.id() && node1._id === node2._id;
 };

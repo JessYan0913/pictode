@@ -68,32 +68,32 @@ export class App extends BaseService<EventArgs> {
     this.emit('tool:changed', { oldTool, curTool });
   }
 
-  public add(...children: KonvaNode[]): void {
-    this._add(...children);
-    this.emit('shape:added', { object: children });
+  public add(...nodes: KonvaNode[]): void {
+    this._add(...nodes);
+    this.emit('shape:added', { object: nodes });
   }
 
-  public _add(...children: KonvaNode[]): void {
+  public _add(...nodes: KonvaNode[]): void {
     this.mainLayer.add(
-      ...children.map((child) => {
-        if (!child.id()) {
-          child.id(`#${guid()}`);
+      ...nodes.map((node) => {
+        if (!node.id()) {
+          node.id(`#${guid()}`);
         }
-        return child;
+        return node;
       })
     );
     this.render();
   }
 
-  public remove(...children: KonvaNode[]): void {
-    this._remove(...children);
-    this.emit('shape:removed', { object: children });
+  public remove(...nodes: KonvaNode[]): void {
+    this._remove(...nodes);
+    this.emit('shape:removed', { object: nodes });
   }
 
-  public _remove(...children: KonvaNode[]): void {
-    this.cancelSelect(...children);
-    children.forEach((child) => {
-      child.remove();
+  public _remove(...nodes: KonvaNode[]): void {
+    this.cancelSelect(...nodes);
+    nodes.forEach((node) => {
+      node.remove();
     });
     this.render();
   }
@@ -104,7 +104,7 @@ export class App extends BaseService<EventArgs> {
     return this.getChildren((child) => child.id() === id)?.[0];
   }
 
-  public getChildren(selector: (child: KonvaNode) => boolean): KonvaNode[] {
+  public getChildren(selector: (node: KonvaNode) => boolean): KonvaNode[] {
     return this.mainLayer.find(selector) ?? [];
   }
 
@@ -113,8 +113,8 @@ export class App extends BaseService<EventArgs> {
     this.selector.triggerSelector(enable);
   }
 
-  public select(...children: KonvaNode[]): void {
-    this.selector.select(...children);
+  public select(...nodes: KonvaNode[]): void {
+    this.selector.select(...nodes);
   }
 
   public selectByEvent(event: KonvaMouseEvent): void {
@@ -125,8 +125,8 @@ export class App extends BaseService<EventArgs> {
     }
   }
 
-  public cancelSelect(...children: KonvaNode[]): void {
-    this.selector.cancelSelect(...children);
+  public cancelSelect(...nodes: KonvaNode[]): void {
+    this.selector.cancelSelect(...nodes);
   }
 
   public isPointInArea(point: Point, area: { width: number; height: number; x: number; y: number }): boolean {

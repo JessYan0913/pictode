@@ -82,30 +82,30 @@ export class Selector extends Service {
     this.app.on('mouse:click', this.onMouseClick);
   }
 
-  public select(...children: KonvaNode[]): void {
+  public select(...nodes: KonvaNode[]): void {
     if (!this.enable) {
       return;
     }
-    if (shapeArrayEqual(children, [...this.selected.values()])) {
+    if (shapeArrayEqual(nodes, [...this.selected.values()])) {
       return;
     }
     this.cancelSelect();
-    children.forEach((child) => {
-      child.draggable(true);
-      this.selected.set(child.id(), child);
+    nodes.forEach((node) => {
+      node.draggable(true);
+      this.selected.set(node.id(), node);
     });
-    this.transformer.nodes(children);
+    this.transformer.nodes(nodes);
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
-  public cancelSelect(...children: KonvaNode[]): void {
-    if (children.length === 0) {
-      children = [...this.selected.values()];
+  public cancelSelect(...nodes: KonvaNode[]): void {
+    if (nodes.length === 0) {
+      nodes = [...this.selected.values()];
     }
-    const removed = children.map((child) => {
-      child.draggable(false);
-      return child.id();
+    const removed = nodes.map((node) => {
+      node.draggable(false);
+      return node.id();
     });
     removed.forEach((id) => this.selected.delete(id));
     this.transformer.nodes([...this.selected.values()]);
@@ -123,8 +123,8 @@ export class Selector extends Service {
     }
   }
 
-  public isSelected(child: KonvaNode): boolean {
-    return this.selected.has(child.id());
+  public isSelected(node: KonvaNode): boolean {
+    return this.selected.has(node.id());
   }
 
   private onTransformStart = (): void => {
