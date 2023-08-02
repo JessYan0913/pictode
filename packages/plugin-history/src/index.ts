@@ -61,14 +61,14 @@ export class HistoryPlugin implements Plugin {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new AddObjectCmd(this.app, { nodes }));
+    this.history.execute(new AddObjectCmd(this.app, { nodes: nodes.map((node) => node.toJSON()) }));
   };
 
   private onNodeRemove = ({ nodes }: EventArgs['node:removed']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
+    this.history.execute(new RemoveObjectCmd(this.app, { nodes: nodes.map((node) => node.toJSON()) }));
   };
 
   private onNodeTransformStart = ({ nodes }: EventArgs['node:transform:start']) => {
@@ -79,7 +79,12 @@ export class HistoryPlugin implements Plugin {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new ModifiedObjectCmd(this.app, { oldNodes: this.oldNodes, newNodes: nodes }));
+    this.history.execute(
+      new ModifiedObjectCmd(this.app, {
+        oldNodes: this.oldNodes.map((node) => node.toJSON()),
+        newNodes: nodes.map((node) => node.toJSON()),
+      })
+    );
   };
 }
 

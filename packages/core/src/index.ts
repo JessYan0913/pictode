@@ -1,3 +1,4 @@
+export { default as Konva } from 'konva';
 export * from './app';
 export * from './types';
 export * from './decorators/expand-app';
