@@ -24,17 +24,17 @@ export const triangleTool = (): Tool => {
     },
     onMouseDown({ app }) {
       startPointer.clone(app.pointer);
+      triangle.radius(0);
       triangle.setPosition(startPointer);
       app.add(triangle);
     },
     onMouseMove({ app }) {
-      // 计算起点和当前鼠标位置之间的距离
       const dx = app.pointer.x - startPointer.x;
       const dy = app.pointer.y - startPointer.y;
+      const newPosition = new Point(startPointer.x + dx / 2, startPointer.y + dy / 2);
 
-      // 计算椭圆的宽度和高度的绝对值
-      triangle.setPosition(new Point(startPointer.x + dx / 2, startPointer.y + dy / 2));
-      triangle.radius(startPointer.distanceTo(app.pointer));
+      triangle.setPosition(newPosition);
+      triangle.radius(newPosition.distanceTo(app.pointer));
       app.render();
     },
     onMouseUp({ app }) {
