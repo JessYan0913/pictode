@@ -30,5 +30,5 @@ export const shapeArrayEqual = (nodes1: KonvaNode[], nodes2: KonvaNode[]): boole
 };
 
 const isShapeEqual = (node1: KonvaNode, node2: KonvaNode): boolean => {
-  return node1.id() === node2.id() && node1._id === node2._id;
+  return node1.attrs.id === node1.attrs.id && node1._id === node2._id;
 };
