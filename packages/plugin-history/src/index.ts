@@ -14,10 +14,6 @@ export class HistoryPlugin implements Plugin {
 
   constructor(options?: Options) {
     this.options = options;
-    (['onObjectAdded', 'onObjectRemove'] as (keyof this)[]).forEach((method) => {
-      method = method as keyof HistoryPlugin;
-      this[method] = (this[method] as Function).bind(this);
-    });
   }
 
   public install(app: App) {
@@ -55,19 +51,19 @@ export class HistoryPlugin implements Plugin {
     return this.history?.enabled ?? false;
   }
 
-  private onObjectAdded({ object }: EventArgs['shape:added']) {
+  private onObjectAdded = ({ object }: EventArgs['shape:added']) => {
     if (!this.app || !this.history) {
       return;
     }
     this.history.execute(new AddObjectCmd(this.app, { object }));
-  }
+  };
 
-  private onObjectRemove({ object }: EventArgs['shape:removed']) {
+  private onObjectRemove = ({ object }: EventArgs['shape:removed']) => {
     if (!this.app || !this.history) {
       return;
     }
     this.history.execute(new RemoveObjectCmd(this.app, { object }));
-  }
+  };
 }
 
 export default HistoryPlugin;

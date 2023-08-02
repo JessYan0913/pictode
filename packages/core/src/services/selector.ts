@@ -71,11 +71,6 @@ export class Selector extends Service {
     });
     this.optionLayer.add(this.rubberRect);
 
-    (['onMouseDown', 'onMouseUp', 'onMouseMove', 'onMouseClick'] as (keyof this)[]).forEach((method) => {
-      method = method as keyof Selector;
-      this[method] = (this[method] as Function).bind(this);
-    });
-
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
@@ -122,7 +117,7 @@ export class Selector extends Service {
     return this.selected.has(child._id);
   }
 
-  private onMouseDown({ event }: EventArgs['mouse:down']): void {
+  private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
     if (!this.enable) {
       return;
     }
@@ -135,9 +130,9 @@ export class Selector extends Service {
       this.rubberRect.visible(false);
       this.rubberEnable = true;
     }
-  }
+  };
 
-  private onMouseMove({ event }: EventArgs['mouse:move']): void {
+  private onMouseMove = ({ event }: EventArgs['mouse:move']): void => {
     if (!this.enable) {
       return;
     }
@@ -162,9 +157,9 @@ export class Selector extends Service {
     this.rubberRect.width(width);
     this.rubberRect.height(height);
     this.rubberRect.visible(true);
-  }
+  };
 
-  private onMouseUp(): void {
+  private onMouseUp = (): void => {
     if (!this.enable) {
       return;
     }
@@ -173,14 +168,14 @@ export class Selector extends Service {
     }
     this.rubberRect.visible(false);
     this.rubberEnable = false;
-  }
+  };
 
-  private onMouseClick({ event }: EventArgs['mouse:click']): void {
+  private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
     if (event.target instanceof Konva.Stage) {
       return;
     }
     this.select(event.target);
-  }
+  };
 
   public dispose(): void {
     this.app.off('mouse:down', this.onMouseDown);
