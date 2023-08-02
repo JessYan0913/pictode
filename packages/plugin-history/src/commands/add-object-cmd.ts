@@ -10,11 +10,11 @@ export class AddObjectCmd extends BaseCmd<Cmd.AddObjectOptions> {
   }
 
   public execute(): void {
-    this.app._add(...this.options.object);
+    this.app._add(...this.options.nodes);
   }
 
   public undo(): void {
-    this.app._remove(...this.options.object);
+    this.app._remove(...this.options.nodes);
   }
 }
 

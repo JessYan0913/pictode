@@ -31,7 +31,7 @@ export class HistoryPlugin implements Plugin {
   public dispose(): void {
     this.history?.dispose();
     this.app?.off('shape:added', this.onObjectAdded);
-    this.app?.off('shape:added', this.onObjectRemove);
+    this.app?.off('shape:removed', this.onObjectRemove);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -55,11 +55,11 @@ export class HistoryPlugin implements Plugin {
     return this.history?.enabled ?? false;
   }
 
-  private onObjectAdded = ({ object }: EventArgs['shape:added']) => {
+  private onObjectAdded = ({ nodes }: EventArgs['shape:added']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new AddObjectCmd(this.app, { object }));
+    this.history.execute(new AddObjectCmd(this.app, { nodes }));
   };
 
   private onObjectRemove = ({ object }: EventArgs['shape:removed']) => {

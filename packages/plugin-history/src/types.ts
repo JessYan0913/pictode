@@ -36,7 +36,7 @@ export namespace Cmd {
   }
 
   export interface AddObjectOptions {
-    object: KonvaNode[];
+    nodes: KonvaNode[];
   }
 
   export interface RemoveObjectOptions {
