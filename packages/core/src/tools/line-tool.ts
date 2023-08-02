@@ -1,6 +1,6 @@
 import { Line } from '../customs/line';
 import { Tool } from '../types';
-import { guid, Point } from '../utils';
+import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
@@ -10,7 +10,6 @@ const flatPoints = (points: Point[]): number[] =>
 export const lineTool = (): Tool => {
   let points: Point[] = [];
   let line: Line = new Line({
-    id: guid(),
     points: flatPoints(points),
     fill: 'transparent',
     stroke: 'black',

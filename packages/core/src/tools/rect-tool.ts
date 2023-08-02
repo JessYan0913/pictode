@@ -1,13 +1,12 @@
 import { Rect } from '../customs/rect';
 import { AppMouseEvent, Tool } from '../types';
-import { guid, Point } from '../utils';
+import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const rectTool = (): Tool => {
   const startPointer: Point = new Point(0, 0);
   const rectangle: Rect = new Rect({
-    id: guid(),
     fill: 'transparent',
     stroke: 'black',
     strokeWidth: 2,

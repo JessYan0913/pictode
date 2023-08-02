@@ -1,13 +1,12 @@
 import { Image as Img } from '../customs/image';
 import { Tool } from '../types';
-import { guid, readeFile, selectFile } from '../utils';
+import { readeFile, selectFile } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const imageTool = (): Tool => {
   const imageObject = new Image();
   const img = new Img({
-    id: guid(),
     image: imageObject,
   });
 
