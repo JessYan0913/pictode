@@ -12,7 +12,7 @@ export class HistoryPlugin implements Plugin {
   public app?: App;
   public options?: Options;
 
-  private oldObjects: KonvaNode[] = [];
+  private oldNodes: KonvaNode[] = [];
 
   constructor(options?: Options) {
     this.options = options;
@@ -69,15 +69,15 @@ export class HistoryPlugin implements Plugin {
     this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
   };
 
-  private onObjectTransformStart = ({ object }: EventArgs['shape:transform:start']) => {
-    this.oldObjects = object;
+  private onObjectTransformStart = ({ nodes }: EventArgs['shape:transform:start']) => {
+    this.oldNodes = nodes;
   };
 
-  private onObjectTransformEnd = ({ object }: EventArgs['shape:transform:start']) => {
+  private onObjectTransformEnd = ({ nodes }: EventArgs['shape:transform:end']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new ModifiedObjectCmd(this.app, { oldObject: this.oldObjects, newObject: object }));
+    this.history.execute(new ModifiedObjectCmd(this.app, { oldNodes: this.oldNodes, newNodes: nodes }));
   };
 }
 

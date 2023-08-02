@@ -60,13 +60,13 @@ export interface EventArgs {
     nodes: KonvaNode[];
   };
   'shape:updated': {
-    object: KonvaNode[];
+    nodes: KonvaNode[];
   };
   'shape:transform:start': {
-    object: KonvaNode[];
+    nodes: KonvaNode[];
   };
   'shape:transform:end': {
-    object: KonvaNode[];
+    nodes: KonvaNode[];
   };
   'mouse:down': {
     event: KonvaMouseEvent;

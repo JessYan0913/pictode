@@ -128,19 +128,19 @@ export class Selector extends Service {
   }
 
   private onTransformStart = (): void => {
-    this.app.emit('shape:transform:start', { object: [...this.selected.values()] });
+    this.app.emit('shape:transform:start', { nodes: [...this.selected.values()] });
   };
 
   private onTransformEnd = (): void => {
-    this.app.emit('shape:transform:end', { object: [...this.selected.values()] });
+    this.app.emit('shape:transform:end', { nodes: [...this.selected.values()] });
   };
 
   private onDragStart = (): void => {
-    this.app.emit('shape:transform:start', { object: [...this.selected.values()] });
+    this.app.emit('shape:transform:start', { nodes: [...this.selected.values()] });
   };
 
   private onDragEnd = (): void => {
-    this.app.emit('shape:transform:end', { object: [...this.selected.values()] });
+    this.app.emit('shape:transform:end', { nodes: [...this.selected.values()] });
   };
 
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
