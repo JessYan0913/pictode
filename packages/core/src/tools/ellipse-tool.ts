@@ -29,9 +29,6 @@ export const ellipseTool = (): Tool => {
       app.add(ellipse);
     },
     onMouseMove({ app }: AppMouseEvent): void {
-      if (!ellipse) {
-        return;
-      }
       // 计算起点和当前鼠标位置之间的距离
       const dx = app.pointer.x - startPointer.x;
       const dy = app.pointer.y - startPointer.y;
@@ -44,9 +41,6 @@ export const ellipseTool = (): Tool => {
       app.render();
     },
     onMouseUp({ app }: AppMouseEvent): void {
-      if (!ellipse) {
-        return;
-      }
       app.setTool(selectTool(ellipse));
     },
   };

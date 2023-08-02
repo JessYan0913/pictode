@@ -28,9 +28,6 @@ export const rectTool = (): Tool => {
       app.add(rectangle);
     },
     onMouseMove({ app }: AppMouseEvent): void {
-      if (!rectangle) {
-        return;
-      }
       rectangle.setPosition(
         new Point(Math.min(startPointer.x, app.pointer.x), Math.min(startPointer.y, app.pointer.y))
       );
@@ -39,9 +36,6 @@ export const rectTool = (): Tool => {
       app.render();
     },
     onMouseUp({ app }: AppMouseEvent): void {
-      if (!rectangle) {
-        return;
-      }
       app.setTool(selectTool(rectangle));
     },
   };
