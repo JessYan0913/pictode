@@ -53,19 +53,19 @@ export interface EventArgs {
   'selected:changed': {
     selected: KonvaNode[];
   };
-  'shape:added': {
+  'node:added': {
     nodes: KonvaNode[];
   };
-  'shape:removed': {
+  'node:removed': {
     nodes: KonvaNode[];
   };
-  'shape:updated': {
+  'node:updated': {
     nodes: KonvaNode[];
   };
-  'shape:transform:start': {
+  'node:transform:start': {
     nodes: KonvaNode[];
   };
-  'shape:transform:end': {
+  'node:transform:end': {
     nodes: KonvaNode[];
   };
   'mouse:down': {

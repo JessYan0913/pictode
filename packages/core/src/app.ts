@@ -70,7 +70,7 @@ export class App extends BaseService<EventArgs> {
 
   public add(...nodes: KonvaNode[]): void {
     this._add(...nodes);
-    this.emit('shape:added', { nodes: nodes });
+    this.emit('node:added', { nodes: nodes });
   }
 
   public _add(...nodes: KonvaNode[]): void {
@@ -87,7 +87,7 @@ export class App extends BaseService<EventArgs> {
 
   public remove(...nodes: KonvaNode[]): void {
     this._remove(...nodes);
-    this.emit('shape:removed', { nodes: nodes });
+    this.emit('node:removed', { nodes: nodes });
   }
 
   public _remove(...nodes: KonvaNode[]): void {

@@ -22,16 +22,18 @@ export class HistoryPlugin implements Plugin {
     this.app = app;
     this.history = new History(app, this.options);
     this.history.app = app;
-    this.app.on('shape:added', this.onObjectAdded);
-    this.app.on('shape:removed', this.onObjectRemove);
-    this.app.on('shape:transform:start', this.onObjectTransformStart);
-    this.app.on('shape:transform:end', this.onObjectTransformEnd);
+    this.app.on('node:added', this.onNodeAdded);
+    this.app.on('node:removed', this.onNodeRemove);
+    this.app.on('node:transform:start', this.onNodeTransformStart);
+    this.app.on('node:transform:end', this.onNodeTransformEnd);
   }
 
   public dispose(): void {
     this.history?.dispose();
-    this.app?.off('shape:added', this.onObjectAdded);
-    this.app?.off('shape:removed', this.onObjectRemove);
+    this.app?.off('node:added', this.onNodeAdded);
+    this.app?.off('node:removed', this.onNodeRemove);
+    this.app?.off('node:transform:start', this.onNodeTransformStart);
+    this.app?.off('node:transform:end', this.onNodeTransformEnd);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -55,25 +57,25 @@ export class HistoryPlugin implements Plugin {
     return this.history?.enabled ?? false;
   }
 
-  private onObjectAdded = ({ nodes }: EventArgs['shape:added']) => {
+  private onNodeAdded = ({ nodes }: EventArgs['node:added']) => {
     if (!this.app || !this.history) {
       return;
     }
     this.history.execute(new AddObjectCmd(this.app, { nodes }));
   };
 
-  private onObjectRemove = ({ nodes }: EventArgs['shape:removed']) => {
+  private onNodeRemove = ({ nodes }: EventArgs['node:removed']) => {
     if (!this.app || !this.history) {
       return;
     }
     this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
   };
 
-  private onObjectTransformStart = ({ nodes }: EventArgs['shape:transform:start']) => {
+  private onNodeTransformStart = ({ nodes }: EventArgs['node:transform:start']) => {
     this.oldNodes = nodes;
   };
 
-  private onObjectTransformEnd = ({ nodes }: EventArgs['shape:transform:end']) => {
+  private onNodeTransformEnd = ({ nodes }: EventArgs['node:transform:end']) => {
     if (!this.app || !this.history) {
       return;
     }
