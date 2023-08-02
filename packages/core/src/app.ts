@@ -100,11 +100,11 @@ export class App extends BaseService<EventArgs> {
 
   public _update(): void {}
 
-  public getChildrenById(id: string): KonvaNode | undefined {
-    return this.getChildren((child) => child.id() === id)?.[0];
+  public getNodeById(id: string): KonvaNode | undefined {
+    return this.getNodes((node) => node.id() === id)?.[0];
   }
 
-  public getChildren(selector: (node: KonvaNode) => boolean): KonvaNode[] {
+  public getNodes(selector: (node: KonvaNode) => boolean): KonvaNode[] {
     return this.mainLayer.find(selector) ?? [];
   }
 
