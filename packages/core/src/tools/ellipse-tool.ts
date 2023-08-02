@@ -1,12 +1,13 @@
 import { Ellipse } from '../customs/ellipse';
 import { AppMouseEvent, Tool } from '../types';
-import { Point } from '../utils';
+import { guid, Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const ellipseTool = (): Tool => {
   const startPointer: Point = new Point(0, 0);
   const ellipse: Ellipse = new Ellipse({
+    id: guid(),
     radiusX: 0,
     radiusY: 0,
     fill: 'transparent',

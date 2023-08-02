@@ -51,6 +51,9 @@ export interface EventArgs {
   'canvas:rendered': {
     time: number;
   };
+  'selected:changed': {
+    selected: ChildType[];
+  };
   'shape:added': {
     object: ChildType[];
   };

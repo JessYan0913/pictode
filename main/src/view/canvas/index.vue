@@ -16,6 +16,9 @@ const containerRef = ref<HTMLDivElement>();
 
 const app = new App();
 app.use(new HistoryPlugin());
+app.on('selected:changed', ({ selected }) => {
+  console.log('---->', selected);
+});
 onMounted(() => {
   if (containerRef.value) {
     app.mount(containerRef.value);

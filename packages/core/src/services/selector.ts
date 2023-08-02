@@ -93,6 +93,7 @@ export class Selector extends Service {
     });
     this.transformer.nodes(children);
     this.app.render();
+    this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
   public cancelSelect(...children: ChildType[]): void {
@@ -105,6 +106,7 @@ export class Selector extends Service {
     });
     removed.forEach((id) => this.selected.delete(id));
     this.transformer.nodes([...this.selected.values()]);
+    this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
   public triggerSelector(enable?: boolean): void {

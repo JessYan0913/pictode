@@ -1,12 +1,13 @@
 import { Line } from '../customs/line';
 import { Tool } from '../types';
-import { Point } from '../utils';
+import { guid, Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const drawingTool = (): Tool => {
   let points: Point[] = [];
   const line = new Line({
+    id: guid(),
     stroke: 'black',
     strokeWidth: 2,
     globalCompositeOperation: 'source-over',
