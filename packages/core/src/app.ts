@@ -57,13 +57,13 @@ export class App extends BaseService<EventArgs> {
     });
   }
 
-  public setTool(curTool: Tool): void {
+  public async setTool(curTool: Tool): Promise<void> {
     const oldTool = this.currentTool;
     if (oldTool && typeof oldTool.onInactive === 'function') {
-      oldTool.onInactive(this);
+      await oldTool.onInactive(this);
     }
     this.currentTool = curTool;
-    this.currentTool.onActive(this);
+    await this.currentTool.onActive(this);
     this.render();
     this.emit('tool:changed', { oldTool, curTool });
   }

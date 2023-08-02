@@ -21,8 +21,8 @@ export interface AppMouseEvent {
 
 export interface Tool {
   name: string;
-  onActive(app: App): void;
-  onInactive?: (app: App) => void;
+  onActive(app: App): Promise<void> | void;
+  onInactive?: (app: App) => Promise<void> | void;
   onMouseDown?: (event: AppMouseEvent) => void;
   onMouseMove?: (event: AppMouseEvent) => void;
   onMouseUp?: (event: AppMouseEvent) => void;
