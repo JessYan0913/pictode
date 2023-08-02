@@ -87,7 +87,7 @@ export class App extends BaseService<EventArgs> {
 
   public remove(...nodes: KonvaNode[]): void {
     this._remove(...nodes);
-    this.emit('shape:removed', { object: nodes });
+    this.emit('shape:removed', { nodes: nodes });
   }
 
   public _remove(...nodes: KonvaNode[]): void {

@@ -40,7 +40,7 @@ export namespace Cmd {
   }
 
   export interface RemoveObjectOptions {
-    object: KonvaNode[];
+    nodes: KonvaNode[];
   }
 
   export interface ModifiedObjectOptions {

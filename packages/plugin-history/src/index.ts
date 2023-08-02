@@ -62,11 +62,11 @@ export class HistoryPlugin implements Plugin {
     this.history.execute(new AddObjectCmd(this.app, { nodes }));
   };
 
-  private onObjectRemove = ({ object }: EventArgs['shape:removed']) => {
+  private onObjectRemove = ({ nodes }: EventArgs['shape:removed']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new RemoveObjectCmd(this.app, { object }));
+    this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
   };
 
   private onObjectTransformStart = ({ object }: EventArgs['shape:transform:start']) => {

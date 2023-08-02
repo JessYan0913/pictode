@@ -10,11 +10,11 @@ export class RemoveObjectCmd extends BaseCmd<Cmd.RemoveObjectOptions> {
   }
 
   public execute(): void {
-    this.app._remove(...this.options.object);
+    this.app._remove(...this.options.nodes);
   }
 
   public undo(): void {
-    this.app._add(...this.options.object);
+    this.app._add(...this.options.nodes);
   }
 }
 
