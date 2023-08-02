@@ -44,8 +44,8 @@ export namespace Cmd {
   }
 
   export interface ModifiedObjectOptions {
-    oldObject: ChildType;
-    newObject: ChildType;
+    oldObject: ChildType[];
+    newObject: ChildType[];
   }
 }
 
