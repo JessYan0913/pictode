@@ -4,7 +4,7 @@ import Konva from 'konva';
 import { Mouse } from './services/mouse';
 import { Selector } from './services/selector';
 import { ChildType, EventArgs, KonvaMouseEvent, Plugin, Tool } from './types';
-import { Point } from './utils';
+import { guid, Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
@@ -74,7 +74,14 @@ export class App extends BaseService<EventArgs> {
   }
 
   public _add(...children: ChildType[]): void {
-    this.mainLayer.add(...children);
+    this.mainLayer.add(
+      ...children.map((child) => {
+        if (!child.id()) {
+          child.id(`#${guid()}`);
+        }
+        return child;
+      })
+    );
     this.render();
   }
 
