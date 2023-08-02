@@ -1,8 +1,8 @@
 import Konva from 'konva';
 
-export class Triangle extends Konva.RegularPolygon {
+export class RegularPolygon extends Konva.RegularPolygon {
   constructor(config: Konva.RegularPolygonConfig) {
-    super({ ...config, sides: 3 });
+    super(config);
   }
 
   public draw(): this {
@@ -10,4 +10,4 @@ export class Triangle extends Konva.RegularPolygon {
   }
 }
 
-export default Triangle;
+export default RegularPolygon;

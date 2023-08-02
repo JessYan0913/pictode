@@ -1,12 +1,12 @@
-import { Triangle } from '../customs/triangle';
+import { RegularPolygon } from '../customs/regular-polygon';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
-export const triangleTool = (): Tool => {
+export const regularPolygonTool = (): Tool => {
   const startPointer: Point = new Point(0, 0);
-  const triangle: Triangle = new Triangle({
+  const regularPolygon: RegularPolygon = new RegularPolygon({
     fill: 'transparent',
     stroke: 'black',
     strokeWidth: 2,
@@ -24,23 +24,23 @@ export const triangleTool = (): Tool => {
     },
     onMouseDown({ app }) {
       startPointer.clone(app.pointer);
-      triangle.radius(0);
-      triangle.setPosition(startPointer);
-      app.add(triangle);
+      regularPolygon.radius(0);
+      regularPolygon.setPosition(startPointer);
+      app.add(regularPolygon);
     },
     onMouseMove({ app }) {
       const dx = app.pointer.x - startPointer.x;
       const dy = app.pointer.y - startPointer.y;
       const newPosition = new Point(startPointer.x + dx / 2, startPointer.y + dy / 2);
 
-      triangle.setPosition(newPosition);
-      triangle.radius(newPosition.distanceTo(app.pointer));
+      regularPolygon.setPosition(newPosition);
+      regularPolygon.radius(newPosition.distanceTo(app.pointer));
       app.render();
     },
     onMouseUp({ app }) {
-      app.setTool(selectTool(triangle));
+      app.setTool(selectTool(regularPolygon));
     },
   };
 };
 
-export default triangleTool;
+export default regularPolygonTool;
