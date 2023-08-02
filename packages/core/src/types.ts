@@ -3,6 +3,7 @@ import Konva from 'konva';
 import App from './app';
 
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
+export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
 export type Shape = Konva.Shape;
 export type ChildType = Konva.Group | Konva.Shape;
 
@@ -54,6 +55,12 @@ export interface EventArgs {
     object: ChildType[];
   };
   'shape:removed': {
+    object: ChildType[];
+  };
+  'shape:transform:start': {
+    object: ChildType[];
+  };
+  'shape:transform:end': {
     object: ChildType[];
   };
   'mouse:down': {

@@ -71,6 +71,11 @@ export class Selector extends Service {
     });
     this.optionLayer.add(this.rubberRect);
 
+    this.transformer.on<'transformstart'>('transformstart', this.onTransformStart);
+    this.transformer.on<'transformend'>('transformend', this.onTransformEnd);
+    this.transformer.on<'dragstart'>('dragstart', this.onDragStart);
+    this.transformer.on<'dragend'>('dragend', this.onDragEnd);
+
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
@@ -116,6 +121,22 @@ export class Selector extends Service {
   public isSelected(child: ChildType): boolean {
     return this.selected.has(child._id);
   }
+
+  private onTransformStart = (): void => {
+    this.app.emit('shape:transform:start', { object: [...this.selected.values()] });
+  };
+
+  private onTransformEnd = (): void => {
+    this.app.emit('shape:transform:end', { object: [...this.selected.values()] });
+  };
+
+  private onDragStart = (): void => {
+    this.app.emit('shape:transform:start', { object: [...this.selected.values()] });
+  };
+
+  private onDragEnd = (): void => {
+    this.app.emit('shape:transform:end', { object: [...this.selected.values()] });
+  };
 
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
     if (!this.enable) {
@@ -178,6 +199,10 @@ export class Selector extends Service {
   };
 
   public dispose(): void {
+    this.transformer.off('transformstart', this.onTransformStart);
+    this.transformer.off('transformend', this.onTransformEnd);
+    this.transformer.off('dragstart', this.onDragStart);
+    this.transformer.off('dragend', this.onDragEnd);
     this.app.off('mouse:down', this.onMouseDown);
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
