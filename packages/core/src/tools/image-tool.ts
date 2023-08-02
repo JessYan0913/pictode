@@ -1,4 +1,4 @@
-import { selectFile } from '@pictode/utils';
+import { readeFile, selectFile } from '@pictode/utils';
 
 import { Image as Img } from '../customs/image';
 import { Tool } from '../types';
@@ -15,16 +15,11 @@ export const imageTool = (): Tool => {
 
   return {
     name: 'imageTool',
-    onActive(app) {
+    async onActive(app) {
       app.cancelSelect();
-      selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE'], false).then((files) => {
-        const fileReader = new FileReader();
-        fileReader.onload = (event) => {
-          const fileDataUrl = event.target?.result as string;
-          imageObject.src = fileDataUrl ?? '';
-        };
-        fileReader.readAsDataURL(files[0]);
-      });
+      const files = await selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE'], false);
+      const imgSrc = await readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+      imageObject.src = imgSrc;
       app.add(img);
       app.setTool(selectTool(img));
     },
