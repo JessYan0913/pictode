@@ -1,12 +1,13 @@
 import { RegularPolygon } from '../customs/regular-polygon';
 import { Tool } from '../types';
-import { Point } from '../utils';
+import { guid, Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const regularPolygonTool = (): Tool => {
   const startPointer: Point = new Point(0, 0);
   const regularPolygon: RegularPolygon = new RegularPolygon({
+    id: guid(),
     fill: 'transparent',
     stroke: 'black',
     strokeWidth: 2,

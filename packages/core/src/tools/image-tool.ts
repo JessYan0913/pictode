@@ -1,16 +1,14 @@
-import { readeFile, selectFile } from '@pictode/utils';
-
 import { Image as Img } from '../customs/image';
 import { Tool } from '../types';
+import { guid, readeFile, selectFile } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const imageTool = (): Tool => {
   const imageObject = new Image();
   const img = new Img({
+    id: guid(),
     image: imageObject,
-    stroke: 'black',
-    strokeWidth: 2,
   });
 
   return {

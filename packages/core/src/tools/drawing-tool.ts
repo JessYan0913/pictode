@@ -1,13 +1,14 @@
 import Konva from 'konva';
 
 import { Tool } from '../types';
-import { Point } from '../utils';
+import { guid, Point } from '../utils';
 
 import { selectTool } from './select-tool';
 
 export const drawingTool = (): Tool => {
   let points: Point[] = [];
   const line = new Konva.Line({
+    id: guid(),
     stroke: 'black',
     strokeWidth: 2,
     globalCompositeOperation: 'source-over',
