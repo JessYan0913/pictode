@@ -1,4 +1,4 @@
-import { App, EventArgs, KonvaNode, Plugin } from '@pictode/core';
+import { App, EventArgs, Plugin } from '@pictode/core';
 
 import './methods';
 
@@ -12,7 +12,7 @@ export class HistoryPlugin implements Plugin {
   public app?: App;
   public options?: Options;
 
-  private oldNodes: KonvaNode[] = [];
+  private oldNodes: string[] = [];
 
   constructor(options?: Options) {
     this.options = options;
@@ -72,7 +72,7 @@ export class HistoryPlugin implements Plugin {
   };
 
   private onNodeTransformStart = ({ nodes }: EventArgs['node:transform:start']) => {
-    this.oldNodes = nodes;
+    this.oldNodes = nodes.map((node) => node.toJSON());
   };
 
   private onNodeTransformEnd = ({ nodes }: EventArgs['node:transform:end']) => {
@@ -81,7 +81,7 @@ export class HistoryPlugin implements Plugin {
     }
     this.history.execute(
       new ModifiedObjectCmd(this.app, {
-        oldNodes: this.oldNodes.map((node) => node.toJSON()),
+        oldNodes: this.oldNodes,
         newNodes: nodes.map((node) => node.toJSON()),
       })
     );
