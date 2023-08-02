@@ -98,7 +98,18 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public _update(): void {}
+  public update(...nodes: KonvaNode[]): void {
+    this._update(...nodes);
+    this.emit('node:updated', { nodes });
+  }
+
+  public _update(...nodes: KonvaNode[]): void {
+    nodes.forEach((node) => {
+      const originNode = this.getNodeById(node.attrs.id);
+      originNode?.setAttrs(node.attrs);
+    });
+    this.render();
+  }
 
   public getNodeById(id: string): KonvaNode | undefined {
     return this.getNodes((node) => node.id() === id)?.[0];
