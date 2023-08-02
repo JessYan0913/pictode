@@ -20,10 +20,8 @@ export const drawingTool = (): Tool => {
   return {
     name: 'drawingTool',
     onActive(app) {
-      app.cancelSelect();
-    },
-    onInactive() {
       points = [];
+      app.cancelSelect();
     },
     onMouseDown({ app }): void {
       const lastPoint = points.at(-1);

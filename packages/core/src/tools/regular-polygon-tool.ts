@@ -19,9 +19,6 @@ export const regularPolygonTool = (): Tool => {
     onActive(app) {
       app.cancelSelect();
     },
-    onInactive() {
-      startPointer.setXY(0, 0);
-    },
     onMouseDown({ app }) {
       startPointer.clone(app.pointer);
       regularPolygon.radius(0);

@@ -19,10 +19,8 @@ export const lineTool = (): Tool => {
   return {
     name: 'lineTool',
     onActive(app) {
-      app.cancelSelect();
-    },
-    onInactive() {
       points = [];
+      app.cancelSelect();
     },
     onMouseDown({ app }): void {
       if (points.length === 0) {

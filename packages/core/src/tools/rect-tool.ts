@@ -17,9 +17,6 @@ export const rectTool = (): Tool => {
     onActive(app) {
       app.cancelSelect();
     },
-    onInactive() {
-      startPointer.setXY(0, 0);
-    },
     onMouseDown({ app }: AppMouseEvent): void {
       startPointer.clone(app.pointer);
       rectangle.setPosition(startPointer);
