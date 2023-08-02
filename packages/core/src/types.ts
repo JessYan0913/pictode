@@ -60,6 +60,9 @@ export interface EventArgs {
   'shape:removed': {
     object: ChildType[];
   };
+  'shape:updated': {
+    object: ChildType[];
+  };
   'shape:transform:start': {
     object: ChildType[];
   };
