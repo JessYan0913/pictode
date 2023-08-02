@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { App, drawingTool, ellipseTool, lineTool, rectTool, regularPolygonTool, selectTool } from '@pictode/core';
+import {
+  App,
+  drawingTool,
+  ellipseTool,
+  imageTool,
+  lineTool,
+  rectTool,
+  regularPolygonTool,
+  selectTool,
+} from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
 const containerRef = ref<HTMLDivElement>();
@@ -28,6 +37,7 @@ onMounted(() => {
       <button @click="app.setTool(regularPolygonTool())">三角形🔺</button>
       <button @click="app.setTool(lineTool())">线条📉</button>
       <button @click="app.setTool(drawingTool())">铅笔✏️</button>
+      <button @click="app.setTool(imageTool())">图片🅿️</button>
     </div>
     <div ref="containerRef" class="container"></div>
   </div>

@@ -7,3 +7,4 @@ export * from './tools/ellipse-tool';
 export * from './tools/regular-polygon-tool';
 export * from './tools/line-tool';
 export * from './tools/drawing-tool';
+export * from './tools/image-tool';
