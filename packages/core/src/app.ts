@@ -16,6 +16,7 @@ export class App extends BaseService<EventArgs> {
   private tooler: Tooler;
   private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
+  private resizeObserver: ResizeObserver;
 
   constructor() {
     super();
@@ -40,7 +41,15 @@ export class App extends BaseService<EventArgs> {
     this.selector = new Selector(this);
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
+    this.resizeObserver = new ResizeObserver(this.onContainerResize);
   }
+
+  private onContainerResize = (e: ResizeObserverEntry[]) => {
+    const { width, height } = e[0].contentRect;
+    this.stage.width(width);
+    this.stage.height(height);
+    this.render();
+  };
 
   public get pointer(): Point {
     const { x, y } = this.stage.getRelativePointerPosition() ?? { x: 0, y: 0 };
@@ -57,10 +66,7 @@ export class App extends BaseService<EventArgs> {
 
   public mount(element: HTMLElement) {
     element.appendChild(this.containerElement);
-    this.stage.setSize({
-      width: element.clientWidth,
-      height: element.clientHeight,
-    });
+    this.resizeObserver.observe(this.containerElement);
   }
 
   public async setTool(curTool: Tool): Promise<void> {
@@ -239,6 +245,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public destroy(): void {
+    this.resizeObserver.disconnect();
     this.destroyPlugins(Array.from(this.installedPlugins.keys()));
     this.mouse.destroy();
     this.selector.destroy();
