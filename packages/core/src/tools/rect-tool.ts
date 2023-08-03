@@ -1,5 +1,5 @@
 import { Rect } from '../customs/rect';
-import { AppMouseEvent, Tool } from '../types';
+import { Tool } from '../types';
 import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
@@ -17,14 +17,14 @@ export const rectTool = (): Tool => {
     onActive(app) {
       app.cancelSelect();
     },
-    onMouseDown({ app }: AppMouseEvent): void {
+    onMousedown({ app }): void {
       startPointer.clone(app.pointer);
       rectangle.setPosition(startPointer);
       rectangle.width(0);
       rectangle.height(0);
       app.add(rectangle);
     },
-    onMouseMove({ app }: AppMouseEvent): void {
+    onMousemove({ app }): void {
       rectangle.setPosition(
         new Point(Math.min(startPointer.x, app.pointer.x), Math.min(startPointer.y, app.pointer.y))
       );
@@ -32,7 +32,7 @@ export const rectTool = (): Tool => {
       rectangle.height(Math.abs(app.pointer.y - startPointer.y));
       app.render();
     },
-    onMouseUp({ app }: AppMouseEvent): void {
+    onMouseup({ app }): void {
       app.setTool(selectTool(rectangle));
     },
   };

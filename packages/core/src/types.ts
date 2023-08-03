@@ -26,11 +26,11 @@ export interface Tool {
   name: string;
   onActive(app: App): Promise<void> | void;
   onInactive?: (app: App) => Promise<void> | void;
-  onMouseDown?: (event: AppMouseEvent) => void;
-  onMouseMove?: (event: AppMouseEvent) => void;
-  onMouseUp?: (event: AppMouseEvent) => void;
-  onMouseDoubleClick?: (event: AppMouseEvent) => void;
-  onMouseClick?: (event: AppMouseEvent) => void;
+  onMousedown?: (event: AppMouseEvent) => void;
+  onMousemove?: (event: AppMouseEvent) => void;
+  onMouseup?: (event: AppMouseEvent) => void;
+  onDoubleClick?: (event: AppMouseEvent) => void;
+  onClick?: (event: AppMouseEvent) => void;
 }
 
 export abstract class Service {

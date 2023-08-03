@@ -22,7 +22,7 @@ export const lineTool = (): Tool => {
       points = [];
       app.cancelSelect();
     },
-    onMouseDown({ app }): void {
+    onMousedown({ app }): void {
       if (points.length === 0) {
         app.add(line);
       }
@@ -32,11 +32,11 @@ export const lineTool = (): Tool => {
       }
       line.points(flatPoints(points));
     },
-    onMouseMove({ app }): void {
+    onMousemove({ app }): void {
       line.points(flatPoints(points).concat(app.pointer.x, app.pointer.y));
       app.render();
     },
-    onMouseDoubleClick({ app }): void {
+    onDoubleClick({ app }): void {
       app.setTool(selectTool(line));
     },
   };

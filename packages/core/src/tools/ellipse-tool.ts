@@ -1,5 +1,5 @@
 import { Ellipse } from '../customs/ellipse';
-import { AppMouseEvent, Tool } from '../types';
+import { Tool } from '../types';
 import { Point } from '../utils';
 
 import { selectTool } from './select-tool';
@@ -19,13 +19,13 @@ export const ellipseTool = (): Tool => {
     onActive(app) {
       app.cancelSelect();
     },
-    onMouseDown({ app }: AppMouseEvent): void {
+    onMousedown({ app }): void {
       startPointer.clone(app.pointer);
       ellipse.setPosition(startPointer);
       ellipse.radius(new Point(0, 0));
       app.add(ellipse);
     },
-    onMouseMove({ app }: AppMouseEvent): void {
+    onMousemove({ app }): void {
       // 计算起点和当前鼠标位置之间的距离
       const dx = app.pointer.x - startPointer.x;
       const dy = app.pointer.y - startPointer.y;
@@ -37,7 +37,7 @@ export const ellipseTool = (): Tool => {
       ellipse.radius(radius);
       app.render();
     },
-    onMouseUp({ app }: AppMouseEvent): void {
+    onMouseup({ app }): void {
       app.setTool(selectTool(ellipse));
     },
   };

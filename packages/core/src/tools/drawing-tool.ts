@@ -22,7 +22,7 @@ export const drawingTool = (): Tool => {
       points = [];
       app.cancelSelect();
     },
-    onMouseDown({ app }): void {
+    onMousedown({ app }): void {
       const lastPoint = points.at(-1);
       if (!lastPoint || !lastPoint.eq(app.pointer)) {
         points.push(app.pointer);
@@ -30,11 +30,11 @@ export const drawingTool = (): Tool => {
       line.points(flatPoints());
       app.add(line);
     },
-    onMouseMove({ app, event }): void {
+    onMousemove({ app, event }): void {
       event.evt.stopPropagation();
       line.points(line.points().concat([app.pointer.x, app.pointer.y]));
     },
-    onMouseUp({ app }): void {
+    onMouseup({ app }): void {
       app.setTool(selectTool(line));
     },
   };

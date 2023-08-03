@@ -39,38 +39,38 @@ export class Tooler extends Service {
   }
 
   private onMousedown = ({ event }: EventArgs['mouse:down']): void => {
-    if (!this.available || !this.currentTool?.onMouseDown) {
+    if (!this.available || !this.currentTool?.onMousedown) {
       return;
     }
-    this.currentTool.onMouseDown({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.onMousedown({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMouseup = ({ event }: EventArgs['mouse:up']): void => {
-    if (!this.available || !this.currentTool?.onMouseUp) {
+    if (!this.available || !this.currentTool?.onMouseup) {
       return;
     }
-    this.currentTool.onMouseUp({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.onMouseup({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMousemove = ({ event }: EventArgs['mouse:move']): void => {
-    if (!this.available || !this.currentTool?.onMouseMove) {
+    if (!this.available || !this.currentTool?.onMousemove) {
       return;
     }
-    this.currentTool.onMouseMove({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.onMousemove({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (!this.available || !this.currentTool?.onMouseClick) {
+    if (!this.available || !this.currentTool?.onClick) {
       return;
     }
-    this.currentTool.onMouseClick({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.onClick({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onDoubleClick = ({ event }: EventArgs['mouse:dbclick']): void => {
-    if (!this.available || !this.currentTool?.onMouseDoubleClick) {
+    if (!this.available || !this.currentTool?.onDoubleClick) {
       return;
     }
-    this.currentTool.onMouseDoubleClick({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.onDoubleClick({ event, pointer: this.app.pointer, app: this.app });
   };
 
   public destroy(): void {

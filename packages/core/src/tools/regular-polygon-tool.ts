@@ -19,13 +19,13 @@ export const regularPolygonTool = (): Tool => {
     onActive(app) {
       app.cancelSelect();
     },
-    onMouseDown({ app }) {
+    onMousedown({ app }) {
       startPointer.clone(app.pointer);
       regularPolygon.radius(0);
       regularPolygon.setPosition(startPointer);
       app.add(regularPolygon);
     },
-    onMouseMove({ app }) {
+    onMousemove({ app }) {
       const dx = app.pointer.x - startPointer.x;
       const dy = app.pointer.y - startPointer.y;
       const newPosition = new Point(startPointer.x + dx / 2, startPointer.y + dy / 2);
@@ -34,7 +34,7 @@ export const regularPolygonTool = (): Tool => {
       regularPolygon.radius(newPosition.distanceTo(app.pointer));
       app.render();
     },
-    onMouseUp({ app }) {
+    onMouseup({ app }) {
       app.setTool(selectTool(regularPolygon));
     },
   };
