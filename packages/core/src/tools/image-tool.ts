@@ -17,7 +17,7 @@ export const imageTool = (): Tool => {
     async onActive(app) {
       try {
         app.cancelSelect();
-        const files = await selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE'], false);
+        const files = await selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
         const imgSrc = await readeFile<string>((reader) => reader.readAsDataURL(files[0]));
         imageObject.src = imgSrc;
         img.opacity(0.5);
@@ -25,6 +25,15 @@ export const imageTool = (): Tool => {
       } catch (error) {
         img.destroy();
       }
+    },
+    onMousedown({ app }) {
+      img.opacity(1);
+      if (confirm) {
+        return;
+      }
+      confirm = true;
+      img.opacity(1);
+      app.setTool(selectTool(img));
     },
     onMousemove({ app, pointer }) {
       if (!imageObject.src) {
@@ -36,14 +45,6 @@ export const imageTool = (): Tool => {
       img.height(height);
       img.position(new Point(pointer.x - width / 2, pointer.y - height / 2));
       app.render();
-    },
-    onMouseup({ app }) {
-      if (confirm) {
-        return;
-      }
-      confirm = true;
-      img.opacity(1);
-      app.setTool(selectTool(img));
     },
   };
 };
