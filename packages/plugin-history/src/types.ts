@@ -44,8 +44,8 @@ export namespace Cmd {
   }
 
   export interface ModifiedObjectOptions {
-    oldNodes: string[];
-    newNodes: string[];
+    oldNodes: KonvaNode[];
+    newNodes: KonvaNode[];
   }
 }
 

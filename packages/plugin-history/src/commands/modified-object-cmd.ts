@@ -1,4 +1,4 @@
-import { App, Konva } from '@pictode/core';
+import { App } from '@pictode/core';
 
 import { Cmd } from '../types';
 
@@ -10,11 +10,11 @@ export class ModifiedObjectCmd extends BaseCmd<Cmd.ModifiedObjectOptions> {
   }
 
   public execute(): void {
-    this.app._update(...this.options.newNodes.map((node) => Konva.Node.create(node)));
+    this.app._update(...this.options.newNodes);
   }
 
   public undo(): void {
-    this.app._update(...this.options.oldNodes.map((node) => Konva.Node.create(node)));
+    this.app._update(...this.options.oldNodes);
   }
 }
 

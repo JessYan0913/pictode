@@ -7,6 +7,20 @@ import { Tooler } from './services/tooler';
 import { EventArgs, KonvaMouseEvent, KonvaNode, Plugin, Tool } from './types';
 import { guid, Point } from './utils';
 
+const originToObject = Konva.Node.prototype.toObject;
+Konva.Node.prototype.toObject = function (): any {
+  const object = originToObject.call(this);
+  return {
+    ...object,
+    attrs: {
+      ...object.attrs,
+      scaleX: this.scaleX() ?? 1,
+      scaleY: this.scaleY() ?? 1,
+      rotation: this.rotation() ?? 0,
+    },
+  };
+};
+
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public mainLayer: Konva.Layer;
