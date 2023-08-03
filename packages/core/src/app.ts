@@ -15,6 +15,7 @@ export class App extends BaseService<EventArgs> {
   private selector: Selector;
   private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
+  private toolEnable: boolean = true;
 
   constructor() {
     super();
@@ -66,6 +67,14 @@ export class App extends BaseService<EventArgs> {
     await this.currentTool.onActive(this);
     this.render();
     this.emit('tool:changed', { oldTool, curTool });
+  }
+
+  public triggerToolAvailability(enable?: boolean): void {
+    if (enable === void 0) {
+      this.toolEnable = !this.toolEnable;
+    } else {
+      this.toolEnable = enable;
+    }
   }
 
   public add(...nodes: KonvaNode[]): void {
