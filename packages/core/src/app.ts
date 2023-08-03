@@ -187,6 +187,10 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer.draw();
   }
 
+  public zoomToContent(): void {
+    console.log('滚动到内容');
+  }
+
   public toJSON(): string {
     return this.mainLayer.toJSON();
   }
