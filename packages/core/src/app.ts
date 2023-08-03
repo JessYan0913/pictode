@@ -187,8 +187,8 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer.draw();
   }
 
-  public zoomToContent(): void {
-    console.log('滚动到内容');
+  public scrollToContent(): void {
+    //TODO: 需要实现滚动到内容功能
   }
 
   public toJSON(): string {

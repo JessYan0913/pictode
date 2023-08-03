@@ -17,9 +17,6 @@ const containerRef = ref<HTMLDivElement>();
 
 const app = new App();
 app.use(new HistoryPlugin());
-app.on('selected:changed', ({ selected }) => {
-  console.log('当前选中', selected);
-});
 onMounted(() => {
   if (containerRef.value) {
     app.mount(containerRef.value);
@@ -33,7 +30,7 @@ onMounted(() => {
       <button @click="app.remove(...app.selected)">删除</button>
       <button @click="app.undo()">回退</button>
       <button @click="app.redo()">恢复</button>
-      <button @click="app.zoomToContent()">快速定位</button>
+      <button @click="app.scrollToContent()">快速定位</button>
     </div>
     <div class="tools">
       <button @click="app.setTool(selectTool())">选择🖱️</button>
