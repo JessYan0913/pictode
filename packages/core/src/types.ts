@@ -16,7 +16,7 @@ export interface Plugin {
   isEnabled?(): boolean;
 }
 
-export interface AppMouseEvent {
+export interface ToolEvent {
   event: KonvaMouseEvent;
   pointer: Point;
   app: App;
@@ -26,11 +26,11 @@ export interface Tool {
   name: string;
   onActive(app: App): Promise<void> | void;
   onInactive?: (app: App) => Promise<void> | void;
-  onMousedown?: (event: AppMouseEvent) => void;
-  onMousemove?: (event: AppMouseEvent) => void;
-  onMouseup?: (event: AppMouseEvent) => void;
-  onDoubleClick?: (event: AppMouseEvent) => void;
-  onClick?: (event: AppMouseEvent) => void;
+  onMousedown?: (event: ToolEvent) => void;
+  onMousemove?: (event: ToolEvent) => void;
+  onMouseup?: (event: ToolEvent) => void;
+  onDoubleClick?: (event: ToolEvent) => void;
+  onClick?: (event: ToolEvent) => void;
 }
 
 export abstract class Service {
