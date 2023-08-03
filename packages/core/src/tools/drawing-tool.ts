@@ -34,7 +34,13 @@ export const drawingTool = (): Tool => {
       event.evt.stopPropagation();
       line.points(line.points().concat([app.pointer.x, app.pointer.y]));
     },
-    onMouseup({ app }): void {
+    onMouseup({ app, pointer }): void {
+      const lastPoint = points.at(-1);
+      if (points.length <= 6 && lastPoint && pointer.distanceTo(lastPoint) < 10) {
+        line.destroy();
+        app.setTool(selectTool());
+        return;
+      }
       app.setTool(selectTool(line));
     },
   };
