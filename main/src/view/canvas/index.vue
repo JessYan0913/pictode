@@ -17,7 +17,7 @@ const containerRef = ref<HTMLDivElement>();
 const app = new App();
 app.use(new HistoryPlugin());
 app.on('selected:changed', ({ selected }) => {
-  console.log('---->', selected);
+  console.log('当前选中', selected);
 });
 onMounted(() => {
   if (containerRef.value) {

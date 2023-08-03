@@ -100,6 +100,9 @@ export class Selector extends Service {
   }
 
   public cancelSelect(...nodes: KonvaNode[]): void {
+    if (this.selected.size === 0) {
+      return;
+    }
     if (nodes.length === 0) {
       nodes = [...this.selected.values()];
     }
