@@ -16,58 +16,30 @@ export class Mouse extends Service {
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:down', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseDown) {
-      return;
-    }
-    this.app.currentTool.onMouseDown({ event, app: this.app });
   };
 
   private onMouseUp = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:up', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseUp) {
-      return;
-    }
-    this.app.currentTool.onMouseUp({ event, app: this.app });
   };
 
   private onMouseMove = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:move', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseMove) {
-      return;
-    }
-    this.app.currentTool.onMouseMove({ event, app: this.app });
   };
 
   private onMouseOver = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:over', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseOver) {
-      return;
-    }
-    this.app.currentTool.onMouseOver({ event, app: this.app });
   };
 
   private onMouseOut = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:out', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseOut) {
-      return;
-    }
-    this.app.currentTool.onMouseOut({ event, app: this.app });
   };
 
   private onMouseDoubleClick = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:dbclick', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseDoubleClick) {
-      return;
-    }
-    this.app.currentTool.onMouseDoubleClick({ event, app: this.app });
   };
 
   private onMouseClick = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:click', { event });
-    if (!this.app.currentTool || !this.app.currentTool.onMouseClick) {
-      return;
-    }
-    this.app.currentTool.onMouseClick({ event, app: this.app });
   };
 
   public destroy(): void {

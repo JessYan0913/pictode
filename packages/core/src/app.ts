@@ -3,19 +3,19 @@ import Konva from 'konva';
 
 import { Mouse } from './services/mouse';
 import { Selector } from './services/selector';
+import { Tooler } from './services/tooler';
 import { EventArgs, KonvaMouseEvent, KonvaNode, Plugin, Tool } from './types';
 import { guid, Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
-  public currentTool: Tool | null = null;
   public mainLayer: Konva.Layer;
 
   private mouse: Mouse;
   private selector: Selector;
+  private tooler: Tooler;
   private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
-  private toolEnable: boolean = true;
 
   constructor() {
     super();
@@ -38,6 +38,7 @@ export class App extends BaseService<EventArgs> {
     this.stage.add(this.mainLayer);
 
     this.selector = new Selector(this);
+    this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
   }
 
@@ -59,22 +60,11 @@ export class App extends BaseService<EventArgs> {
   }
 
   public async setTool(curTool: Tool): Promise<void> {
-    const oldTool = this.currentTool;
-    if (oldTool && typeof oldTool.onInactive === 'function') {
-      await oldTool.onInactive(this);
-    }
-    this.currentTool = curTool;
-    await this.currentTool.onActive(this);
-    this.render();
-    this.emit('tool:changed', { oldTool, curTool });
+    await this.tooler.setTool(curTool);
   }
 
   public triggerToolAvailability(enable?: boolean): void {
-    if (enable === void 0) {
-      this.toolEnable = !this.toolEnable;
-    } else {
-      this.toolEnable = enable;
-    }
+    this.tooler.triggerAvailability(enable);
   }
 
   public add(...nodes: KonvaNode[]): void {
@@ -245,8 +235,10 @@ export class App extends BaseService<EventArgs> {
   }
 
   public destroy(): void {
-    this.currentTool = null;
     this.destroyPlugins(Array.from(this.installedPlugins.keys()));
+    this.mouse.destroy();
+    this.selector.destroy();
+    this.tooler.destroy();
     this.stage.destroy();
     this.removeAllListeners();
   }
