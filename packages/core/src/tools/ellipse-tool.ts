@@ -12,6 +12,7 @@ export const ellipseTool = (): Tool => {
     fill: 'transparent',
     stroke: 'black',
     strokeWidth: 2,
+    strokeScaleEnabled: false,
   });
 
   return {

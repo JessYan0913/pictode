@@ -12,6 +12,7 @@ export const regularPolygonTool = (): Tool => {
     strokeWidth: 2,
     sides: 4,
     radius: 0,
+    strokeScaleEnabled: false,
   });
 
   return {

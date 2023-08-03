@@ -8,6 +8,7 @@ export const imageTool = (): Tool => {
   const imageObject = new Image();
   const img = new Img({
     image: imageObject,
+    strokeScaleEnabled: false,
   });
   let confirm: boolean = false;
 

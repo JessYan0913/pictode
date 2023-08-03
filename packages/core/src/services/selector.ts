@@ -24,6 +24,7 @@ export class Selector extends Service {
 
     this.transformer = new Konva.Transformer({
       padding: 3,
+      ignoreStroke: true,
       borderStroke: 'rgb(157, 157, 231)',
       borderStrokeWidth: 1,
       anchorSize: 8,

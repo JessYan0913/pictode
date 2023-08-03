@@ -12,6 +12,7 @@ export const drawingTool = (): Tool => {
     globalCompositeOperation: 'source-over',
     lineCap: 'round',
     lineJoin: 'round',
+    strokeScaleEnabled: false,
   });
 
   const flatPoints = (): number[] => points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);
