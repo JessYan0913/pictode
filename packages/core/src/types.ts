@@ -1,6 +1,7 @@
 import Konva from 'konva';
 
 import App from './app';
+import { Point } from './utils';
 
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
 export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
@@ -14,8 +15,10 @@ export interface Plugin {
   disable?(): void;
   isEnabled?(): boolean;
 }
+
 export interface AppMouseEvent {
   event: KonvaMouseEvent;
+  pointer: Point;
   app: App;
 }
 
@@ -28,8 +31,6 @@ export interface Tool {
   onMouseUp?: (event: AppMouseEvent) => void;
   onMouseDoubleClick?: (event: AppMouseEvent) => void;
   onMouseClick?: (event: AppMouseEvent) => void;
-  onMouseOver?: (event: AppMouseEvent) => void;
-  onMouseOut?: (event: AppMouseEvent) => void;
 }
 
 export abstract class Service {

@@ -42,35 +42,35 @@ export class Tooler extends Service {
     if (!this.available || !this.currentTool?.onMouseDown) {
       return;
     }
-    this.currentTool.onMouseDown({ event, app: this.app });
+    this.currentTool.onMouseDown({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMouseup = ({ event }: EventArgs['mouse:up']): void => {
     if (!this.available || !this.currentTool?.onMouseUp) {
       return;
     }
-    this.currentTool.onMouseUp({ event, app: this.app });
+    this.currentTool.onMouseUp({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMousemove = ({ event }: EventArgs['mouse:move']): void => {
     if (!this.available || !this.currentTool?.onMouseMove) {
       return;
     }
-    this.currentTool.onMouseMove({ event, app: this.app });
+    this.currentTool.onMouseMove({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onClick = ({ event }: EventArgs['mouse:click']): void => {
     if (!this.available || !this.currentTool?.onMouseClick) {
       return;
     }
-    this.currentTool.onMouseClick({ event, app: this.app });
+    this.currentTool.onMouseClick({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onDoubleClick = ({ event }: EventArgs['mouse:dbclick']): void => {
     if (!this.available || !this.currentTool?.onMouseDoubleClick) {
       return;
     }
-    this.currentTool.onMouseDoubleClick({ event, app: this.app });
+    this.currentTool.onMouseDoubleClick({ event, pointer: this.app.pointer, app: this.app });
   };
 
   public destroy(): void {
