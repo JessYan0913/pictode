@@ -203,7 +203,7 @@ export class Selector extends Service {
     this.select(event.target);
   };
 
-  public dispose(): void {
+  public destroy(): void {
     this.transformer.off('transformstart', this.onTransformStart);
     this.transformer.off('transformend', this.onTransformEnd);
     this.transformer.off('dragstart', this.onDragStart);

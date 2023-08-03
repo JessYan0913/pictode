@@ -28,8 +28,8 @@ export class HistoryPlugin implements Plugin {
     this.app.on('node:transform:end', this.onNodeTransformEnd);
   }
 
-  public dispose(): void {
-    this.history?.dispose();
+  public destroy(): void {
+    this.history?.destroy();
     this.app?.off('node:added', this.onNodeAdded);
     this.app?.off('node:removed', this.onNodeRemove);
     this.app?.off('node:transform:start', this.onNodeTransformStart);

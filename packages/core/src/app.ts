@@ -225,19 +225,19 @@ export class App extends BaseService<EventArgs> {
     return this.getPlugin(pluginName)?.isEnabled?.() ?? false;
   }
 
-  public disposePlugins(plugins: string | string[]): App {
+  public destroyPlugins(plugins: string | string[]): App {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
     const aboutToChangePlugins = this.getPlugins(plugins);
-    aboutToChangePlugins?.forEach((plugin) => plugin?.dispose());
+    aboutToChangePlugins?.forEach((plugin) => plugin?.destroy());
     return this;
   }
 
-  public dispose(): void {
+  public destroy(): void {
     this.currentTool = null;
-    this.disposePlugins(Array.from(this.installedPlugins.keys()));
-    // this.canvas.dispose();
+    this.destroyPlugins(Array.from(this.installedPlugins.keys()));
+    this.stage.destroy();
     this.removeAllListeners();
   }
 }

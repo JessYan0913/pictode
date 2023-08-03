@@ -70,7 +70,7 @@ export class Mouse extends Service {
     this.app.currentTool.onMouseClick({ event, app: this.app });
   };
 
-  public dispose(): void {
+  public destroy(): void {
     this.app.stage.off('mousedown', this.onMouseDown);
     this.app.stage.off('mouseup', this.onMouseUp);
     this.app.stage.off('mousemove', this.onMouseMove);

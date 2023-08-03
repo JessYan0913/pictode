@@ -9,7 +9,7 @@ export type KonvaNode = Konva.Group | Konva.Shape;
 export interface Plugin {
   name: string;
   install(app: App, ...options: any[]): any;
-  dispose(): void;
+  destroy(): void;
   enable?(): void;
   disable?(): void;
   isEnabled?(): boolean;
@@ -39,7 +39,7 @@ export abstract class Service {
     this.app = app;
   }
 
-  public abstract dispose(): void;
+  public abstract destroy(): void;
 }
 
 export interface EventArgs {

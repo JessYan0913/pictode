@@ -137,7 +137,7 @@ export class History {
     });
   }
 
-  public dispose(): void {
+  public destroy(): void {
     this.undoStack = [];
     this.redoStack = [];
     this.app.emit('stack:changed', {
