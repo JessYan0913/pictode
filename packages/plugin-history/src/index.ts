@@ -61,14 +61,14 @@ export class HistoryPlugin implements Plugin {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new AddObjectCmd(this.app, { nodes: nodes.map((node) => node.toJSON()) }));
+    this.history.execute(new AddObjectCmd(this.app, { nodes }));
   };
 
   private onNodeRemove = ({ nodes }: EventArgs['node:removed']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new RemoveObjectCmd(this.app, { nodes: nodes.map((node) => node.toJSON()) }));
+    this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
   };
 
   private onNodeTransformStart = ({ nodes }: EventArgs['node:transform:start']) => {

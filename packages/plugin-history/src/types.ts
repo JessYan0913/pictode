@@ -1,3 +1,5 @@
+import { KonvaNode } from '@pictode/core';
+
 import { HistoryPlugin } from './index';
 
 declare module '@pictode/core' {
@@ -34,11 +36,11 @@ export namespace Cmd {
   }
 
   export interface AddObjectOptions {
-    nodes: string[];
+    nodes: KonvaNode[];
   }
 
   export interface RemoveObjectOptions {
-    nodes: string[];
+    nodes: KonvaNode[];
   }
 
   export interface ModifiedObjectOptions {
