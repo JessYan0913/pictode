@@ -185,6 +185,7 @@ export class App extends BaseService<EventArgs> {
   public fromJSON(json: string): void {
     const layer = Konva.Node.create(json, 'layer');
     this.mainLayer = layer;
+    this.render();
   }
 
   public use(plugin: Plugin, ...options: any[]): App {
