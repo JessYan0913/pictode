@@ -15,14 +15,21 @@ export const imageTool = (): Tool => {
   return {
     name: 'imageTool',
     async onActive(app) {
-      app.cancelSelect();
-      const files = await selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE'], false);
-      const imgSrc = await readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-      imageObject.src = imgSrc;
-      img.opacity(0.5);
-      app.add(img);
+      try {
+        app.cancelSelect();
+        const files = await selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE'], false);
+        const imgSrc = await readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+        imageObject.src = imgSrc;
+        img.opacity(0.5);
+        app.add(img);
+      } catch (error) {
+        img.destroy();
+      }
     },
     onMousemove({ app, pointer }) {
+      if (!imageObject.src) {
+        return;
+      }
       const width = 200;
       const height = width * (imageObject.height / imageObject.width);
       img.width(width);
