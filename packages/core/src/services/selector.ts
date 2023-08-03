@@ -81,6 +81,7 @@ export class Selector extends Service {
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
     this.app.on('mouse:click', this.onMouseClick);
+    this.app.on('mouse:out', this.onMouseOut);
   }
 
   public select(...nodes: KonvaNode[]): void {
@@ -91,11 +92,13 @@ export class Selector extends Service {
       return;
     }
     this.cancelSelect();
-    nodes.forEach((node) => {
-      node.draggable(true);
-      this.selected.set(node.id(), node);
-    });
-    this.transformer.nodes(nodes);
+    this.transformer.nodes(
+      nodes.filter((node) => {
+        node.draggable(true);
+        this.selected.set(node.id(), node);
+        return node !== this.rubberRect;
+      })
+    );
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -207,6 +210,12 @@ export class Selector extends Service {
     this.select(event.target);
   };
 
+  private onMouseOut = ({ event }: EventArgs['mouse:out']): void => {
+    if (event.target instanceof Konva.Stage) {
+      this.rubberEnable = false;
+    }
+  };
+
   public destroy(): void {
     this.transformer.off('transformstart', this.onTransformStart);
     this.transformer.off('transformend', this.onTransformEnd);
@@ -216,6 +225,7 @@ export class Selector extends Service {
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
     this.app.off('mouse:click', this.onMouseClick);
+    this.app.off('mouse:out', this.onMouseOut);
     this.selected.clear();
     this.enable = false;
     this.transformer.destroy();
