@@ -51,6 +51,10 @@ export class App extends BaseService<EventArgs> {
     return [...this.selector.selected.values()];
   }
 
+  public get curTool(): Tool | null {
+    return this.tooler.currentTool;
+  }
+
   public mount(element: HTMLElement) {
     element.appendChild(this.containerElement);
     this.stage.setSize({
