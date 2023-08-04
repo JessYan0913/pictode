@@ -9,6 +9,7 @@ const { app } = usePictode();
 app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
+const propertyVisible = ref<boolean>(false);
 
 onMounted(() => {
   if (canvasRef.value) {
@@ -21,7 +22,10 @@ onMounted(() => {
   <div class="container">
     <div class="side-top">
       <div class="menu">
-        <div class="icon">🎨</div>
+        <div class="top-left">
+          <div class="dropdown-menu-button" @click="propertyVisible = !propertyVisible">🎨</div>
+          <div v-if="propertyVisible" class="island">属性面板</div>
+        </div>
         <section class="shapes-section">
           <Tools></Tools>
         </section>
@@ -74,16 +78,37 @@ onMounted(() => {
   }
 }
 
-.icon {
-  height: 100%;
+.top-left {
+  display: grid;
+  gap: cal(0.25rem * 6);
+  grid-template-columns: auto;
+  grid-auto-flow: row;
+  grid-auto-rows: min-content;
+  pointer-events: all;
+}
+
+.dropdown-menu-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: all;
-  font-size: 36px;
+  padding: 0.625rem;
   cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.island {
+  background-color: rgba(256, 256, 256, 0.96);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
+    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
+  border-radius: 0.5rem;
+  transition: box-shadow 0.5s ease-in-out;
+  overflow-y: auto;
+  padding: 0.75rem;
+  width: 202px;
+  box-sizing: border-box;
+  max-height: 667px;
 }
 
 .shapes-section {
