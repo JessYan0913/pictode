@@ -12,7 +12,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Canvas',
-    component: () => import('../view/canvas/index.vue'),
+    component: () => import('../view/canvas.vue'),
   },
 ];
 
@@ -25,15 +25,6 @@ const router = createRouter({
       redirect: '/canvas',
       component: () => import('../layout/index.vue'),
       children: routes,
-    },
-    {
-      path: '/404',
-      name: '404',
-      component: () => import('../layout/404.vue'),
-    },
-    {
-      path: '/:catchAll(.*)',
-      redirect: '/404',
     },
   ],
 });
