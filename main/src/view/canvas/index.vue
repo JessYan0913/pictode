@@ -60,8 +60,12 @@ onMounted(() => {
         </section>
         <div>
           <div class="undo-redo-buttons">
-            <div @click="app.undo()">↩️</div>
-            <div @click="app.redo()">↪️</div>
+            <label class="tool-icon">
+              <div @click="app.undo()">↩️</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.redo()">↪️</div>
+            </label>
           </div>
         </div>
       </div>
@@ -168,5 +172,13 @@ onMounted(() => {
   margin-top: auto;
   margin-bottom: auto;
   margin-inline-start: 0.6em;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
+    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
+  border-radius: 0.5rem;
+  padding: calc(1 * 0.25rem);
+  position: relative;
+  transition: box-shadow 0.5s ease-in-out;
 }
 </style>
