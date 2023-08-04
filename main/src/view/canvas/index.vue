@@ -29,7 +29,7 @@ onMounted(() => {
   <div class="container">
     <div class="side-top">
       <div class="menu">
-        <div>菜单</div>
+        <div class="icon">Pictode</div>
         <section class="shapes-section">
           <div class="tools-horizontal">
             <label class="tool-icon">
@@ -58,7 +58,12 @@ onMounted(() => {
             </label>
           </div>
         </section>
-        <div>操作区域</div>
+        <div>
+          <div class="undo-redo-buttons">
+            <el-button @click="app.undo()">回退</el-button>
+            <el-button @click="app.redo()">恢复</el-button>
+          </div>
+        </div>
       </div>
     </div>
     <div ref="canvasRef" class="canvas"></div>
@@ -88,6 +93,20 @@ onMounted(() => {
   cursor: default;
   pointer-events: none !important;
   font-family: 'AlimamaFangYuanTi';
+
+  & > *:first-child {
+    justify-self: flex-start;
+  }
+
+  & > *:last-child {
+    justify-self: flex-end;
+  }
+}
+
+.icon {
+  font-family: 'AlimamaFangYuanTi';
+  font-size: 36px;
+  color: rgb(32, 33, 35);
 }
 
 .shapes-section {
@@ -140,5 +159,14 @@ onMounted(() => {
 .canvas {
   width: 100%;
   height: 100%;
+}
+
+.undo-redo-buttons {
+  pointer-events: all;
+  display: grid;
+  grid-auto-flow: column;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-inline-start: 0.6em;
 }
 </style>
