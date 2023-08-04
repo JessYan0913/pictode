@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import {
   App,
   drawingTool,
@@ -13,11 +13,55 @@ import {
 } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
-const canvasRef = ref<HTMLDivElement>();
-
 const app = new App();
 app.use(new HistoryPlugin());
 app.setTool(selectTool());
+
+const canvasRef = ref<HTMLDivElement>();
+
+const tools = reactive<Array<{ icon: string; tool: string; handler: () => void }>>([
+  {
+    icon: '🖱️',
+    tool: 'selection',
+    handler: () => app.setTool(selectTool()),
+  },
+  {
+    icon: '🟦',
+    tool: 'rectangle',
+    handler: () => app.setTool(rectTool()),
+  },
+  {
+    icon: '🔵',
+    tool: 'ellipse',
+    handler: () => app.setTool(ellipseTool()),
+  },
+  {
+    icon: '🔷',
+    tool: 'regularPolygon',
+    handler: () => app.setTool(regularPolygonTool()),
+  },
+  {
+    icon: '✒️',
+    tool: 'line',
+    handler: () => app.setTool(lineTool()),
+  },
+  {
+    icon: '✏️',
+    tool: 'drawing',
+    handler: () => app.setTool(drawingTool()),
+  },
+  {
+    icon: '🖼️',
+    tool: 'image',
+    handler: () => app.setTool(imageTool()),
+  },
+  {
+    icon: '🔠',
+    tool: 'text',
+    handler: () => app.setTool(textTool()),
+  },
+]);
+
 onMounted(() => {
   if (canvasRef.value) {
     app.mount(canvasRef.value);
@@ -32,29 +76,8 @@ onMounted(() => {
         <div class="icon">🎨Pictode</div>
         <section class="shapes-section">
           <div class="tools-horizontal">
-            <label class="tool-icon">
-              <div @click="app.setTool(selectTool())">🖱️</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(rectTool())">🟦</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(ellipseTool())">🔵</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(regularPolygonTool())">🔷</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(lineTool())">✒️</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(drawingTool())">✏️</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(imageTool())">🖼️</div>
-            </label>
-            <label class="tool-icon">
-              <div @click="app.setTool(textTool())">🔠</div>
+            <label v-for="({ icon, handler }, index) in tools" :key="index" class="tool-icon">
+              <div @click="handler">{{ icon }}</div>
             </label>
           </div>
         </section>
