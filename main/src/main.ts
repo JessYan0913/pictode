@@ -8,6 +8,7 @@ import App from '@/App.vue';
 import router from '@/router';
 
 import './assets/style/main.css';
+import './assets/fonts/index.css';
 import 'element-plus/theme-chalk/index.css';
 
 const pinia = createPinia();

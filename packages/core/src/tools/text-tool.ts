@@ -104,8 +104,10 @@ const handleTextDoubleClick = (app: App, textNode: Text) => {
 export const textTool = (): Tool => {
   const textNode = new Text({
     stroke: 'black',
-    text: '请输入文本',
+    text: '你好 Konva',
+    strokeWidth: 0.1,
     fontSize: 20,
+    fontFamily: 'AlimamaFangYuanTi',
   });
 
   return {

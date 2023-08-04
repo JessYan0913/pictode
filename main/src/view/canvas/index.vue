@@ -73,6 +73,7 @@ onMounted(() => {
   align-items: flex-start;
   cursor: default;
   pointer-events: none !important;
+  font-family: 'AlimamaFangYuanTi';
 }
 
 .shapes-section {

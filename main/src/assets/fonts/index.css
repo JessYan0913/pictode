@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'AlimamaDongFangDaKaiTi';
+
+  src: url('./AlimamaDongFangDaKai/Alimama_DongFangDaKai_Regular.ttf') format('truetype');
+
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AlimamaFangYuanTi';
+
+  src: url('./AlimamaFangYuanTiVF/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+
+  font-weight: 500;
+  font-style: normal;
+}
