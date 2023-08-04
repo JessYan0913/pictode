@@ -32,6 +32,7 @@ export class Selector extends Service {
       anchorCornerRadius: 3,
       anchorStrokeWidth: 1,
       rotateAnchorOffset: 20,
+      shouldOverdrawWholeArea: true,
     });
     this.transformer.anchorStyleFunc((anchor) => {
       const setAnchorCursor = (cursor: string = '') => {
@@ -76,11 +77,13 @@ export class Selector extends Service {
     this.transformer.on<'transformend'>('transformend', this.onTransformEnd);
     this.transformer.on<'dragstart'>('dragstart', this.onDragStart);
     this.transformer.on<'dragend'>('dragend', this.onDragEnd);
+    this.transformer.on<'mouseover'>('mouseover', this.onTransformerOver);
+    this.transformer.on<'mouseout'>('mouseout', this.onTransformerOut);
+    this.transformer.on<'dblclick'>('dblclick', this.onTransformerDoubleClick);
 
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
-    this.app.on('mouse:click', this.onMouseClick);
     this.app.on('mouse:out', this.onMouseOut);
   }
 
@@ -150,6 +153,20 @@ export class Selector extends Service {
     this.app.emit('node:transform:end', { nodes: [...this.selected.values()] });
   };
 
+  private onTransformerOver = (): void => {
+    this.app.stage.container().style.cursor = 'move';
+  };
+
+  private onTransformerOut = (): void => {
+    this.app.stage.container().style.cursor = 'default';
+  };
+
+  private onTransformerDoubleClick = (): void => {
+    if (this.selected.size === 1 && [...this.selected.values()]?.[0] instanceof Konva.Text) {
+      [...this.selected.values()]?.[0].fire('dblclick');
+    }
+  };
+
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
     if (!this.enable) {
       return;
@@ -165,19 +182,8 @@ export class Selector extends Service {
     }
   };
 
-  private onMouseMove = ({ event }: EventArgs['mouse:move']): void => {
-    if (!this.enable) {
-      return;
-    }
-    if (
-      event.target instanceof Konva.Stage ||
-      !this.app.isPointInArea(this.app.pointer, this.transformer.getClientRect())
-    ) {
-      this.app.stage.container().style.cursor = 'default';
-    } else {
-      this.app.stage.container().style.cursor = 'move';
-    }
-    if (!this.rubberEnable) {
+  private onMouseMove = (): void => {
+    if (!this.enable || !this.rubberEnable) {
       return;
     }
     const position = new Point(
@@ -192,22 +198,17 @@ export class Selector extends Service {
     this.rubberRect.visible(true);
   };
 
-  private onMouseUp = (): void => {
+  private onMouseUp = ({ event }: EventArgs['mouse:up']): void => {
     if (!this.enable) {
       return;
     }
     if (this.rubberEnable) {
       this.select(...this.app.getShapesInArea(this.rubberRect));
+    } else if (!(event.target instanceof Konva.Stage) && event.target.attrs.id) {
+      this.select(event.target);
     }
     this.rubberRect.visible(false);
     this.rubberEnable = false;
-  };
-
-  private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (event.target instanceof Konva.Stage) {
-      return;
-    }
-    this.select(event.target);
   };
 
   private onMouseOut = ({ event }: EventArgs['mouse:out']): void => {
@@ -221,10 +222,12 @@ export class Selector extends Service {
     this.transformer.off('transformend', this.onTransformEnd);
     this.transformer.off('dragstart', this.onDragStart);
     this.transformer.off('dragend', this.onDragEnd);
+    this.transformer.off('mouseover', this.onTransformerOver);
+    this.transformer.off('mouseout', this.onTransformerOut);
+    this.transformer.off('dblclick', this.onTransformerDoubleClick);
     this.app.off('mouse:down', this.onMouseDown);
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
-    this.app.off('mouse:click', this.onMouseClick);
     this.app.off('mouse:out', this.onMouseOut);
     this.selected.clear();
     this.enable = false;
