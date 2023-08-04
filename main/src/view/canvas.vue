@@ -2,9 +2,10 @@
 import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
+import Tools from '@/components/Tools.vue';
 import { usePictode } from '@/hooks/usePictode';
 
-const { app, tools, currentTool } = usePictode();
+const { app } = usePictode();
 app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
@@ -22,19 +23,14 @@ onMounted(() => {
       <div class="menu">
         <div class="icon">🎨</div>
         <section class="shapes-section">
-          <div class="tools-horizontal">
-            <label v-for="(item, index) in tools" :key="index" class="tool-icon">
-              <input :id="item.name" v-model="currentTool" type="radio" :value="item" />
-              <div>{{ item.icon }}</div>
-            </label>
-          </div>
+          <Tools></Tools>
         </section>
         <div>
           <div class="undo-redo-buttons">
-            <label class="tool-icon">
+            <label class="button">
               <div @click="app.undo()">↩️</div>
             </label>
-            <label class="tool-icon">
+            <label class="button">
               <div @click="app.redo()">↪️</div>
             </label>
           </div>
@@ -109,45 +105,6 @@ onMounted(() => {
   }
 }
 
-.tools-horizontal {
-  width: 100%;
-  display: grid;
-  grid-template-rows: auto;
-  grid-auto-flow: column;
-  gap: calc(0.25rem * 1);
-  justify-items: center;
-
-  & > .tool-icon {
-    & > input {
-      position: absolute;
-      opacity: 0;
-    }
-
-    & > input:checked + div {
-      background: #e3e2fe;
-    }
-  }
-}
-
-.tool-icon {
-  border-radius: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-
-  div {
-    width: 2.25rem;
-    height: 2.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-  }
-}
-
 .canvas {
   width: 100%;
   height: 100%;
@@ -168,5 +125,24 @@ onMounted(() => {
   padding: calc(1 * 0.25rem);
   position: relative;
   transition: box-shadow 0.5s ease-in-out;
+
+  & > label {
+    border-radius: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    div {
+      width: 2.25rem;
+      height: 2.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+    }
+  }
 }
 </style>
