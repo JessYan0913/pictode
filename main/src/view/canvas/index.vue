@@ -29,7 +29,7 @@ onMounted(() => {
   <div class="container">
     <div class="side-top">
       <div class="menu">
-        <div class="icon">Pictode</div>
+        <div class="icon">🎨Pictode</div>
         <section class="shapes-section">
           <div class="tools-horizontal">
             <label class="tool-icon">
@@ -45,23 +45,23 @@ onMounted(() => {
               <div @click="app.setTool(regularPolygonTool())">🔷</div>
             </label>
             <label class="tool-icon">
-              <div @click="app.setTool(lineTool())">📉</div>
+              <div @click="app.setTool(lineTool())">✒️</div>
             </label>
             <label class="tool-icon">
               <div @click="app.setTool(drawingTool())">✏️</div>
             </label>
             <label class="tool-icon">
-              <div @click="app.setTool(imageTool())">🅿️</div>
+              <div @click="app.setTool(imageTool())">🖼️</div>
             </label>
             <label class="tool-icon">
-              <div @click="app.setTool(textTool())">🔤</div>
+              <div @click="app.setTool(textTool())">🔠</div>
             </label>
           </div>
         </section>
         <div>
           <div class="undo-redo-buttons">
-            <el-button @click="app.undo()">回退</el-button>
-            <el-button @click="app.redo()">恢复</el-button>
+            <div @click="app.undo()">↩️</div>
+            <div @click="app.redo()">↪️</div>
           </div>
         </div>
       </div>
