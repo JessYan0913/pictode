@@ -14,65 +14,71 @@ import {
 } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
+interface ToolInfo {
+  icon: string;
+  name: string;
+  handler: () => Tool;
+}
+
 const app = new App();
 app.use(new HistoryPlugin());
 app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
 
-const tools = reactive<Array<{ icon: string; name: string; tool: () => Tool }>>([
+const tools = reactive<Array<ToolInfo>>([
   {
     icon: '🖱️',
     name: 'selectTool',
-    tool: selectTool,
+    handler: selectTool,
   },
   {
     icon: '🟦',
     name: 'rectTool',
-    tool: rectTool,
+    handler: rectTool,
   },
   {
     icon: '🔵',
     name: 'ellipseTool',
-    tool: ellipseTool,
+    handler: ellipseTool,
   },
   {
     icon: '🔷',
     name: 'regularPolygonTool',
-    tool: regularPolygonTool,
+    handler: regularPolygonTool,
   },
   {
     icon: '✒️',
     name: 'lineTool',
-    tool: lineTool,
+    handler: lineTool,
   },
   {
     icon: '✏️',
     name: 'drawingTool',
-    tool: drawingTool,
+    handler: drawingTool,
   },
   {
     icon: '🖼️',
     name: 'imageTool',
-    tool: imageTool,
+    handler: imageTool,
   },
   {
     icon: '🔠',
     name: 'textTool',
-    tool: textTool,
+    handler: textTool,
   },
 ]);
-const currentTool = ref<() => Tool>(tools[0].tool);
+const currentTool = ref<ToolInfo>(tools[0]);
 
 app.on('tool:changed', ({ curTool }) => {
-  const tool = tools.find(({ name }) => name === curTool.name);
-  if (tool) {
-    currentTool.value = tool.tool;
+  const toolInfo = tools.find(({ name }) => name === curTool.name);
+  if (toolInfo) {
+    currentTool.value = toolInfo;
   }
 });
 
 watchEffect(() => {
-  app.setTool(currentTool.value());
+  app.setTool(currentTool.value.handler());
 });
 
 onMounted(() => {
@@ -89,9 +95,9 @@ onMounted(() => {
         <div class="icon">🎨</div>
         <section class="shapes-section">
           <div class="tools-horizontal">
-            <label v-for="({ icon, tool, name }, index) in tools" :key="index" class="tool-icon">
-              <input :id="name" v-model="currentTool" type="radio" :value="tool" />
-              <div>{{ icon }}</div>
+            <label v-for="(item, index) in tools" :key="index" class="tool-icon">
+              <input :id="item.name" v-model="currentTool" type="radio" :value="item" />
+              <div>{{ item.icon }}</div>
             </label>
           </div>
         </section>

@@ -21,6 +21,9 @@ export class Tooler extends Service {
 
   public async setTool(curTool: Tool): Promise<void> {
     const oldTool = this.currentTool;
+    if (oldTool?.name === curTool.name) {
+      return;
+    }
     if (oldTool && typeof oldTool.onInactive === 'function') {
       await oldTool.onInactive(this.app);
     }
