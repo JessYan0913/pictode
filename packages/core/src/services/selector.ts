@@ -173,9 +173,9 @@ export class Selector extends Service {
       event.target instanceof Konva.Stage ||
       !this.app.isPointInArea(this.app.pointer, this.transformer.getClientRect())
     ) {
-      document.body.style.cursor = 'default';
+      this.app.stage.container().style.cursor = 'default';
     } else {
-      document.body.style.cursor = 'move';
+      this.app.stage.container().style.cursor = 'move';
     }
     if (!this.rubberEnable) {
       return;
