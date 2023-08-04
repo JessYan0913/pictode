@@ -18,9 +18,9 @@ const handleTextDoubleClick = (app: App, textNode: Text) => {
   textarea.style.position = 'absolute';
   textarea.style.top = areaPosition.y + 'px';
   textarea.style.left = areaPosition.x + 'px';
-  textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
-  textarea.style.height = textNode.height() - textNode.padding() * 2 + 5 + 'px';
-  textarea.style.fontSize = textNode.fontSize() + 'px';
+  textarea.style.width = textNode.width() * textNode.scaleX() - textNode.padding() * 2 + 'px';
+  textarea.style.height = textNode.height() * textNode.scaleX() - textNode.padding() * 2 + 5 + 'px';
+  textarea.style.fontSize = textNode.fontSize() * textNode.scaleX() + 'px';
   textarea.style.border = 'none';
   textarea.style.padding = '0px';
   textarea.style.margin = '0px';
@@ -50,23 +50,24 @@ const handleTextDoubleClick = (app: App, textNode: Text) => {
   textarea.style.height = textarea.scrollHeight + 3 + 'px';
 
   textarea.focus();
+
   function removeTextarea() {
     textarea.parentNode?.removeChild(textarea);
     window.removeEventListener('click', handleOutsideClick);
     textNode.show();
   }
 
-  function setTextareaWidth(newWidth?: number) {
+  function setTextareaWidth(newWidth: number) {
     if (!newWidth) {
       newWidth = textNode.text.length * textNode.fontSize();
     }
-    let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    let isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     if (isSafari || isFirefox) {
       newWidth = Math.ceil(newWidth);
     }
 
-    let isEdge = document.DOCUMENT_NODE || /Edge/.test(navigator.userAgent);
+    const isEdge = document.DOCUMENT_NODE || /Edge/.test(navigator.userAgent);
     if (isEdge) {
       newWidth += 1;
     }
@@ -107,7 +108,7 @@ export const textTool = (): Tool => {
     text: '你好 Konva',
     strokeWidth: 0.1,
     fontSize: 20,
-    fontFamily: 'AlimamaFangYuanTi',
+    fontFamily: 'JiaYouYa',
   });
 
   return {

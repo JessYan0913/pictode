@@ -3,7 +3,7 @@
 
   src: url('./AlimamaDongFangDaKai/Alimama_DongFangDaKai_Regular.ttf') format('truetype');
 
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -12,6 +12,15 @@
 
   src: url('./AlimamaFangYuanTiVF/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
 
-  font-weight: 500;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JiaYouYa';
+
+  src: url('./JiaYouYa//JinNianYeYaoJiaYouYa-2.ttf') format('truetype');
+
+  font-weight: 400;
   font-style: normal;
 }
