@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watchEffect } from 'vue';
 import {
   App,
   drawingTool,
@@ -10,6 +10,7 @@ import {
   regularPolygonTool,
   selectTool,
   textTool,
+  Tool,
 } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
@@ -19,48 +20,53 @@ app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
 
-const tools = reactive<Array<{ icon: string; tool: string; handler: () => void }>>([
+const tools = reactive<Array<{ icon: string; title: string; tool: () => Tool }>>([
   {
     icon: '🖱️',
-    tool: 'selection',
-    handler: () => app.setTool(selectTool()),
+    title: 'selection',
+    tool: selectTool,
   },
   {
     icon: '🟦',
-    tool: 'rectangle',
-    handler: () => app.setTool(rectTool()),
+    title: 'rectangle',
+    tool: rectTool,
   },
   {
     icon: '🔵',
-    tool: 'ellipse',
-    handler: () => app.setTool(ellipseTool()),
+    title: 'ellipse',
+    tool: ellipseTool,
   },
   {
     icon: '🔷',
-    tool: 'regularPolygon',
-    handler: () => app.setTool(regularPolygonTool()),
+    title: 'regularPolygon',
+    tool: regularPolygonTool,
   },
   {
     icon: '✒️',
-    tool: 'line',
-    handler: () => app.setTool(lineTool()),
+    title: 'line',
+    tool: lineTool,
   },
   {
     icon: '✏️',
-    tool: 'drawing',
-    handler: () => app.setTool(drawingTool()),
+    title: 'drawing',
+    tool: drawingTool,
   },
   {
     icon: '🖼️',
-    tool: 'image',
-    handler: () => app.setTool(imageTool()),
+    title: 'image',
+    tool: imageTool,
   },
   {
     icon: '🔠',
-    tool: 'text',
-    handler: () => app.setTool(textTool()),
+    title: 'text',
+    tool: textTool,
   },
 ]);
+const currentTool = ref<{ icon: string; title: string; tool: () => Tool }>(tools[0]);
+
+watchEffect(() => {
+  app.setTool(currentTool.value.tool());
+});
 
 onMounted(() => {
   if (canvasRef.value) {
@@ -73,11 +79,12 @@ onMounted(() => {
   <div class="container">
     <div class="side-top">
       <div class="menu">
-        <div class="icon">🎨Pictode</div>
+        <div class="icon">🎨</div>
         <section class="shapes-section">
           <div class="tools-horizontal">
-            <label v-for="({ icon, handler }, index) in tools" :key="index" class="tool-icon">
-              <div @click="handler">{{ icon }}</div>
+            <label v-for="({ icon, tool, title }, index) in tools" :key="index" class="tool-icon">
+              <input v-model="currentTool" type="radio" :value="{ icon, tool, title }" />
+              <div>{{ icon }}</div>
             </label>
           </div>
         </section>
@@ -162,6 +169,17 @@ onMounted(() => {
   grid-auto-flow: column;
   gap: calc(0.25rem * 1);
   justify-items: center;
+
+  & > .tool-icon {
+    & > input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    & > input:checked + div {
+      background: #e3e2fe;
+    }
+  }
 }
 
 .tool-icon {
