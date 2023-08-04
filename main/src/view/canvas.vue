@@ -20,52 +20,59 @@ app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
 
-const tools = reactive<Array<{ icon: string; title: string; tool: () => Tool }>>([
+const tools = reactive<Array<{ icon: string; name: string; tool: () => Tool }>>([
   {
     icon: '🖱️',
-    title: 'selection',
+    name: 'selectTool',
     tool: selectTool,
   },
   {
     icon: '🟦',
-    title: 'rectangle',
+    name: 'rectTool',
     tool: rectTool,
   },
   {
     icon: '🔵',
-    title: 'ellipse',
+    name: 'ellipseTool',
     tool: ellipseTool,
   },
   {
     icon: '🔷',
-    title: 'regularPolygon',
+    name: 'regularPolygonTool',
     tool: regularPolygonTool,
   },
   {
     icon: '✒️',
-    title: 'line',
+    name: 'lineTool',
     tool: lineTool,
   },
   {
     icon: '✏️',
-    title: 'drawing',
+    name: 'drawingTool',
     tool: drawingTool,
   },
   {
     icon: '🖼️',
-    title: 'image',
+    name: 'imageTool',
     tool: imageTool,
   },
   {
     icon: '🔠',
-    title: 'text',
+    name: 'textTool',
     tool: textTool,
   },
 ]);
-const currentTool = ref<{ icon: string; title: string; tool: () => Tool }>(tools[0]);
+const currentTool = ref<() => Tool>(tools[0].tool);
+
+app.on('tool:changed', ({ curTool }) => {
+  const tool = tools.find(({ name }) => name === curTool.name);
+  if (tool) {
+    currentTool.value = tool.tool;
+  }
+});
 
 watchEffect(() => {
-  app.setTool(currentTool.value.tool());
+  app.setTool(currentTool.value());
 });
 
 onMounted(() => {
@@ -82,8 +89,8 @@ onMounted(() => {
         <div class="icon">🎨</div>
         <section class="shapes-section">
           <div class="tools-horizontal">
-            <label v-for="({ icon, tool, title }, index) in tools" :key="index" class="tool-icon">
-              <input v-model="currentTool" type="radio" :value="{ icon, tool, title }" />
+            <label v-for="({ icon, tool, name }, index) in tools" :key="index" class="tool-icon">
+              <input :id="name" v-model="currentTool" type="radio" :value="tool" />
               <div>{{ icon }}</div>
             </label>
           </div>
