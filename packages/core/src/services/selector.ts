@@ -35,6 +35,15 @@ export class Selector extends Service {
       shouldOverdrawWholeArea: true,
     });
     this.transformer.anchorStyleFunc((anchor) => {
+      if (
+        ['middle-left', 'middle-right', 'top-center', 'bottom-center'].some((anchorName) =>
+          anchor.hasName(anchorName)
+        ) &&
+        this.selected.size === 1 &&
+        [...this.selected.values()]?.[0] instanceof Konva.Text
+      ) {
+        anchor.visible(false);
+      }
       const setAnchorCursor = (cursor: string = '') => {
         const anchorStage = anchor.getStage();
         if (!anchorStage || !anchorStage.content) {
