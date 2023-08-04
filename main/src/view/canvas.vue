@@ -138,9 +138,15 @@ onMounted(() => {
 }
 
 .icon {
-  font-family: 'AlimamaFangYuanTi';
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
   font-size: 36px;
-  color: rgb(32, 33, 35);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .shapes-section {
