@@ -6,8 +6,8 @@
   "scripts": {
     "bootstrap": "pnpm i && pnpm build",
     "main": "pnpm --filter \"main\" dev",
-    "renderer": "pnpm --filter \"renderer\" dev",
     "build": "pnpm --filter \"@pictode/*\" build",
+    "build:main": "pnpm --filter \"main\" build",
     "lint": "eslint . --ext .js,.vue,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.vue,.ts,.tsx",
     "commit": "git-cz",
