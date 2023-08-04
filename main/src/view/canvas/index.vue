@@ -33,15 +33,29 @@ onMounted(() => {
         <section class="shapes-section">
           <div class="tools-horizontal">
             <label class="tool-icon">
-              <button @click="app.setTool(selectTool())">🖱️</button>
+              <div @click="app.setTool(selectTool())">🖱️</div>
             </label>
-            <button @click="app.setTool(rectTool())">🟦</button>
-            <button @click="app.setTool(ellipseTool())">🔵</button>
-            <button @click="app.setTool(regularPolygonTool())">🔷</button>
-            <button @click="app.setTool(lineTool())">📉</button>
-            <button @click="app.setTool(drawingTool())">✏️</button>
-            <button @click="app.setTool(imageTool())">🅿️</button>
-            <button @click="app.setTool(textTool())">🔤</button>
+            <label class="tool-icon">
+              <div @click="app.setTool(rectTool())">🟦</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.setTool(ellipseTool())">🔵</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.setTool(regularPolygonTool())">🔷</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.setTool(lineTool())">📉</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.setTool(drawingTool())">✏️</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.setTool(imageTool())">🅿️</div>
+            </label>
+            <label class="tool-icon">
+              <div @click="app.setTool(textTool())">🔤</div>
+            </label>
           </div>
         </section>
         <div>操作区域</div>
@@ -68,8 +82,8 @@ onMounted(() => {
 
 .menu {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  grid-gap: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 3rem;
   align-items: flex-start;
   cursor: default;
   pointer-events: none !important;
@@ -96,11 +110,12 @@ onMounted(() => {
 }
 
 .tools-horizontal {
+  width: 100%;
   display: grid;
   grid-template-rows: auto;
   grid-auto-flow: column;
-  grid-auto-columns: min-content;
   gap: calc(0.25rem * 1);
+  justify-items: center;
 }
 
 .tool-icon {
@@ -111,6 +126,15 @@ onMounted(() => {
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+
+  div {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+  }
 }
 
 .canvas {
