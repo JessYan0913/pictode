@@ -21,7 +21,7 @@ useTheme();
   background-color: #f5f5f5;
 }
 
-.el-header {
+.el-main {
   padding: 0;
 }
 </style>

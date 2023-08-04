@@ -13,52 +13,107 @@ import {
 } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
-const containerRef = ref<HTMLDivElement>();
+const canvasRef = ref<HTMLDivElement>();
 
 const app = new App();
 app.use(new HistoryPlugin());
+app.setTool(selectTool());
 onMounted(() => {
-  if (containerRef.value) {
-    app.mount(containerRef.value);
+  if (canvasRef.value) {
+    app.mount(canvasRef.value);
   }
 });
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="tools">
-      <button @click="app.remove(...app.selected)">删除</button>
-      <button @click="app.undo()">回退</button>
-      <button @click="app.redo()">恢复</button>
-      <button @click="app.scrollToContent()">快速定位</button>
+  <div class="container">
+    <div class="side-top">
+      <div class="menu">
+        <div>菜单</div>
+        <section class="shapes-section">
+          <div class="tools-horizontal">
+            <label class="tool-icon">
+              <button @click="app.setTool(selectTool())">🖱️</button>
+            </label>
+            <button @click="app.setTool(rectTool())">🟦</button>
+            <button @click="app.setTool(ellipseTool())">🔵</button>
+            <button @click="app.setTool(regularPolygonTool())">🔷</button>
+            <button @click="app.setTool(lineTool())">📉</button>
+            <button @click="app.setTool(drawingTool())">✏️</button>
+            <button @click="app.setTool(imageTool())">🅿️</button>
+            <button @click="app.setTool(textTool())">🔤</button>
+          </div>
+        </section>
+        <div>操作区域</div>
+      </div>
     </div>
-    <div class="tools">
-      <button @click="app.setTool(selectTool())">选择🖱️</button>
-      <button @click="app.setTool(rectTool())">矩形🟦</button>
-      <button @click="app.setTool(ellipseTool())">圆形🔵</button>
-      <button @click="app.setTool(regularPolygonTool())">菱形🔷</button>
-      <button @click="app.setTool(lineTool())">线条📉</button>
-      <button @click="app.setTool(drawingTool())">铅笔✏️</button>
-      <button @click="app.setTool(imageTool())">图片🅿️</button>
-      <button @click="app.setTool(textTool())">文本🔤</button>
-    </div>
-    <div ref="containerRef" class="container"></div>
+    <div ref="canvasRef" class="canvas"></div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.wrapper {
+.container {
+  position: relative;
+  height: 100vh;
+}
+
+.side-top {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  right: 1rem;
+  padding: 10px;
+  z-index: 1;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-gap: 2rem;
+  align-items: flex-start;
+  cursor: default;
+  pointer-events: none !important;
+}
+
+.shapes-section {
+  display: flex;
+  justify-content: center;
+  pointer-events: none !important;
+
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
+    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
+  border-radius: 0.5rem;
+  padding: calc(1 * 0.25rem);
+  position: relative;
+  transition: box-shadow 0.5s ease-in-out;
+
+  & > * {
+    pointer-events: all;
+  }
+}
+
+.tools-horizontal {
+  display: grid;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-auto-columns: min-content;
+  gap: calc(0.25rem * 1);
+}
+
+.tool-icon {
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.canvas {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.tools {
-  height: 30px;
-}
-
-.container {
-  flex: 1;
 }
 </style>
