@@ -24,42 +24,42 @@ app.use(new HistoryPlugin());
 
 const tools: Array<ToolInfo> = [
   {
-    icon: '🖱️',
+    icon: 'move',
     name: 'selectTool',
     handler: selectTool,
   },
   {
-    icon: '🟦',
+    icon: 'rectangle',
     name: 'rectTool',
     handler: rectTool,
   },
   {
-    icon: '🔵',
+    icon: 'oval',
     name: 'ellipseTool',
     handler: ellipseTool,
   },
   {
-    icon: '🔷',
+    icon: 'diamond',
     name: 'regularPolygonTool',
     handler: regularPolygonTool,
   },
   {
-    icon: '✒️',
+    icon: 'line-2',
     name: 'lineTool',
     handler: lineTool,
   },
   {
-    icon: '✏️',
+    icon: 'pencil',
     name: 'drawingTool',
     handler: drawingTool,
   },
   {
-    icon: '🖼️',
+    icon: 'picture',
     name: 'imageTool',
     handler: imageTool,
   },
   {
-    icon: '🔠',
+    icon: 'text',
     name: 'textTool',
     handler: textTool,
   },

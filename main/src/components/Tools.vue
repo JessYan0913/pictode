@@ -3,6 +3,8 @@ import { selectTool } from '@pictode/core';
 
 import { usePictode } from '@/hooks/usePictode';
 
+import SvgIcon from './SvgIcon.vue';
+
 const { app, tools, currentTool } = usePictode();
 
 app.setTool(selectTool());
@@ -12,7 +14,9 @@ app.setTool(selectTool());
   <div class="tools-horizontal">
     <label v-for="(item, index) in tools" :key="index" class="tool-icon">
       <input :id="item.name" v-model="currentTool" type="radio" :value="item" />
-      <div>{{ item.icon }}</div>
+      <div>
+        <SvgIcon :name="item.icon"></SvgIcon>
+      </div>
     </label>
   </div>
 </template>
