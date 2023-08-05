@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
 import RectProperty from '@/components/RectProperty.vue';
+import SvgIcon from '@/components/SvgIcon.vue';
 import Tools from '@/components/Tools.vue';
 import { usePictode } from '@/hooks/usePictode';
 
@@ -35,10 +36,10 @@ onMounted(() => {
         <div>
           <div class="undo-redo-buttons">
             <label class="button">
-              <div @click="app.undo()">↩️</div>
+              <div @click="app.undo()"><SvgIcon name="undo"></SvgIcon></div>
             </label>
             <label class="button">
-              <div @click="app.redo()">↪️</div>
+              <div @click="app.redo()"><SvgIcon name="redo"></SvgIcon></div>
             </label>
           </div>
         </div>

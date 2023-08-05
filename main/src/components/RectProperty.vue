@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 
+import SvgIcon from '@/components/SvgIcon.vue';
+
 const rectProperty = reactive<{
   fill: string;
   stroke: string;
@@ -43,17 +45,42 @@ const predefineColors = ref([
         <el-color-picker v-model="rectProperty.stroke" show-alpha :predefine="predefineColors" />
       </el-form-item>
       <el-form-item label="边框宽度" prop="strokeWidth">
-        <label>
-          <input v-model="rectProperty.strokeWidth" type="radio" :value="2" />
-          <div>2</div>
-        </label>
-        <label>
-          <input v-model="rectProperty.strokeWidth" type="radio" :value="3" />
-          <div>3</div>
-        </label>
+        <div class="button-list">
+          <label class="tool-icon">
+            <input v-model="rectProperty.strokeWidth" type="radio" :value="2" />
+            <div>
+              <SvgIcon name="line-1"></SvgIcon>
+            </div>
+          </label>
+          <label class="tool-icon">
+            <input v-model="rectProperty.strokeWidth" type="radio" :value="3" />
+            <div>
+              <SvgIcon name="line-2"></SvgIcon>
+            </div>
+          </label>
+          <label class="tool-icon">
+            <input v-model="rectProperty.strokeWidth" type="radio" :value="4" />
+            <div>
+              <SvgIcon name="line-3"></SvgIcon>
+            </div>
+          </label>
+        </div>
       </el-form-item>
       <el-form-item label="边角" prop="cornerRadius">
-        <el-input v-model="rectProperty.cornerRadius" />
+        <div class="button-list">
+          <label class="tool-icon">
+            <input v-model="rectProperty.cornerRadius" type="radio" :value="0" />
+            <div>
+              <SvgIcon name="node-flat"></SvgIcon>
+            </div>
+          </label>
+          <label class="tool-icon">
+            <input v-model="rectProperty.cornerRadius" type="radio" :value="25" />
+            <div>
+              <SvgIcon name="node-round"></SvgIcon>
+            </div>
+          </label>
+        </div>
       </el-form-item>
       <el-form-item label="透明度" props="opacity">
         <el-slider v-model="rectProperty.opacity" :min="0" :max="1" :step="0.01" />
@@ -61,3 +88,40 @@ const predefineColors = ref([
     </el-form>
   </div>
 </template>
+
+<style scoped lang="scss">
+.button-list {
+  flex-wrap: wrap;
+  display: flex;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+}
+
+.tool-icon {
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  div {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+  }
+
+  & > input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  & > input:checked + div {
+    background: #e3e2fe;
+  }
+}
+</style>
