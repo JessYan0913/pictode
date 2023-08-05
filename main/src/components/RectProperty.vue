@@ -43,7 +43,14 @@ const predefineColors = ref([
         <el-color-picker v-model="rectProperty.stroke" show-alpha :predefine="predefineColors" />
       </el-form-item>
       <el-form-item label="边框宽度" prop="strokeWidth">
-        <el-input v-model="rectProperty.strokeWidth" />
+        <label>
+          <input v-model="rectProperty.strokeWidth" type="radio" :value="2" />
+          <div>2</div>
+        </label>
+        <label>
+          <input v-model="rectProperty.strokeWidth" type="radio" :value="3" />
+          <div>3</div>
+        </label>
       </el-form-item>
       <el-form-item label="边角" prop="cornerRadius">
         <el-input v-model="rectProperty.cornerRadius" />
