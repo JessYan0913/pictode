@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch, watchEffect } from 'vue';
 
 import SvgIcon from '@/components/SvgIcon.vue';
+import { usePictode } from '@/hooks/usePictode';
+
+const { app, selected } = usePictode();
 
 const rectProperty = reactive<{
   fill: string;
@@ -13,11 +16,11 @@ const rectProperty = reactive<{
   fill: 'rgba(256,256,256,0)',
   stroke: 'rgba(0,0,0,1)',
   strokeWidth: 2,
-  cornerRadius: 25,
+  cornerRadius: 10,
   opacity: 1,
 });
 
-const predefineColors = ref([
+const predefineColors = ref<string[]>([
   '#ff4500',
   '#ff8c00',
   '#ffd700',
@@ -33,6 +36,27 @@ const predefineColors = ref([
   'hsla(209, 100%, 56%, 0.73)',
   '#c7158577',
 ]);
+
+watchEffect(() => {
+  if (selected.value.length === 1) {
+    const selectedNode = selected.value[0].toObject();
+    rectProperty.fill = selectedNode.attrs.fill;
+    rectProperty.cornerRadius = selectedNode.attrs.cornerRadius;
+    rectProperty.stroke = selectedNode.attrs.stroke;
+    rectProperty.strokeWidth = selectedNode.attrs.strokeWidth;
+    rectProperty.opacity = selectedNode.attrs.opacity ?? 1;
+  }
+});
+
+watch(
+  () => rectProperty,
+  () => {
+    const newNode = { ...selected.value?.[0].toObject() };
+    newNode.attrs = { ...newNode.attrs, ...rectProperty };
+    app.update(newNode);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -47,7 +71,7 @@ const predefineColors = ref([
       <el-form-item label="边框宽度" prop="strokeWidth">
         <div class="button-list">
           <label class="tool-icon">
-            <input v-model="rectProperty.strokeWidth" type="radio" :value="2" />
+            <input v-model="rectProperty.strokeWidth" type="radio" :value="1" />
             <div>
               <SvgIcon name="line-1"></SvgIcon>
             </div>
@@ -59,7 +83,7 @@ const predefineColors = ref([
             </div>
           </label>
           <label class="tool-icon">
-            <input v-model="rectProperty.strokeWidth" type="radio" :value="4" />
+            <input v-model="rectProperty.strokeWidth" type="radio" :value="5" />
             <div>
               <SvgIcon name="line-3"></SvgIcon>
             </div>
@@ -75,7 +99,7 @@ const predefineColors = ref([
             </div>
           </label>
           <label class="tool-icon">
-            <input v-model="rectProperty.cornerRadius" type="radio" :value="25" />
+            <input v-model="rectProperty.cornerRadius" type="radio" :value="10" />
             <div>
               <SvgIcon name="node-round"></SvgIcon>
             </div>

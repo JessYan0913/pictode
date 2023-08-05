@@ -4,6 +4,7 @@ import {
   drawingTool,
   ellipseTool,
   imageTool,
+  KonvaNode,
   lineTool,
   rectTool,
   regularPolygonTool,
@@ -66,12 +67,17 @@ const tools: Array<ToolInfo> = [
 ];
 
 const currentTool = ref<ToolInfo>(tools[0]);
+const selected = ref<Array<KonvaNode>>([]);
 
 app.on('tool:changed', ({ curTool }) => {
   const toolInfo = tools.find(({ name }) => name === curTool.name);
   if (toolInfo) {
     currentTool.value = toolInfo;
   }
+});
+
+app.on('selected:changed', ({ selected: newSelected }) => {
+  selected.value = newSelected;
 });
 
 watchEffect(() => {
@@ -83,6 +89,7 @@ export const usePictode = () => {
     app,
     tools,
     currentTool,
+    selected,
   };
 };
 
