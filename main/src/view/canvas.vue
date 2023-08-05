@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
+import RectProperty from '@/components/RectProperty.vue';
 import Tools from '@/components/Tools.vue';
 import { usePictode } from '@/hooks/usePictode';
 
@@ -24,7 +25,9 @@ onMounted(() => {
       <div class="menu">
         <div class="top-left">
           <div class="dropdown-menu-button" @click="propertyVisible = !propertyVisible">🎨</div>
-          <div v-if="propertyVisible" class="island">属性面板</div>
+          <div v-if="propertyVisible" class="island">
+            <RectProperty></RectProperty>
+          </div>
         </div>
         <section class="shapes-section">
           <Tools></Tools>
@@ -56,8 +59,10 @@ onMounted(() => {
   left: 1rem;
   top: 1rem;
   right: 1rem;
+  bottom: 1rem;
   padding: 10px;
   z-index: 1;
+  pointer-events: none;
 }
 
 .menu {
@@ -96,6 +101,7 @@ onMounted(() => {
   font-size: 36px;
   width: 36px;
   height: 36px;
+  user-select: none;
 }
 
 .island {

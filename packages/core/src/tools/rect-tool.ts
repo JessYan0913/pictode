@@ -7,10 +7,12 @@ import { selectTool } from './select-tool';
 export const rectTool = (): Tool => {
   const startPointer: Point = new Point(0, 0);
   const rectangle: Rect = new Rect({
-    fill: 'transparent',
+    fill: 'red',
     stroke: 'black',
     strokeWidth: 2,
     strokeScaleEnabled: false,
+    cornerRadius: 25,
+    opacity: 0.5,
   });
 
   return {
