@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
+import Button from '@/components/Button.vue';
 import RectProperty from '@/components/RectProperty.vue';
-import SvgIcon from '@/components/SvgIcon.vue';
 import Tools from '@/components/Tools.vue';
 import { usePictode } from '@/hooks/usePictode';
 
@@ -35,12 +35,8 @@ onMounted(() => {
         </section>
         <div>
           <div class="undo-redo-buttons">
-            <label class="button">
-              <div @click="app.undo()"><SvgIcon name="undo"></SvgIcon></div>
-            </label>
-            <label class="button">
-              <div @click="app.redo()"><SvgIcon name="redo"></SvgIcon></div>
-            </label>
+            <Button icon="undo" @click="app.undo()"></Button>
+            <Button icon="redo" @click="app.redo()"></Button>
           </div>
         </div>
       </div>
@@ -155,26 +151,10 @@ onMounted(() => {
     0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
   border-radius: 0.5rem;
   padding: calc(1 * 0.25rem);
-  position: relative;
   transition: box-shadow 0.5s ease-in-out;
-
-  & > label {
-    border-radius: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    div {
-      width: 2.25rem;
-      height: 2.25rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 0.5rem;
-    }
+  & > button {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 }
 </style>
