@@ -12,6 +12,7 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
+  (event: 'change', value: T): void;
   (event: 'update:modelValue', value: T): void;
 }>();
 
@@ -20,6 +21,7 @@ const selectedValue = computed<T>({
     return props.modelValue;
   },
   set(value: T) {
+    emits('change', value);
     emits('update:modelValue', value);
   },
 });
