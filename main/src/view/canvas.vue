@@ -46,6 +46,17 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+@mixin card-style {
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
+    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
+  border-radius: 0.5rem;
+  padding: calc(1 * 0.25rem);
+  position: relative;
+  transition: box-shadow 0.5s ease-in-out;
+}
+
 .container {
   position: relative;
   height: 100vh;
@@ -102,31 +113,17 @@ onMounted(() => {
 }
 
 .island {
-  background-color: rgba(256, 256, 256, 0.96);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  transition: box-shadow 0.5s ease-in-out;
-  overflow-y: auto;
-  padding: 0.75rem;
+  @include card-style;
   width: 202px;
   box-sizing: border-box;
   max-height: 667px;
 }
 
 .shapes-section {
+  @include card-style;
   display: flex;
   justify-content: center;
   pointer-events: none !important;
-
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.88);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  padding: calc(1 * 0.25rem);
-  position: relative;
-  transition: box-shadow 0.5s ease-in-out;
 
   & > * {
     pointer-events: all;
@@ -139,19 +136,13 @@ onMounted(() => {
 }
 
 .undo-redo-buttons {
+  @include card-style;
   pointer-events: all;
   display: grid;
   grid-auto-flow: column;
   margin-top: auto;
   margin-bottom: auto;
   margin-inline-start: 0.6em;
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.88);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  padding: calc(1 * 0.25rem);
-  transition: box-shadow 0.5s ease-in-out;
   & > button {
     width: 2.25rem;
     height: 2.25rem;
