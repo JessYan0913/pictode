@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
-import { useRoutersStore } from '@/store/routers';
+import { useRouterCache } from '@/hooks/useRouterCache';
 
-const routerStore = useRoutersStore();
-
-const { keepAliveComps } = storeToRefs(routerStore);
+const { keepAliveComps } = useRouterCache();
 </script>
 
 <template>

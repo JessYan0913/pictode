@@ -6,7 +6,7 @@ import {
   RouteRecordRaw,
 } from 'vue-router';
 
-import useRoutersStore from '@/store/routers';
+import { useRouterCache } from '@/hooks/useRouterCache';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -29,8 +29,8 @@ const router = createRouter({
   ],
 });
 
+const { cacheRouter } = useRouterCache();
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  const { cacheRouter } = useRoutersStore();
   cacheRouter(from, to);
   next();
 });
