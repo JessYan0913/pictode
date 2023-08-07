@@ -1,4 +1,4 @@
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import {
   App,
   drawingTool,
@@ -14,65 +14,69 @@ import {
 } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
-export interface ToolInfo {
-  icon: string;
+interface ToolInfo {
   name: string;
-  handler: () => Tool;
+  icon: string;
+  handler: (...args: any[]) => Tool;
 }
+
+type ToolMap = Record<string, ToolInfo>;
 
 const app = new App();
 app.use(new HistoryPlugin());
 
-const tools: Array<ToolInfo> = [
-  {
-    icon: 'move',
+const toolMap: ToolMap = {
+  selectTool: {
     name: 'selectTool',
+    icon: 'move',
     handler: selectTool,
   },
-  {
-    icon: 'rectangle',
+  rectTool: {
     name: 'rectTool',
+    icon: 'rectangle',
     handler: rectTool,
   },
-  {
-    icon: 'oval',
+  ellipseTool: {
     name: 'ellipseTool',
+    icon: 'oval',
     handler: ellipseTool,
   },
-  {
-    icon: 'diamond',
+  regularPolygonTool: {
     name: 'regularPolygonTool',
+    icon: 'diamond',
     handler: regularPolygonTool,
   },
-  {
-    icon: 'line-2',
+  lineTool: {
     name: 'lineTool',
+    icon: 'line-2',
     handler: lineTool,
   },
-  {
-    icon: 'pencil',
+  drawingTool: {
     name: 'drawingTool',
+    icon: 'pencil',
     handler: drawingTool,
   },
-  {
-    icon: 'picture',
+  imageTool: {
     name: 'imageTool',
+    icon: 'picture',
     handler: imageTool,
   },
-  {
-    icon: 'text',
+  textTool: {
     name: 'textTool',
+    icon: 'text',
     handler: textTool,
   },
-];
+};
 
-const currentTool = ref<ToolInfo>(tools[0]);
+const tools = computed<ToolInfo[]>(() => Object.values(toolMap));
+
+const currentTool = ref<keyof ToolMap>(tools.value[0].name);
 const selected = ref<Array<KonvaNode>>([]);
 
 app.on('tool:changed', ({ curTool }) => {
-  const toolInfo = tools.find(({ name }) => name === curTool.name);
+  const toolInfo = tools.value.find(({ name }) => name === curTool.name);
   if (toolInfo) {
-    currentTool.value = toolInfo;
+    currentTool.value = toolInfo.name;
   }
 });
 
@@ -81,7 +85,7 @@ app.on('selected:changed', ({ selected: newSelected }) => {
 });
 
 watchEffect(() => {
-  app.setTool(currentTool.value.handler());
+  app.setTool(toolMap[currentTool.value].handler());
 });
 
 export const usePictode = () => {
