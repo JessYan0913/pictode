@@ -1,3 +1,30 @@
+@font-face {
+  font-family: 'AlimamaDongFangDaKaiTi';
+
+  src: url('../fonts/AlimamaDongFangDaKai/Alimama_DongFangDaKai_Regular.ttf') format('truetype');
+
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AlimamaFangYuanTi';
+
+  src: url('../fonts/AlimamaFangYuanTiVF/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JiaYouYa';
+
+  src: url('../fonts/JiaYouYa//JinNianYeYaoJiaYouYa-2.ttf') format('truetype');
+
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;

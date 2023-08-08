@@ -9,9 +9,8 @@ import router from '@/router';
 
 import 'virtual:svg-icons-register';
 
-import './assets/style/main.css';
-import './assets/fonts/index.css';
 import 'element-plus/theme-chalk/index.css';
+import './assets/style/index.scss';
 
 const pinia = createPinia();
 pinia.use(piniaPresistedState);
