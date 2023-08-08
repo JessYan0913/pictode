@@ -10,7 +10,7 @@ import router from '@/router';
 import 'virtual:svg-icons-register';
 
 import 'element-plus/theme-chalk/index.css';
-import './assets/style/index.scss';
+import './assets/styles/index.scss';
 
 const pinia = createPinia();
 pinia.use(piniaPresistedState);

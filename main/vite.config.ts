@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       vueSetupExtend(),
       glsl(),
       createSvgIconsPlugin({
-        iconDirs: [resolve(process.cwd(), 'src/assets/img')],
+        iconDirs: [resolve(process.cwd(), 'src/assets/images')],
         symbolId: 'icon-[dir]-[name]',
         customDomId: '__svg__icons__dom__',
       }),
