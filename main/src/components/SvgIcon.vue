@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 const props = withDefaults(
   defineProps<{
     name: string;
@@ -16,7 +16,9 @@ const props = withDefaults(
   }
 );
 
-const fill = ref<string>(props.color);
+const { color } = toRefs(props);
+
+const fill = ref<string>(color.value);
 
 const svgSymbol = computed<string>(() => `#${props.prefix}-${props.name}`);
 </script>
