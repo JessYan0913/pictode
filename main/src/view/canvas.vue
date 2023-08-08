@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
-import RectProperty from '@/components/RectProperty.vue';
-import SvgIcon from '@/components/SvgIcon.vue';
+import Button from '@/components/Button.vue';
+import Property from '@/components/Property.vue';
 import Tools from '@/components/Tools.vue';
 import { usePictode } from '@/hooks/usePictode';
 
@@ -27,7 +27,7 @@ onMounted(() => {
         <div class="top-left">
           <div class="dropdown-menu-button" @click="propertyVisible = !propertyVisible">🎨</div>
           <div v-if="propertyVisible" class="island">
-            <RectProperty></RectProperty>
+            <Property></Property>
           </div>
         </div>
         <section class="shapes-section">
@@ -35,12 +35,8 @@ onMounted(() => {
         </section>
         <div>
           <div class="undo-redo-buttons">
-            <label class="button">
-              <div @click="app.undo()"><SvgIcon name="undo"></SvgIcon></div>
-            </label>
-            <label class="button">
-              <div @click="app.redo()"><SvgIcon name="redo"></SvgIcon></div>
-            </label>
+            <Button icon="undo" @click="app.undo()"></Button>
+            <Button icon="redo" @click="app.redo()"></Button>
           </div>
         </div>
       </div>
@@ -50,6 +46,17 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+@mixin card-style {
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
+    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
+  border-radius: 0.5rem;
+  padding: calc(1 * 0.25rem);
+  position: relative;
+  transition: box-shadow 0.5s ease-in-out;
+}
+
 .container {
   position: relative;
   height: 100vh;
@@ -106,31 +113,17 @@ onMounted(() => {
 }
 
 .island {
-  background-color: rgba(256, 256, 256, 0.96);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  transition: box-shadow 0.5s ease-in-out;
-  overflow-y: auto;
-  padding: 0.75rem;
+  @include card-style;
   width: 202px;
   box-sizing: border-box;
   max-height: 667px;
 }
 
 .shapes-section {
+  @include card-style;
   display: flex;
   justify-content: center;
   pointer-events: none !important;
-
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.88);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  padding: calc(1 * 0.25rem);
-  position: relative;
-  transition: box-shadow 0.5s ease-in-out;
 
   & > * {
     pointer-events: all;
@@ -143,38 +136,16 @@ onMounted(() => {
 }
 
 .undo-redo-buttons {
+  @include card-style;
   pointer-events: all;
   display: grid;
   grid-auto-flow: column;
   margin-top: auto;
   margin-bottom: auto;
   margin-inline-start: 0.6em;
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.88);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  padding: calc(1 * 0.25rem);
-  position: relative;
-  transition: box-shadow 0.5s ease-in-out;
-
-  & > label {
-    border-radius: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    div {
-      width: 2.25rem;
-      height: 2.25rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 0.5rem;
-    }
+  & > button {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 }
 </style>

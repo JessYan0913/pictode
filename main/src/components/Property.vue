@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { reactive, ref, watch, watchEffect } from 'vue';
+import { reactive, ref } from 'vue';
 
 import SvgIcon from '@/components/SvgIcon.vue';
-import { usePictode } from '@/hooks/usePictode';
-
-const { app, selected } = usePictode();
-
 const rectProperty = reactive<{
   fill: string;
   stroke: string;
@@ -30,31 +26,10 @@ const predefineColors = ref<string[]>([
   '#c71585',
   '#c7158577',
 ]);
-
-watchEffect(() => {
-  if (selected.value.length === 1) {
-    const selectedNode = selected.value[0].toObject();
-    rectProperty.fill = selectedNode.attrs.fill;
-    rectProperty.cornerRadius = selectedNode.attrs.cornerRadius;
-    rectProperty.stroke = selectedNode.attrs.stroke;
-    rectProperty.strokeWidth = selectedNode.attrs.strokeWidth;
-    rectProperty.opacity = selectedNode.attrs.opacity ?? 1;
-  }
-});
-
-watch(
-  () => rectProperty,
-  () => {
-    const newNode = { ...selected.value?.[0].toObject() };
-    newNode.attrs = { ...newNode.attrs, ...rectProperty };
-    app.update(newNode);
-  },
-  { deep: true }
-);
 </script>
 
 <template>
-  <div>
+  <div class="pictode-property">
     <el-form label-position="top" size="small" label-width="100px" :model="rectProperty" style="max-width: 202px">
       <el-form-item label="背景" prop="fill">
         <el-color-picker v-model="rectProperty.fill" show-alpha :predefine="predefineColors" />
@@ -108,6 +83,10 @@ watch(
 </template>
 
 <style scoped lang="scss">
+.pictode-property {
+  padding: 0.8rem;
+}
+
 .button-list {
   flex-wrap: wrap;
   display: flex;

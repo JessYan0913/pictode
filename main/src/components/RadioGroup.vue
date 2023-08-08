@@ -1,5 +1,7 @@
 <script setup lang="ts" generic="T">
-import { computed } from 'vue';
+import { computed, provide } from 'vue';
+
+import { RadioCtxKey } from '@/constants/injection-keys';
 
 export type RadioGroupOption<T> = {
   value: T;
@@ -8,7 +10,6 @@ export type RadioGroupOption<T> = {
 
 const props = defineProps<{
   modelValue: T;
-  options: RadioGroupOption<T>[];
 }>();
 
 const emits = defineEmits<{
@@ -25,16 +26,15 @@ const selectedValue = computed<T>({
     emits('update:modelValue', value);
   },
 });
+
+provide(RadioCtxKey, {
+  modelValue: selectedValue,
+});
 </script>
 
 <template>
   <div class="radio-group">
-    <label v-for="(item, index) in options" :key="index" class="radio">
-      <input v-model="selectedValue" type="radio" :value="item.value" />
-      <div>
-        <slot :item="item"></slot>
-      </div>
-    </label>
+    <slot></slot>
   </div>
 </template>
 
@@ -46,35 +46,5 @@ const selectedValue = computed<T>({
   grid-auto-flow: column;
   gap: calc(0.25rem * 1);
   justify-items: center;
-
-  & > .radio {
-    & > input {
-      position: absolute;
-      opacity: 0;
-    }
-
-    & > input:checked + div {
-      background: #e3e2fe;
-    }
-  }
-}
-
-.radio {
-  border-radius: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-
-  div {
-    width: 2.25rem;
-    height: 2.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-  }
 }
 </style>
