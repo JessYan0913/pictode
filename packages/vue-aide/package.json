@@ -1,6 +1,6 @@
 {
   "version": "0.0.1",
-  "name": "@pictode/form",
+  "name": "@pictode/vue-aide",
   "sideEffects": [
     "dist/*",
     "src/theme/*"
@@ -26,20 +26,16 @@
     "clear:type": "rimraf ./types"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.1.0",
-    "@pictode/utils": "workspace:^0.0.1",
-    "element-plus": "^2.2.28",
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
     "@babel/core": "^7.18.0",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^15.12.4",
     "@types/sortablejs": "^1.10.7",
-    "@vitejs/plugin-vue": "^4.2.3",
     "@vue/compiler-sfc": "^3.2.37",
     "rimraf": "^3.0.2",
-    "sass": "^1.35.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vue-tsc": "^1.8.5"

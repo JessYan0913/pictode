@@ -1,5 +1,7 @@
 import { inject, InjectionKey, isRef, MaybeRefOrGetter, Ref, unref } from 'vue';
 
+export * from './hooks';
+
 export const injectStrict = <T>(key: InjectionKey<T>, fallback?: T) => {
   const resolved = inject(key, fallback);
   if (!resolved) {

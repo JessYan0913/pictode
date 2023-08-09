@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T">
+import { injectStrict } from '@pictode/vue-aide';
+
 import { RadioCtxKey } from '@/constants/injection-keys';
-import { injectStrict } from '@/utils/vue';
 
 defineProps<{
   value: T;
