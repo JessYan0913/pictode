@@ -42,10 +42,10 @@ onMounted(() => {
         <section
           class="bg-opacity-88 shadow-md rounded-lg p-2 relative transition-shadow flex justify-center pointer-events-none"
         >
-          <Tools class="pointer-events-auto"></Tools>
+          <Tools class="pointer-events-auto w-full"></Tools>
         </section>
         <div class="justify-self-end bg-opacity-88 shadow-md rounded-lg p-2 relative transition-shadow">
-          <div class="grid grid-flow-col gap-4 mx-1 pointer-events-auto">
+          <div class="grid grid-flow-col gap-4 w-full pointer-events-auto">
             <Button class="w-9 h-9" icon="undo" @click="app.undo()"></Button>
             <Button class="w-9 h-9" icon="redo" @click="app.redo()"></Button>
           </div>
