@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
+import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button.vue';
 import Property from '@/components/Property.vue';
 import Tools from '@/components/Tools.vue';
@@ -29,7 +30,7 @@ onMounted(() => {
             class="flex justify-center items-center p-2 cursor-pointer text-3xl w-9 h-9 select-none"
             @click="propertyVisible = !propertyVisible"
           >
-            🎨
+            <img :src="logo" />
           </div>
           <div
             v-if="propertyVisible"
