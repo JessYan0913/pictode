@@ -2,9 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
-import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button.vue';
 import Property from '@/components/Property.vue';
+import SvgIcon from '@/components/SvgIcon.vue';
 import Tools from '@/components/Tools.vue';
 import { usePictode } from '@/hooks/usePictode';
 
@@ -27,10 +27,10 @@ onMounted(() => {
       <div class="grid grid-cols-3 gap-12 items-start cursor-default pointer-events-none font-AlimamaFangYuanTi">
         <div class="justify-self-start grid gap-1.5 grid-cols-1 grid-flow-row auto-rows-min pointer-events-auto">
           <div
-            class="flex justify-center items-center p-2 cursor-pointer text-3xl w-9 h-9 select-none"
+            class="flex items-center p-2 cursor-pointer text-3xl w-15 h-15 select-none"
             @click="propertyVisible = !propertyVisible"
           >
-            <img :src="logo" />
+            <SvgIcon name="logo" size="4rem"></SvgIcon>
           </div>
           <div
             v-if="propertyVisible"
