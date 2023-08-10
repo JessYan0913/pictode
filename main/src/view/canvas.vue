@@ -27,16 +27,18 @@ onMounted(() => {
           <Menu></Menu>
         </section>
         <section
-          class="bg-opacity-88 shadow-md rounded-lg p-2 relative transition-shadow flex justify-center pointer-events-none"
+          class="justify-center bg-opacity-88 shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
         >
           <Tools class="pointer-events-auto w-full"></Tools>
         </section>
-        <div class="justify-self-end bg-opacity-88 shadow-md rounded-lg p-2 relative transition-shadow">
+        <section
+          class="justify-self-end bg-opacity-88 shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
+        >
           <div class="grid grid-flow-col gap-4 w-full pointer-events-auto">
-            <Button class="w-9 h-9" icon="undo" @click="app.undo()"></Button>
-            <Button class="w-9 h-9" icon="redo" @click="app.redo()"></Button>
+            <Button class="w-8 h-8" icon="undo" @click="app.undo()"></Button>
+            <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
           </div>
-        </div>
+        </section>
       </div>
     </div>
     <div ref="canvasRef" class="w-full h-full"></div>
