@@ -15,5 +15,3 @@ const { currentTool, tools } = usePictode();
     </Radio>
   </RadioGroup>
 </template>
-
-<style scoped lang="scss"></style>

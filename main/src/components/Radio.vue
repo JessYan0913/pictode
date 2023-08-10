@@ -1,50 +1,15 @@
-<script setup lang="ts" generic="T">
-import { injectStrict } from '@pictode/vue-aide';
-
-import { RadioCtxKey } from '@/constants/injection-keys';
+<script setup lang="ts">
+import { RadioGroupOption } from '@headlessui/vue';
 
 defineProps<{
-  value: T;
+  value: string | number | boolean | Record<string, any> | undefined;
 }>();
-
-const { modelValue } = injectStrict(RadioCtxKey);
 </script>
 
 <template>
-  <label class="radio">
-    <input v-model="modelValue" type="radio" :value="value" />
-    <div>
+  <RadioGroupOption v-slot="{ checked }" :value="value">
+    <div :class="['pictode-radio-group-option', checked ? 'checked' : '']">
       <slot></slot>
     </div>
-  </label>
+  </RadioGroupOption>
 </template>
-
-<style scoped lang="scss">
-.radio {
-  border-radius: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-
-  & > input {
-    position: absolute;
-    opacity: 0;
-  }
-
-  & > input:checked + div {
-    background: #e3e2fe;
-  }
-
-  div {
-    width: 2.25rem;
-    height: 2.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-  }
-}
-</style>

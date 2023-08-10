@@ -82,6 +82,7 @@ importers:
 
   main:
     specifiers:
+      '@headlessui/vue': ^1.7.15
       '@pictode/core': workspace:^0.0.1
       '@pictode/plugin-history': workspace:^0.0.1
       '@pictode/utils': workspace:^0.0.1
@@ -107,6 +108,7 @@ importers:
       vue-router: ^4.1.6
       vue-tsc: ^1.0.11
     dependencies:
+      '@headlessui/vue': 1.7.15_vue@3.3.4
       '@pictode/core': link:../packages/core
       '@pictode/plugin-history': link:../packages/plugin-history
       '@pictode/utils': link:../packages/utils
@@ -897,6 +899,15 @@ packages:
     resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
     dev: false
 
+  /@headlessui/vue/1.7.15_vue@3.3.4:
+    resolution: {integrity: sha512-3ozVEgQ8mw09nWvUPN+8S6C8l3SM0lVT1aEN/+oP5Y4LF0WNMM9UrVisVTN9LLQ06v/X3EFA0blyL/vg8XNZlg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      vue: 3.3.4
+    dev: false
+
   /@humanwhocodes/config-array/0.11.10:
     resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
     engines: {node: '>=10.10.0'}
@@ -1289,7 +1300,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.8_@types+node@18.17.3
+      vite: 4.4.8_sass@1.64.2
       vue: 3.3.4
     dev: true
 
