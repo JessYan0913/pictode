@@ -24,7 +24,7 @@ const selectedValue = computed<T>({
 
 <template>
   <RadioGroup v-model="selectedValue">
-    <div class="grid grid-flow-col gap-1">
+    <div class="flex flex-grow justify-around flex-wrap">
       <slot></slot>
     </div>
   </RadioGroup>
