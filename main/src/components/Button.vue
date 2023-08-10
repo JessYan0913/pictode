@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <button
-    class="flex justify-center items-center rounded-lg relative select-none border-0 bg-transparent disabled:bg-opacity-50 hover:bg-purple-200"
+    class="flex justify-center items-center rounded-lg relative select-none border-0 bg-transparent disabled:bg-opacity-50 hover:bg-violet-200"
     v-bind="$attrs"
     :disabled="disabled"
   >
