@@ -1,27 +1,15 @@
-<script lang="ts" setup>
-import { useTheme } from '@/hooks/useTheme';
+<script setup lang="ts">
+import { RouterView } from 'vue-router';
 
-import Main from './Main.vue';
+import { useRouterCache } from '@/hooks/useRouterCache';
 
-useTheme();
+const { keepAliveComps } = useRouterCache();
 </script>
 
 <template>
-  <el-container class="layout">
-    <el-main>
-      <Main />
-    </el-main>
-  </el-container>
+  <RouterView v-slot="{ Component }">
+    <KeepAlive :include="keepAliveComps">
+      <component :is="Component"></component>
+    </KeepAlive>
+  </RouterView>
 </template>
-
-<style lang="scss" scoped>
-.layout {
-  width: 100%;
-  height: 100%;
-  background-color: #f5f5f5;
-}
-
-.el-main {
-  padding: 0;
-}
-</style>

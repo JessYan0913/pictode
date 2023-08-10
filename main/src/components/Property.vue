@@ -1,124 +1,22 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 
-import SvgIcon from '@/components/SvgIcon.vue';
-const rectProperty = reactive<{
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-  cornerRadius: number;
-  opacity: number;
-}>({
-  fill: 'rgba(256,256,256,0)',
-  stroke: 'rgba(0,0,0,1)',
-  strokeWidth: 2,
-  cornerRadius: 10,
-  opacity: 1,
-});
-
-const predefineColors = ref<string[]>([
-  '#ff4500',
-  '#ff8c00',
-  '#ffd700',
-  '#90ee90',
-  '#00ced1',
-  '#1e90ff',
-  '#c71585',
-  '#c7158577',
-]);
+const plan = ref('startup');
 </script>
 
 <template>
-  <div class="pictode-property">
-    <el-form label-position="top" size="small" label-width="100px" :model="rectProperty" style="max-width: 202px">
-      <el-form-item label="背景" prop="fill">
-        <el-color-picker v-model="rectProperty.fill" show-alpha :predefine="predefineColors" />
-      </el-form-item>
-      <el-form-item label="边框" prop="stroke">
-        <el-color-picker v-model="rectProperty.stroke" show-alpha :predefine="predefineColors" />
-      </el-form-item>
-      <el-form-item label="边框宽度" prop="strokeWidth">
-        <div class="button-list">
-          <label class="tool-icon">
-            <input v-model="rectProperty.strokeWidth" type="radio" :value="1" />
-            <div>
-              <SvgIcon name="line-1"></SvgIcon>
-            </div>
-          </label>
-          <label class="tool-icon">
-            <input v-model="rectProperty.strokeWidth" type="radio" :value="3" />
-            <div>
-              <SvgIcon name="line-2"></SvgIcon>
-            </div>
-          </label>
-          <label class="tool-icon">
-            <input v-model="rectProperty.strokeWidth" type="radio" :value="5" />
-            <div>
-              <SvgIcon name="line-3"></SvgIcon>
-            </div>
-          </label>
-        </div>
-      </el-form-item>
-      <el-form-item label="边角" prop="cornerRadius">
-        <div class="button-list">
-          <label class="tool-icon">
-            <input v-model="rectProperty.cornerRadius" type="radio" :value="0" />
-            <div>
-              <SvgIcon name="node-flat"></SvgIcon>
-            </div>
-          </label>
-          <label class="tool-icon">
-            <input v-model="rectProperty.cornerRadius" type="radio" :value="10" />
-            <div>
-              <SvgIcon name="node-round"></SvgIcon>
-            </div>
-          </label>
-        </div>
-      </el-form-item>
-      <el-form-item label="透明度" props="opacity">
-        <el-slider v-model="rectProperty.opacity" :min="0" :max="1" :step="0.01" />
-      </el-form-item>
-    </el-form>
+  <h1 class="text-3xl font-bold underline bg-blue-500 hover:bg-sky-700">Hello world!</h1>
+  <div class="padding-[20px]">
+    <RadioGroup v-model="plan">
+      <div class="pictode-radio-group">
+        <RadioGroupOption v-slot="{ checked }" value="startup">
+          <span :class="['pictode-radio-group-option', checked ? 'checked' : '']">Startup</span>
+        </RadioGroupOption>
+        <RadioGroupOption v-slot="{ checked }" value="business">
+          <span :class="['pictode-radio-group-option', checked ? 'checked' : '']">Business</span>
+        </RadioGroupOption>
+      </div>
+    </RadioGroup>
   </div>
 </template>
-
-<style scoped lang="scss">
-.pictode-property {
-  padding: 0.8rem;
-}
-
-.button-list {
-  flex-wrap: wrap;
-  display: flex;
-  column-gap: 0.5rem;
-  row-gap: 0.5rem;
-}
-
-.tool-icon {
-  border-radius: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-
-  div {
-    width: 2.25rem;
-    height: 2.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-  }
-
-  & > input {
-    position: absolute;
-    opacity: 0;
-  }
-
-  & > input:checked + div {
-    background: #e3e2fe;
-  }
-}
-</style>

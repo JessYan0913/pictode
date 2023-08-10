@@ -24,7 +24,7 @@ const selectedValue = computed<T>({
 
 <template>
   <RadioGroup v-model="selectedValue">
-    <div class="pictode-radio-group">
+    <div class="grid grid-flow-col gap-1">
       <slot></slot>
     </div>
   </RadioGroup>

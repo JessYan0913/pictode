@@ -21,131 +21,36 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container">
-    <div class="side-top">
-      <div class="menu">
-        <div class="top-left">
-          <div class="dropdown-menu-button" @click="propertyVisible = !propertyVisible">🎨</div>
-          <div v-if="propertyVisible" class="island">
+  <div class="w-full h-full">
+    <div class="absolute left-4 top-4 right-4 bottom-4 p-4 z-10 pointer-events-none">
+      <div class="grid grid-cols-3 gap-12 items-start cursor-default pointer-events-none font-AlimamaFangYuanTi">
+        <div class="justify-self-start grid gap-1.5 grid-cols-1 grid-flow-col auto-rows-min pointer-events-auto">
+          <div
+            class="flex justify-center items-center p-2 cursor-pointer text-3xl w-9 h-9 select-none"
+            @click="propertyVisible = !propertyVisible"
+          >
+            🎨
+          </div>
+          <div
+            v-if="propertyVisible"
+            class="bg-opacity-88 shadow-lg rounded-lg p-2 relative transition-shadow w-202 max-h-667"
+          >
             <Property></Property>
           </div>
         </div>
-        <section class="shapes-section">
-          <Tools></Tools>
+        <section
+          class="bg-opacity-88 shadow-lg rounded-lg p-2 relative transition-shadow flex justify-center pointer-events-none"
+        >
+          <Tools class="pointer-events-auto"></Tools>
         </section>
-        <div>
-          <div class="undo-redo-buttons">
-            <Button icon="undo" @click="app.undo()"></Button>
-            <Button icon="redo" @click="app.redo()"></Button>
+        <div class="justify-self-end bg-opacity-88 shadow-lg rounded-lg p-2 relative transition-shadow">
+          <div class="grid grid-flow-col gap-4 mx-1 pointer-events-auto">
+            <Button class="w-9 h-9" icon="undo" @click="app.undo()"></Button>
+            <Button class="w-9 h-9" icon="redo" @click="app.redo()"></Button>
           </div>
         </div>
       </div>
     </div>
-    <div ref="canvasRef" class="canvas"></div>
+    <div ref="canvasRef" class="w-full h-full"></div>
   </div>
 </template>
-
-<style scoped lang="scss">
-@mixin card-style {
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.88);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.05), 0px 0px 3.12708px rgba(0, 0, 0, 0.0798),
-    0px 0px 0.931014px rgba(0, 0, 0, 0.1702);
-  border-radius: 0.5rem;
-  padding: calc(1 * 0.25rem);
-  position: relative;
-  transition: box-shadow 0.5s ease-in-out;
-}
-
-.container {
-  position: relative;
-  height: 100vh;
-}
-
-.side-top {
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  right: 1rem;
-  bottom: 1rem;
-  padding: 10px;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.menu {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 3rem;
-  align-items: flex-start;
-  cursor: default;
-  pointer-events: none !important;
-  font-family: 'AlimamaFangYuanTi';
-
-  & > *:first-child {
-    justify-self: flex-start;
-  }
-
-  & > *:last-child {
-    justify-self: flex-end;
-  }
-}
-
-.top-left {
-  display: grid;
-  gap: cal(0.25rem * 6);
-  grid-template-columns: auto;
-  grid-auto-flow: row;
-  grid-auto-rows: min-content;
-  pointer-events: all;
-}
-
-.dropdown-menu-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.625rem;
-  cursor: pointer;
-  font-size: 36px;
-  width: 36px;
-  height: 36px;
-  user-select: none;
-}
-
-.island {
-  @include card-style;
-  width: 202px;
-  box-sizing: border-box;
-  max-height: 667px;
-}
-
-.shapes-section {
-  @include card-style;
-  display: flex;
-  justify-content: center;
-  pointer-events: none !important;
-
-  & > * {
-    pointer-events: all;
-  }
-}
-
-.canvas {
-  width: 100%;
-  height: 100%;
-}
-
-.undo-redo-buttons {
-  @include card-style;
-  pointer-events: all;
-  display: grid;
-  grid-auto-flow: column;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-inline-start: 0.6em;
-  & > button {
-    width: 2.25rem;
-    height: 2.25rem;
-  }
-}
-</style>
