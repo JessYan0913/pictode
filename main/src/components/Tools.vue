@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import usePictode from '@/hooks/usePictode';
 
-import Radio from './Radio.vue';
 import RadioGroup from './RadioGroup.vue';
+import RadioGroupOption from './RadioGroupOption.vue';
 import SvgIcon from './SvgIcon.vue';
 
 const { currentTool, tools } = usePictode();
@@ -10,8 +10,8 @@ const { currentTool, tools } = usePictode();
 
 <template>
   <RadioGroup v-model="currentTool">
-    <Radio v-for="(item, index) in tools" :key="index" :value="item.name">
+    <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name">
       <SvgIcon :name="item.icon"></SvgIcon>
-    </Radio>
+    </RadioGroupOption>
   </RadioGroup>
 </template>
