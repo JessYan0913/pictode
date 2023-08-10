@@ -2,6 +2,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 
 import SvgIcon from '@/components/SvgIcon.vue';
+
+const menuGroups = [
+  ['打开', '保存为', '导出图片', '重置画布'],
+  ['深色模式', '画布背景'],
+];
 </script>
 
 <template>
@@ -20,59 +25,15 @@ import SvgIcon from '@/components/SvgIcon.vue';
       <MenuItems
         class="mt-2 w-56 divide-y rounded-lg bg-opacity-88 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
+        <div v-for="(menus, index) in menuGroups" :key="index" class="px-1 py-1">
+          <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
             <button
               :class="[
                 active ? 'bg-violet-200' : 'text-gray-900',
                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
               ]"
             >
-              Edit
-            </button>
-          </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-200' : 'text-gray-900',
-                'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-              ]"
-            >
-              Duplicate
-            </button>
-          </MenuItem>
-        </div>
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-200' : 'text-gray-900',
-                'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-              ]"
-            >
-              Archive
-            </button>
-          </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-200' : 'text-gray-900',
-                'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-              ]"
-            >
-              Move
-            </button>
-          </MenuItem>
-        </div>
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-200' : 'text-gray-900',
-                'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-              ]"
-            >
-              Delete
+              {{ menu }}
             </button>
           </MenuItem>
         </div>
