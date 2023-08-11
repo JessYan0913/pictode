@@ -43,10 +43,10 @@ const formConfig: FormConfig = [
     <div
       class="absolute left-0 top-0 right-0 bottom-0 p-8 z-10 pointer-events-none grid grid-cols-3 grid-rows-[auto_1fr_50px] gap-12"
     >
-      <section class="row-start-1 col-start-1 justify-self-start pointer-events-auto">
-        <Menu></Menu>
+      <section class="row-start-1 col-start-1 justify-self-start">
+        <Menu class="pointer-events-auto"></Menu>
       </section>
-      <section class="bg-opacity-88 row-start-1 col-start-2 justify-self-stretch place-content-center">
+      <section class="bg-opacity-88 row-start-1 col-start-2 justify-self-stretch">
         <Tools
           class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
         ></Tools>
@@ -59,9 +59,9 @@ const formConfig: FormConfig = [
           <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
         </div>
       </section>
-      <section class="bg-opacity-88 row-start-2 col-start-3">
+      <section class="bg-opacity-88 row-start-2 col-start-1 justify-self-start">
         <Form
-          class="p-2 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
+          class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
           :config="formConfig"
           label-position="top"
         ></Form>

@@ -10,7 +10,7 @@ const menuGroups = [
 </script>
 
 <template>
-  <Menu>
+  <Menu as="div">
     <MenuButton class="outline-none flex justify-start">
       <SvgIcon name="logo" size="3rem"></SvgIcon>
     </MenuButton>
