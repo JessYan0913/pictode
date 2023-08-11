@@ -5,6 +5,7 @@ import { selectTool } from '@pictode/core';
 import Button from '@/components/Button.vue';
 import Menu from '@/components/Menu.vue';
 import Tools from '@/components/Tools.vue';
+import { Form, FormConfig } from '@/form';
 import { usePictode } from '@/hooks/usePictode';
 
 const { app } = usePictode();
@@ -17,6 +18,24 @@ onMounted(() => {
     app.mount(canvasRef.value);
   }
 });
+
+const formConfig: FormConfig = [
+  {
+    name: 'sex',
+    label: '性别',
+    type: 'RadioGroup',
+    options: [
+      {
+        text: '男',
+        value: 0,
+      },
+      {
+        text: '女',
+        value: 1,
+      },
+    ],
+  },
+];
 </script>
 
 <template>
@@ -39,6 +58,11 @@ onMounted(() => {
             <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
           </div>
         </section>
+      </div>
+      <div class="grid grid-cols-3 gap-12 items-start cursor-default">
+        <div class="pointer-events-auto">
+          <Form :config="formConfig" label-position="top"></Form>
+        </div>
       </div>
     </div>
     <div ref="canvasRef" class="w-full h-full"></div>

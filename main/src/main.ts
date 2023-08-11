@@ -9,6 +9,8 @@ import router from '@/router';
 
 import 'virtual:svg-icons-register';
 
+import formPlugin from './form';
+
 import 'tailwindcss/tailwind.css';
 import 'element-plus/theme-chalk/index.css';
 import './assets/styles/index.css';
@@ -20,4 +22,5 @@ const app = createApp(App);
 app.use(ElementPlus, { locale: zhCn });
 app.use(pinia);
 app.use(router);
+app.use(formPlugin);
 app.mount('#app');

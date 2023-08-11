@@ -1,13 +1,14 @@
 export type FormValue = Record<string | number, any>;
 
+export type FormSize = 'small' | 'default' | 'large';
+
+export type FormItemLabelPosition = 'top' | 'left' | 'right';
+
 export type FormState = {
   config: FormConfig;
-  popperClass?: string;
   initValues: FormValue;
-  lastValues: FormValue;
-  isCompare: boolean;
-  values: FormValue;
-  $emit: (event: string, ...args: any[]) => void;
+  formModel: FormValue;
+  $emit: (event: any, ...args: any[]) => void;
   keyProp?: string;
   parentValues?: FormValue;
   setField: (prop: string, field: any) => void;
@@ -16,7 +17,19 @@ export type FormState = {
   [key: string]: any;
 };
 
-export type RuleValidator = (
+export interface FormHandlerData {
+  /** 表单的初始值 */
+  initValue: FormValue;
+  /** 当前作用域下的值 */
+  model: FormValue;
+  parent?: FormValue;
+  /** 整个表单的值 */
+  formValue: FormValue;
+  prop: string | number;
+  config: any;
+}
+
+export type RuleValidatorHandler = (
   options: {
     rule: string;
     value: any;
@@ -26,19 +39,16 @@ export type RuleValidator = (
       messages: string;
     };
   },
-  data: {
-    /** 表单的初始值 */
-    values: FormValue;
-    /** 当前作用域下的值 */
-    model: FormValue;
-    parent: FormValue;
-    /** 整个表单的值 */
-    formValue: FormValue;
-    prop: string;
-    config: any;
-  },
+  data: FormHandlerData,
   formState: FormState | undefined
 ) => void;
+
+export type TypeFunction = (
+  mForm: FormState | undefined,
+  data: {
+    model: FormValue;
+  }
+) => string;
 
 export interface Rule {
   message?: string;
@@ -47,30 +57,20 @@ export interface Rule {
   /** 是否必填 */
   required?: boolean;
   /** 自定义验证器 */
-  validator?: RuleValidator;
+  validator?: RuleValidatorHandler;
 }
 
-type OnChangeHandler = (
-  formState: FormState | undefined,
-  value: any,
-  data: {
-    model: FormValue;
-    values: FormValue;
-    parent?: FormValue;
-    formValue: FormValue;
-    config: FormConfig;
-  }
-) => any;
+export type OnChangeHandler = (formState: FormState | undefined, value: any, data: FormHandlerData) => any;
 
 export interface FormItem {
-  type: string;
+  type: string | TypeFunction;
   name?: string;
   label?: string;
   onChange?: OnChangeHandler;
 }
 
 export interface RadioGroupConfig extends FormItem {
-  type: 'radioGroup';
+  type: 'RadioGroup';
   options: {
     value: string | number | boolean;
     text: string;
@@ -78,7 +78,9 @@ export interface RadioGroupConfig extends FormItem {
 }
 
 export interface ColorPickConfig extends FormItem {
-  type: 'colorPicker';
+  type: 'ColorPicker';
 }
 
-export type FormConfig = FormItem | RadioGroupConfig | ColorPickConfig;
+export type ChildConfig = FormItem | RadioGroupConfig | ColorPickConfig;
+
+export type FormConfig = ChildConfig[];
