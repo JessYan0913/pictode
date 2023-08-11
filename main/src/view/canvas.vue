@@ -62,7 +62,7 @@ const formValue = {
           <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
         </div>
       </section>
-      <section class="bg-opacity-88 row-start-2 col-start-1 justify-self-start">
+      <section class="bg-opacity-88 row-start-2 col-start-3 justify-self-end">
         <Form
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
           :config="formConfig"
