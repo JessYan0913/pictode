@@ -39,9 +39,6 @@ const itemProp = computed<string>(() => {
 
 const type = computed<string>(() => {
   let { type } = config.value;
-  if (typeof type === 'function') {
-    type = type(formState, { model: formModel });
-  }
   if (type === 'form') {
     return '';
   }
@@ -53,9 +50,6 @@ const handleChange = (onChange?: OnChangeHandler, value?: FormValue | number | s
     return;
   }
   return onChange(formState, value, {
-    initValue: formState.initValues,
-    model: formModel,
-    parent: formState.parentValues,
     formValue: formModel.value,
     prop: itemProp.value,
     config: config.value,
@@ -63,8 +57,6 @@ const handleChange = (onChange?: OnChangeHandler, value?: FormValue | number | s
 };
 
 const onChangeHandler = async (v: FormValue) => {
-  console.log('======');
-
   const { onChange, name } = config.value;
   let value: FormValue | number | string = v;
 

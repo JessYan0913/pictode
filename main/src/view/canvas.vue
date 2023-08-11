@@ -66,7 +66,7 @@ const formValue = {
         <Form
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
           :config="formConfig"
-          :init-values="formValue"
+          :model-value="formValue"
           label-position="top"
         ></Form>
       </section>

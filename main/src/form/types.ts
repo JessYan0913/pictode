@@ -6,18 +6,13 @@ export type FormItemLabelPosition = 'top' | 'left' | 'right';
 
 export type FormState = {
   config: FormConfig;
-  initValues: FormValue;
   formValue: FormValue;
-  [key: string]: any;
 };
 
 export interface FormHandlerData {
-  /** 表单的初始值 */
-  initValue: FormValue;
-  /** 整个表单的值 */
   formValue: FormValue;
   prop: string;
-  config: FormConfig;
+  config: ChildConfig;
 }
 
 export type RuleValidatorHandler = (
@@ -34,13 +29,6 @@ export type RuleValidatorHandler = (
   formState: FormState | undefined
 ) => void;
 
-export type TypeFunction = (
-  mForm: FormState | undefined,
-  data: {
-    model: FormValue;
-  }
-) => string;
-
 export interface Rule {
   message?: string;
   /** 系统提供的验证器类型。有：string,number,boolean,method,regexp,integer,float,array,object,enum,date,url,hex,email,any */
@@ -52,7 +40,7 @@ export interface Rule {
 export type OnChangeHandler = (formState: FormState | undefined, value: any, data: FormHandlerData) => any;
 
 export interface FormItem {
-  type: string | TypeFunction;
+  type: string;
   name?: string;
   label?: string;
   onChange?: OnChangeHandler;
