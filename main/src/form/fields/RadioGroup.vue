@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, toRefs } from 'vue';
 
 import RadioGroup from '../../components/RadioGroup.vue';
 import RadioGroupOption from '../../components/RadioGroupOption.vue';
-import { FormValue, RadioGroupConfig } from '../../types';
+import { FormValue, RadioGroupConfig } from '../types';
 
 const props = defineProps<{
   config: RadioGroupConfig;
@@ -17,9 +17,10 @@ const emits = defineEmits<{
   (event: 'change', value: any): void;
 }>();
 
+const { formModel, name } = toRefs(props);
 const selectedValue = computed({
   get() {
-    return props.formModel[props.name];
+    return formModel.value[name.value];
   },
   set(value) {
     emits('change', value);

@@ -42,7 +42,7 @@ const fields = new Map<string, any>();
 
 const { keyProp, config, initValues, parentValues } = toRefs(props);
 const formRef = ref<FormInstance>();
-const formModel = ref<FormValue>({});
+const formModel = ref<FormValue>(initValues);
 const formState = reactive<FormState>({
   keyProp: keyProp.value,
   config: config.value,

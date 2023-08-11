@@ -63,6 +63,8 @@ const handleChange = (onChange?: OnChangeHandler, value?: FormValue | number | s
 };
 
 const onChangeHandler = async (v: FormValue) => {
+  console.log('======');
+
   const { onChange, name } = config.value;
   let value: FormValue | number | string = v;
 
