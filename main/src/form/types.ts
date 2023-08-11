@@ -7,26 +7,17 @@ export type FormItemLabelPosition = 'top' | 'left' | 'right';
 export type FormState = {
   config: FormConfig;
   initValues: FormValue;
-  formModel: FormValue;
-  $emit: (event: any, ...args: any[]) => void;
-  keyProp?: string;
-  parentValues?: FormValue;
-  setField: (prop: string, field: any) => void;
-  getField: (prop: string) => any;
-  deleteField: (prop: string) => any;
+  formValue: FormValue;
   [key: string]: any;
 };
 
 export interface FormHandlerData {
   /** 表单的初始值 */
   initValue: FormValue;
-  /** 当前作用域下的值 */
-  model: FormValue;
-  parent?: FormValue;
   /** 整个表单的值 */
   formValue: FormValue;
-  prop: string | number;
-  config: any;
+  prop: string;
+  config: FormConfig;
 }
 
 export type RuleValidatorHandler = (
@@ -54,9 +45,7 @@ export interface Rule {
   message?: string;
   /** 系统提供的验证器类型。有：string,number,boolean,method,regexp,integer,float,array,object,enum,date,url,hex,email,any */
   type?: string;
-  /** 是否必填 */
   required?: boolean;
-  /** 自定义验证器 */
   validator?: RuleValidatorHandler;
 }
 

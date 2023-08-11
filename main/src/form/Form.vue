@@ -18,7 +18,6 @@ const props = withDefaults(
     size?: FormSize;
     inline?: boolean;
     labelPosition?: FormItemLabelPosition;
-    keyProp?: string;
   }>(),
   {
     config: () => [],
@@ -30,7 +29,6 @@ const props = withDefaults(
     size: 'default',
     inline: false,
     labelPosition: 'right',
-    keyProp: '__key',
   }
 );
 
@@ -38,27 +36,14 @@ const emits = defineEmits<{
   (event: 'change', value: FormValue): void;
 }>();
 
-const fields = new Map<string, any>();
-
-const { keyProp, config, initValues, parentValues } = toRefs(props);
+const { config, initValues, parentValues } = toRefs(props);
 const formRef = ref<FormInstance>();
 const formModel = ref<FormValue>(initValues);
 const formState = reactive<FormState>({
-  keyProp: keyProp.value,
   config: config.value,
   initValues: initValues.value,
   parentValues: parentValues.value,
-  formModel: formModel.value,
-  $emit: emits,
-  setField(prop, field) {
-    fields.set(prop, field);
-  },
-  getField(prop) {
-    return fields.get(prop);
-  },
-  deleteField(prop) {
-    return fields.delete(prop);
-  },
+  formValue: formModel.value,
 });
 
 const handleChange = () => emits('change', formModel.value);
