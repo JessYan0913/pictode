@@ -30,7 +30,7 @@ const handleTextDoubleClick = (app: App, textNode: Text) => {
   textarea.style.fontFamily = textNode.fontFamily();
   textarea.style.transformOrigin = 'left top';
   textarea.style.textAlign = textNode.align();
-  textarea.style.color = textNode.fill();
+  textarea.style.color = textNode.stroke();
   const rotation = textNode.rotation();
   let transform = '';
   if (rotation) {
@@ -100,7 +100,14 @@ const handleTextDoubleClick = (app: App, textNode: Text) => {
   });
 };
 
-export const textTool = (): Tool => {
+export interface TextToolOptions {
+  stroke: string;
+  strokeWidth: number;
+  fontSize: number;
+  fontFamily: string;
+}
+
+export const textTool = (options: TextToolOptions): Tool => {
   let textNode: Text | null = null;
 
   return {
@@ -108,11 +115,8 @@ export const textTool = (): Tool => {
     onActive(app) {
       app.cancelSelect();
       textNode = new Text({
-        stroke: 'black',
         text: 'Pictode',
-        strokeWidth: 0.1,
-        fontSize: 20,
-        fontFamily: 'JiaYouYa',
+        ...options,
       });
       textNode.on<'dblclick'>('dblclick', ({ target }) => {
         handleTextDoubleClick(app, target as Text);

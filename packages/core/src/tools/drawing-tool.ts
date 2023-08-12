@@ -5,7 +5,13 @@ import { Point } from '../utils';
 const flatPoints = (points: Point[]): number[] =>
   points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);
 
-export const drawingTool = (): Tool => {
+export interface DrawingToolOptions {
+  stroke: string;
+  strokeWidth: number;
+  opacity: number;
+}
+
+export const drawingTool = (options: DrawingToolOptions): Tool => {
   let points: Point[] = [];
   let line: Line | null = null;
 
@@ -23,12 +29,11 @@ export const drawingTool = (): Tool => {
       if (!line) {
         line = new Line({
           points: flatPoints(points),
-          stroke: 'black',
-          strokeWidth: 2,
           globalCompositeOperation: 'source-over',
           lineCap: 'round',
           lineJoin: 'round',
           strokeScaleEnabled: false,
+          ...options,
         });
         app.add(line);
       }

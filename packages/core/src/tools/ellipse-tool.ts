@@ -2,7 +2,14 @@ import { Ellipse } from '../customs/ellipse';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
-export const ellipseTool = (): Tool => {
+export interface EllipseToolOptions {
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
+  opacity: number;
+}
+
+export const ellipseTool = (options: EllipseToolOptions): Tool => {
   const startPointer: Point = new Point(0, 0);
   let ellipse: Ellipse | null = null;
 
@@ -19,10 +26,8 @@ export const ellipseTool = (): Tool => {
       ellipse = new Ellipse({
         radiusX: 0,
         radiusY: 0,
-        fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
         strokeScaleEnabled: false,
+        ...options,
       });
       ellipse.setPosition(startPointer);
       ellipse.radius(new Point(0, 0));

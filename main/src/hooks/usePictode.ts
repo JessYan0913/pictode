@@ -88,7 +88,7 @@ watchEffect(() => {
   app.setTool(
     toolMap[currentTool.value].handler({
       fill: 'red',
-      stroke: 'black',
+      stroke: 'blue',
       strokeWidth: 2,
     })
   );

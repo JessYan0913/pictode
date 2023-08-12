@@ -2,7 +2,14 @@ import { RegularPolygon } from '../customs/regular-polygon';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
-export const regularPolygonTool = (): Tool => {
+export interface RegularPolygonToolOptions {
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
+  opacity: number;
+}
+
+export const regularPolygonTool = (options: RegularPolygonToolOptions): Tool => {
   const startPointer: Point = new Point(0, 0);
   let regularPolygon: RegularPolygon | null = null;
 
@@ -17,12 +24,10 @@ export const regularPolygonTool = (): Tool => {
       }
       startPointer.clone(app.pointer);
       regularPolygon = new RegularPolygon({
-        fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
         sides: 4,
         radius: 0,
         strokeScaleEnabled: false,
+        ...options,
       });
       regularPolygon.radius(0);
       regularPolygon.setPosition(startPointer);
