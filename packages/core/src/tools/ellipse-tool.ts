@@ -2,6 +2,8 @@ import { Ellipse } from '../customs/ellipse';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
+import selectTool from './select-tool';
+
 export interface EllipseToolOptions {
   fill: string;
   stroke: string;
@@ -48,7 +50,10 @@ export const ellipseTool = (options: EllipseToolOptions): Tool => {
       ellipse.radius(radius);
       app.render();
     },
-    onMouseup(): void {
+    onMouseup({ app }): void {
+      if (ellipse) {
+        app.setTool(selectTool(ellipse));
+      }
       ellipse = null;
     },
   };

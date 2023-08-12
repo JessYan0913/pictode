@@ -2,6 +2,8 @@ import { Line } from '../customs/line';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
+import selectTool from './select-tool';
+
 const flatPoints = (points: Point[]): number[] =>
   points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);
 
@@ -39,7 +41,10 @@ export const lineTool = (): Tool => {
       line.points(flatPoints(points).concat(app.pointer.x, app.pointer.y));
       app.render();
     },
-    onDoubleClick(): void {
+    onDoubleClick({ app }): void {
+      if (line) {
+        app.setTool(selectTool(line));
+      }
       line = null;
       points = [];
     },

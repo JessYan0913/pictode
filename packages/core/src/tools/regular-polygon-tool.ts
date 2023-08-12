@@ -2,6 +2,8 @@ import { RegularPolygon } from '../customs/regular-polygon';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
+import selectTool from './select-tool';
+
 export interface RegularPolygonToolOptions {
   fill: string;
   stroke: string;
@@ -45,7 +47,10 @@ export const regularPolygonTool = (options: RegularPolygonToolOptions): Tool => 
       regularPolygon.radius(newPosition.distanceTo(app.pointer));
       app.render();
     },
-    onMouseup() {
+    onMouseup({ app }) {
+      if (regularPolygon) {
+        app.setTool(selectTool(regularPolygon));
+      }
       regularPolygon = null;
     },
   };

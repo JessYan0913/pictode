@@ -2,6 +2,8 @@ import { Rect } from '../customs/rect';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
+import selectTool from './select-tool';
+
 export interface RectToolOptions {
   fill: string;
   stroke: string;
@@ -44,7 +46,10 @@ export const rectTool = (options: RectToolOptions): Tool => {
       rectangle.height(Math.abs(app.pointer.y - startPointer.y));
       app.render();
     },
-    onMouseup(): void {
+    onMouseup({ app }): void {
+      if (rectangle) {
+        app.setTool(selectTool(rectangle));
+      }
       rectangle = null;
     },
   };
