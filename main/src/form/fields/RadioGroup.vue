@@ -1,38 +1,42 @@
-<script setup lang="ts">
-import { computed, toRefs } from 'vue';
+<script setup lang="ts" generic="T extends string | number | boolean | Record<string|number, any> | undefined">
+import { ref, toRefs, watch } from 'vue';
 
 import RadioGroup from '../../components/RadioGroup.vue';
 import RadioGroupOption from '../../components/RadioGroupOption.vue';
 import { FormValue, RadioGroupConfig } from '../types';
 
-const props = defineProps<{
-  config: RadioGroupConfig;
-  formModel: FormValue;
-  initValues?: FormValue;
-  name: string;
-  prop: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    config: RadioGroupConfig;
+    prop: string;
+    model?: FormValue;
+  }>(),
+  {
+    model: () => ({}),
+  }
+);
 
 const emits = defineEmits<{
-  (event: 'change', value: any): void;
+  (event: 'change', prop: string, value: T): void;
+  (event: 'update:modelValue', value: T): void;
 }>();
 
-const { formModel, name } = toRefs(props);
-const selectedValue = computed({
-  get() {
-    return formModel.value[name.value];
-  },
-  set(value) {
-    emits('change', value);
-  },
-});
+const { model, prop } = toRefs(props);
+const value = ref<T>(prop?.value && model?.value?.[prop?.value]);
+
+watch(
+  () => value.value,
+  (v) => {
+    emits('update:modelValue', v as T);
+    emits('change', prop.value, v as T);
+  }
+);
 </script>
 
 <template>
-  <RadioGroup v-model="selectedValue">
+  <RadioGroup v-model="value">
     <RadioGroupOption v-for="(option, index) in config.options" :key="index" :value="option.value">
       {{ option.text }}
     </RadioGroupOption>
   </RadioGroup>
 </template>
-../types

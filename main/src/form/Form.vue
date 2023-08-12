@@ -9,7 +9,7 @@ import { FormConfig, FormItemLabelPosition, FormSize, FormState, FormValue } fro
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: FormValue;
+    model?: FormValue;
     config?: FormConfig;
     labelWidth?: string;
     disabled?: boolean;
@@ -20,7 +20,7 @@ const props = withDefaults(
   }>(),
   {
     config: () => [],
-    modelValue: () => ({}),
+    model: () => ({}),
     labelWidth: '200px',
     disabled: false,
     height: 'auto',
@@ -35,15 +35,19 @@ const emits = defineEmits<{
   (event: 'update:modelValue', value: FormValue): void;
 }>();
 
-const { config, modelValue } = toRefs(props);
+const { config, model } = toRefs(props);
+
 const formRef = ref<FormInstance>();
-const formModel = ref<FormValue>(modelValue);
+
+const formModel = ref<FormValue>(model);
+
 const formState = reactive<FormState>({
   config: config.value,
-  formValue: formModel.value,
+  model: formModel.value,
 });
 
 const handleChange = () => emits('change', formModel.value);
+
 const handleSubmit = async (): Promise<FormValue> => {
   try {
     await formRef.value?.validate();
@@ -54,6 +58,7 @@ const handleSubmit = async (): Promise<FormValue> => {
     throw new Error(error.join('<br>'));
   }
 };
+
 const handleReset = () => formRef.value?.resetFields();
 
 provide(FormStateKey, formState);
@@ -72,8 +77,8 @@ defineExpose({
       v-for="(childConfig, index) in props.config"
       :key="index"
       :config="childConfig"
-      :form-model="formModel"
+      :model="formModel"
+      @change="handleChange"
     ></Container>
   </ElForm>
 </template>
-./types

@@ -39,6 +39,10 @@ const formConfig: FormConfig = [
 const formValue = {
   sex: 1,
 };
+
+const handleFormChange = (value: any) => {
+  console.log('新的form', value);
+};
 </script>
 
 <template>
@@ -66,8 +70,9 @@ const formValue = {
         <Form
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
           :config="formConfig"
-          :model-value="formValue"
+          :model="formValue"
           label-position="top"
+          @change="handleFormChange"
         ></Form>
       </section>
     </div>

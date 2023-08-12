@@ -5,12 +5,12 @@ import { ElFormItem } from 'element-plus';
 
 import { FormStateKey } from '../constants/inject-key';
 
-import { ChildConfig, FormSize, FormValue, OnChangeHandler } from './types';
+import { ChildConfig, FormSize, FormValue } from './types';
 
 const props = withDefaults(
   defineProps<{
     config: ChildConfig;
-    formModel: FormValue;
+    model: FormValue;
     prop?: string;
     labelWidth?: string;
     size?: FormSize;
@@ -21,9 +21,13 @@ const props = withDefaults(
   }
 );
 
+const emits = defineEmits<{
+  (event: 'change', model: FormValue): void;
+}>();
+
 const formState = injectStrict(FormStateKey);
 
-const { config, prop, formModel } = toRefs(props);
+const { config, prop, model } = toRefs(props);
 
 const name = computed<string | number>(() => config.value.name || '');
 
@@ -45,34 +49,24 @@ const type = computed<string>(() => {
   return type?.replace(/([A-Z])/g, '-$1').toLowerCase();
 });
 
-const handleChange = (onChange?: OnChangeHandler, value?: FormValue | number | string): any => {
-  if (typeof onChange !== 'function') {
-    return;
-  }
-  return onChange(formState, value, {
-    formValue: formModel.value,
-    prop: itemProp.value,
-    config: config.value,
-  });
-};
-
-const onChangeHandler = async (v: FormValue) => {
-  const { onChange, name } = config.value;
-  let value: FormValue | number | string = v;
-
+const handleChange = async (prop: string, v: any) => {
+  let value = v;
   try {
-    value = (await handleChange(onChange, value)) ?? value;
+    if (typeof config.value.onChange === 'function') {
+      value = await config.value.onChange(formState, value, {
+        model: model.value,
+        config: config.value,
+        prop,
+      });
+    }
   } catch (error) {
     console.error(error);
   }
-
-  if (
-    (name || (typeof name === 'number' && name === 0)) &&
-    formModel.value !== value &&
-    (v !== value || formModel.value[name] !== value)
-  ) {
-    formModel.value[name] = value;
+  if (Reflect.get(model.value, prop) === value) {
+    return;
   }
+  Reflect.set(model.value, prop, value);
+  emits('change', model.value);
 };
 </script>
 
@@ -87,13 +81,11 @@ const onChangeHandler = async (v: FormValue) => {
       <component
         :key="config.name"
         :is="type"
-        :form-model="formModel"
+        :model="model"
         :config="config"
-        :name="name"
         :prop="itemProp"
-        @change="onChangeHandler"
+        @change="handleChange"
       ></component>
     </ElFormItem>
   </div>
 </template>
-./types

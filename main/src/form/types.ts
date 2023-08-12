@@ -6,11 +6,11 @@ export type FormItemLabelPosition = 'top' | 'left' | 'right';
 
 export type FormState = {
   config: FormConfig;
-  formValue: FormValue;
+  model: FormValue;
 };
 
 export interface FormHandlerData {
-  formValue: FormValue;
+  model: FormValue;
   prop: string;
   config: ChildConfig;
 }
