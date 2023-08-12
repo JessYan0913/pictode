@@ -37,9 +37,11 @@ watch(
 
 <template>
   <RadioGroup v-model="value">
-    <RadioGroupOption v-for="(option, index) in config.options" :key="index" :value="option.value">
-      <SvgIcon v-if="config.optionType === 'icon'" :name="option.label"></SvgIcon>
-      <span v-else>{{ option.label }}</span>
-    </RadioGroupOption>
+    <div class="w-full flex justify-start">
+      <RadioGroupOption v-for="(option, index) in config.options" :key="index" :value="option.value" class="p-1">
+        <SvgIcon v-if="config.optionType === 'icon'" :name="option.label"></SvgIcon>
+        <span v-else>{{ option.label }}</span>
+      </RadioGroupOption>
+    </div>
   </RadioGroup>
 </template>
