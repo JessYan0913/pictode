@@ -81,6 +81,7 @@ const handleChange = async (prop: string, v: any) => {
       <component
         :key="config.name"
         :is="type"
+        :class="config.class"
         :model="model"
         :config="config"
         :prop="itemProp"
