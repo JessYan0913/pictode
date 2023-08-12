@@ -4,8 +4,9 @@ import { selectTool } from '@pictode/core';
 
 import Button from '@/components/Button.vue';
 import Menu from '@/components/Menu.vue';
+import PropertyPanel from '@/components/PropertyPanel.vue';
 import Tools from '@/components/Tools.vue';
-import { Form, FormConfig } from '@/form';
+import { FormConfig } from '@/form';
 import { usePictode } from '@/hooks/usePictode';
 
 const { app } = usePictode();
@@ -21,11 +22,40 @@ onMounted(() => {
 
 const formConfig: FormConfig = [
   {
-    name: 'node',
+    name: 'stroke',
+    label: '描边',
+    type: 'ColorPicker',
+  },
+  {
+    name: 'fill',
+    label: '背景',
+    type: 'ColorPicker',
+  },
+  {
+    name: 'strokeWidth',
+    label: '描边宽度',
+    type: 'RadioGroup',
+    optionType: 'icon',
+    options: [
+      {
+        label: 'line-1',
+        value: 1,
+      },
+      {
+        label: 'line-2',
+        value: 10,
+      },
+      {
+        label: 'line-3',
+        value: 20,
+      },
+    ],
+  },
+  {
+    name: 'cornerRadius',
     label: '边角',
     type: 'RadioGroup',
     optionType: 'icon',
-    class: 'w-full',
     options: [
       {
         label: 'node-flat',
@@ -33,26 +63,16 @@ const formConfig: FormConfig = [
       },
       {
         label: 'node-round',
-        value: 1,
+        value: 10,
       },
     ],
   },
   {
-    name: 'color',
-    label: '颜色',
-    type: 'ColorPicker',
-  },
-  {
-    name: 'range',
-    label: '滑块',
+    name: 'opacity',
+    label: '透明度',
     type: 'Slider',
   },
 ];
-const formValue = {};
-
-const handleFormChange = (value: any) => {
-  console.log('新的form', value);
-};
 </script>
 
 <template>
@@ -77,13 +97,10 @@ const handleFormChange = (value: any) => {
         </div>
       </section>
       <section class="bg-opacity-88 row-start-2 col-start-3 justify-self-end">
-        <Form
+        <PropertyPanel
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
           :config="formConfig"
-          :model="formValue"
-          label-position="top"
-          @change="handleFormChange"
-        ></Form>
+        ></PropertyPanel>
       </section>
     </div>
     <div ref="canvasRef" class="w-full h-full"></div>
