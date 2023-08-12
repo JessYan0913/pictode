@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { selectTool } from '@pictode/core';
 
 import Button from '@/components/Button.vue';
@@ -8,10 +8,11 @@ import PropertyPanel from '@/components/PropertyPanel.vue';
 import Tools from '@/components/Tools.vue';
 import usePictode from '@/hooks/usePictode';
 
-const { app, selected } = usePictode();
+const { app, selected, currentTool } = usePictode();
 app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
+const needPanel = computed<boolean>(() => selected.value.length !== 0 || currentTool.value !== 'selectTool');
 
 onMounted(() => {
   if (canvasRef.value) {
@@ -43,7 +44,7 @@ onMounted(() => {
       </section>
       <section class="bg-opacity-88 row-start-2 col-start-3 justify-self-end">
         <PropertyPanel
-          v-if="selected.length"
+          v-if="needPanel"
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
         ></PropertyPanel>
       </section>
