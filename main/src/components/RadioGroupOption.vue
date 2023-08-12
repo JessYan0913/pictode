@@ -10,7 +10,7 @@ defineProps<{
   <RadioGroupOption v-slot="{ checked }" :value="value">
     <div
       :class="[
-        'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 ',
+        'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
         checked ? 'bg-violet-200' : '',
       ]"
     >
