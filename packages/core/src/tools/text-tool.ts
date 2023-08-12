@@ -107,23 +107,30 @@ export const textTool = (): Tool => {
     name: 'textTool',
     onActive(app) {
       app.cancelSelect();
-    },
-    onMousedown({ app, pointer }) {
-      if (textNode) {
-        return;
-      }
       textNode = new Text({
         stroke: 'black',
-        text: '你好 Konva',
+        text: 'Pictode',
         strokeWidth: 0.1,
         fontSize: 20,
         fontFamily: 'JiaYouYa',
       });
-      textNode.position(pointer);
-      app.add(textNode);
       textNode.on<'dblclick'>('dblclick', ({ target }) => {
         handleTextDoubleClick(app, target as Text);
       });
+      app.add(textNode);
+    },
+    onMousedown() {
+      if (!textNode) {
+        return;
+      }
+      textNode = null;
+    },
+    onMousemove({ app, pointer }) {
+      if (!textNode) {
+        return;
+      }
+      textNode.setPosition(pointer);
+      app.render();
     },
   };
 };
