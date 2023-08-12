@@ -42,10 +42,13 @@ const formConfig: FormConfig = [
     label: '颜色',
     type: 'ColorPicker',
   },
+  {
+    name: 'range',
+    label: '滑块',
+    type: 'Slider',
+  },
 ];
-const formValue = {
-  node: 1,
-};
+const formValue = {};
 
 const handleFormChange = (value: any) => {
   console.log('新的form', value);

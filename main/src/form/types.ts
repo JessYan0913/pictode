@@ -60,6 +60,13 @@ export interface ColorPickerConfig extends FormItem {
   type: 'ColorPicker';
 }
 
+export interface SliderConfig extends FormItem {
+  type: 'Slider';
+  max?: number;
+  min?: number;
+  step?: number;
+}
+
 export type ChildConfig = FormItem | RadioGroupConfig | ColorPickerConfig;
 
 export type FormConfig = ChildConfig[];
