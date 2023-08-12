@@ -1,7 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 
-const colors = ref('#333');
+import { ColorPickerConfig, FormValue } from '../types';
+
+const props = withDefaults(
+  defineProps<{
+    config: ColorPickerConfig;
+    prop: string;
+    model?: FormValue;
+  }>(),
+  {
+    model: () => ({}),
+  }
+);
+
+const emits = defineEmits<{
+  (event: 'change', props: string, value: string): void;
+}>();
+
+const { model, prop } = toRefs(props);
+const colors = ref<string>(prop?.value && model?.value?.[prop?.value]);
+
+watch(
+  () => colors.value,
+  (v) => emits('change', prop.value, v)
+);
 </script>
 
 <template>

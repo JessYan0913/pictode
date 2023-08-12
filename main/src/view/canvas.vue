@@ -44,7 +44,7 @@ const formConfig: FormConfig = [
   },
 ];
 const formValue = {
-  sex: 1,
+  node: 1,
 };
 
 const handleFormChange = (value: any) => {

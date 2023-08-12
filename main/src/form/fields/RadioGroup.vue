@@ -20,7 +20,6 @@ const props = withDefaults(
 
 const emits = defineEmits<{
   (event: 'change', prop: string, value: T): void;
-  (event: 'update:modelValue', value: T): void;
 }>();
 
 const { model, prop } = toRefs(props);
@@ -28,10 +27,7 @@ const value = ref<T>(prop?.value && model?.value?.[prop?.value]);
 
 watch(
   () => value.value,
-  (v) => {
-    emits('update:modelValue', v as T);
-    emits('change', prop.value, v as T);
-  }
+  (v) => emits('change', prop.value, v as T)
 );
 </script>
 
