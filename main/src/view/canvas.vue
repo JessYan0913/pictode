@@ -24,13 +24,15 @@ const formConfig: FormConfig = [
     name: 'sex',
     label: '性别',
     type: 'RadioGroup',
+    optionType: 'icon',
+    class: 'w-full',
     options: [
       {
-        text: '男',
+        label: 'node-flat',
         value: 0,
       },
       {
-        text: '女',
+        label: 'node-round',
         value: 1,
       },
     ],

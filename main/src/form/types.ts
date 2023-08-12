@@ -43,14 +43,16 @@ export interface FormItem {
   type: string;
   name?: string;
   label?: string;
+  class?: string;
   onChange?: OnChangeHandler;
 }
 
 export interface RadioGroupConfig extends FormItem {
   type: 'RadioGroup';
+  optionType?: 'text' | 'icon';
   options: {
     value: string | number | boolean;
-    text: string;
+    label: string;
   }[];
 }
 

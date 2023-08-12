@@ -1,8 +1,10 @@
 <script setup lang="ts" generic="T extends string | number | boolean | Record<string|number, any> | undefined">
 import { ref, toRefs, watch } from 'vue';
 
-import RadioGroup from '../../components/RadioGroup.vue';
-import RadioGroupOption from '../../components/RadioGroupOption.vue';
+import RadioGroup from '@/components/RadioGroup.vue';
+import RadioGroupOption from '@/components/RadioGroupOption.vue';
+import SvgIcon from '@/components/SvgIcon.vue';
+
 import { FormValue, RadioGroupConfig } from '../types';
 
 const props = withDefaults(
@@ -36,7 +38,8 @@ watch(
 <template>
   <RadioGroup v-model="value">
     <RadioGroupOption v-for="(option, index) in config.options" :key="index" :value="option.value">
-      {{ option.text }}
+      <SvgIcon v-if="config.optionType === 'icon'" :name="option.label"></SvgIcon>
+      <span v-else>{{ option.label }}</span>
     </RadioGroupOption>
   </RadioGroup>
 </template>
