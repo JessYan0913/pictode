@@ -85,7 +85,13 @@ app.on('selected:changed', ({ selected: newSelected }) => {
 });
 
 watchEffect(() => {
-  app.setTool(toolMap[currentTool.value].handler());
+  app.setTool(
+    toolMap[currentTool.value].handler({
+      fill: 'red',
+      stroke: 'black',
+      strokeWidth: 2,
+    })
+  );
 });
 
 export const usePictode = () => {

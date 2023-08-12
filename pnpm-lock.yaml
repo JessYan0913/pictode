@@ -181,25 +181,6 @@ importers:
       typescript: 4.9.5
       vite: 4.4.8
 
-  packages/plugin-shortcut:
-    specifiers:
-      '@pictode/core': workspace:^0.0.1
-      '@pictode/utils': workspace:^0.0.1
-      dot: 2.0.0-beta.1
-      rimraf: ^3.0.2
-      roughjs: ^4.5.2
-      typescript: ^4.9.3
-      vite: ^4.1.0
-    dependencies:
-      '@pictode/core': link:../core
-      '@pictode/utils': link:../utils
-      dot: 2.0.0-beta.1
-      rimraf: 3.0.2
-      roughjs: 4.5.2
-    devDependencies:
-      typescript: 4.9.5
-      vite: 4.4.8
-
   packages/utils:
     specifiers:
       '@types/node': ^18.11.18
@@ -1313,7 +1294,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.8_sass@1.64.2
+      vite: 4.4.8_@types+node@18.17.3
       vue: 3.3.4
     dev: true
 

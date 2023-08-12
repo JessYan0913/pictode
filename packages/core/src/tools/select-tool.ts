@@ -1,3 +1,5 @@
+import Konva from 'konva';
+
 import { KonvaNode, Tool } from '../types';
 
 export const selectTool = (...nodes: KonvaNode[]): Tool => {
@@ -5,7 +7,7 @@ export const selectTool = (...nodes: KonvaNode[]): Tool => {
     name: 'selectTool',
     onActive(app) {
       app.triggerSelector(true);
-      app.select(...nodes);
+      app.select(...nodes.filter((node) => node instanceof Konva.Node));
     },
     onInactive(app) {
       app.triggerSelector(false);

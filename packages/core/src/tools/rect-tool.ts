@@ -2,7 +2,15 @@ import { Rect } from '../customs/rect';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
-export const rectTool = (): Tool => {
+export interface RectToolOptions {
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
+  cornerRadius: number;
+  opacity: number;
+}
+
+export const rectTool = (options: RectToolOptions): Tool => {
   const startPointer: Point = new Point(0, 0);
   let rectangle: Rect | null = null;
 
@@ -17,12 +25,8 @@ export const rectTool = (): Tool => {
       }
       startPointer.clone(app.pointer);
       rectangle = new Rect({
-        fill: 'rgba(256, 256, 256, 0)',
-        stroke: 'rgba(0, 0, 0, 1)',
-        strokeWidth: 1,
         strokeScaleEnabled: false,
-        cornerRadius: 10,
-        opacity: 1,
+        ...options,
       });
       rectangle.setPosition(startPointer);
       rectangle.width(0);
