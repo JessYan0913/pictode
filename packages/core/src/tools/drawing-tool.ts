@@ -2,20 +2,12 @@ import { Line } from '../customs/line';
 import { Tool } from '../types';
 import { Point } from '../utils';
 
-import { selectTool } from './select-tool';
+const flatPoints = (points: Point[]): number[] =>
+  points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);
 
 export const drawingTool = (): Tool => {
   let points: Point[] = [];
-  const line = new Line({
-    stroke: 'black',
-    strokeWidth: 2,
-    globalCompositeOperation: 'source-over',
-    lineCap: 'round',
-    lineJoin: 'round',
-    strokeScaleEnabled: false,
-  });
-
-  const flatPoints = (): number[] => points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);
+  let line: Line | null = null;
 
   return {
     name: 'drawingTool',
@@ -28,21 +20,33 @@ export const drawingTool = (): Tool => {
       if (!lastPoint || !lastPoint.eq(app.pointer)) {
         points.push(app.pointer);
       }
-      line.points(flatPoints());
-      app.add(line);
+      if (!line) {
+        line = new Line({
+          points: flatPoints(points),
+          stroke: 'black',
+          strokeWidth: 2,
+          globalCompositeOperation: 'source-over',
+          lineCap: 'round',
+          lineJoin: 'round',
+          strokeScaleEnabled: false,
+        });
+        app.add(line);
+      }
     },
     onMousemove({ app, event }): void {
+      if (!line) {
+        return;
+      }
       event.evt.stopPropagation();
       line.points(line.points().concat([app.pointer.x, app.pointer.y]));
     },
-    onMouseup({ app, pointer }): void {
+    onMouseup({ pointer }): void {
       const lastPoint = points.at(-1);
-      if (points.length <= 6 && lastPoint && pointer.distanceTo(lastPoint) < 10) {
+      if (points.length <= 6 && lastPoint && pointer.distanceTo(lastPoint) < 10 && line) {
         line.destroy();
-        app.setTool(selectTool());
-        return;
       }
-      app.setTool(selectTool(line));
+      line = null;
+      points = [];
     },
   };
 };

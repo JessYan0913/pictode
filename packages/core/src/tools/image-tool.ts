@@ -2,19 +2,19 @@ import { Image as Img } from '../customs/image';
 import { Tool } from '../types';
 import { Point, readeFile, selectFile } from '../utils';
 
-import { selectTool } from './select-tool';
-
 export const imageTool = (): Tool => {
-  const imageObject = new Image();
-  const img = new Img({
-    image: imageObject,
-    strokeScaleEnabled: false,
-  });
+  let imageObject: HTMLImageElement | null = null;
+  let img: Img | null = null;
   let confirm: boolean = false;
 
   return {
     name: 'imageTool',
     async onActive(app) {
+      imageObject = new Image();
+      img = new Img({
+        image: imageObject,
+        strokeScaleEnabled: false,
+      });
       try {
         app.cancelSelect();
         const files = await selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
@@ -26,17 +26,20 @@ export const imageTool = (): Tool => {
         img.destroy();
       }
     },
-    onMousedown({ app }) {
+    onMousedown() {
+      if (!img) {
+        return;
+      }
       img.opacity(1);
       if (confirm) {
         return;
       }
       confirm = true;
       img.opacity(1);
-      app.setTool(selectTool(img));
+      img = null;
     },
     onMousemove({ app, pointer }) {
-      if (!imageObject.src) {
+      if (!imageObject || !img) {
         return;
       }
       const width = 200;

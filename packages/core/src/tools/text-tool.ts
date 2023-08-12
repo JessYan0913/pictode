@@ -2,8 +2,6 @@ import { App } from '../app';
 import { Text } from '../customs/text';
 import { Tool } from '../types';
 
-import { selectTool } from './select-tool';
-
 const handleTextDoubleClick = (app: App, textNode: Text) => {
   textNode.hide();
   app.cancelSelect();
@@ -103,13 +101,7 @@ const handleTextDoubleClick = (app: App, textNode: Text) => {
 };
 
 export const textTool = (): Tool => {
-  const textNode = new Text({
-    stroke: 'black',
-    text: '你好 Konva',
-    strokeWidth: 0.1,
-    fontSize: 20,
-    fontFamily: 'JiaYouYa',
-  });
+  let textNode: Text | null = null;
 
   return {
     name: 'textTool',
@@ -117,12 +109,21 @@ export const textTool = (): Tool => {
       app.cancelSelect();
     },
     onMousedown({ app, pointer }) {
+      if (textNode) {
+        return;
+      }
+      textNode = new Text({
+        stroke: 'black',
+        text: '你好 Konva',
+        strokeWidth: 0.1,
+        fontSize: 20,
+        fontFamily: 'JiaYouYa',
+      });
       textNode.position(pointer);
       app.add(textNode);
-      textNode.on<'dblclick'>('dblclick', () => {
-        handleTextDoubleClick(app, textNode);
+      textNode.on<'dblclick'>('dblclick', ({ target }) => {
+        handleTextDoubleClick(app, target as Text);
       });
-      app.setTool(selectTool(textNode));
     },
   };
 };
