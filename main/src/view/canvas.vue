@@ -6,10 +6,9 @@ import Button from '@/components/Button.vue';
 import Menu from '@/components/Menu.vue';
 import PropertyPanel from '@/components/PropertyPanel.vue';
 import Tools from '@/components/Tools.vue';
-import { FormConfig } from '@/form';
-import { usePictode } from '@/hooks/usePictode';
+import usePictode from '@/hooks/usePictode';
 
-const { app } = usePictode();
+const { app, selected } = usePictode();
 app.setTool(selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
@@ -19,60 +18,6 @@ onMounted(() => {
     app.mount(canvasRef.value);
   }
 });
-
-const formConfig: FormConfig = [
-  {
-    name: 'stroke',
-    label: '描边',
-    type: 'ColorPicker',
-  },
-  {
-    name: 'fill',
-    label: '背景',
-    type: 'ColorPicker',
-  },
-  {
-    name: 'strokeWidth',
-    label: '描边宽度',
-    type: 'RadioGroup',
-    optionType: 'icon',
-    options: [
-      {
-        label: 'line-1',
-        value: 1,
-      },
-      {
-        label: 'line-2',
-        value: 10,
-      },
-      {
-        label: 'line-3',
-        value: 20,
-      },
-    ],
-  },
-  {
-    name: 'cornerRadius',
-    label: '边角',
-    type: 'RadioGroup',
-    optionType: 'icon',
-    options: [
-      {
-        label: 'node-flat',
-        value: 0,
-      },
-      {
-        label: 'node-round',
-        value: 10,
-      },
-    ],
-  },
-  {
-    name: 'opacity',
-    label: '透明度',
-    type: 'Slider',
-  },
-];
 </script>
 
 <template>
@@ -98,8 +43,8 @@ const formConfig: FormConfig = [
       </section>
       <section class="bg-opacity-88 row-start-2 col-start-3 justify-self-end">
         <PropertyPanel
+          v-if="selected.length"
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
-          :config="formConfig"
         ></PropertyPanel>
       </section>
     </div>
