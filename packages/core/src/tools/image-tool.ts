@@ -2,6 +2,8 @@ import { Image as Img } from '../customs/image';
 import { Tool } from '../types';
 import { Point, readeFile, selectFile } from '../utils';
 
+import selectTool from './select-tool';
+
 export const imageTool = (): Tool => {
   let imageObject: HTMLImageElement | null = null;
   let img: Img | null = null;
@@ -26,7 +28,7 @@ export const imageTool = (): Tool => {
         img.destroy();
       }
     },
-    onMousedown() {
+    onMousedown({ app }) {
       if (!img) {
         return;
       }
@@ -36,6 +38,7 @@ export const imageTool = (): Tool => {
       }
       confirm = true;
       img.opacity(1);
+      app.setTool(selectTool(img));
       img = null;
     },
     onMousemove({ app, pointer }) {
