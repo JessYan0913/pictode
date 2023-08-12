@@ -56,10 +56,10 @@ export interface RadioGroupConfig extends FormItem {
   }[];
 }
 
-export interface ColorPickConfig extends FormItem {
+export interface ColorPickerConfig extends FormItem {
   type: 'ColorPicker';
 }
 
-export type ChildConfig = FormItem | RadioGroupConfig | ColorPickConfig;
+export type ChildConfig = FormItem | RadioGroupConfig | ColorPickerConfig;
 
 export type FormConfig = ChildConfig[];

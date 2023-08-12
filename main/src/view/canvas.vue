@@ -21,8 +21,8 @@ onMounted(() => {
 
 const formConfig: FormConfig = [
   {
-    name: 'sex',
-    label: '性别',
+    name: 'node',
+    label: '边角',
     type: 'RadioGroup',
     optionType: 'icon',
     class: 'w-full',
@@ -36,6 +36,11 @@ const formConfig: FormConfig = [
         value: 1,
       },
     ],
+  },
+  {
+    name: 'color',
+    label: '颜色',
+    type: 'ColorPicker',
   },
 ];
 const formValue = {
