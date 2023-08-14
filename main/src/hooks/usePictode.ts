@@ -136,6 +136,10 @@ const toolMap: ToolMap = {
           const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
           tool.options?.image && (tool.options.image.src = imgSrc);
         },
+        onCompleteDrawing(app, node) {
+          currentTool.value = 'selectTool';
+          nextTick(() => app.select(node));
+        },
       }
     ),
   },
