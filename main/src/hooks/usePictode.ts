@@ -134,7 +134,9 @@ const toolMap: ToolMap = {
           app.cancelSelect();
           const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
           const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-          tool.options?.image && (tool.options.image.src = imgSrc);
+          const image = new Image();
+          image.src = imgSrc;
+          tool.options && (tool.options.image = image);
         },
         onCompleteDrawing(app, node) {
           currentTool.value = 'selectTool';

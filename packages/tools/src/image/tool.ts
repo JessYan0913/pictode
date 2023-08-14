@@ -1,11 +1,10 @@
 import { Konva, Tool, ToolHooks, util } from '@pictode/core';
 
-type ImageOptions = Pick<Konva.ImageConfig, 'opacity'> & { image: HTMLImageElement };
+type ImageOptions = Pick<Konva.ImageConfig, 'opacity'> & { image: HTMLImageElement; isComplete?: boolean };
 
 export const tool = (options: ImageOptions, hooks?: ToolHooks): Tool => {
   let img: Konva.Image | null = null;
   let confirm: boolean = false;
-  let isComplete: boolean = false;
 
   return {
     name: 'imageTool',
@@ -22,11 +21,11 @@ export const tool = (options: ImageOptions, hooks?: ToolHooks): Tool => {
       confirm = true;
       img.opacity(1);
       this.hooks?.onCompleteDrawing?.(app, img);
-      isComplete = true;
+      this.options && (this.options.isComplete = true);
       img = null;
     },
     mousemove({ app, pointer }) {
-      if (isComplete) {
+      if (this.options?.isComplete) {
         return;
       }
       if (!img) {
