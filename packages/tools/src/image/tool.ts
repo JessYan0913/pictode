@@ -1,8 +1,8 @@
-import { Konva, Tool, ToolOptions, util } from '@pictode/core';
+import { Konva, Tool, util } from '@pictode/core';
 
-import { tool as selectTool } from '../select';
+type ImageOptions = Pick<Konva.ImageConfig, 'opacity'>;
 
-export const tool = (options: ToolOptions): Tool => {
+export const tool = (options: ImageOptions): Tool => {
   let imageObject: HTMLImageElement | null = null;
   let img: Konva.Image | null = null;
   let confirm: boolean = false;
@@ -39,7 +39,7 @@ export const tool = (options: ToolOptions): Tool => {
       }
       confirm = true;
       img.opacity(1);
-      app.setTool(selectTool(img));
+      this.hooks?.onCompleteDrawing?.(app, img);
       img = null;
     },
     mousemove({ app, pointer }) {

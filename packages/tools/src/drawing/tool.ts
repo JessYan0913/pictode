@@ -1,18 +1,15 @@
-import { Konva, Tool, ToolOptions, util } from '@pictode/core';
+import { Konva, Tool, ToolHooks, util } from '@pictode/core';
 
-export const tool = (options: ToolOptions): Tool => {
+type DrawingOptions = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
+
+export const tool = (options: DrawingOptions, hooks?: ToolHooks): Tool => {
   let points: util.Point[] = [];
   let line: Konva.Line | null = null;
 
   return {
     name: 'drawingTool',
     options,
-    hooks: {
-      onActive(app) {
-        points = [];
-        app.cancelSelect();
-      },
-    },
+    hooks,
     mousedown({ app }): void {
       const lastPoint = points.at(-1);
       if (!lastPoint || !lastPoint.eq(app.pointer)) {

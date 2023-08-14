@@ -1,4 +1,4 @@
-import { computed, ref, watchEffect } from 'vue';
+import { computed, nextTick, ref, watchEffect } from 'vue';
 import { App, KonvaNode, Tool } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 import pictodeTools from '@pictode/tools';
@@ -18,52 +18,109 @@ const toolMap: ToolMap = {
   selectTool: {
     name: 'selectTool',
     icon: 'move',
-    handler: pictodeTools.selectTool(),
+    handler: pictodeTools.selectTool({
+      onActive(app) {
+        app.triggerSelector(true);
+      },
+      onInactive(app) {
+        app.triggerSelector(false);
+      },
+    }),
   },
   rectTool: {
     name: 'rectTool',
     icon: 'rectangle',
-    handler: pictodeTools.rectTool({
-      fill: 'red',
-      stroke: 'blue',
-      strokeWidth: 2,
-    }),
+    handler: pictodeTools.rectTool(
+      {
+        fill: 'red',
+        stroke: 'blue',
+        strokeWidth: 2,
+        cornerRadius: 10,
+      },
+      {
+        onActive(app) {
+          app.cancelSelect();
+        },
+        onCompleteDrawing(app, node) {
+          currentTool.value = 'selectTool';
+          nextTick(() => app.select(node));
+        },
+      }
+    ),
   },
   ellipseTool: {
     name: 'ellipseTool',
     icon: 'oval',
-    handler: pictodeTools.ellipseTool({
-      fill: 'red',
-      stroke: 'blue',
-      strokeWidth: 2,
-    }),
+    handler: pictodeTools.ellipseTool(
+      {
+        fill: 'red',
+        stroke: 'blue',
+        strokeWidth: 2,
+      },
+      {
+        onActive(app) {
+          app.cancelSelect();
+        },
+        onCompleteDrawing(app, node) {
+          currentTool.value = 'selectTool';
+          nextTick(() => app.select(node));
+        },
+      }
+    ),
   },
-  regularPolygonTool: {
-    name: 'regularPolygonTool',
+  diamondTool: {
+    name: 'diamondTool',
     icon: 'diamond',
-    handler: pictodeTools.diamondTool({
-      fill: 'red',
-      stroke: 'blue',
-      strokeWidth: 2,
-    }),
+    handler: pictodeTools.diamondTool(
+      {
+        fill: 'red',
+        stroke: 'blue',
+        strokeWidth: 2,
+      },
+      {
+        onActive(app) {
+          app.cancelSelect();
+        },
+        onCompleteDrawing(app, node) {
+          currentTool.value = 'selectTool';
+          nextTick(() => app.select(node));
+        },
+      }
+    ),
   },
   lineTool: {
     name: 'lineTool',
     icon: 'line-2',
-    handler: pictodeTools.lineTool({
-      fill: 'red',
-      stroke: 'blue',
-      strokeWidth: 2,
-    }),
+    handler: pictodeTools.lineTool(
+      {
+        stroke: 'blue',
+        strokeWidth: 2,
+      },
+      {
+        onActive(app) {
+          app.cancelSelect();
+        },
+        onCompleteDrawing(app, node) {
+          currentTool.value = 'selectTool';
+          nextTick(() => app.select(node));
+        },
+      }
+    ),
   },
   drawingTool: {
     name: 'drawingTool',
     icon: 'pencil',
-    handler: pictodeTools.drawingTool({
-      fill: 'red',
-      stroke: 'blue',
-      strokeWidth: 2,
-    }),
+    handler: pictodeTools.drawingTool(
+      {
+        stroke: 'blue',
+        strokeWidth: 2,
+      },
+      {
+        onActive(app) {
+          app.cancelSelect();
+        },
+      }
+    ),
   },
   imageTool: {
     name: 'imageTool',
@@ -74,7 +131,6 @@ const toolMap: ToolMap = {
     name: 'textTool',
     icon: 'text',
     handler: pictodeTools.textTool({
-      fill: 'red',
       stroke: 'blue',
       strokeWidth: 2,
     }),

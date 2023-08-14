@@ -1,4 +1,6 @@
-import { App, Konva, Tool, ToolOptions } from '@pictode/core';
+import { App, Konva, Tool } from '@pictode/core';
+
+type TextOptions = Pick<Konva.TextConfig, 'stroke' | 'strokeWidth' | 'fontSize' | 'fontFamily' | 'opacity' | 'text'>;
 
 const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   textNode.hide();
@@ -98,7 +100,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   });
 };
 
-export const tool = (options: ToolOptions): Tool => {
+export const tool = (options: TextOptions): Tool => {
   let textNode: Konva.Text | null = null;
 
   return {

@@ -1,17 +1,9 @@
-import { Konva, KonvaNode, Tool } from '@pictode/core';
+import { Tool, ToolHooks } from '@pictode/core';
 
-export const tool = (...nodes: KonvaNode[]): Tool => {
+export const tool = (hooks: ToolHooks): Tool => {
   return {
     name: 'selectTool',
-    hooks: {
-      onActive(app) {
-        app.triggerSelector(true);
-        app.select(...nodes.filter((node) => node instanceof Konva.Node));
-      },
-      onInactive(app) {
-        app.triggerSelector(false);
-      },
-    },
+    hooks,
   };
 };
 
