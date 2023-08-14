@@ -34,6 +34,7 @@ export class ImageTool implements Tool {
       return;
     }
     if (!this.isAdded) {
+      this.img.image(this.options?.image);
       app.add(this.img);
       this.isAdded = true;
     }
