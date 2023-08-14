@@ -1,12 +1,12 @@
 import { computed, ref, watchEffect } from 'vue';
-import { App, KonvaNode, Tool, ToolHooks, ToolOptions } from '@pictode/core';
+import { App, KonvaNode, Tool } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 import pictodeTools from '@pictode/tools';
 
 interface ToolInfo {
   name: string;
   icon: string;
-  handler: (options: ToolOptions, hooks: ToolHooks) => Tool;
+  handler: Tool;
 }
 
 type ToolMap = Record<string, ToolInfo>;
@@ -18,42 +18,66 @@ const toolMap: ToolMap = {
   selectTool: {
     name: 'selectTool',
     icon: 'move',
-    handler: pictodeTools.selectTool,
+    handler: pictodeTools.selectTool(),
   },
   rectTool: {
     name: 'rectTool',
     icon: 'rectangle',
-    handler: pictodeTools.rectTool,
+    handler: pictodeTools.rectTool({
+      fill: 'red',
+      stroke: 'blue',
+      strokeWidth: 2,
+    }),
   },
   ellipseTool: {
     name: 'ellipseTool',
     icon: 'oval',
-    handler: pictodeTools.ellipseTool,
+    handler: pictodeTools.ellipseTool({
+      fill: 'red',
+      stroke: 'blue',
+      strokeWidth: 2,
+    }),
   },
   regularPolygonTool: {
     name: 'regularPolygonTool',
     icon: 'diamond',
-    handler: pictodeTools.diamondTool,
+    handler: pictodeTools.diamondTool({
+      fill: 'red',
+      stroke: 'blue',
+      strokeWidth: 2,
+    }),
   },
   lineTool: {
     name: 'lineTool',
     icon: 'line-2',
-    handler: pictodeTools.lineTool,
+    handler: pictodeTools.lineTool({
+      fill: 'red',
+      stroke: 'blue',
+      strokeWidth: 2,
+    }),
   },
   drawingTool: {
     name: 'drawingTool',
     icon: 'pencil',
-    handler: pictodeTools.drawingTool,
+    handler: pictodeTools.drawingTool({
+      fill: 'red',
+      stroke: 'blue',
+      strokeWidth: 2,
+    }),
   },
   imageTool: {
     name: 'imageTool',
     icon: 'picture',
-    handler: pictodeTools.imageTool,
+    handler: pictodeTools.imageTool({}),
   },
   textTool: {
     name: 'textTool',
     icon: 'text',
-    handler: pictodeTools.textTool,
+    handler: pictodeTools.textTool({
+      fill: 'red',
+      stroke: 'blue',
+      strokeWidth: 2,
+    }),
   },
 };
 
@@ -74,20 +98,7 @@ app.on('selected:changed', ({ selected: newSelected }) => {
 });
 
 watchEffect(() => {
-  app.setTool(
-    toolMap[currentTool.value].handler(
-      {
-        fill: 'red',
-        stroke: 'blue',
-        strokeWidth: 2,
-      },
-      {
-        onActive(app: App) {
-          app.cancelSelect();
-        },
-      }
-    )
-  );
+  app.setTool(toolMap[currentTool.value].handler);
 });
 
 export const usePictode = () => {
