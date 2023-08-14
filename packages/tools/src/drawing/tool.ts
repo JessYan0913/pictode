@@ -1,22 +1,22 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolFactory, ToolHooks, ToolOptions, util } from '@pictode/core';
 
-export interface DrawingToolOptions {
-  stroke: string;
-  strokeWidth: number;
-  opacity: number;
-}
-
-export const tool = (options: DrawingToolOptions): Tool => {
+export const tool: ToolFactory = (options: ToolOptions, hooks?: ToolHooks): Tool => {
   let points: util.Point[] = [];
   let line: Konva.Line | null = null;
 
   return {
     name: 'drawingTool',
-    onActive(app) {
+    options,
+    hooks,
+    active(app) {
+      hooks?.onActive?.(app);
       points = [];
       app.cancelSelect();
     },
-    onMousedown({ app }): void {
+    inactive(app) {
+      hooks?.onInactive?.(app);
+    },
+    mousedown({ app }): void {
       const lastPoint = points.at(-1);
       if (!lastPoint || !lastPoint.eq(app.pointer)) {
         points.push(app.pointer);
@@ -31,22 +31,26 @@ export const tool = (options: DrawingToolOptions): Tool => {
           ...options,
         });
         app.add(line);
+        hooks?.onStartDrawing?.(app, line);
       }
     },
-    onMousemove({ app, event }): void {
+    mousemove({ app, event }): void {
       if (!line) {
         return;
       }
       event.evt.stopPropagation();
       line.points(line.points().concat([app.pointer.x, app.pointer.y]));
     },
-    onMouseup({ pointer }): void {
+    mouseup({ app, pointer }): void {
       const lastPoint = points.at(-1);
       if (points.length <= 6 && lastPoint && pointer.distanceTo(lastPoint) < 10 && line) {
         line.destroy();
       }
-      line = null;
-      points = [];
+      if (line) {
+        hooks?.onCompleteDrawing?.(app, line);
+        line = null;
+        points = [];
+      }
     },
   };
 };

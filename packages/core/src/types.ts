@@ -22,16 +22,29 @@ export interface ToolEvent {
   app: App;
 }
 
+export interface ToolHooks {
+  onActive?: (app: App) => void;
+  onInactive?: (app: App) => void;
+  onStartDrawing?: (app: App, node: KonvaNode) => void;
+  onCompleteDrawing?: (app: App, node: KonvaNode) => void;
+}
+
+export interface ToolOptions extends Konva.ShapeConfig {}
+
 export interface Tool {
   name: string;
-  onActive(app: App): Promise<void> | void;
-  onInactive?: (app: App) => Promise<void> | void;
-  onMousedown?: (event: ToolEvent) => void;
-  onMousemove?: (event: ToolEvent) => void;
-  onMouseup?: (event: ToolEvent) => void;
-  onDoubleClick?: (event: ToolEvent) => void;
-  onClick?: (event: ToolEvent) => void;
+  options?: ToolOptions;
+  hooks?: ToolHooks;
+  active?: (app: App) => Promise<void> | void;
+  inactive?: (app: App) => Promise<void> | void;
+  mousedown?: (event: ToolEvent) => void;
+  mousemove?: (event: ToolEvent) => void;
+  mouseup?: (event: ToolEvent) => void;
+  doubleClick?: (event: ToolEvent) => void;
+  click?: (event: ToolEvent) => void;
 }
+
+export type ToolFactory = (options: ToolOptions, hooks?: ToolHooks) => Tool;
 
 export abstract class Service {
   protected app: App;

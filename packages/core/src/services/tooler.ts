@@ -24,11 +24,13 @@ export class Tooler extends Service {
     if (oldTool?.name === curTool.name) {
       return;
     }
-    if (oldTool && typeof oldTool.onInactive === 'function') {
-      await oldTool.onInactive(this.app);
+    if (oldTool && typeof oldTool.inactive === 'function') {
+      await oldTool.inactive(this.app);
     }
     this.currentTool = curTool;
-    await this.currentTool.onActive(this.app);
+    if (typeof this.currentTool.active === 'function') {
+      await this.currentTool.active(this.app);
+    }
     this.app.render();
     this.app.emit('tool:changed', { oldTool, curTool });
   }
@@ -42,38 +44,38 @@ export class Tooler extends Service {
   }
 
   private onMousedown = ({ event }: EventArgs['mouse:down']): void => {
-    if (!this.available || !this.currentTool?.onMousedown) {
+    if (!this.available || !this.currentTool?.mousedown) {
       return;
     }
-    this.currentTool.onMousedown({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.mousedown({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMouseup = ({ event }: EventArgs['mouse:up']): void => {
-    if (!this.available || !this.currentTool?.onMouseup) {
+    if (!this.available || !this.currentTool?.mouseup) {
       return;
     }
-    this.currentTool.onMouseup({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.mouseup({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMousemove = ({ event }: EventArgs['mouse:move']): void => {
-    if (!this.available || !this.currentTool?.onMousemove) {
+    if (!this.available || !this.currentTool?.mousemove) {
       return;
     }
-    this.currentTool.onMousemove({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.mousemove({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (!this.available || !this.currentTool?.onClick) {
+    if (!this.available || !this.currentTool?.click) {
       return;
     }
-    this.currentTool.onClick({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.click({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onDoubleClick = ({ event }: EventArgs['mouse:dbclick']): void => {
-    if (!this.available || !this.currentTool?.onDoubleClick) {
+    if (!this.available || !this.currentTool?.doubleClick) {
       return;
     }
-    this.currentTool.onDoubleClick({ event, pointer: this.app.pointer, app: this.app });
+    this.currentTool.doubleClick({ event, pointer: this.app.pointer, app: this.app });
   };
 
   public destroy(): void {

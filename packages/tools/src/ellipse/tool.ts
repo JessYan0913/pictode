@@ -1,24 +1,23 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolFactory, ToolHooks, ToolOptions, util } from '@pictode/core';
 
 import { tool as selectTool } from '../select';
 
-export interface EllipseToolOptions {
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-  opacity: number;
-}
-
-export const tool = (options: EllipseToolOptions): Tool => {
+export const tool: ToolFactory = (options: ToolOptions, hooks?: ToolHooks): Tool => {
   const startPointer: util.Point = new util.Point(0, 0);
   let ellipse: Konva.Ellipse | null = null;
 
   return {
     name: 'ellipseTool',
-    onActive(app) {
+    options,
+    hooks,
+    active(app) {
+      hooks?.onActive?.(app);
       app.cancelSelect();
     },
-    onMousedown({ app }): void {
+    inactive(app) {
+      hooks?.onInactive?.(app);
+    },
+    mousedown({ app }): void {
       if (ellipse) {
         return;
       }
@@ -33,7 +32,7 @@ export const tool = (options: EllipseToolOptions): Tool => {
       ellipse.radius(new util.Point(0, 0));
       app.add(ellipse);
     },
-    onMousemove({ app }): void {
+    mousemove({ app }): void {
       if (!ellipse) {
         return;
       }
@@ -48,7 +47,7 @@ export const tool = (options: EllipseToolOptions): Tool => {
       ellipse.radius(radius);
       app.render();
     },
-    onMouseup({ app }): void {
+    mouseup({ app }): void {
       if (ellipse) {
         app.setTool(selectTool(ellipse));
       }

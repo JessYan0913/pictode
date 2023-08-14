@@ -3,11 +3,11 @@ import { Konva, KonvaNode, Tool } from '@pictode/core';
 export const tool = (...nodes: KonvaNode[]): Tool => {
   return {
     name: 'selectTool',
-    onActive(app) {
+    active(app) {
       app.triggerSelector(true);
       app.select(...nodes.filter((node) => node instanceof Konva.Node));
     },
-    onInactive(app) {
+    inactive(app) {
       app.triggerSelector(false);
     },
   };

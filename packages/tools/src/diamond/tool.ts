@@ -1,24 +1,23 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolFactory, ToolHooks, ToolOptions, util } from '@pictode/core';
 
 import { tool as selectTool } from '../select';
 
-export interface DiamondToolOptions {
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-  opacity: number;
-}
-
-export const tool = (options: DiamondToolOptions): Tool => {
+export const tool: ToolFactory = (options: ToolOptions, hooks?: ToolHooks): Tool => {
   const startPointer: util.Point = new util.Point(0, 0);
   let regularPolygon: Konva.RegularPolygon | null = null;
 
   return {
-    name: 'regularPolygonTool',
-    onActive(app) {
+    name: 'diamondTool',
+    options,
+    hooks,
+    active(app) {
+      hooks?.onActive?.(app);
       app.cancelSelect();
     },
-    onMousedown({ app }) {
+    inactive(app) {
+      hooks?.onInactive?.(app);
+    },
+    mousedown({ app }) {
       if (regularPolygon) {
         return;
       }
@@ -32,8 +31,9 @@ export const tool = (options: DiamondToolOptions): Tool => {
       regularPolygon.radius(0);
       regularPolygon.setPosition(startPointer);
       app.add(regularPolygon);
+      hooks?.onStartDrawing?.(app, regularPolygon);
     },
-    onMousemove({ app }) {
+    mousemove({ app }) {
       if (!regularPolygon) {
         return;
       }
@@ -45,11 +45,12 @@ export const tool = (options: DiamondToolOptions): Tool => {
       regularPolygon.radius(newPosition.distanceTo(app.pointer));
       app.render();
     },
-    onMouseup({ app }) {
+    mouseup({ app }) {
       if (regularPolygon) {
+        hooks?.onCompleteDrawing?.(app, regularPolygon);
         app.setTool(selectTool(regularPolygon));
+        regularPolygon = null;
       }
-      regularPolygon = null;
     },
   };
 };

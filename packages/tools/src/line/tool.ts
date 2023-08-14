@@ -1,18 +1,24 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolFactory, ToolHooks, ToolOptions, util } from '@pictode/core';
 
 import { tool as selectTool } from '../select';
 
-export const tool = (): Tool => {
+export const tool: ToolFactory = (options: ToolOptions, hooks?: ToolHooks): Tool => {
   let points: util.Point[] = [];
   let line: Konva.Line | null = null;
 
   return {
     name: 'lineTool',
-    onActive(app) {
+    options,
+    hooks,
+    active(app) {
       points = [];
       app.cancelSelect();
+      hooks?.onActive?.(app);
     },
-    onMousedown({ app }): void {
+    inactive(app) {
+      hooks?.onInactive?.(app);
+    },
+    mousedown({ app }): void {
       if (!line) {
         line = new Konva.Line({
           points: util.flatPoints(points),
@@ -29,14 +35,14 @@ export const tool = (): Tool => {
       }
       line.points(util.flatPoints(points));
     },
-    onMousemove({ app }): void {
+    mousemove({ app }): void {
       if (!line) {
         return;
       }
       line.points(util.flatPoints(points).concat(app.pointer.x, app.pointer.y));
       app.render();
     },
-    onDoubleClick({ app }): void {
+    doubleClick({ app }): void {
       if (line) {
         app.setTool(selectTool(line));
       }

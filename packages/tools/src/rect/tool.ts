@@ -1,25 +1,19 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolHooks, ToolOptions, util } from '@pictode/core';
 
 import { tool as selectTool } from '../select';
 
-export interface RectToolOptions {
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-  cornerRadius: number;
-  opacity: number;
-}
-
-export const tool = (options: RectToolOptions): Tool => {
+export const tool = (options: ToolOptions, hooks?: ToolHooks): Tool => {
   const startPointer: util.Point = new util.Point(0, 0);
   let rectangle: Konva.Rect | null = null;
 
   return {
     name: 'rectTool',
-    onActive(app) {
+    options,
+    hooks,
+    active(app) {
       app.cancelSelect();
     },
-    onMousedown({ app }): void {
+    mousedown({ app }): void {
       if (rectangle) {
         return;
       }
@@ -33,7 +27,7 @@ export const tool = (options: RectToolOptions): Tool => {
       rectangle.height(0);
       app.add(rectangle);
     },
-    onMousemove({ app }): void {
+    mousemove({ app }): void {
       if (!rectangle) {
         return;
       }
@@ -44,7 +38,7 @@ export const tool = (options: RectToolOptions): Tool => {
       rectangle.height(Math.abs(app.pointer.y - startPointer.y));
       app.render();
     },
-    onMouseup({ app }): void {
+    mouseup({ app }): void {
       if (rectangle) {
         app.setTool(selectTool(rectangle));
       }

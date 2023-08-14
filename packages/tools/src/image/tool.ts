@@ -1,32 +1,39 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolFactory, ToolHooks, ToolOptions, util } from '@pictode/core';
 
 import { tool as selectTool } from '../select';
 
-export const tool = (): Tool => {
+export const tool: ToolFactory = (options: ToolOptions, hooks?: ToolHooks): Tool => {
   let imageObject: HTMLImageElement | null = null;
   let img: Konva.Image | null = null;
   let confirm: boolean = false;
 
   return {
     name: 'imageTool',
-    async onActive(app) {
+    options,
+    hooks,
+    async active(app) {
       imageObject = new Image();
       img = new Konva.Image({
         image: imageObject,
         strokeScaleEnabled: false,
       });
       try {
+        hooks?.onActive?.(app);
         app.cancelSelect();
         const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
         const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
         imageObject.src = imgSrc;
         img.opacity(0.5);
+        hooks?.onStartDrawing?.(app, img);
         app.add(img);
       } catch (error) {
         img.destroy();
       }
     },
-    onMousedown({ app }) {
+    inactive(app) {
+      hooks?.onInactive?.(app);
+    },
+    mousedown({ app }) {
       if (!img) {
         return;
       }
@@ -37,9 +44,10 @@ export const tool = (): Tool => {
       confirm = true;
       img.opacity(1);
       app.setTool(selectTool(img));
+      hooks?.onCompleteDrawing?.(app, img);
       img = null;
     },
-    onMousemove({ app, pointer }) {
+    mousemove({ app, pointer }) {
       if (!imageObject || !img) {
         return;
       }

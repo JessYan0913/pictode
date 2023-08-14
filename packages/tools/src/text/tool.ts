@@ -110,7 +110,7 @@ export const tool = (options: TextToolOptions): Tool => {
 
   return {
     name: 'textTool',
-    onActive(app) {
+    active(app) {
       app.cancelSelect();
       textNode = new Konva.Text({
         text: 'Pictode',
@@ -121,13 +121,13 @@ export const tool = (options: TextToolOptions): Tool => {
       });
       app.add(textNode);
     },
-    onMousedown() {
+    mousedown() {
       if (!textNode) {
         return;
       }
       textNode = null;
     },
-    onMousemove({ app, pointer }) {
+    mousemove({ app, pointer }) {
       if (!textNode) {
         return;
       }
