@@ -1,0 +1,30 @@
+{
+  "name": "@pictode/tools",
+  "private": true,
+  "version": "0.0.1",
+  "main": "dist/pictode-tools.umd.js",
+  "module": "dist/pictode-tools.mjs",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/pictode-tools.mjs",
+      "require": "./dist/pictode-tools.umd.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run build:type && vite build",
+    "build:type": "npm run clear:type && tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
+    "clear:type": "rimraf ./types"
+  },
+  "dependencies": {
+    "@pictode/core": "workspace:^0.0.1",
+    "@pictode/utils": "workspace:^0.0.1",
+    "dot": "2.0.0-beta.1",
+    "rimraf": "^3.0.2",
+    "roughjs": "^4.5.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}

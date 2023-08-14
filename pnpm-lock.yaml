@@ -85,6 +85,7 @@ importers:
       '@headlessui/vue': ^1.7.15
       '@pictode/core': workspace:^0.0.1
       '@pictode/plugin-history': workspace:^0.0.1
+      '@pictode/tools': workspace:^0.0.1
       '@pictode/utils': workspace:^0.0.1
       '@pictode/vue-aide': workspace:^0.0.1
       '@rollup/plugin-typescript': ^11.0.0
@@ -115,6 +116,7 @@ importers:
       '@headlessui/vue': 1.7.15_vue@3.3.4
       '@pictode/core': link:../packages/core
       '@pictode/plugin-history': link:../packages/plugin-history
+      '@pictode/tools': link:../packages/tools
       '@pictode/utils': link:../packages/utils
       '@pictode/vue-aide': link:../packages/vue-aide
       build: 0.1.4
@@ -163,6 +165,25 @@ importers:
       vite: 4.4.8
 
   packages/plugin-history:
+    specifiers:
+      '@pictode/core': workspace:^0.0.1
+      '@pictode/utils': workspace:^0.0.1
+      dot: 2.0.0-beta.1
+      rimraf: ^3.0.2
+      roughjs: ^4.5.2
+      typescript: ^4.9.3
+      vite: ^4.1.0
+    dependencies:
+      '@pictode/core': link:../core
+      '@pictode/utils': link:../utils
+      dot: 2.0.0-beta.1
+      rimraf: 3.0.2
+      roughjs: 4.5.2
+    devDependencies:
+      typescript: 4.9.5
+      vite: 4.4.8
+
+  packages/tools:
     specifiers:
       '@pictode/core': workspace:^0.0.1
       '@pictode/utils': workspace:^0.0.1

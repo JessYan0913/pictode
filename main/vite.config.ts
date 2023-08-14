@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
         { find: /^@pictode\/utils/, replacement: join(__dirname, '../packages/utils/src/index.ts') },
         { find: /^@pictode\/core/, replacement: join(__dirname, '../packages/core/src/index.ts') },
         { find: /^@pictode\/plugin-history/, replacement: join(__dirname, '../packages/plugin-history/src/index.ts') },
+        { find: /^@pictode\/tools/, replacement: join(__dirname, '../packages/tools/src/index.ts') },
         { find: /^@pictode\/vue-aide/, replacement: join(__dirname, '../packages/vue-aide/src/index.ts') },
         { find: 'vue', replacement: join(__dirname, './node_modules/vue/dist/vue.esm-bundler.js') },
       ],

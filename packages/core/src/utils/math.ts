@@ -40,3 +40,6 @@ export class Point implements Konva.Vector2d {
     this.setXY(point.x, point.y);
   }
 }
+
+export const flatPoints = (points: Point[]): number[] =>
+  points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);

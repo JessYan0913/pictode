@@ -1,18 +1,7 @@
 import { computed, ref, watchEffect } from 'vue';
-import {
-  App,
-  drawingTool,
-  ellipseTool,
-  imageTool,
-  KonvaNode,
-  lineTool,
-  rectTool,
-  regularPolygonTool,
-  selectTool,
-  textTool,
-  Tool,
-} from '@pictode/core';
+import { App, KonvaNode, Tool } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
+import pictodeTools from '@pictode/tools';
 
 interface ToolInfo {
   name: string;
@@ -29,42 +18,42 @@ const toolMap: ToolMap = {
   selectTool: {
     name: 'selectTool',
     icon: 'move',
-    handler: selectTool,
+    handler: pictodeTools.selectTool,
   },
   rectTool: {
     name: 'rectTool',
     icon: 'rectangle',
-    handler: rectTool,
+    handler: pictodeTools.rectTool,
   },
   ellipseTool: {
     name: 'ellipseTool',
     icon: 'oval',
-    handler: ellipseTool,
+    handler: pictodeTools.ellipseTool,
   },
   regularPolygonTool: {
     name: 'regularPolygonTool',
     icon: 'diamond',
-    handler: regularPolygonTool,
+    handler: pictodeTools.diamondTool,
   },
   lineTool: {
     name: 'lineTool',
     icon: 'line-2',
-    handler: lineTool,
+    handler: pictodeTools.lineTool,
   },
   drawingTool: {
     name: 'drawingTool',
     icon: 'pencil',
-    handler: drawingTool,
+    handler: pictodeTools.drawingTool,
   },
   imageTool: {
     name: 'imageTool',
     icon: 'picture',
-    handler: imageTool,
+    handler: pictodeTools.imageTool,
   },
   textTool: {
     name: 'textTool',
     icon: 'text',
-    handler: textTool,
+    handler: pictodeTools.textTool,
   },
 };
 
