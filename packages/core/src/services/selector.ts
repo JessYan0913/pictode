@@ -1,7 +1,6 @@
 import Konva from 'konva';
 
 import { App } from '../app';
-import { Rect } from '../customs/rect';
 import { EventArgs, KonvaNode, Service } from '../types';
 import { Point, shapeArrayEqual } from '../utils';
 
@@ -11,7 +10,7 @@ export class Selector extends Service {
   public enable: boolean = false;
 
   private transformer: Konva.Transformer;
-  private rubberRect: Rect;
+  private rubberRect: Konva.Rect;
   private rubberStartPoint: Point = new Point(0, 0);
   private rubberEnable: boolean = false;
 
@@ -74,7 +73,7 @@ export class Selector extends Service {
 
     this.optionLayer.add(this.transformer);
 
-    this.rubberRect = new Rect({
+    this.rubberRect = new Konva.Rect({
       stroke: 'rgb(157, 157, 231)',
       fill: 'rgba(157, 157, 231, 0.5)',
       strokeWidth: 2,
