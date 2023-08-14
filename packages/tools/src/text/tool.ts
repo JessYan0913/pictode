@@ -10,7 +10,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   };
   let textarea = document.createElement('textarea');
   document.body.appendChild(textarea);
-  textarea.value = textNode.text();
+  textarea.value = textNode.text() || ' ';
   textarea.style.position = 'absolute';
   textarea.style.top = areaPosition.y + 'px';
   textarea.style.left = areaPosition.x + 'px';
@@ -29,6 +29,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   textarea.style.transformOrigin = 'left top';
   textarea.style.textAlign = textNode.align();
   textarea.style.color = textNode.stroke();
+  textarea.style.caretColor = textNode.stroke();
   const rotation = textNode.rotation();
   let transform = '';
   if (rotation) {
@@ -42,7 +43,6 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   transform += 'translateY(-' + px + 'px)';
 
   textarea.style.transform = transform;
-  textarea.style.height = 'auto';
   textarea.style.height = textarea.scrollHeight + 3 + 'px';
 
   textarea.focus();
@@ -54,9 +54,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   }
 
   function setTextareaWidth(newWidth: number) {
-    if (!newWidth) {
-      newWidth = textNode.text.length * textNode.fontSize();
-    }
+    newWidth = Math.max(textarea.value.length * textNode.fontSize(), newWidth);
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     if (isSafari || isFirefox) {
@@ -72,7 +70,11 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
 
   textarea.addEventListener('keydown', function (e: KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey) {
-      textNode.text(textarea.value);
+      if (textarea.value.trim().length >= 1) {
+        textNode.text(textarea.value);
+      } else {
+        app.remove(textNode);
+      }
       removeTextarea();
     }
     if (e.key === 'Escape') {
@@ -116,6 +118,7 @@ export class TextTool implements Tool {
   public doubleClick({ app, pointer }: ToolEvent) {
     this.textNode = new Konva.Text({
       ...this.options,
+      text: ' ',
       x: pointer.x,
       y: pointer.y,
     });
