@@ -1,6 +1,4 @@
-import { App, Konva, Tool } from '@pictode/core';
-
-type TextOptions = Pick<Konva.TextConfig, 'stroke' | 'strokeWidth' | 'fontSize' | 'fontFamily' | 'opacity' | 'text'>;
+import { App, Konva, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 
 const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   textNode.hide();
@@ -100,38 +98,33 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   });
 };
 
-export const tool = (options: TextOptions): Tool => {
-  let textNode: Konva.Text | null = null;
-
-  return {
-    name: 'textTool',
-    hooks: {
-      onActive(app) {
-        app.cancelSelect();
-        textNode = new Konva.Text({
-          text: 'Pictode',
-          ...options,
-        });
-        textNode.on<'dblclick'>('dblclick', ({ target }) => {
-          handleTextDoubleClick(app, target as Konva.Text);
-        });
-        app.add(textNode);
-      },
-    },
-    mousedown() {
-      if (!textNode) {
-        return;
-      }
-      textNode = null;
-    },
-    mousemove({ app, pointer }) {
-      if (!textNode) {
-        return;
-      }
-      textNode.setPosition(pointer);
-      app.render();
-    },
-  };
+type TextOptions = Pick<Konva.TextConfig, 'stroke' | 'strokeWidth' | 'fontSize' | 'fontFamily' | 'opacity' | 'text'> & {
+  hooks?: ToolHooks;
 };
 
-export default tool;
+export class TextTool implements Tool {
+  public name: string = 'textTool';
+  public options?: TextOptions | undefined;
+  public hooks?: ToolHooks | undefined;
+  private textNode: Konva.Text | null = null;
+
+  constructor(options: TextOptions) {
+    this.options = options;
+    this.hooks = options.hooks;
+  }
+
+  public doubleClick({ app, pointer }: ToolEvent) {
+    this.textNode = new Konva.Text({
+      ...this.options,
+      x: pointer.x,
+      y: pointer.y,
+    });
+    this.textNode.on<'dblclick'>('dblclick', ({ target }) => {
+      handleTextDoubleClick(app, target as Konva.Text);
+    });
+    app.add(this.textNode);
+    this.textNode.fire('dblclick');
+  }
+}
+
+export default TextTool;

@@ -1,48 +1,56 @@
-import { Konva, Tool, ToolHooks, util } from '@pictode/core';
+import { Konva, Tool, ToolEvent, ToolHooks, ToolOptions, util } from '@pictode/core';
 
-type LineOptions = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
-
-export const tool = (options: LineOptions, hooks?: ToolHooks): Tool => {
-  let points: util.Point[] = [];
-  let line: Konva.Line | null = null;
-
-  return {
-    name: 'lineTool',
-    options,
-    hooks,
-    mousedown({ app }): void {
-      if (!line) {
-        line = new Konva.Line({
-          points: util.flatPoints(points),
-          fill: 'transparent',
-          stroke: 'black',
-          strokeWidth: 2,
-          strokeScaleEnabled: false,
-        });
-        app.add(line);
-      }
-      const lastPoint = points.at(-1);
-      if (!lastPoint || !lastPoint.eq(app.pointer)) {
-        points.push(app.pointer);
-      }
-      line.points(util.flatPoints(points));
-    },
-    mousemove({ app }): void {
-      if (!line) {
-        return;
-      }
-      line.points(util.flatPoints(points).concat(app.pointer.x, app.pointer.y));
-      app.render();
-    },
-    doubleClick({ app }): void {
-      if (!line) {
-        return;
-      }
-      this.hooks?.onCompleteDrawing?.(app, line);
-      line = null;
-      points = [];
-    },
-  };
+type LineOptions = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'> & {
+  hooks?: ToolHooks;
 };
 
-export default tool;
+export class LineTool implements Tool {
+  public name: string = 'lineTool';
+  public options?: ToolOptions | undefined;
+  public hooks?: ToolHooks | undefined;
+  private points: util.Point[] = [];
+  private line: Konva.Line | null = null;
+
+  constructor(options: LineOptions) {
+    this.options = options;
+    this.hooks = options.hooks;
+  }
+
+  public mousedown({ app }: ToolEvent) {
+    if (!this.line) {
+      this.line = new Konva.Line({
+        points: util.flatPoints(this.points),
+        fill: 'transparent',
+        stroke: 'black',
+        strokeWidth: 2,
+        strokeScaleEnabled: false,
+      });
+      app.add(this.line);
+      this.hooks?.onStartDrawing?.(app, this.line);
+    }
+    const lastPoint = this.points.at(-1);
+    if (!lastPoint || !lastPoint.eq(app.pointer)) {
+      this.points.push(app.pointer);
+    }
+    this.line.points(util.flatPoints(this.points));
+  }
+
+  public mousemove({ app, pointer }: ToolEvent) {
+    if (!this.line) {
+      return;
+    }
+    this.line.points(util.flatPoints(this.points).concat(pointer.x, pointer.y));
+    app.render();
+  }
+
+  public doubleClick({ app }: ToolEvent) {
+    if (!this.line) {
+      return;
+    }
+    this.hooks?.onCompleteDrawing?.(app, this.line);
+    this.line = null;
+    this.points = [];
+  }
+}
+
+export default LineTool;

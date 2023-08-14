@@ -1,12 +1,21 @@
 import { computed, nextTick, ref, watchEffect } from 'vue';
 import { App, KonvaNode, Tool, util } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
-import pictodeTools from '@pictode/tools';
+import {
+  DiamondTool,
+  DrawingTool,
+  EllipseTool,
+  ImageTool,
+  LineTool,
+  RectTool,
+  SelectTool,
+  TextTool,
+} from '@pictode/tools';
 
 interface ToolInfo {
   name: string;
   icon: string;
-  handler: Tool;
+  handler: () => Tool;
 }
 
 type ToolMap = Record<string, ToolInfo>;
@@ -18,140 +27,138 @@ const toolMap: ToolMap = {
   selectTool: {
     name: 'selectTool',
     icon: 'move',
-    handler: pictodeTools.selectTool({
-      onActive(app) {
-        app.triggerSelector(true);
-      },
-      onInactive(app) {
-        app.triggerSelector(false);
-      },
-    }),
+    handler: () =>
+      new SelectTool({
+        hooks: {
+          onActive(app) {
+            app.triggerSelector(true);
+          },
+          onInactive(app) {
+            app.triggerSelector(false);
+          },
+        },
+      }),
   },
   rectTool: {
     name: 'rectTool',
     icon: 'rectangle',
-    handler: pictodeTools.rectTool(
-      {
+    handler: () =>
+      new RectTool({
         fill: 'red',
         stroke: 'blue',
         strokeWidth: 2,
         cornerRadius: 10,
-      },
-      {
-        onActive(app) {
-          app.cancelSelect();
+        hooks: {
+          onActive(app) {
+            app.cancelSelect();
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = 'selectTool';
+            nextTick(() => app.select(node));
+          },
         },
-        onCompleteDrawing(app, node) {
-          currentTool.value = 'selectTool';
-          nextTick(() => app.select(node));
-        },
-      }
-    ),
+      }),
   },
   ellipseTool: {
     name: 'ellipseTool',
     icon: 'oval',
-    handler: pictodeTools.ellipseTool(
-      {
+    handler: () =>
+      new EllipseTool({
         fill: 'red',
         stroke: 'blue',
         strokeWidth: 2,
-      },
-      {
-        onActive(app) {
-          app.cancelSelect();
+        hooks: {
+          onActive(app) {
+            app.cancelSelect();
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = 'selectTool';
+            nextTick(() => app.select(node));
+          },
         },
-        onCompleteDrawing(app, node) {
-          currentTool.value = 'selectTool';
-          nextTick(() => app.select(node));
-        },
-      }
-    ),
+      }),
   },
   diamondTool: {
     name: 'diamondTool',
     icon: 'diamond',
-    handler: pictodeTools.diamondTool(
-      {
+    handler: () =>
+      new DiamondTool({
         fill: 'red',
         stroke: 'blue',
         strokeWidth: 2,
-      },
-      {
-        onActive(app) {
-          app.cancelSelect();
+        hooks: {
+          onActive(app) {
+            app.cancelSelect();
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = 'selectTool';
+            nextTick(() => app.select(node));
+          },
         },
-        onCompleteDrawing(app, node) {
-          currentTool.value = 'selectTool';
-          nextTick(() => app.select(node));
-        },
-      }
-    ),
+      }),
   },
   lineTool: {
     name: 'lineTool',
     icon: 'line-2',
-    handler: pictodeTools.lineTool(
-      {
+    handler: () =>
+      new LineTool({
         stroke: 'blue',
         strokeWidth: 2,
-      },
-      {
-        onActive(app) {
-          app.cancelSelect();
+        hooks: {
+          onActive(app) {
+            app.cancelSelect();
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = 'selectTool';
+            nextTick(() => app.select(node));
+          },
         },
-        onCompleteDrawing(app, node) {
-          currentTool.value = 'selectTool';
-          nextTick(() => app.select(node));
-        },
-      }
-    ),
+      }),
   },
   drawingTool: {
     name: 'drawingTool',
     icon: 'pencil',
-    handler: pictodeTools.drawingTool(
-      {
+    handler: () =>
+      new DrawingTool({
         stroke: 'blue',
         strokeWidth: 2,
-      },
-      {
-        onActive(app) {
-          app.cancelSelect();
+        hooks: {
+          onActive(app) {
+            app.cancelSelect();
+          },
         },
-      }
-    ),
+      }),
   },
   imageTool: {
     name: 'imageTool',
     icon: 'picture',
-    handler: pictodeTools.imageTool(
-      {
+    handler: () =>
+      new ImageTool({
         image: new Image(),
-      },
-      {
-        async onActive(app, tool) {
-          app.cancelSelect();
-          const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
-          const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-          const image = new Image();
-          image.src = imgSrc;
-          tool.options && (tool.options.image = image);
+        hooks: {
+          async onActive(app, tool) {
+            app.cancelSelect();
+            const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
+            const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+            const image = new Image();
+            image.src = imgSrc;
+            tool.options && (tool.options.image = image);
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = 'selectTool';
+            nextTick(() => app.select(node));
+          },
         },
-        onCompleteDrawing(app, node) {
-          currentTool.value = 'selectTool';
-          nextTick(() => app.select(node));
-        },
-      }
-    ),
+      }),
   },
   textTool: {
     name: 'textTool',
     icon: 'text',
-    handler: pictodeTools.textTool({
-      stroke: 'blue',
-      strokeWidth: 2,
-    }),
+    handler: () =>
+      new TextTool({
+        stroke: 'blue',
+        strokeWidth: 2,
+      }),
   },
 };
 
@@ -172,7 +179,7 @@ app.on('selected:changed', ({ selected: newSelected }) => {
 });
 
 watchEffect(() => {
-  app.setTool(toolMap[currentTool.value].handler);
+  app.setTool(toolMap[currentTool.value].handler());
 });
 
 export const usePictode = () => {

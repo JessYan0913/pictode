@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import pictodeTools from '@pictode/tools';
 
 import Button from '@/components/Button.vue';
 import Menu from '@/components/Menu.vue';
@@ -9,7 +8,6 @@ import Tools from '@/components/Tools.vue';
 import usePictode from '@/hooks/usePictode';
 
 const { app, selected, currentTool } = usePictode();
-app.setTool(pictodeTools.selectTool());
 
 const canvasRef = ref<HTMLDivElement>();
 const needPanel = computed<boolean>(() => selected.value.length !== 0 || currentTool.value !== 'selectTool');

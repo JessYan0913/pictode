@@ -1,10 +1,12 @@
 import { Tool, ToolHooks } from '@pictode/core';
 
-export const tool = (hooks: ToolHooks): Tool => {
-  return {
-    name: 'selectTool',
-    hooks,
-  };
-};
+export class SelectTool implements Tool {
+  public name: string = 'selectTool';
+  public hooks?: ToolHooks | undefined;
 
-export default tool;
+  constructor(options: { hooks?: ToolHooks }) {
+    this.hooks = options.hooks;
+  }
+}
+
+export default SelectTool;
