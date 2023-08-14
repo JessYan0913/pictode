@@ -1,34 +1,16 @@
-import { Konva, Tool, util } from '@pictode/core';
+import { Konva, Tool, ToolHooks, util } from '@pictode/core';
 
-type ImageOptions = Pick<Konva.ImageConfig, 'opacity'>;
+type ImageOptions = Pick<Konva.ImageConfig, 'opacity'> & { image: HTMLImageElement };
 
-export const tool = (options: ImageOptions): Tool => {
-  let imageObject: HTMLImageElement | null = null;
+export const tool = (options: ImageOptions, hooks?: ToolHooks): Tool => {
   let img: Konva.Image | null = null;
   let confirm: boolean = false;
+  let isComplete: boolean = false;
 
   return {
     name: 'imageTool',
     options,
-    hooks: {
-      async onActive(app) {
-        imageObject = new Image();
-        img = new Konva.Image({
-          image: imageObject,
-          strokeScaleEnabled: false,
-        });
-        try {
-          app.cancelSelect();
-          const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
-          const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-          imageObject.src = imgSrc;
-          img.opacity(0.5);
-          app.add(img);
-        } catch (error) {
-          img.destroy();
-        }
-      },
-    },
+    hooks,
     mousedown({ app }) {
       if (!img) {
         return;
@@ -40,18 +22,27 @@ export const tool = (options: ImageOptions): Tool => {
       confirm = true;
       img.opacity(1);
       this.hooks?.onCompleteDrawing?.(app, img);
+      isComplete = true;
       img = null;
     },
     mousemove({ app, pointer }) {
-      if (!imageObject || !img) {
+      if (isComplete) {
         return;
       }
+      if (!img) {
+        img = new Konva.Image({
+          strokeScaleEnabled: false,
+          image: options.image,
+          ...this.options,
+        });
+        img.opacity(0.5);
+        app.add(img);
+      }
       const width = 200;
-      const height = width * (imageObject.height / imageObject.width);
+      const height = width * (options.image.height / options.image.width);
       img.width(width);
       img.height(height);
       img.position(new util.Point(pointer.x - width / 2, pointer.y - height / 2));
-      app.render();
     },
   };
 };

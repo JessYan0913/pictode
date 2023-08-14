@@ -27,11 +27,11 @@ export class Tooler extends Service {
       return;
     }
     if (oldTool?.hooks && isFunction(oldTool?.hooks?.onInactive)) {
-      await oldTool.hooks.onInactive(this.app);
+      await oldTool.hooks.onInactive(this.app, oldTool);
     }
     this.currentTool = curTool;
     if (this.currentTool?.hooks && isFunction(this.currentTool?.hooks?.onActive)) {
-      await this.currentTool.hooks.onActive(this.app);
+      await this.currentTool.hooks.onActive(this.app, this.currentTool);
     }
     this.app.render();
     this.app.emit('tool:changed', { oldTool, curTool });

@@ -1,5 +1,5 @@
 import { computed, nextTick, ref, watchEffect } from 'vue';
-import { App, KonvaNode, Tool } from '@pictode/core';
+import { App, KonvaNode, Tool, util } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 import pictodeTools from '@pictode/tools';
 
@@ -125,7 +125,19 @@ const toolMap: ToolMap = {
   imageTool: {
     name: 'imageTool',
     icon: 'picture',
-    handler: pictodeTools.imageTool({}),
+    handler: pictodeTools.imageTool(
+      {
+        image: new Image(),
+      },
+      {
+        async onActive(app, tool) {
+          app.cancelSelect();
+          const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
+          const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+          tool.options?.image && (tool.options.image.src = imgSrc);
+        },
+      }
+    ),
   },
   textTool: {
     name: 'textTool',
