@@ -1,17 +1,18 @@
-import { Konva, Tool, ToolHooks, ToolOptions, util } from '@pictode/core';
+import { Konva, Tool, ToolOptions, util } from '@pictode/core';
 
 import { tool as selectTool } from '../select';
 
-export const tool = (options: ToolOptions, hooks?: ToolHooks): Tool => {
+export const tool = (options: ToolOptions): Tool => {
   const startPointer: util.Point = new util.Point(0, 0);
   let rectangle: Konva.Rect | null = null;
 
   return {
     name: 'rectTool',
     options,
-    hooks,
-    active(app) {
-      app.cancelSelect();
+    hooks: {
+      onActive(app) {
+        app.cancelSelect();
+      },
     },
     mousedown({ app }): void {
       if (rectangle) {

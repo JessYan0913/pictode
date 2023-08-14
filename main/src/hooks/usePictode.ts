@@ -1,12 +1,12 @@
 import { computed, ref, watchEffect } from 'vue';
-import { App, KonvaNode, Tool } from '@pictode/core';
+import { App, KonvaNode, Tool, ToolHooks, ToolOptions } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 import pictodeTools from '@pictode/tools';
 
 interface ToolInfo {
   name: string;
   icon: string;
-  handler: (...args: any[]) => Tool;
+  handler: (options: ToolOptions, hooks: ToolHooks) => Tool;
 }
 
 type ToolMap = Record<string, ToolInfo>;
@@ -75,11 +75,18 @@ app.on('selected:changed', ({ selected: newSelected }) => {
 
 watchEffect(() => {
   app.setTool(
-    toolMap[currentTool.value].handler({
-      fill: 'red',
-      stroke: 'blue',
-      strokeWidth: 2,
-    })
+    toolMap[currentTool.value].handler(
+      {
+        fill: 'red',
+        stroke: 'blue',
+        strokeWidth: 2,
+      },
+      {
+        onActive(app: App) {
+          app.cancelSelect();
+        },
+      }
+    )
   );
 });
 

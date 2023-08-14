@@ -1,3 +1,5 @@
+import { isFunction } from '@pictode/utils';
+
 import { App } from '../app';
 import { EventArgs, Service, Tool } from '../types';
 
@@ -24,12 +26,12 @@ export class Tooler extends Service {
     if (oldTool?.name === curTool.name) {
       return;
     }
-    if (oldTool && typeof oldTool.inactive === 'function') {
-      await oldTool.inactive(this.app);
+    if (oldTool?.hooks && isFunction(oldTool?.hooks?.onInactive)) {
+      await oldTool.hooks.onInactive(this.app);
     }
     this.currentTool = curTool;
-    if (typeof this.currentTool.active === 'function') {
-      await this.currentTool.active(this.app);
+    if (this.currentTool?.hooks && isFunction(this.currentTool?.hooks?.onActive)) {
+      await this.currentTool.hooks.onActive(this.app);
     }
     this.app.render();
     this.app.emit('tool:changed', { oldTool, curTool });

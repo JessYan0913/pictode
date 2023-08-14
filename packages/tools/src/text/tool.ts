@@ -1,4 +1,4 @@
-import { App, Konva, Tool } from '@pictode/core';
+import { App, Konva, Tool, ToolOptions } from '@pictode/core';
 
 const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   textNode.hide();
@@ -98,28 +98,23 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   });
 };
 
-export interface TextToolOptions {
-  stroke: string;
-  strokeWidth: number;
-  fontSize: number;
-  fontFamily: string;
-}
-
-export const tool = (options: TextToolOptions): Tool => {
+export const tool = (options: ToolOptions): Tool => {
   let textNode: Konva.Text | null = null;
 
   return {
     name: 'textTool',
-    active(app) {
-      app.cancelSelect();
-      textNode = new Konva.Text({
-        text: 'Pictode',
-        ...options,
-      });
-      textNode.on<'dblclick'>('dblclick', ({ target }) => {
-        handleTextDoubleClick(app, target as Konva.Text);
-      });
-      app.add(textNode);
+    hooks: {
+      onActive(app) {
+        app.cancelSelect();
+        textNode = new Konva.Text({
+          text: 'Pictode',
+          ...options,
+        });
+        textNode.on<'dblclick'>('dblclick', ({ target }) => {
+          handleTextDoubleClick(app, target as Konva.Text);
+        });
+        app.add(textNode);
+      },
     },
     mousedown() {
       if (!textNode) {

@@ -40,3 +40,7 @@ export const isSubclass = (childClass: any, parentClass: any): boolean => {
   }
   return false;
 };
+
+export const isFunction = (property: any): property is Function => {
+  return typeof property === 'function';
+};
