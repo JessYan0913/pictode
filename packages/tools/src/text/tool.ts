@@ -71,7 +71,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   textarea.addEventListener('keydown', function (e: KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey) {
       if (textarea.value.trim().length >= 1) {
-        textNode.text(textarea.value);
+        textNode.text(textarea.value.charAt(0) === ' ' ? textarea.value.substring(1) : textarea.value);
       } else {
         app.remove(textNode);
       }
