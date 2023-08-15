@@ -2,23 +2,23 @@ import { computed, nextTick, ref, watchEffect } from 'vue';
 import { App, KonvaNode, Tool, util } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 import {
-  DiamondForm,
   DiamondTool,
-  DrawingForm,
   DrawingTool,
-  EllipseForm,
   EllipseTool,
-  FormConfig,
-  ImageForm,
   ImageTool,
-  LineForm,
   LineTool,
-  RectForm,
   RectTool,
   SelectTool,
-  TextForm,
   TextTool,
 } from '@pictode/tools';
+
+import { FormConfig } from '@/form';
+import diamondForm from '@/panels/diamond-panel';
+import ellipseForm from '@/panels/ellipse-panel';
+import imageForm from '@/panels/image-panel';
+import lineForm from '@/panels/line-panel';
+import rectForm from '@/panels/rect-panel';
+import textForm from '@/panels/text-panel';
 
 interface ToolInfo {
   name: string;
@@ -51,7 +51,7 @@ const toolMap: ToolMap = {
   rectTool: {
     name: 'rectTool',
     icon: 'rectangle',
-    formConfig: RectForm,
+    formConfig: rectForm,
     handler: () =>
       new RectTool({
         fill: 'red',
@@ -72,7 +72,7 @@ const toolMap: ToolMap = {
   ellipseTool: {
     name: 'ellipseTool',
     icon: 'oval',
-    formConfig: EllipseForm,
+    formConfig: ellipseForm,
     handler: () =>
       new EllipseTool({
         fill: 'red',
@@ -92,7 +92,7 @@ const toolMap: ToolMap = {
   diamondTool: {
     name: 'diamondTool',
     icon: 'diamond',
-    formConfig: DiamondForm,
+    formConfig: diamondForm,
     handler: () =>
       new DiamondTool({
         fill: 'red',
@@ -112,7 +112,7 @@ const toolMap: ToolMap = {
   lineTool: {
     name: 'lineTool',
     icon: 'line-2',
-    formConfig: LineForm,
+    formConfig: lineForm,
     handler: () =>
       new LineTool({
         stroke: 'blue',
@@ -131,7 +131,7 @@ const toolMap: ToolMap = {
   drawingTool: {
     name: 'drawingTool',
     icon: 'pencil',
-    formConfig: DrawingForm,
+    formConfig: lineForm,
     handler: () =>
       new DrawingTool({
         stroke: 'blue',
@@ -146,7 +146,7 @@ const toolMap: ToolMap = {
   imageTool: {
     name: 'imageTool',
     icon: 'picture',
-    formConfig: ImageForm,
+    formConfig: imageForm,
     handler: () =>
       new ImageTool({
         image: new Image(),
@@ -169,7 +169,7 @@ const toolMap: ToolMap = {
   textTool: {
     name: 'textTool',
     icon: 'text',
-    formConfig: TextForm,
+    formConfig: textForm,
     handler: () =>
       new TextTool({
         stroke: 'blue',
@@ -196,22 +196,22 @@ app.on('selected:changed', ({ selected: newSelected }) => {
   if (selected.value.length === 1) {
     switch (selected.value[0].className) {
       case 'Rect':
-        formConfig.value = RectForm;
+        formConfig.value = rectForm;
         break;
       case 'Image':
-        formConfig.value = ImageForm;
+        formConfig.value = imageForm;
         break;
       case 'Line':
-        formConfig.value = LineForm;
+        formConfig.value = lineForm;
         break;
       case 'Ellipse':
-        formConfig.value = EllipseForm;
+        formConfig.value = ellipseForm;
         break;
       case 'RegularPolygon':
-        formConfig.value = DiamondForm;
+        formConfig.value = diamondForm;
         break;
       case 'Text':
-        formConfig.value = TextForm;
+        formConfig.value = textForm;
         break;
     }
   }
