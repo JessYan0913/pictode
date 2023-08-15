@@ -1,19 +1,20 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type DiamondOptions = Pick<Konva.RegularPolygonConfig, 'stroke' | 'strokeWidth' | 'fill' | 'opacity'> & {
+interface DiamondToolOptions {
+  config: Konva.RegularPolygonConfig;
   hooks?: ToolHooks;
-};
+}
 
-export class DiamondTool implements Tool {
+export class DiamondTool implements Tool<Konva.RegularPolygonConfig> {
   public name: string = 'diamondTool';
   public hooks?: ToolHooks;
-  public options?: DiamondOptions;
+  public config?: Konva.RegularPolygonConfig;
   private diamond: Konva.RegularPolygon | null = null;
   private startPointer: util.Point = new util.Point(0, 0);
 
-  constructor(options: DiamondOptions) {
-    this.options = options;
-    this.hooks = options.hooks;
+  constructor({ config, hooks }: DiamondToolOptions) {
+    this.config = config;
+    this.hooks = hooks;
   }
 
   public mousedown({ app }: ToolEvent) {
@@ -25,7 +26,7 @@ export class DiamondTool implements Tool {
       sides: 4,
       radius: 0,
       strokeScaleEnabled: false,
-      ...this.options,
+      ...this.config,
     });
     this.diamond.setPosition(this.startPointer);
     app.add(this.diamond);

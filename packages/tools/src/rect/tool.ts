@@ -1,19 +1,20 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type RectToolOptions = Pick<Konva.RectConfig, 'stroke' | 'fill' | 'strokeWidth' | 'opacity' | 'cornerRadius'> & {
+interface RectToolOptions {
+  config: Konva.RectConfig;
   hooks?: ToolHooks;
-};
+}
 
 export class RectTool implements Tool {
   public name: string = 'rectTool';
-  public options?: RectToolOptions | undefined;
+  public config?: Konva.RectConfig | undefined;
   public hooks?: ToolHooks | undefined;
   private startPointer: util.Point = new util.Point(0, 0);
   private rectangle: Konva.Rect | null = null;
 
-  constructor(options: RectToolOptions) {
-    this.options = options;
-    this.hooks = options.hooks;
+  constructor({ config, hooks }: RectToolOptions) {
+    this.config = config;
+    this.hooks = hooks;
   }
 
   public mousedown({ app }: ToolEvent) {
@@ -23,7 +24,7 @@ export class RectTool implements Tool {
     this.startPointer.clone(app.pointer);
     this.rectangle = new Konva.Rect({
       strokeScaleEnabled: false,
-      ...this.options,
+      ...this.config,
     });
     this.rectangle.setPosition(this.startPointer);
     this.rectangle.width(0);

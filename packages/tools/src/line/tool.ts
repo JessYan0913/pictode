@@ -1,19 +1,20 @@
-import { Konva, Tool, ToolEvent, ToolHooks, ToolOptions, util } from '@pictode/core';
+import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type LineOptions = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'> & {
+interface LintToolOptions {
+  config: Konva.LineConfig;
   hooks?: ToolHooks;
-};
+}
 
 export class LineTool implements Tool {
   public name: string = 'lineTool';
-  public options?: ToolOptions | undefined;
+  public config?: Konva.LineConfig | undefined;
   public hooks?: ToolHooks | undefined;
   private points: util.Point[] = [];
   private line: Konva.Line | null = null;
 
-  constructor(options: LineOptions) {
-    this.options = options;
-    this.hooks = options.hooks;
+  constructor({ config, hooks }: LintToolOptions) {
+    this.config = config;
+    this.hooks = hooks;
   }
 
   public mousedown({ app }: ToolEvent) {

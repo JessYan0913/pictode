@@ -1,17 +1,20 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type DrawingOptions = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'> & { hooks?: ToolHooks };
+interface DrawingToolOptions {
+  config: Konva.LineConfig;
+  hooks?: ToolHooks;
+}
 
 export class DrawingTool implements Tool {
   public name: string = 'drawingTool';
-  public options?: DrawingOptions | undefined;
+  public config?: Konva.LineConfig | undefined;
   public hooks?: ToolHooks | undefined;
   private line: Konva.Line | null = null;
   private points: util.Point[] = [];
 
-  constructor(options: DrawingOptions) {
-    this.options = options;
-    this.hooks = options.hooks;
+  constructor({ config, hooks }: DrawingToolOptions) {
+    this.config = config;
+    this.hooks = hooks;
   }
 
   public mousedown({ app }: ToolEvent) {
@@ -28,7 +31,7 @@ export class DrawingTool implements Tool {
       lineCap: 'round',
       lineJoin: 'round',
       strokeScaleEnabled: false,
-      ...this.options,
+      ...this.config,
     });
     app.add(this.line);
     this.hooks?.onStartDrawing?.(app, this.line);

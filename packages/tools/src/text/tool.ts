@@ -100,24 +100,25 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   });
 };
 
-type TextOptions = Pick<Konva.TextConfig, 'stroke' | 'strokeWidth' | 'fontSize' | 'fontFamily' | 'opacity' | 'text'> & {
+interface TextToolOptions {
+  config: Konva.TextConfig;
   hooks?: ToolHooks;
-};
+}
 
 export class TextTool implements Tool {
   public name: string = 'textTool';
-  public options?: TextOptions | undefined;
+  public config?: Konva.TextConfig | undefined;
   public hooks?: ToolHooks | undefined;
   private textNode: Konva.Text | null = null;
 
-  constructor(options: TextOptions) {
-    this.options = options;
-    this.hooks = options.hooks;
+  constructor({ config, hooks }: TextToolOptions) {
+    this.config = config;
+    this.hooks = hooks;
   }
 
   public doubleClick({ app, pointer }: ToolEvent) {
     this.textNode = new Konva.Text({
-      ...this.options,
+      ...this.config,
       text: ' ',
       x: pointer.x,
       y: pointer.y,

@@ -1,19 +1,20 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type EllipseOptions = Pick<Konva.EllipseConfig, 'fill' | 'stroke' | 'strokeWidth' | 'opacity'> & {
+interface EllipseToolOptions {
+  config: Konva.EllipseConfig;
   hooks?: ToolHooks;
-};
+}
 
 export class EllipseTool implements Tool {
   public name: string = 'ellipseTool';
-  public options?: EllipseOptions | undefined;
+  public config?: Konva.EllipseConfig | undefined;
   public hooks?: ToolHooks | undefined;
   private ellipse: Konva.Ellipse | null = null;
   private startPointer: util.Point = new util.Point(0, 0);
 
-  constructor(options: EllipseOptions) {
-    this.options = options;
-    this.hooks = options.hooks;
+  constructor({ config, hooks }: EllipseToolOptions) {
+    this.config = config;
+    this.hooks = hooks;
   }
 
   public mousedown({ app }: ToolEvent) {
@@ -25,7 +26,7 @@ export class EllipseTool implements Tool {
       radiusX: 0,
       radiusY: 0,
       strokeScaleEnabled: false,
-      ...this.options,
+      ...this.config,
     });
     this.ellipse.setPosition(this.startPointer);
     this.ellipse.radius(new util.Point(0, 0));

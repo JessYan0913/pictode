@@ -54,10 +54,12 @@ const toolMap: ToolMap = {
     formConfig: rectForm,
     handler: () =>
       new RectTool({
-        fill: 'red',
-        stroke: 'blue',
-        strokeWidth: 2,
-        cornerRadius: 10,
+        config: {
+          fill: 'red',
+          stroke: 'blue',
+          strokeWidth: 2,
+          cornerRadius: 10,
+        },
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -75,9 +77,13 @@ const toolMap: ToolMap = {
     formConfig: ellipseForm,
     handler: () =>
       new EllipseTool({
-        fill: 'red',
-        stroke: 'blue',
-        strokeWidth: 2,
+        config: {
+          fill: 'red',
+          stroke: 'blue',
+          strokeWidth: 2,
+          radiusX: 0,
+          radiusY: 0,
+        },
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -95,9 +101,13 @@ const toolMap: ToolMap = {
     formConfig: diamondForm,
     handler: () =>
       new DiamondTool({
-        fill: 'red',
-        stroke: 'blue',
-        strokeWidth: 2,
+        config: {
+          fill: 'red',
+          stroke: 'blue',
+          strokeWidth: 2,
+          sides: 4,
+          radius: 0,
+        },
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -115,8 +125,10 @@ const toolMap: ToolMap = {
     formConfig: lineForm,
     handler: () =>
       new LineTool({
-        stroke: 'blue',
-        strokeWidth: 2,
+        config: {
+          stroke: 'blue',
+          strokeWidth: 2,
+        },
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -134,8 +146,10 @@ const toolMap: ToolMap = {
     formConfig: lineForm,
     handler: () =>
       new DrawingTool({
-        stroke: 'blue',
-        strokeWidth: 2,
+        config: {
+          stroke: 'blue',
+          strokeWidth: 2,
+        },
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -149,7 +163,9 @@ const toolMap: ToolMap = {
     formConfig: imageForm,
     handler: () =>
       new ImageTool({
-        image: new Image(),
+        config: {
+          image: new Image(),
+        },
         hooks: {
           async onActive(app, tool) {
             app.cancelSelect();
@@ -157,7 +173,7 @@ const toolMap: ToolMap = {
             const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
             const image = new Image();
             image.src = imgSrc;
-            tool.options && (tool.options.image = image);
+            tool.config && (tool.config.image = image);
           },
           onCompleteDrawing(app, node) {
             currentTool.value = 'selectTool';
@@ -172,8 +188,10 @@ const toolMap: ToolMap = {
     formConfig: textForm,
     handler: () =>
       new TextTool({
-        stroke: 'blue',
-        strokeWidth: 2,
+        config: {
+          stroke: 'blue',
+          strokeWidth: 2,
+        },
       }),
   },
 };

@@ -29,11 +29,9 @@ export interface ToolHooks {
   onCompleteDrawing?: (app: App, node: KonvaNode) => void;
 }
 
-export interface ToolOptions extends Konva.ShapeConfig {}
-
-export interface Tool {
+export interface Tool<T extends Konva.ShapeConfig = Konva.ShapeConfig> {
   name: string;
-  options?: ToolOptions;
+  config?: T;
   hooks?: ToolHooks;
   mousedown?: (event: ToolEvent) => void;
   mousemove?: (event: ToolEvent) => void;
