@@ -10,7 +10,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   };
   let textarea = document.createElement('textarea');
   document.body.appendChild(textarea);
-  textarea.value = textNode.text() || ' ';
+  textarea.value = textNode.text();
   textarea.style.position = 'absolute';
   textarea.style.top = areaPosition.y + 'px';
   textarea.style.left = areaPosition.x + 'px';
@@ -28,8 +28,8 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
   textarea.style.fontFamily = textNode.fontFamily();
   textarea.style.transformOrigin = 'left top';
   textarea.style.textAlign = textNode.align();
-  textarea.style.color = textNode.stroke();
-  textarea.style.caretColor = textNode.stroke();
+  textarea.style.color = textNode.fill();
+  textarea.style.caretColor = textNode.fill();
   const rotation = textNode.rotation();
   let transform = '';
   if (rotation) {

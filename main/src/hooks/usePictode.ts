@@ -189,8 +189,9 @@ const toolMap: ToolMap = {
     handler: () =>
       new TextTool({
         config: {
-          stroke: 'blue',
-          strokeWidth: 2,
+          strokeWidth: 0.1,
+          fontSize: 20,
+          fill: 'blue',
         },
       }),
   },
