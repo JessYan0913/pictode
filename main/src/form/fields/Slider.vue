@@ -26,7 +26,7 @@ const step = computed<number>(() => config.value.step || 0.01);
 
 watch(
   () => value.value,
-  (v) => emits('change', prop.value, v)
+  (v) => emits('change', prop.value, +v)
 );
 </script>
 
