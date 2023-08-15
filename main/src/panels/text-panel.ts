@@ -8,21 +8,24 @@ export const TextForm: FormConfig = [
   },
   {
     name: 'strokeWidth',
-    label: '描边宽度',
+    label: '字体大小',
     type: 'RadioGroup',
-    optionType: 'icon',
+    optionType: 'text',
     options: [
       {
-        label: 'line-1',
+        label: 'S',
         value: 0.1,
+        class: 'w-[1rem] h-[1rem] flex items-center justify-center',
       },
       {
-        label: 'line-2',
+        label: 'M',
         value: 0.5,
+        class: 'w-[1rem] h-[1rem] flex items-center justify-center',
       },
       {
-        label: 'line-3',
+        label: 'L',
         value: 1,
+        class: 'w-[1rem] h-[1rem] flex items-center justify-center',
       },
     ],
   },
