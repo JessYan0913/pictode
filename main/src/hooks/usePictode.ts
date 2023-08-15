@@ -215,7 +215,7 @@ app.on('tool:changed', ({ curTool }) => {
 app.on('selected:changed', ({ selected: newSelected }) => {
   selected.value = newSelected;
   if (selected.value.length === 1) {
-    panelValue.value = JSON.parse(selected.value[0].toJSON()).attrs;
+    panelValue.value = selected.value[0].toObject().attrs;
     switch (selected.value[0].className) {
       case 'Rect':
         panelConfig.value = rectForm;
@@ -236,6 +236,8 @@ app.on('selected:changed', ({ selected: newSelected }) => {
         panelConfig.value = textForm;
         break;
     }
+  } else {
+    panelConfig.value = [];
   }
 });
 
