@@ -12,7 +12,7 @@ import {
   TextTool,
 } from '@pictode/tools';
 
-import { FormConfig } from '@/form';
+import { FormConfig, FormValue } from '@/form';
 import diamondForm from '@/panels/diamond-panel';
 import ellipseForm from '@/panels/ellipse-panel';
 import imageForm from '@/panels/image-panel';
@@ -55,10 +55,11 @@ const toolMap: ToolMap = {
     handler: () =>
       new RectTool({
         config: {
-          fill: 'red',
-          stroke: 'blue',
+          fill: '#ffffff',
+          stroke: '#000000',
           strokeWidth: 2,
           cornerRadius: 10,
+          opacity: 1,
         },
         hooks: {
           onActive(app) {
@@ -78,8 +79,8 @@ const toolMap: ToolMap = {
     handler: () =>
       new EllipseTool({
         config: {
-          fill: 'red',
-          stroke: 'blue',
+          fill: '#ffffff',
+          stroke: '#000000',
           strokeWidth: 2,
           radiusX: 0,
           radiusY: 0,
@@ -102,8 +103,8 @@ const toolMap: ToolMap = {
     handler: () =>
       new DiamondTool({
         config: {
-          fill: 'red',
-          stroke: 'blue',
+          fill: '#ffffff',
+          stroke: '#000000',
           strokeWidth: 2,
           sides: 4,
           radius: 0,
@@ -126,7 +127,7 @@ const toolMap: ToolMap = {
     handler: () =>
       new LineTool({
         config: {
-          stroke: 'blue',
+          stroke: '#000000',
           strokeWidth: 2,
         },
         hooks: {
@@ -147,7 +148,7 @@ const toolMap: ToolMap = {
     handler: () =>
       new DrawingTool({
         config: {
-          stroke: 'blue',
+          stroke: '#000000',
           strokeWidth: 2,
         },
         hooks: {
@@ -189,9 +190,9 @@ const toolMap: ToolMap = {
     handler: () =>
       new TextTool({
         config: {
+          fill: '#000000',
           strokeWidth: 0.1,
           fontSize: 20,
-          fill: 'blue',
         },
       }),
   },
@@ -201,7 +202,8 @@ const tools = computed<ToolInfo[]>(() => Object.values(toolMap));
 
 const currentTool = ref<keyof ToolMap>(tools.value[0].name);
 const selected = ref<Array<KonvaNode>>([]);
-const formConfig = ref<FormConfig>([]);
+const panelConfig = ref<FormConfig>([]);
+const panelValue = ref<FormValue>({});
 
 app.on('tool:changed', ({ curTool }) => {
   const toolInfo = tools.value.find(({ name }) => name === curTool.name);
@@ -213,24 +215,25 @@ app.on('tool:changed', ({ curTool }) => {
 app.on('selected:changed', ({ selected: newSelected }) => {
   selected.value = newSelected;
   if (selected.value.length === 1) {
+    panelValue.value = JSON.parse(selected.value[0].toJSON()).attrs;
     switch (selected.value[0].className) {
       case 'Rect':
-        formConfig.value = rectForm;
+        panelConfig.value = rectForm;
         break;
       case 'Image':
-        formConfig.value = imageForm;
+        panelConfig.value = imageForm;
         break;
       case 'Line':
-        formConfig.value = lineForm;
+        panelConfig.value = lineForm;
         break;
       case 'Ellipse':
-        formConfig.value = ellipseForm;
+        panelConfig.value = ellipseForm;
         break;
       case 'RegularPolygon':
-        formConfig.value = diamondForm;
+        panelConfig.value = diamondForm;
         break;
       case 'Text':
-        formConfig.value = textForm;
+        panelConfig.value = textForm;
         break;
     }
   }
@@ -238,7 +241,7 @@ app.on('selected:changed', ({ selected: newSelected }) => {
 
 watchEffect(() => {
   app.setTool(toolMap[currentTool.value].handler());
-  formConfig.value = toolMap[currentTool.value].formConfig ?? [];
+  panelConfig.value = toolMap[currentTool.value].formConfig ?? [];
 });
 
 export const usePictode = () => {
@@ -247,7 +250,8 @@ export const usePictode = () => {
     tools,
     currentTool,
     selected,
-    formConfig,
+    panelConfig,
+    panelValue,
   };
 };
 

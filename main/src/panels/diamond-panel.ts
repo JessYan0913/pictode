@@ -32,22 +32,6 @@ export const formConfig: FormConfig = [
     ],
   },
   {
-    name: 'cornerRadius',
-    label: '边角',
-    type: 'RadioGroup',
-    optionType: 'icon',
-    options: [
-      {
-        label: 'node-flat',
-        value: 0,
-      },
-      {
-        label: 'node-round',
-        value: 10,
-      },
-    ],
-  },
-  {
     name: 'opacity',
     label: '透明度',
     type: 'Slider',

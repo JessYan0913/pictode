@@ -19,15 +19,15 @@ export const formConfig: FormConfig = [
     options: [
       {
         label: 'line-1',
-        value: 1,
+        value: 2,
       },
       {
         label: 'line-2',
-        value: 10,
+        value: 4,
       },
       {
         label: 'line-3',
-        value: 20,
+        value: 8,
       },
     ],
   },

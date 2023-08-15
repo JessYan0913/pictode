@@ -2,13 +2,28 @@
 import { Form } from '@/form';
 import usePictode from '@/hooks/usePictode';
 
-const { formConfig } = usePictode();
+const { app, selected, panelConfig, panelValue } = usePictode();
 
 const handleFormChange = (value: any) => {
-  console.log('新的form', value);
+  app.update(
+    ...selected.value.map((node) => {
+      const newNode = node.toObject();
+      newNode.attrs = {
+        ...newNode.attrs,
+        ...value,
+      };
+      return newNode;
+    })
+  );
 };
 </script>
 
 <template>
-  <Form v-if="formConfig.length" :config="formConfig" label-position="top" @change="handleFormChange"></Form>
+  <Form
+    v-if="panelConfig.length"
+    :config="panelConfig"
+    :model="panelValue"
+    label-position="top"
+    @change="handleFormChange"
+  ></Form>
 </template>

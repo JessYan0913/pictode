@@ -2,7 +2,7 @@ import { FormConfig } from '@/form/types';
 
 export const TextForm: FormConfig = [
   {
-    name: 'stroke',
+    name: 'fill',
     label: '描边',
     type: 'ColorPicker',
   },
@@ -14,15 +14,15 @@ export const TextForm: FormConfig = [
     options: [
       {
         label: 'line-1',
-        value: 1,
+        value: 0.1,
       },
       {
         label: 'line-2',
-        value: 10,
+        value: 0.5,
       },
       {
         label: 'line-3',
-        value: 20,
+        value: 1,
       },
     ],
   },
