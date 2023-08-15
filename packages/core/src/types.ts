@@ -67,6 +67,9 @@ export interface EventArgs {
   'node:removed': {
     nodes: KonvaNode[];
   };
+  'node:update:before': {
+    nodes: KonvaNode[];
+  };
   'node:updated': {
     nodes: KonvaNode[];
   };
