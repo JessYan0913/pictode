@@ -1,6 +1,6 @@
 import { FormConfig } from '../types';
 
-export const formConfig: FormConfig = [
+export const LineForm: FormConfig = [
   {
     name: 'stroke',
     label: '描边',
@@ -49,4 +49,4 @@ export const formConfig: FormConfig = [
   },
 ];
 
-export default formConfig;
+export default LineForm;

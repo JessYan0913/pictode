@@ -1,2 +1,2 @@
 export * from './tool';
-export { default as TextForm } from './form';
+export * from './form';

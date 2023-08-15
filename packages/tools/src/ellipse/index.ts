@@ -1,2 +1,2 @@
 export * from './tool';
-export { default as EllipseForm } from './form';
+export * from './form';

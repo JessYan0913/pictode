@@ -1,6 +1,6 @@
 import { FormConfig } from '../types';
 
-export const formConfig: FormConfig = [
+export const EllipseForm: FormConfig = [
   {
     name: 'stroke',
     label: '描边',
@@ -38,4 +38,4 @@ export const formConfig: FormConfig = [
   },
 ];
 
-export default formConfig;
+export default EllipseForm;
