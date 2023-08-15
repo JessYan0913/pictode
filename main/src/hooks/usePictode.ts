@@ -122,7 +122,7 @@ const toolMap: ToolMap = {
   },
   lineTool: {
     name: 'lineTool',
-    icon: 'line-2',
+    icon: 'line-1',
     formConfig: lineForm,
     handler: () =>
       new LineTool({
