@@ -1,6 +1,6 @@
 import { App, Konva, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 
-const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
+const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => void) => {
   textNode.hide();
   app.cancelSelect();
   let textPosition = textNode.absolutePosition();
@@ -76,6 +76,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text) => {
         app.remove(textNode);
       }
       removeTextarea();
+      onUpdated();
     }
     if (e.key === 'Escape') {
       removeTextarea();
@@ -124,7 +125,9 @@ export class TextTool implements Tool {
       y: pointer.y,
     });
     this.textNode.on<'dblclick'>('dblclick', ({ target }) => {
-      handleTextDoubleClick(app, target as Konva.Text);
+      handleTextDoubleClick(app, target as Konva.Text, () => {
+        this.hooks?.onCompleteDrawing?.(app, target as Konva.Text);
+      });
     });
     app.add(this.textNode);
     this.textNode.fire('dblclick');

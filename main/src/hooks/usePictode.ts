@@ -192,7 +192,13 @@ const toolMap: ToolMap = {
         config: {
           fill: '#000000',
           strokeWidth: 0.1,
-          fontSize: 20,
+          fontSize: 10,
+        },
+        hooks: {
+          onCompleteDrawing(app, node) {
+            currentTool.value = 'selectTool';
+            nextTick(() => app.select(node));
+          },
         },
       }),
   },
