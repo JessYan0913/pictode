@@ -1,6 +1,6 @@
 import { FormConfig } from '@/form/types';
 
-export const TextForm: FormConfig = [
+export default [
   {
     name: 'fill',
     label: '描边',
@@ -39,6 +39,4 @@ export const TextForm: FormConfig = [
     label: '透明度',
     type: 'Slider',
   },
-];
-
-export default TextForm;
+] as FormConfig;

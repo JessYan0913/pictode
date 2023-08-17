@@ -7,10 +7,10 @@ import PropertyPanel from '@/components/PropertyPanel.vue';
 import Tools from '@/components/Tools.vue';
 import usePictode from '@/hooks/usePictode';
 
-const { app, selected, currentTool } = usePictode();
+const { app, selected } = usePictode();
 
 const canvasRef = ref<HTMLDivElement>();
-const needPanel = computed<boolean>(() => selected.value.length !== 0 || currentTool.value !== 'selectTool');
+const needPanel = computed<boolean>(() => selected.value.length !== 0);
 
 onMounted(() => {
   if (canvasRef.value) {

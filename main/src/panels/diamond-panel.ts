@@ -1,6 +1,6 @@
 import { FormConfig } from '@/form/types';
 
-export const formConfig: FormConfig = [
+export default [
   {
     name: 'stroke',
     label: '描边',
@@ -36,6 +36,4 @@ export const formConfig: FormConfig = [
     label: '透明度',
     type: 'Slider',
   },
-];
-
-export default formConfig;
+] as FormConfig;
