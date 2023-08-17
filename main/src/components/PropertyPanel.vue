@@ -8,8 +8,6 @@ const handleFormChange = (value: any) => {
   app.update(
     ...selected.value.map((node) => {
       const newNode = node.toObject();
-      console.log('======?', newNode);
-
       newNode.attrs = {
         ...newNode.attrs,
         ...value,
