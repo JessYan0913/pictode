@@ -15,7 +15,14 @@ app.use(new HistoryPlugin());
 
 const selected = ref<Array<KonvaNode>>([]);
 const panelConfig = ref<FormConfig>([]);
-const panelValue = ref<FormValue>({});
+const panelValue = ref<FormValue>({
+  fill: '#ffffff',
+  stroke: '#000000',
+  strokeWidth: '2',
+  cornerRadius: 10,
+  opacity: 1,
+  fontSize: 10,
+});
 
 app.on('selected:changed', ({ selected: newSelected }) => {
   selected.value = newSelected;

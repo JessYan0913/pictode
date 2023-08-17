@@ -13,6 +13,8 @@ import {
 
 import usePictode from './usePictode';
 
+const { app, panelValue } = usePictode();
+
 interface ToolInfo {
   icon: string;
   name: string;
@@ -42,11 +44,7 @@ const tools: ToolInfo[] = [
     tool: () =>
       new RectTool({
         config: {
-          fill: '#ffffff',
-          stroke: '#000000',
-          strokeWidth: 2,
-          cornerRadius: 10,
-          opacity: 1,
+          ...panelValue.value,
         },
         hooks: {
           onActive(app) {
@@ -65,11 +63,9 @@ const tools: ToolInfo[] = [
     tool: () =>
       new EllipseTool({
         config: {
-          fill: '#ffffff',
-          stroke: '#000000',
-          strokeWidth: 2,
           radiusX: 0,
           radiusY: 0,
+          ...panelValue.value,
         },
         hooks: {
           onActive(app) {
@@ -88,11 +84,9 @@ const tools: ToolInfo[] = [
     tool: () =>
       new DiamondTool({
         config: {
-          fill: '#ffffff',
-          stroke: '#000000',
-          strokeWidth: 2,
           sides: 4,
           radius: 0,
+          ...panelValue.value,
         },
         hooks: {
           onActive(app) {
@@ -111,8 +105,7 @@ const tools: ToolInfo[] = [
     tool: () =>
       new LineTool({
         config: {
-          stroke: '#000000',
-          strokeWidth: 2,
+          ...panelValue.value,
         },
         hooks: {
           onActive(app) {
@@ -131,8 +124,7 @@ const tools: ToolInfo[] = [
     tool: () =>
       new DrawingTool({
         config: {
-          stroke: '#000000',
-          strokeWidth: 2,
+          ...panelValue.value,
         },
         hooks: {
           onActive(app) {
@@ -171,9 +163,7 @@ const tools: ToolInfo[] = [
     tool: () =>
       new TextTool({
         config: {
-          fill: '#000000',
-          strokeWidth: 0.1,
-          fontSize: 10,
+          ...panelValue.value,
         },
         hooks: {
           onCompleteDrawing(app, node) {
@@ -195,15 +185,13 @@ const tool = computed<Tool | undefined>(() => {
   return result;
 });
 
+watchEffect(() => {
+  if (tool.value) {
+    app.setTool(tool.value);
+  }
+});
+
 export const useTools = () => {
-  const { app } = usePictode();
-
-  watchEffect(() => {
-    if (tool.value) {
-      app.setTool(tool.value);
-    }
-  });
-
   return {
     tools,
     currentTool,
