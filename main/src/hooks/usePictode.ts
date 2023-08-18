@@ -18,7 +18,7 @@ const panelConfig = ref<FormConfig>([]);
 const panelValue = ref<FormValue>({
   fill: '#ffffff',
   stroke: '#000000',
-  strokeWidth: '2',
+  strokeWidth: 2,
   cornerRadius: 10,
   opacity: 1,
   fontSize: 10,
@@ -28,13 +28,11 @@ app.on('selected:changed', ({ selected: newSelected }) => {
   selected.value = newSelected;
   if (selected.value.length === 1) {
     const value = selected.value[0].toObject().attrs;
-    // object中去除姿态属性，因为这些属性需要被面板管理
-    delete value.x;
-    delete value.y;
-    delete value.rotation;
-    delete value.scaleX;
-    delete value.scaleY;
-    panelValue.value = value;
+    panelValue.value = Object.keys(panelValue.value).reduce(
+      (panelValue, key) => ({ ...panelValue, [key]: value[key] }),
+      {}
+    );
+
     switch (selected.value[0].className) {
       case 'Rect':
         panelConfig.value = rectForm;
