@@ -8,7 +8,7 @@ export default [
   },
   {
     name: 'fill',
-    label: '背景',
+    label: '填充',
     type: 'ColorPicker',
   },
   {

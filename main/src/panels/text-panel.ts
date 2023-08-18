@@ -2,7 +2,7 @@ import { FormConfig } from '@/form/types';
 
 export default [
   {
-    name: 'fill',
+    name: 'stroke',
     label: '描边',
     type: 'ColorPicker',
   },
@@ -14,22 +14,22 @@ export default [
     options: [
       {
         label: 'S',
-        value: 10,
-        class: 'w-[1rem] h-[1rem] flex items-center justify-center',
-      },
-      {
-        label: 'M',
         value: 12,
         class: 'w-[1rem] h-[1rem] flex items-center justify-center',
       },
       {
+        label: 'M',
+        value: 16,
+        class: 'w-[1rem] h-[1rem] flex items-center justify-center',
+      },
+      {
         label: 'L',
-        value: 18,
+        value: 20,
         class: 'w-[1rem] h-[1rem] flex items-center justify-center',
       },
       {
         label: 'XL',
-        value: 22,
+        value: 24,
         class: 'w-[1rem] h-[1rem] flex items-center justify-center',
       },
     ],

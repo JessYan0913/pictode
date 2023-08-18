@@ -21,7 +21,7 @@ const panelValue = ref<FormValue>({
   strokeWidth: 2,
   cornerRadius: 10,
   opacity: 1,
-  fontSize: 10,
+  fontSize: 16,
 });
 
 app.on('selected:changed', ({ selected: newSelected }) => {

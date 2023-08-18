@@ -28,8 +28,8 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   textarea.style.fontFamily = textNode.fontFamily();
   textarea.style.transformOrigin = 'left top';
   textarea.style.textAlign = textNode.align();
-  textarea.style.color = textNode.fill();
-  textarea.style.caretColor = textNode.fill();
+  textarea.style.color = textNode.stroke();
+  textarea.style.caretColor = textNode.stroke();
   const rotation = textNode.rotation();
   let transform = '';
   if (rotation) {
@@ -123,6 +123,9 @@ export class TextTool implements Tool {
       text: ' ',
       x: pointer.x,
       y: pointer.y,
+      strokeWidth: 0,
+      fill: this.config?.stroke as string,
+      fontFamily: 'JiaYouYa',
     });
     this.textNode.on<'dblclick'>('dblclick', ({ target }) => {
       handleTextDoubleClick(app, target as Konva.Text, () => {
