@@ -26,12 +26,12 @@ onMounted(() => {
       <section class="row-start-1 col-start-1 justify-self-start">
         <Menu class="pointer-events-auto"></Menu>
       </section>
-      <section class="bg-opacity-88 row-start-1 col-start-2 justify-self-stretch">
+      <section class="row-start-1 col-start-2 justify-self-stretch bg-white">
         <Tools
           class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
         ></Tools>
       </section>
-      <section class="bg-opacity-88 row-start-1 col-start-3 justify-self-end">
+      <section class="row-start-1 col-start-3 justify-self-end bg-white">
         <div
           class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
         >
@@ -39,7 +39,7 @@ onMounted(() => {
           <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
         </div>
       </section>
-      <section class="bg-opacity-88 row-start-2 col-start-3 justify-self-end">
+      <section class="row-start-2 col-start-3 justify-self-end bg-white">
         <PropertyPanel
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
         ></PropertyPanel>
