@@ -22,10 +22,10 @@ const panelValue = ref<FormValue>({
 const handlePanelConfigChange = () => {
   const panel = getPanelConfig(app);
   if (!panel) {
+    panelConfig.value = [];
     return;
   }
   panelConfig.value = panel.formConfig;
-  console.log('=====>', panelConfig);
 };
 
 app.on('selected:changed', handlePanelConfigChange);
