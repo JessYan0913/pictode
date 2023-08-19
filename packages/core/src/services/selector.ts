@@ -146,18 +146,22 @@ export class Selector extends Service {
 
   private onTransformStart = (): void => {
     this.app.emit('node:transform:start', { nodes: [...this.selected.values()] });
+    this.app.emit('node:update:before', { nodes: [...this.selected.values()] });
   };
 
   private onTransformEnd = (): void => {
     this.app.emit('node:transform:end', { nodes: [...this.selected.values()] });
+    this.app.emit('node:updated', { nodes: [...this.selected.values()] });
   };
 
   private onDragStart = (): void => {
     this.app.emit('node:transform:start', { nodes: [...this.selected.values()] });
+    this.app.emit('node:update:before', { nodes: [...this.selected.values()] });
   };
 
   private onDragEnd = (): void => {
     this.app.emit('node:transform:end', { nodes: [...this.selected.values()] });
+    this.app.emit('node:updated', { nodes: [...this.selected.values()] });
   };
 
   private onTransformerOver = (): void => {

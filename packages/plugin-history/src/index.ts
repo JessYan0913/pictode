@@ -24,16 +24,16 @@ export class HistoryPlugin implements Plugin {
     this.history.app = app;
     this.app.on('node:added', this.onNodeAdded);
     this.app.on('node:removed', this.onNodeRemove);
-    this.app.on('node:transform:start', this.onNodeTransformStart);
-    this.app.on('node:transform:end', this.onNodeTransformEnd);
+    this.app.on('node:update:before', this.onNodeUpdateBefore);
+    this.app.on('node:updated', this.onNodeUpdated);
   }
 
   public destroy(): void {
     this.history?.destroy();
     this.app?.off('node:added', this.onNodeAdded);
     this.app?.off('node:removed', this.onNodeRemove);
-    this.app?.off('node:transform:start', this.onNodeTransformStart);
-    this.app?.off('node:transform:end', this.onNodeTransformEnd);
+    this.app?.off('node:update:before', this.onNodeUpdateBefore);
+    this.app?.off('node:updated', this.onNodeUpdated);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -71,11 +71,11 @@ export class HistoryPlugin implements Plugin {
     this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
   };
 
-  private onNodeTransformStart = ({ nodes }: EventArgs['node:transform:start']) => {
+  private onNodeUpdateBefore = ({ nodes }: EventArgs['node:transform:start']) => {
     this.oldNodes = nodes.map((node) => node.toObject());
   };
 
-  private onNodeTransformEnd = ({ nodes }: EventArgs['node:transform:end']) => {
+  private onNodeUpdated = ({ nodes }: EventArgs['node:transform:end']) => {
     if (!this.app || !this.history) {
       return;
     }
