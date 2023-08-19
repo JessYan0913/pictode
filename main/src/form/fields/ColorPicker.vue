@@ -30,6 +30,12 @@ watch(
 
 <template>
   <div class="w-7 h-7">
-    <ElColorPicker v-model="colors" show-alpha class="inline-block w-full h-full cursor-pointer" type="color" />
+    <ElColorPicker
+      v-model="colors"
+      show-alpha
+      color-format="hex"
+      class="inline-block w-full h-full cursor-pointer"
+      type="color"
+    />
   </div>
 </template>
