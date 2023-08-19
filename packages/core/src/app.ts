@@ -87,7 +87,9 @@ export class App extends BaseService<EventArgs> {
   public _add(...nodes: KonvaNode[]): void {
     this.mainLayer.add(
       ...nodes.map((node) => {
-        node.id(`#${guid()}`);
+        if (!node.attrs.id) {
+          node.id(`#${guid()}`);
+        }
         return node;
       })
     );
