@@ -203,8 +203,8 @@ export class App extends BaseService<EventArgs> {
   }
 
   public clear(): void {
-    this.selector.cancelSelect();
     this.mainLayer.removeChildren();
+    this.selector.clear();
     this.render();
   }
 
