@@ -2,14 +2,14 @@ import { ref } from 'vue';
 import { App, KonvaNode } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
-import { FormConfig, FormValue } from '@/form';
-import { getPanelConfig } from '@/panels';
+import { FormValue } from '@/form';
+import { getPanelConfig, PanelConfig } from '@/panels';
 
 const app = new App();
 app.use(new HistoryPlugin());
 
 const selected = ref<Array<KonvaNode>>([]);
-const panelConfig = ref<FormConfig>([]);
+const panelConfig = ref<PanelConfig>();
 const panelValue = ref<FormValue>({
   fill: '#ffffff',
   stroke: '#000000',
@@ -20,15 +20,13 @@ const panelValue = ref<FormValue>({
 });
 
 const handlePanelConfigChange = () => {
-  const panel = getPanelConfig(app);
-  if (!panel) {
-    panelConfig.value = [];
-    return;
-  }
-  panelConfig.value = panel.formConfig;
+  panelConfig.value = getPanelConfig(app);
 };
 
-app.on('selected:changed', handlePanelConfigChange);
+app.on('selected:changed', ({ selected: newSelected }) => {
+  handlePanelConfigChange();
+  selected.value = newSelected;
+});
 
 app.on('tool:changed', handlePanelConfigChange);
 

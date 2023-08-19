@@ -20,8 +20,8 @@ const handleFormChange = (value: any) => {
 
 <template>
   <Form
-    v-if="panelConfig.length"
-    :config="panelConfig"
+    v-if="panelConfig?.formConfig.length"
+    :config="panelConfig.formConfig"
     :model="panelValue"
     label-position="top"
     @change="handleFormChange"

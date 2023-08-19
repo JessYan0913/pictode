@@ -1,6 +1,6 @@
 import { App } from '@pictode/core';
 
-import { PanelConfig } from '@/types';
+import { PanelConfig } from '@/panels/types';
 
 import { diamondPanelConfig } from './diamond-panel';
 import { ellipsePanelConfig } from './ellipse-panel';
@@ -17,6 +17,8 @@ const panelConfigs = [
   rectPanelConfig,
   textPanelConfig,
 ];
+
+export * from './types';
 
 export const getPanelConfig = (app: App): PanelConfig | undefined => {
   const curToolName = app.curTool?.name;

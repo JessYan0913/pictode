@@ -1,4 +1,4 @@
-import { PanelConfig } from '@/types';
+import { PanelConfig } from '@/panels/types';
 
 export const linePanelConfig: PanelConfig = {
   bindTool: 'lineTool',
