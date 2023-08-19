@@ -5,18 +5,6 @@ export const textPanelConfig: PanelConfig = {
   bindShape: 'Text',
   formConfig: [
     {
-      name: 'stroke',
-      label: '描边',
-      type: 'ColorPicker',
-    },
-    {
-      name: 'strokeWidth',
-      label: '描边宽度',
-      type: 'Slider',
-      min: 0,
-      max: 2,
-    },
-    {
       name: 'fill',
       label: '填充',
       type: 'ColorPicker',
@@ -48,6 +36,18 @@ export const textPanelConfig: PanelConfig = {
           class: 'w-[1rem] h-[1rem] flex items-center justify-center',
         },
       ],
+    },
+    {
+      name: 'stroke',
+      label: '描边',
+      type: 'ColorPicker',
+    },
+    {
+      name: 'strokeWidth',
+      label: '描边宽度',
+      type: 'Slider',
+      min: 0,
+      max: 2,
     },
     {
       name: 'opacity',
