@@ -23,7 +23,9 @@ const menuGroups: MenuConfig[][] = [
     },
     {
       label: '导出图片',
-      handler: () => {},
+      handler: () => {
+        console.log('=====>', app.getDataURL({}));
+      },
     },
     {
       label: '重置画布',

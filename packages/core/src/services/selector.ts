@@ -144,6 +144,15 @@ export class Selector extends Service {
     return this.selected.has(node.id());
   }
 
+  public getSelectClientRect(): {
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } {
+    return this.rubberRect.getClientRect();
+  }
+
   public clear(): void {
     this.transformer.removeChildren();
     this.optionLayer.clear();
