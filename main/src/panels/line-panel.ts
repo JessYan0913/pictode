@@ -42,4 +42,4 @@ export const linePanelConfig: PanelConfig = {
   },
 };
 
-export default linePanelConfig.formConfig;
+export default linePanelConfig;

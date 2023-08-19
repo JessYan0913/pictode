@@ -48,4 +48,4 @@ export const diamondPanelConfig: PanelConfig = {
   },
 };
 
-export default diamondPanelConfig.formConfig;
+export default diamondPanelConfig;

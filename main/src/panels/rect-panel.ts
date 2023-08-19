@@ -65,4 +65,4 @@ export const rectPanelConfig: PanelConfig = {
   },
 };
 
-export default rectPanelConfig.formConfig;
+export default rectPanelConfig;

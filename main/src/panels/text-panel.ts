@@ -50,4 +50,4 @@ export const textPanelConfig: PanelConfig = {
   },
 };
 
-export default textPanelConfig.formConfig;
+export default textPanelConfig;

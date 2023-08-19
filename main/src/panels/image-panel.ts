@@ -42,4 +42,4 @@ export const imagePanelConfig: PanelConfig = {
   },
 };
 
-export default imagePanelConfig.formConfig;
+export default imagePanelConfig;

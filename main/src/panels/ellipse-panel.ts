@@ -48,4 +48,4 @@ export const ellipsePanelConfig: PanelConfig = {
   },
 };
 
-export default ellipsePanelConfig.formConfig;
+export default ellipsePanelConfig;
