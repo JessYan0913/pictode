@@ -10,7 +10,7 @@ const handleFormChange = (value: any) => {
       const newNode = node.toObject();
       newNode.attrs = {
         ...newNode.attrs,
-        ...value,
+        ...panelConfig.value?.model.reduce((model, key) => ({ ...model, [key]: value[key] }), {}),
       };
       return newNode;
     })

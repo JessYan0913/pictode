@@ -56,13 +56,7 @@ export const rectPanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: {
-    stroke: '#000000',
-    fill: 'transparent',
-    strokeWidth: 2,
-    cornerRadius: 10,
-    opacity: 1,
-  },
+  model: ['stroke', 'fill', 'strokeWidth', 'cornerRadius', 'opacity'],
 };
 
 export default rectPanelConfig;

@@ -35,11 +35,7 @@ export const imagePanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: {
-    stroke: '#000000',
-    strokeWidth: 2,
-    opacity: 1,
-  },
+  model: ['stroke', 'strokeWidth', 'opacity'],
 };
 
 export default imagePanelConfig;

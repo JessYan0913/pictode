@@ -10,6 +10,31 @@ export const textPanelConfig: PanelConfig = {
       type: 'ColorPicker',
     },
     {
+      name: 'strokeWidth',
+      label: '描边宽度',
+      type: 'RadioGroup',
+      optionType: 'icon',
+      options: [
+        {
+          label: 'line-1',
+          value: 0,
+        },
+        {
+          label: 'line-2',
+          value: 0.2,
+        },
+        {
+          label: 'line-3',
+          value: 0.5,
+        },
+      ],
+    },
+    {
+      name: 'fill',
+      label: '填充',
+      type: 'ColorPicker',
+    },
+    {
       name: 'fontSize',
       label: '字体大小',
       type: 'RadioGroup',
@@ -43,11 +68,7 @@ export const textPanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: {
-    stroke: '#000000',
-    fontSize: 12,
-    opacity: 1,
-  },
+  model: ['stroke', 'strokeWidth', 'fill', 'fontSize', 'opacity'],
 };
 
 export default textPanelConfig;

@@ -123,8 +123,6 @@ export class TextTool implements Tool {
       text: ' ',
       x: pointer.x,
       y: pointer.y,
-      strokeWidth: 0,
-      fill: this.config?.stroke as string,
       fontFamily: 'JiaYouYa',
     });
     this.textNode.on<'dblclick'>('dblclick', ({ target }) => {
