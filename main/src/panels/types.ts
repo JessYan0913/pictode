@@ -1,8 +1,8 @@
-import { FormConfig } from '@/form/types';
+import { FormConfig, FormValue } from '@/form/types';
 
 export interface PanelConfig {
   bindTool: string;
   bindShape: string;
   formConfig: FormConfig;
-  model: string[];
+  model: FormValue;
 }

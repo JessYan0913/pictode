@@ -68,7 +68,13 @@ export const textPanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: ['stroke', 'strokeWidth', 'fill', 'fontSize', 'opacity'],
+  model: {
+    stroke: '#000000',
+    strokeWidth: 0,
+    fill: '#000000',
+    fontSize: 16,
+    opacity: 1,
+  },
 };
 
 export default textPanelConfig;

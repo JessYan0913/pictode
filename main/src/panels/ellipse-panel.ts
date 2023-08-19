@@ -40,7 +40,12 @@ export const ellipsePanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: ['stroke', 'fill', 'strokeWidth', 'opacity'],
+  model: {
+    stroke: '#000',
+    fill: 'transparent',
+    strokeWidth: 2,
+    opacity: 1,
+  },
 };
 
 export default ellipsePanelConfig;

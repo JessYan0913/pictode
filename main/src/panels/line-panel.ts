@@ -35,7 +35,11 @@ export const linePanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: ['stroke', 'strokeWidth', 'opacity'],
+  model: {
+    stroke: '#000000',
+    strokeWidth: 2,
+    opacity: 1,
+  },
 };
 
 export default linePanelConfig;

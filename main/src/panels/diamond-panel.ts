@@ -40,7 +40,12 @@ export const diamondPanelConfig: PanelConfig = {
       type: 'Slider',
     },
   ],
-  model: ['stroke', 'fill', 'strokeWidth', 'opacity'],
+  model: {
+    stroke: '#000000',
+    fill: 'transparent',
+    strokeWidth: 2,
+    opacity: 1,
+  },
 };
 
 export default diamondPanelConfig;

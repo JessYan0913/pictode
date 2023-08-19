@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watchEffect } from 'vue';
+import { nextTick, ref, watchEffect } from 'vue';
 import { Tool, util } from '@pictode/core';
 import {
   DiamondTool,
@@ -13,17 +13,18 @@ import {
 } from '@pictode/tools';
 
 import usePictode from '@/hooks/usePictode';
+import { getPanelConfigByTool } from '@/panels';
 
 import RadioGroup from './RadioGroup.vue';
 import RadioGroupOption from './RadioGroupOption.vue';
 import SvgIcon from './SvgIcon.vue';
 
-const { app, panelValue } = usePictode();
+const { app, panelConfig } = usePictode();
 
 interface ToolInfo {
   icon: string;
   name: string;
-  tool: Tool | (() => Tool);
+  tool: Tool | ((model: Record<string, any>) => Tool);
 }
 
 const selectTool = new SelectTool({
@@ -46,11 +47,9 @@ const tools: ToolInfo[] = [
   {
     icon: 'rectangle',
     name: 'rectTool',
-    tool: () =>
+    tool: (model) =>
       new RectTool({
-        config: {
-          ...panelValue.value,
-        },
+        config: { ...model },
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -65,12 +64,12 @@ const tools: ToolInfo[] = [
   {
     icon: 'oval',
     name: 'ellipseTool',
-    tool: () =>
+    tool: (model) =>
       new EllipseTool({
         config: {
           radiusX: 0,
           radiusY: 0,
-          ...panelValue.value,
+          ...model,
         },
         hooks: {
           onActive(app) {
@@ -86,12 +85,12 @@ const tools: ToolInfo[] = [
   {
     icon: 'diamond',
     name: 'diamondTool',
-    tool: () =>
+    tool: (model) =>
       new DiamondTool({
         config: {
           sides: 4,
           radius: 0,
-          ...panelValue.value,
+          ...model,
         },
         hooks: {
           onActive(app) {
@@ -107,10 +106,10 @@ const tools: ToolInfo[] = [
   {
     icon: 'line-1',
     name: 'lineTool',
-    tool: () =>
+    tool: (model) =>
       new LineTool({
         config: {
-          ...panelValue.value,
+          ...model,
         },
         hooks: {
           onActive(app) {
@@ -126,10 +125,10 @@ const tools: ToolInfo[] = [
   {
     icon: 'pencil',
     name: 'drawingTool',
-    tool: () =>
+    tool: (model) =>
       new DrawingTool({
         config: {
-          ...panelValue.value,
+          ...model,
         },
         hooks: {
           onActive(app) {
@@ -165,10 +164,10 @@ const tools: ToolInfo[] = [
   {
     icon: 'text',
     name: 'textTool',
-    tool: () =>
+    tool: (model) =>
       new TextTool({
         config: {
-          ...panelValue.value,
+          ...model,
         },
         hooks: {
           onCompleteDrawing(app, node) {
@@ -182,17 +181,14 @@ const tools: ToolInfo[] = [
 
 const currentTool = ref<string>(tools[0].name);
 
-const tool = computed<Tool | undefined>(() => {
-  const result = tools.find(({ name }) => name === currentTool.value)?.tool;
-  if (typeof result === 'function') {
-    return result();
-  }
-  return result;
-});
-
 watchEffect(() => {
-  if (tool.value) {
-    app.setTool(tool.value);
+  panelConfig.value = getPanelConfigByTool(currentTool.value);
+  let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
+  if (typeof tool === 'function') {
+    tool = tool(panelConfig.value?.model ?? {});
+  }
+  if (tool) {
+    app.setTool(tool);
   }
 });
 </script>

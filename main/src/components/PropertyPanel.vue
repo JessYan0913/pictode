@@ -2,7 +2,7 @@
 import { Form } from '@/form';
 import usePictode from '@/hooks/usePictode';
 
-const { app, selected, panelConfig, panelValue } = usePictode();
+const { app, selected, panelConfig } = usePictode();
 
 const handleFormChange = (value: any) => {
   app.update(
@@ -10,7 +10,7 @@ const handleFormChange = (value: any) => {
       const newNode = node.toObject();
       newNode.attrs = {
         ...newNode.attrs,
-        ...panelConfig.value?.model.reduce((model, key) => ({ ...model, [key]: value[key] }), {}),
+        ...value,
       };
       return newNode;
     })
@@ -22,7 +22,7 @@ const handleFormChange = (value: any) => {
   <Form
     v-if="panelConfig?.formConfig.length"
     :config="panelConfig.formConfig"
-    :model="panelValue"
+    :model="panelConfig.model"
     label-position="top"
     @change="handleFormChange"
   ></Form>
