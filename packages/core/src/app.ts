@@ -202,6 +202,12 @@ export class App extends BaseService<EventArgs> {
     //TODO: 需要实现滚动到内容功能
   }
 
+  public clear(): void {
+    this.selector.cancelSelect();
+    this.mainLayer.removeChildren();
+    this.render();
+  }
+
   public toJSON(): string {
     return this.mainLayer.toJSON();
   }
