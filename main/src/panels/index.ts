@@ -1,17 +1,32 @@
-import { FormConfig } from '@/form';
+import { App } from '@pictode/core';
 
-import diamondPanel from './diamond-panel';
-import ellipsePanel from './ellipse-panel';
-import imagePanel from './image-panel';
-import linePanel from './line-panel';
-import rectPanel from './rect-panel';
-import textPanel from './text-panel';
+import { PanelConfig } from '@/types';
 
-export const panels: { [key: string]: FormConfig } = {
-  diamondPanel,
-  ellipsePanel,
-  imagePanel,
-  linePanel,
-  rectPanel,
-  textPanel,
+import { diamondPanelConfig } from './diamond-panel';
+import { ellipsePanelConfig } from './ellipse-panel';
+import { imagePanelConfig } from './image-panel';
+import { linePanelConfig } from './line-panel';
+import { rectPanelConfig } from './rect-panel';
+import { textPanelConfig } from './text-panel';
+
+const panelConfigs = [
+  diamondPanelConfig,
+  ellipsePanelConfig,
+  imagePanelConfig,
+  linePanelConfig,
+  rectPanelConfig,
+  textPanelConfig,
+];
+
+export const getPanelConfig = (app: App): PanelConfig | undefined => {
+  const curToolName = app.curTool?.name;
+  const panelConfig = panelConfigs.find(({ bindTool }) => bindTool === curToolName);
+  if (panelConfig) {
+    return panelConfig;
+  }
+  const selected = app.selected[0];
+  if (!selected || !app.curTool) {
+    return;
+  }
+  return panelConfigs.find(({ bindShape }) => bindShape === selected.className);
 };

@@ -3,12 +3,7 @@ import { App, KonvaNode } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
 import { FormConfig, FormValue } from '@/form';
-import diamondForm from '@/panels/diamond-panel';
-import ellipseForm from '@/panels/ellipse-panel';
-import imageForm from '@/panels/image-panel';
-import lineForm from '@/panels/line-panel';
-import rectForm from '@/panels/rect-panel';
-import textForm from '@/panels/text-panel';
+import { getPanelConfig } from '@/panels';
 
 const app = new App();
 app.use(new HistoryPlugin());
@@ -24,39 +19,18 @@ const panelValue = ref<FormValue>({
   fontSize: 16,
 });
 
-app.on('selected:changed', ({ selected: newSelected }) => {
-  selected.value = newSelected;
-  if (selected.value.length === 1) {
-    const value = selected.value[0].toObject().attrs;
-    panelValue.value = Object.keys(panelValue.value).reduce(
-      (panelValue, key) => ({ ...panelValue, [key]: value[key] }),
-      {}
-    );
-
-    switch (selected.value[0].className) {
-      case 'Rect':
-        panelConfig.value = rectForm;
-        break;
-      case 'Image':
-        panelConfig.value = imageForm;
-        break;
-      case 'Line':
-        panelConfig.value = lineForm;
-        break;
-      case 'Ellipse':
-        panelConfig.value = ellipseForm;
-        break;
-      case 'RegularPolygon':
-        panelConfig.value = diamondForm;
-        break;
-      case 'Text':
-        panelConfig.value = textForm;
-        break;
-    }
-  } else {
-    panelConfig.value = [];
+const handlePanelConfigChange = () => {
+  const panel = getPanelConfig(app);
+  if (!panel) {
+    return;
   }
-});
+  panelConfig.value = panel.formConfig;
+  console.log('=====>', panelConfig);
+};
+
+app.on('selected:changed', handlePanelConfigChange);
+
+app.on('tool:changed', handlePanelConfigChange);
 
 export const usePictode = () => {
   return {
