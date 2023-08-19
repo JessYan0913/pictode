@@ -73,7 +73,7 @@ const handleChange = async (prop: string, v: any) => {
 <template>
   <div>
     <ElFormItem
-      :class="{ hidden: `${labelWidth}` === '0' || !config.label }"
+      :class="{ hidden: `${labelWidth}` === '0' || !config.label, 'select-none': true }"
       :prop="itemProp"
       :label-width="labelWidth"
       :label="config.label"

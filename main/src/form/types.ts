@@ -68,6 +68,6 @@ export interface SliderConfig extends FormItem {
   step?: number;
 }
 
-export type ChildConfig = FormItem | RadioGroupConfig | ColorPickerConfig;
+export type ChildConfig = FormItem | RadioGroupConfig | ColorPickerConfig | SliderConfig;
 
 export type FormConfig = ChildConfig[];

@@ -12,22 +12,9 @@ export const textPanelConfig: PanelConfig = {
     {
       name: 'strokeWidth',
       label: '描边宽度',
-      type: 'RadioGroup',
-      optionType: 'icon',
-      options: [
-        {
-          label: 'line-1',
-          value: 0,
-        },
-        {
-          label: 'line-2',
-          value: 0.2,
-        },
-        {
-          label: 'line-3',
-          value: 0.5,
-        },
-      ],
+      type: 'Slider',
+      min: 0,
+      max: 2,
     },
     {
       name: 'fill',

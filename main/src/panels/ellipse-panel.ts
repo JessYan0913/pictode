@@ -42,7 +42,7 @@ export const ellipsePanelConfig: PanelConfig = {
   ],
   model: {
     stroke: '#000',
-    fill: 'transparent',
+    fill: 'rgba(255, 0, 0, 0)',
     strokeWidth: 2,
     opacity: 1,
   },
