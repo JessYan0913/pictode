@@ -26,6 +26,13 @@ watch(
   () => colors.value,
   (v) => emits('change', prop.value, v)
 );
+
+watch(
+  () => model.value,
+  () => {
+    colors.value = model?.value?.[prop?.value];
+  }
+);
 </script>
 
 <template>

@@ -28,6 +28,13 @@ watch(
   () => value.value,
   (v) => emits('change', prop.value, +v)
 );
+
+watch(
+  () => model.value,
+  () => {
+    value.value = model?.value?.[prop?.value];
+  }
+);
 </script>
 
 <template>
