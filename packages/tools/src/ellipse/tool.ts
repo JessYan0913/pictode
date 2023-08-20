@@ -1,14 +1,16 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
+type EllipseToolConfig = Pick<Konva.EllipseConfig, 'stroke' | 'fill' | 'strokeWidth' | 'opacity'>;
+
 interface EllipseToolOptions {
-  config: Konva.EllipseConfig;
+  config: EllipseToolConfig;
   hooks?: ToolHooks;
 }
 
-export class EllipseTool implements Tool {
+export class EllipseTool implements Tool<EllipseToolConfig> {
   public name: string = 'ellipseTool';
-  public config?: Konva.EllipseConfig | undefined;
-  public hooks?: ToolHooks | undefined;
+  public config?: EllipseToolConfig;
+  public hooks?: ToolHooks;
   private ellipse: Konva.Ellipse | null = null;
   private startPointer: util.Point = new util.Point(0, 0);
 

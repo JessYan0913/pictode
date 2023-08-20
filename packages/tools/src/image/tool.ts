@@ -1,13 +1,17 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
+type ImageToolConfig = Pick<Konva.ImageConfig, 'stroke' | 'strokeWidth' | 'opacity' | 'image'> & {
+  image: HTMLImageElement;
+};
+
 interface ImageToolOptions {
-  config: Konva.ImageConfig;
+  config: ImageToolConfig;
   hooks?: ToolHooks;
 }
 
-export class ImageTool implements Tool {
+export class ImageTool implements Tool<ImageToolConfig> {
   public name: string = 'imageTool';
-  public config?: Konva.ImageConfig | undefined;
+  public config?: ImageToolConfig | undefined;
   public hooks?: ToolHooks | undefined;
   private img: Konva.Image | null = null;
   private isAdded: boolean = false;
@@ -42,8 +46,7 @@ export class ImageTool implements Tool {
       this.isAdded = true;
     }
     const width = 200;
-    const height = width;
-    // const height = width * ((this.config?.image.height ?? 1) / (this.config?.image.width ?? 1));
+    const height = width * ((this.config?.image.height ?? 1) / (this.config?.image.width ?? 1));
     this.img.width(width);
     this.img.height(height);
     this.img.position(new util.Point(pointer.x - width / 2, pointer.y - height / 2));

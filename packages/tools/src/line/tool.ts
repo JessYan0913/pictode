@@ -1,18 +1,20 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-interface LintToolOptions {
-  config: Konva.LineConfig;
+type LineToolConfig = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
+
+interface LineToolOptions {
+  config: LineToolConfig;
   hooks?: ToolHooks;
 }
 
-export class LineTool implements Tool {
+export class LineTool implements Tool<LineToolConfig> {
   public name: string = 'lineTool';
-  public config?: Konva.LineConfig | undefined;
-  public hooks?: ToolHooks | undefined;
+  public config?: LineToolConfig;
+  public hooks?: ToolHooks;
   private points: util.Point[] = [];
   private line: Konva.Line | null = null;
 
-  constructor({ config, hooks }: LintToolOptions) {
+  constructor({ config, hooks }: LineToolOptions) {
     this.config = config;
     this.hooks = hooks;
   }
@@ -22,9 +24,8 @@ export class LineTool implements Tool {
       this.line = new Konva.Line({
         points: util.flatPoints(this.points),
         fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2,
         strokeScaleEnabled: false,
+        ...this.config,
       });
       app.add(this.line);
       this.hooks?.onStartDrawing?.(app, this.line);

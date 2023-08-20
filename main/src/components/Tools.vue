@@ -49,7 +49,7 @@ const tools: ToolInfo[] = [
     name: 'rectTool',
     tool: (model) =>
       new RectTool({
-        config: { ...model },
+        config: model,
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -66,11 +66,7 @@ const tools: ToolInfo[] = [
     name: 'ellipseTool',
     tool: (model) =>
       new EllipseTool({
-        config: {
-          radiusX: 0,
-          radiusY: 0,
-          ...model,
-        },
+        config: model,
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -87,11 +83,7 @@ const tools: ToolInfo[] = [
     name: 'diamondTool',
     tool: (model) =>
       new DiamondTool({
-        config: {
-          sides: 4,
-          radius: 0,
-          ...model,
-        },
+        config: model,
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -108,9 +100,7 @@ const tools: ToolInfo[] = [
     name: 'lineTool',
     tool: (model) =>
       new LineTool({
-        config: {
-          ...model,
-        },
+        config: model,
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -127,9 +117,7 @@ const tools: ToolInfo[] = [
     name: 'drawingTool',
     tool: (model) =>
       new DrawingTool({
-        config: {
-          ...model,
-        },
+        config: model,
         hooks: {
           onActive(app) {
             app.cancelSelect();
@@ -166,9 +154,7 @@ const tools: ToolInfo[] = [
     name: 'textTool',
     tool: (model) =>
       new TextTool({
-        config: {
-          ...model,
-        },
+        config: model,
         hooks: {
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;

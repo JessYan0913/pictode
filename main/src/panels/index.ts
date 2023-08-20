@@ -1,6 +1,7 @@
 import { PanelConfig } from '@/panels/types';
 
 import { diamondPanelConfig } from './diamond-panel';
+import { drawingPanelConfig } from './drawing-panel';
 import { ellipsePanelConfig } from './ellipse-panel';
 import { imagePanelConfig } from './image-panel';
 import { linePanelConfig } from './line-panel';
@@ -11,6 +12,7 @@ const panelConfigs = [
   diamondPanelConfig,
   ellipsePanelConfig,
   imagePanelConfig,
+  drawingPanelConfig,
   linePanelConfig,
   rectPanelConfig,
   textPanelConfig,
