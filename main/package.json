@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.15",
+    "@heroicons/vue": "^2.0.18",
     "@pictode/core": "workspace:^0.0.1",
     "@pictode/plugin-history": "workspace:^0.0.1",
     "@pictode/tools": "workspace:^0.0.1",
