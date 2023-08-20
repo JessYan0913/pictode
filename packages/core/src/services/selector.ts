@@ -150,7 +150,7 @@ export class Selector extends Service {
     x: number;
     y: number;
   } {
-    return this.rubberRect.getClientRect();
+    return this.transformer.getClientRect();
   }
 
   public clear(): void {

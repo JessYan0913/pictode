@@ -23,8 +23,9 @@ const menuGroups: MenuConfig[][] = [
     },
     {
       label: '导出图片',
-      handler: () => {
-        console.log('=====>', app.getDataURL({}));
+      handler: async () => {
+        const str = await app.toDataURL();
+        console.log('====>', str);
       },
     },
     {

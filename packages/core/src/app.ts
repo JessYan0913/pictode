@@ -208,29 +208,34 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public getDataURL({
-    padding = 10,
-    pixelRatio = 2,
-    mimeType = 'png',
-    quality = 1,
-  }: {
+  public async toDataURL(config?: {
     padding?: number;
     pixelRatio?: number;
     mimeType?: string;
     quality?: number;
-  }): string {
+  }): Promise<string> {
+    const { padding = 10, pixelRatio = 2, mimeType = 'png', quality = 1 } = config ?? {};
     let clientRect = this.mainLayer.getClientRect();
     if (this.selected.length > 0) {
       clientRect = this.selector.getSelectClientRect();
     }
-    return this.stage.toDataURL({
-      width: clientRect.width + padding * 2,
-      height: clientRect.height + padding * 2,
-      x: clientRect.x - padding,
-      y: clientRect.y - padding,
-      pixelRatio,
-      mimeType,
-      quality,
+    return new Promise((resolve, reject) => {
+      try {
+        this.stage.toDataURL({
+          width: clientRect.width + padding * 2,
+          height: clientRect.height + padding * 2,
+          x: clientRect.x - padding,
+          y: clientRect.y - padding,
+          pixelRatio,
+          mimeType,
+          quality,
+          callback: (str) => {
+            resolve(str);
+          },
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
