@@ -1,8 +1,8 @@
 import { PanelConfig } from '@/panels/types';
 
 export const rectPanelConfig: PanelConfig = {
-  bindTool: 'rectTool',
-  bindShape: 'Rect',
+  bindTool: ['rectTool'],
+  bindShape: ['Rect'],
   formConfig: [
     {
       name: 'stroke',

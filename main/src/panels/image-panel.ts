@@ -1,8 +1,8 @@
 import { PanelConfig } from '@/panels/types';
 
 export const imagePanelConfig: PanelConfig = {
-  bindTool: 'imageTool',
-  bindShape: 'Image',
+  bindTool: ['imageTool'],
+  bindShape: ['Image'],
   formConfig: [
     {
       name: 'stroke',

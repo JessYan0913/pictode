@@ -1,7 +1,6 @@
 import { PanelConfig } from '@/panels/types';
 
 import { diamondPanelConfig } from './diamond-panel';
-import { drawingPanelConfig } from './drawing-panel';
 import { ellipsePanelConfig } from './ellipse-panel';
 import { imagePanelConfig } from './image-panel';
 import { linePanelConfig } from './line-panel';
@@ -12,7 +11,6 @@ const panelConfigs = [
   diamondPanelConfig,
   ellipsePanelConfig,
   imagePanelConfig,
-  drawingPanelConfig,
   linePanelConfig,
   rectPanelConfig,
   textPanelConfig,
@@ -21,9 +19,9 @@ const panelConfigs = [
 export * from './types';
 
 export const getPanelConfigByShape = (shapeName: string): PanelConfig | undefined => {
-  return panelConfigs.find(({ bindShape }) => bindShape === shapeName);
+  return panelConfigs.find(({ bindShape }) => bindShape.includes(shapeName));
 };
 
-export const getPanelConfigByTool = (tooName: string): PanelConfig | undefined => {
-  return panelConfigs.find(({ bindTool }) => bindTool === tooName);
+export const getPanelConfigByTool = (toolName: string): PanelConfig | undefined => {
+  return panelConfigs.find(({ bindTool }) => bindTool.includes(toolName));
 };

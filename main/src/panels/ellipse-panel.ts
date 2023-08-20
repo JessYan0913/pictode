@@ -1,8 +1,8 @@
 import { PanelConfig } from '@/panels/types';
 
 export const ellipsePanelConfig: PanelConfig = {
-  bindTool: 'ellipseTool',
-  bindShape: 'Ellipse',
+  bindTool: ['ellipseTool'],
+  bindShape: ['Ellipse'],
   formConfig: [
     {
       name: 'stroke',

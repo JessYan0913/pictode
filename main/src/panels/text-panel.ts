@@ -1,8 +1,8 @@
 import { PanelConfig } from '@/panels/types';
 
 export const textPanelConfig: PanelConfig = {
-  bindTool: 'textTool',
-  bindShape: 'Text',
+  bindTool: ['textTool'],
+  bindShape: ['Text'],
   formConfig: [
     {
       name: 'fill',

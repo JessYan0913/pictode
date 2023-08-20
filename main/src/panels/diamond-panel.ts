@@ -1,8 +1,8 @@
 import { PanelConfig } from '@/panels/types';
 
 export const diamondPanelConfig: PanelConfig = {
-  bindTool: 'diamondTool',
-  bindShape: 'RegularPolygon',
+  bindTool: ['diamondTool'],
+  bindShape: ['RegularPolygon'],
   formConfig: [
     {
       name: 'stroke',

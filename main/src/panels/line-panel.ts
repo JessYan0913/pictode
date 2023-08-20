@@ -1,8 +1,8 @@
 import { PanelConfig } from '@/panels/types';
 
 export const linePanelConfig: PanelConfig = {
-  bindTool: 'lineTool',
-  bindShape: 'Line',
+  bindTool: ['lineTool', 'drawingTool'],
+  bindShape: ['Line'],
   formConfig: [
     {
       name: 'stroke',
