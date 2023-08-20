@@ -14,6 +14,9 @@ const panelFormModel = ref<FormValue>({});
 
 app.on('selected:changed', ({ selected: newSelected }) => {
   selected.value = newSelected;
+  if (app.curTool?.name !== 'selectTool') {
+    return;
+  }
   const newPanelConfig = getPanelConfigByShape(newSelected[0]?.className ?? '');
   panelFormConfig.value = newPanelConfig?.formConfig ?? [];
   if (newPanelConfig?.model) {
