@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
+import { useCommandComponent } from '@pictode/vue-aide';
 
+import ExportImage from '@/components/ExportImage.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
 import usePictode from '@/hooks/usePictode';
 
@@ -10,6 +12,8 @@ interface MenuConfig {
 }
 
 const { app } = usePictode();
+
+const exportImageDialog = useCommandComponent(ExportImage);
 
 const menuGroups: MenuConfig[][] = [
   [
@@ -26,6 +30,7 @@ const menuGroups: MenuConfig[][] = [
       handler: async () => {
         const str = await app.toDataURL();
         console.log('====>', str);
+        exportImageDialog({});
       },
     },
     {
@@ -59,7 +64,7 @@ const menuGroups: MenuConfig[][] = [
             <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
               <button
                 :class="[
-                  active ? 'bg-violet-200' : 'text-gray-900',
+                  active ? 'bg-blue-100' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                 ]"
                 @click="menu.handler()"
