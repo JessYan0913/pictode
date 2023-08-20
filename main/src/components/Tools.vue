@@ -168,12 +168,12 @@ const tools: ToolInfo[] = [
 const currentTool = ref<string>(tools[0].name);
 
 watchEffect(() => {
-  panelConfig.value = getPanelConfigByTool(currentTool.value);
-  console.log('curTool', currentTool.value);
-
+  const newPanelConfig = getPanelConfigByTool(currentTool.value);
+  panelConfig.formConfig = newPanelConfig?.formConfig ?? [];
+  panelConfig.formModel = newPanelConfig?.model ?? {};
   let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
   if (typeof tool === 'function') {
-    tool = tool(panelConfig.value?.model ?? {});
+    tool = tool(panelConfig.formModel);
   }
   if (tool) {
     app.setTool(tool);

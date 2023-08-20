@@ -22,7 +22,7 @@ const handleFormChange = (value: any) => {
   <Form
     v-if="panelConfig?.formConfig.length"
     :config="panelConfig.formConfig"
-    :model="panelConfig.model"
+    :model="panelConfig.formModel"
     label-position="top"
     @change="handleFormChange"
   ></Form>
