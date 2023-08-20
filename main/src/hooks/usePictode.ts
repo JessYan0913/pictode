@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { App, KonvaNode } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
@@ -9,26 +9,31 @@ const app = new App();
 app.use(new HistoryPlugin());
 
 const selected = ref<Array<KonvaNode>>([]);
-const panelConfig = reactive<{
-  formConfig: FormConfig;
-  formModel: FormValue;
-}>({
-  formConfig: [],
-  formModel: {},
-});
+const panelFormConfig = ref<FormConfig>([]);
+const panelFormModel = ref<FormValue>({});
 
 app.on('selected:changed', ({ selected: newSelected }) => {
   selected.value = newSelected;
   const newPanelConfig = getPanelConfigByShape(newSelected[0]?.className ?? '');
-  panelConfig.formConfig = newPanelConfig?.formConfig ?? [];
-  panelConfig.formModel = newPanelConfig?.model ?? {};
+  panelFormConfig.value = newPanelConfig?.formConfig ?? [];
+  if (newPanelConfig?.model) {
+    newPanelConfig.model = Object.keys(newPanelConfig.model).reduce(
+      (model, key) => ({
+        ...model,
+        [key]: selected.value?.[0].attrs[key],
+      }),
+      {}
+    );
+  }
+  panelFormModel.value = newPanelConfig?.model ?? {};
 });
 
 export const usePictode = () => {
   return {
     app,
     selected,
-    panelConfig,
+    panelFormConfig,
+    panelFormModel,
   };
 };
 

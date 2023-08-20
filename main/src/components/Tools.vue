@@ -19,7 +19,7 @@ import RadioGroup from './RadioGroup.vue';
 import RadioGroupOption from './RadioGroupOption.vue';
 import SvgIcon from './SvgIcon.vue';
 
-const { app, panelConfig } = usePictode();
+const { app, panelFormConfig, panelFormModel } = usePictode();
 
 interface ToolInfo {
   icon: string;
@@ -169,11 +169,11 @@ const currentTool = ref<string>(tools[0].name);
 
 watchEffect(() => {
   const newPanelConfig = getPanelConfigByTool(currentTool.value);
-  panelConfig.formConfig = newPanelConfig?.formConfig ?? [];
-  panelConfig.formModel = newPanelConfig?.model ?? {};
+  panelFormConfig.value = newPanelConfig?.formConfig ?? [];
+  panelFormModel.value = newPanelConfig?.model ?? {};
   let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
   if (typeof tool === 'function') {
-    tool = tool(panelConfig.formModel);
+    tool = tool(panelFormModel.value);
   }
   if (tool) {
     app.setTool(tool);

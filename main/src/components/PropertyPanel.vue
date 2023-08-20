@@ -2,7 +2,7 @@
 import { Form } from '@/form';
 import usePictode from '@/hooks/usePictode';
 
-const { app, selected, panelConfig } = usePictode();
+const { app, selected, panelFormConfig, panelFormModel } = usePictode();
 
 const handleFormChange = (value: any) => {
   app.update(
@@ -20,9 +20,9 @@ const handleFormChange = (value: any) => {
 
 <template>
   <Form
-    v-if="panelConfig?.formConfig.length"
-    :config="panelConfig.formConfig"
-    :model="panelConfig.formModel"
+    v-if="panelFormConfig.length"
+    :model="panelFormModel"
+    :config="panelFormConfig"
     label-position="top"
     @change="handleFormChange"
   ></Form>
