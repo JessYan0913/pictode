@@ -45,13 +45,13 @@ function closeModal() {
         "
       ></div>
     </div>
-    <div class="flex flex-col flex-wrap gap-6 grow ml-6">
-      <h3>导出图片</h3>
-      <div class="flex flex-row justify-between">
+    <div class="flex flex-col flex-wrap gap-6 grow ml-6 antialiased">
+      <div class="text-lg">导出图片</div>
+      <div class="flex flex-row justify-between items-center">
         <label>背景</label>
         <Switch v-model="enabled"></Switch>
       </div>
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row justify-between items-center">
         <label>缩放比</label>
         <RadioGroup v-model="pixelRatio" class="rounded ring-1 ring-black ring-opacity-5 p-0.5">
           <RadioGroupOption :value="1" class="font-mono text-xs">{{ '1x' }}</RadioGroupOption>
