@@ -94,12 +94,12 @@ function closeModal() {
                 >
                   <li
                     :class="[
-                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                      active ? 'bg-blue-100' : 'text-gray-900',
                       'relative cursor-default select-none py-2 pl-10 pr-4',
                     ]"
                   >
                     <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ person.name }}</span>
-                    <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                    <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
                       <CheckIcon class="h-5 w-5" aria-hidden="true" />
                     </span>
                   </li>
@@ -112,7 +112,7 @@ function closeModal() {
       <div class="grow flex flex-col justify-end">
         <button
           type="button"
-          class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-blue-400 text-blue-50"
         >
           下载
         </button>

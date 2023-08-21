@@ -28,7 +28,7 @@ const enabled = computed<boolean>({
 <template>
   <Switch
     v-model="enabled"
-    :class="enabled ? 'bg-blue-600' : 'bg-gray-200'"
+    :class="enabled ? 'bg-blue-400' : 'bg-gray-200'"
     class="relative inline-flex h-6 w-11 items-center rounded-full"
   >
     <span class="sr-only">Enable notifications</span>
