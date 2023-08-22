@@ -12,11 +12,11 @@ import { guid, Point } from './utils';
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public mainLayer: Konva.Layer;
+  public containerElement: HTMLDivElement;
 
   private mouse: Mouse;
   private selector: Selector;
   private tooler: Tooler;
-  private containerElement: HTMLDivElement;
   private installedPlugins: Map<string, Plugin> = new Map();
   private resizeObserver: ResizeObserver;
 

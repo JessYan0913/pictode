@@ -47,8 +47,13 @@ export class RectTool implements Tool<RectToolConfig> {
     app.render();
   }
 
-  public mouseup({ app }: ToolEvent) {
+  public mouseup({ app, pointer }: ToolEvent) {
     if (!this.rectangle) {
+      return;
+    }
+    if (this.startPointer.eq(pointer)) {
+      this.rectangle?.destroy();
+      this.rectangle = null;
       return;
     }
     this.hooks?.onCompleteDrawing?.(app, this.rectangle);

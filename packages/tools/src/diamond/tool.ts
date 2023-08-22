@@ -48,8 +48,13 @@ export class DiamondTool implements Tool<DiamondToolConfig> {
     app.render();
   }
 
-  public mouseup({ app }: ToolEvent) {
+  public mouseup({ app, pointer }: ToolEvent) {
     if (!this.diamond) {
+      return;
+    }
+    if (this.startPointer.eq(pointer)) {
+      this.diamond?.destroy();
+      this.diamond = null;
       return;
     }
     this.hooks?.onCompleteDrawing?.(app, this.diamond);

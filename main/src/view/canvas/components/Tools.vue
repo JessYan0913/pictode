@@ -51,6 +51,7 @@ const tools: ToolInfo[] = [
         config: model,
         hooks: {
           onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
           onCompleteDrawing(app, node) {
@@ -68,6 +69,7 @@ const tools: ToolInfo[] = [
         config: model,
         hooks: {
           onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
           onCompleteDrawing(app, node) {
@@ -85,6 +87,7 @@ const tools: ToolInfo[] = [
         config: model,
         hooks: {
           onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
           onCompleteDrawing(app, node) {
@@ -102,6 +105,7 @@ const tools: ToolInfo[] = [
         config: model,
         hooks: {
           onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
           onCompleteDrawing(app, node) {
@@ -119,6 +123,7 @@ const tools: ToolInfo[] = [
         config: model,
         hooks: {
           onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
         },
@@ -153,6 +158,9 @@ const tools: ToolInfo[] = [
       new TextTool({
         config: model,
         hooks: {
+          onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
+          },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
             nextTick(() => app.select(node));

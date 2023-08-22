@@ -51,8 +51,13 @@ export class EllipseTool implements Tool<EllipseToolConfig> {
     app.render();
   }
 
-  public mouseup({ app }: ToolEvent) {
+  public mouseup({ app, pointer }: ToolEvent) {
     if (!this.ellipse) {
+      return;
+    }
+    if (this.startPointer.eq(pointer)) {
+      this.ellipse?.destroy();
+      this.ellipse = null;
       return;
     }
     this.hooks?.onCompleteDrawing?.(app, this.ellipse);
