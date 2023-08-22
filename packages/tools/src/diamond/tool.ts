@@ -3,7 +3,7 @@ import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 type DiamondToolConfig = Pick<Konva.RegularPolygonConfig, 'stroke' | 'fill' | 'strokeWidth' | 'opacity'>;
 
 interface DiamondToolOptions {
-  config: DiamondToolConfig;
+  config?: DiamondToolConfig;
   hooks?: ToolHooks;
 }
 

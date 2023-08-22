@@ -3,7 +3,7 @@ import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 type LineToolConfig = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
 
 interface LineToolOptions {
-  config: LineToolConfig;
+  config?: LineToolConfig;
   hooks?: ToolHooks;
 }
 

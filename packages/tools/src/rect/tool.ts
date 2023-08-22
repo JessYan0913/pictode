@@ -3,7 +3,7 @@ import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 type RectToolConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'fill' | 'cornerRadius' | 'opacity'>;
 
 interface RectToolOptions {
-  config: RectToolConfig;
+  config?: RectToolConfig;
   hooks?: ToolHooks;
 }
 

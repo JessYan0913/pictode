@@ -3,7 +3,7 @@ import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 type EllipseToolConfig = Pick<Konva.EllipseConfig, 'stroke' | 'fill' | 'strokeWidth' | 'opacity'>;
 
 interface EllipseToolOptions {
-  config: EllipseToolConfig;
+  config?: EllipseToolConfig;
   hooks?: ToolHooks;
 }
 

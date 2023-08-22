@@ -104,7 +104,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
 type TextToolConfig = Pick<Konva.TextConfig, 'stroke' | 'strokeWidth' | 'fill' | 'fontSize' | 'opacity'>;
 
 interface TextToolOptions {
-  config: TextToolConfig;
+  config?: TextToolConfig;
   hooks?: ToolHooks;
 }
 

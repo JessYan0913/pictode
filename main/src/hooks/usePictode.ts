@@ -3,7 +3,7 @@ import { App, KonvaNode } from '@pictode/core';
 import { HistoryPlugin } from '@pictode/plugin-history';
 
 import { FormConfig, FormValue } from '@/form';
-import { getPanelConfigByShape } from '@/panels';
+import { getPanelConfigByShape, getPanelConfigByTool } from '@/panels';
 
 const app = new App();
 app.use(new HistoryPlugin());
@@ -29,6 +29,16 @@ app.on('selected:changed', ({ selected: newSelected }) => {
     );
   }
   panelFormModel.value = newPanelConfig?.model ?? {};
+});
+
+app.on('tool:changed', ({ curTool }) => {
+  const newPanelConfig = getPanelConfigByTool(curTool.name);
+  if (!newPanelConfig) {
+    return;
+  }
+  panelFormConfig.value = newPanelConfig.formConfig;
+  panelFormModel.value = newPanelConfig.model;
+  curTool.config = panelFormModel.value;
 });
 
 export const usePictode = () => {

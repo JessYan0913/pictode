@@ -16,14 +16,13 @@ import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
 import usePictode from '@/hooks/usePictode';
-import { getPanelConfigByTool } from '@/panels';
 
-const { app, panelFormConfig, panelFormModel } = usePictode();
+const { app } = usePictode();
 
 interface ToolInfo {
   icon: string;
   name: string;
-  tool: Tool | ((model: Record<string, any>) => Tool);
+  tool: Tool | (() => Tool);
 }
 
 const selectTool = new SelectTool({
@@ -46,9 +45,8 @@ const tools: ToolInfo[] = [
   {
     icon: 'rectangle',
     name: 'rectTool',
-    tool: (model) =>
+    tool: () =>
       new RectTool({
-        config: model,
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -64,9 +62,8 @@ const tools: ToolInfo[] = [
   {
     icon: 'oval',
     name: 'ellipseTool',
-    tool: (model) =>
+    tool: () =>
       new EllipseTool({
-        config: model,
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -82,9 +79,8 @@ const tools: ToolInfo[] = [
   {
     icon: 'diamond',
     name: 'diamondTool',
-    tool: (model) =>
+    tool: () =>
       new DiamondTool({
-        config: model,
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -100,9 +96,8 @@ const tools: ToolInfo[] = [
   {
     icon: 'line-1',
     name: 'lineTool',
-    tool: (model) =>
+    tool: () =>
       new LineTool({
-        config: model,
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -118,9 +113,8 @@ const tools: ToolInfo[] = [
   {
     icon: 'pencil',
     name: 'drawingTool',
-    tool: (model) =>
+    tool: () =>
       new DrawingTool({
-        config: model,
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -154,9 +148,8 @@ const tools: ToolInfo[] = [
   {
     icon: 'text',
     name: 'textTool',
-    tool: (model) =>
+    tool: () =>
       new TextTool({
-        config: model,
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -173,12 +166,9 @@ const tools: ToolInfo[] = [
 const currentTool = ref<string>(tools[0].name);
 
 watchEffect(() => {
-  const newPanelConfig = getPanelConfigByTool(currentTool.value);
-  panelFormConfig.value = newPanelConfig?.formConfig ?? [];
-  panelFormModel.value = newPanelConfig?.model ?? {};
   let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
   if (typeof tool === 'function') {
-    tool = tool(panelFormModel.value);
+    tool = tool();
   }
   if (tool) {
     app.setTool(tool);
