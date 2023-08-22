@@ -2,9 +2,10 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { useCommandComponent } from '@pictode/vue-aide';
 
-import ExportImage from '@/components/ExportImage.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
 import usePictode from '@/hooks/usePictode';
+
+import ExportImage from './ExportImage.vue';
 
 interface MenuConfig {
   label: string;
