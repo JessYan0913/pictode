@@ -214,18 +214,22 @@ export class App extends BaseService<EventArgs> {
     mimeType?: string;
     quality?: number;
   }): Promise<string> {
-    const { padding = 10, pixelRatio = 2, mimeType = 'png', quality = 1 } = config ?? {};
+    const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1 } = config ?? {};
     let clientRect = this.mainLayer.getClientRect();
     if (this.selected.length > 0) {
       clientRect = this.selector.getSelectClientRect();
     }
+    const width = clientRect.width + padding * 2;
+    const height = clientRect.height + padding * 2;
+    const x = clientRect.x - padding;
+    const y = clientRect.y - padding;
     return new Promise((resolve, reject) => {
       try {
-        this.stage.toDataURL({
-          width: clientRect.width + padding * 2,
-          height: clientRect.height + padding * 2,
-          x: clientRect.x - padding,
-          y: clientRect.y - padding,
+        this.mainLayer.toDataURL({
+          width,
+          height,
+          x,
+          y,
           pixelRatio,
           mimeType,
           quality,

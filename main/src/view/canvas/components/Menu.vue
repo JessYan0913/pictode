@@ -28,9 +28,7 @@ const menuGroups: MenuConfig[][] = [
     },
     {
       label: '导出图片',
-      handler: async () => {
-        const str = await app.toDataURL();
-        console.log('====>', str);
+      handler: () => {
         exportImageDialog({});
       },
     },

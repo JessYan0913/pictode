@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid';
 
@@ -7,6 +7,7 @@ import Dialog from '@/components/Dailog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import Switch from '@/components/Switch.vue';
+import usePictode from '@/hooks/usePictode';
 
 const props = defineProps<{
   visible: boolean;
@@ -16,6 +17,8 @@ const emits = defineEmits<{
   (event: 'update:visible', visible: boolean): void;
   (event: 'close'): void;
 }>();
+
+const { app } = usePictode();
 
 const dialogVisible = computed<boolean>({
   get() {
@@ -35,9 +38,19 @@ const pixelRatio = ref<number>(2);
 const people = [{ name: 'PNG' }, { name: 'SVG' }, { name: 'JPG' }];
 const selectedPerson = ref(people[0]);
 
-function closeModal() {
+const imgSrc = ref<string>('https://i.imgur.com/RWYeUDM.png');
+
+const closeModal = () => {
   dialogVisible.value = false;
-}
+};
+
+const updateImgSrc = async () => {
+  imgSrc.value = await app.toDataURL();
+};
+
+onMounted(() => {
+  updateImgSrc();
+});
 </script>
 
 <template>
@@ -48,7 +61,9 @@ function closeModal() {
         style="
           background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==);
         "
-      ></div>
+      >
+        <img :src="imgSrc" />
+      </div>
     </div>
     <div class="flex flex-col flex-wrap gap-6 grow ml-6 antialiased">
       <div class="text-lg">导出图片</div>
@@ -58,7 +73,7 @@ function closeModal() {
       </div>
       <div class="flex flex-row justify-between items-center">
         <label>缩放比</label>
-        <RadioGroup v-model="pixelRatio" class="rounded ring-1 ring-black ring-opacity-5 p-0.5">
+        <RadioGroup v-model="pixelRatio" class="rounded ring-1 ring-black ring-opacity-5 p-0.5" @change="updateImgSrc">
           <RadioGroupOption :value="1" class="font-mono text-xs">{{ '1x' }}</RadioGroupOption>
           <RadioGroupOption :value="2" class="font-mono text-xs">{{ '2x' }}</RadioGroupOption>
           <RadioGroupOption :value="3" class="font-mono text-xs">{{ '3x' }}</RadioGroupOption>
