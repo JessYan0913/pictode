@@ -12,12 +12,11 @@ import {
   TextTool,
 } from '@pictode/tools';
 
+import RadioGroup from '@/components/RadioGroup.vue';
+import RadioGroupOption from '@/components/RadioGroupOption.vue';
+import SvgIcon from '@/components/SvgIcon.vue';
 import usePictode from '@/hooks/usePictode';
 import { getPanelConfigByTool } from '@/panels';
-
-import RadioGroup from './RadioGroup.vue';
-import RadioGroupOption from './RadioGroupOption.vue';
-import SvgIcon from './SvgIcon.vue';
 
 const { app, panelFormConfig, panelFormModel } = usePictode();
 

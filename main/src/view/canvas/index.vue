@@ -2,11 +2,11 @@
 import { onMounted, ref } from 'vue';
 
 import Button from '@/components/Button.vue';
-import Tools from '@/components/Tools.vue';
 import usePictode from '@/hooks/usePictode';
 
 import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
+import Tools from './components/Tools.vue';
 
 const { app } = usePictode();
 
