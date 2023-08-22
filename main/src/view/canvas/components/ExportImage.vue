@@ -6,6 +6,8 @@ import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import Select from '@/components/Select.vue';
 import Switch from '@/components/Switch.vue';
+import { MimeType } from '@/constants/mime-type';
+import useExport from '@/hooks/useExport';
 import usePictode from '@/hooks/usePictode';
 
 const props = defineProps<{
@@ -35,9 +37,9 @@ const enabled = ref<boolean>(false);
 const pixelRatio = ref<number>(2);
 
 const formats = [
-  { label: 'PNG', value: 'image/png' },
-  { label: 'SVG', value: 'image/svg' },
-  { label: 'JPG', value: 'image/jpg' },
+  { label: 'PNG', value: MimeType.PNG, format: 'png' },
+  { label: 'SVG', value: MimeType.SVG, format: 'svg' },
+  { label: 'JPEG', value: MimeType.JPEG, format: 'jpeg' },
 ];
 const selectedFormat = ref(formats[0]);
 
@@ -48,11 +50,25 @@ const closeModal = () => {
 };
 
 const updateImgSrc = async () => {
-  console.log('----');
-
   imgSrc.value = await app.toDataURL({
     pixelRatio: pixelRatio.value,
+    mimeType: selectedFormat.value.value,
   });
+};
+
+const { loading, execute } = useExport(
+  () => {
+    return imgSrc.value;
+  },
+  `file.${selectedFormat.value.format}`,
+  MimeType.PNG,
+  'utf-8',
+  true
+);
+
+const onDownload = async () => {
+  await execute();
+  dialogVisible.value = false;
 };
 
 onMounted(() => {
@@ -92,8 +108,10 @@ onMounted(() => {
       </div>
       <div class="grow flex flex-col justify-end">
         <button
+          v-loading="loading"
           type="button"
           class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-blue-400 text-blue-50"
+          @click="onDownload"
         >
           下载
         </button>
