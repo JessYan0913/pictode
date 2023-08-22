@@ -1,11 +1,21 @@
-<script setup lang="ts" generic="T  extends string | number | boolean | object | null | undefined">
+<script setup lang="ts" generic="T extends Record<string | symbol | number, any>">
 import { computed } from 'vue';
-import { Listbox, ListboxButton, ListboxOptions } from '@headlessui/vue';
-import { ChevronUpDownIcon } from '@heroicons/vue/24/solid';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid';
 
-const props = defineProps<{
-  modelValue: T;
-}>();
+const props = withDefaults(
+  defineProps<{
+    modelValue: T;
+    options?: Array<T>;
+    value?: string;
+    label?: string;
+  }>(),
+  {
+    options: () => [],
+    value: () => 'value',
+    label: () => 'label',
+  }
+);
 
 const emits = defineEmits<{
   (event: 'update:modelValue', value: T): void;
@@ -13,31 +23,26 @@ const emits = defineEmits<{
 }>();
 
 const selected = computed<T>({
-  get() {
+  get(): T {
     return props.modelValue;
   },
   set(value: T) {
-    if (compareDepartments(value, props.modelValue)) {
+    if (value[props.value] === props.modelValue[props.value]) {
       return;
     }
     emits('update:modelValue', value);
     emits('change', value);
   },
 });
-
-const compareDepartments = (a: any, b: any): boolean => {
-  return a.value === b.value || a.value === selected.value;
-};
 </script>
 
 <template>
-  <Listbox v-model="selected" class="w-24" :by="compareDepartments">
+  <Listbox v-model="selected">
     <div class="relative mt-1">
       <ListboxButton
-        class="relative w-full cursor-default rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
-        v-slot="{ value }"
+        class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
       >
-        <span class="block truncate">{{ value.label }}</span>
+        <span class="block truncate">{{ selected[label] }}</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </span>
@@ -51,7 +56,22 @@ const compareDepartments = (a: any, b: any): boolean => {
         <ListboxOptions
           class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
-          <slot></slot>
+          <ListboxOption
+            v-slot="{ active, selected }"
+            v-for="option in options"
+            :key="option[value]"
+            :value="option"
+            as="template"
+          >
+            <li
+              :class="[active ? 'bg-blue-100' : 'text-gray-900', 'relative cursor-pointer select-none py-2 pl-10 pr-4']"
+            >
+              <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ option[label] }}</span>
+              <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
+                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+              </span>
+            </li>
+          </ListboxOption>
         </ListboxOptions>
       </transition>
     </div>

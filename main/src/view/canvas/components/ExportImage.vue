@@ -5,7 +5,6 @@ import Dialog from '@/components/Dailog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import Select from '@/components/Select.vue';
-import SelectOption from '@/components/SelectOption.vue';
 import Switch from '@/components/Switch.vue';
 import usePictode from '@/hooks/usePictode';
 
@@ -36,9 +35,9 @@ const enabled = ref<boolean>(false);
 const pixelRatio = ref<number>(2);
 
 const formats = [
-  { name: 'PNG', value: 'image/png' },
-  { name: 'SVG', value: 'image/svg' },
-  { name: 'JPG', value: 'image/jpg' },
+  { label: 'PNG', value: 'image/png' },
+  { label: 'SVG', value: 'image/svg' },
+  { label: 'JPG', value: 'image/jpg' },
 ];
 const selectedFormat = ref(formats[0]);
 
@@ -49,7 +48,7 @@ const closeModal = () => {
 };
 
 const updateImgSrc = async () => {
-  console.log('=====>?', pixelRatio.value, selectedFormat.value);
+  console.log('----');
 
   imgSrc.value = await app.toDataURL({
     pixelRatio: pixelRatio.value,
@@ -89,14 +88,7 @@ onMounted(() => {
       </div>
       <div class="flex flex-row justify-between items-center">
         <label>图片格式</label>
-        <Select v-model="selectedFormat" @change="updateImgSrc">
-          <SelectOption
-            v-for="(item, index) in formats"
-            :key="index"
-            :label="item.name"
-            :value="item.value"
-          ></SelectOption>
-        </Select>
+        <Select v-model="selectedFormat" :options="formats" class="w-24" @change="updateImgSrc"> </Select>
       </div>
       <div class="grow flex flex-col justify-end">
         <button
