@@ -137,9 +137,7 @@ const tools: ToolInfo[] = [
             app.cancelSelect();
             const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
             const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-            const image = new Image();
-            image.src = imgSrc;
-            tool.config && (tool.config.image = image);
+            tool.config && (tool.config.image.src = imgSrc);
           },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;

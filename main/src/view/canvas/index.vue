@@ -27,22 +27,22 @@ onMounted(() => {
       <section class="row-start-1 col-start-1 justify-self-start">
         <Menu class="pointer-events-auto"></Menu>
       </section>
-      <section class="row-start-1 col-start-2 justify-self-stretch bg-white">
+      <section class="row-start-1 col-start-2 justify-self-stretch">
         <Tools
-          class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
+          class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         ></Tools>
       </section>
-      <section class="row-start-1 col-start-3 justify-self-end bg-white">
+      <section class="row-start-1 col-start-3 justify-self-end">
         <div
-          class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black ring-opacity-5 transition-shadow"
+          class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button class="w-8 h-8" icon="undo" @click="app.undo()"></Button>
           <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
         </div>
       </section>
-      <section class="row-start-2 col-start-3 justify-self-end bg-white">
+      <section class="row-start-2 col-start-3 justify-self-end">
         <PropertyPanel
-          class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black ring-opacity-5 transition-shadow pointer-events-auto"
+          class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow pointer-events-auto"
         ></PropertyPanel>
       </section>
     </div>
