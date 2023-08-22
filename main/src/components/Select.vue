@@ -39,14 +39,16 @@ const selected = computed<T>({
 <template>
   <Listbox v-model="selected">
     <div class="relative mt-1">
-      <ListboxButton
-        class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
-      >
-        <span class="block truncate">{{ selected[label] }}</span>
-        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-          <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </span>
-      </ListboxButton>
+      <slot name="listbox" :selected="selected">
+        <ListboxButton
+          class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
+        >
+          <span class="block truncate">{{ selected[label] }}</span>
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          </span>
+        </ListboxButton>
+      </slot>
 
       <transition
         leave-active-class="transition duration-100 ease-in"
@@ -63,14 +65,19 @@ const selected = computed<T>({
             :value="option"
             as="template"
           >
-            <li
-              :class="[active ? 'bg-blue-100' : 'text-gray-900', 'relative cursor-pointer select-none py-2 pl-10 pr-4']"
-            >
-              <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ option[label] }}</span>
-              <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
-                <CheckIcon class="h-5 w-5" aria-hidden="true" />
-              </span>
-            </li>
+            <slot :active="active" :selected="selected" :item="option">
+              <li
+                :class="[
+                  active ? 'bg-blue-100' : 'text-gray-900',
+                  'relative cursor-pointer select-none py-2 pl-10 pr-4',
+                ]"
+              >
+                <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ option[label] }}</span>
+                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
+                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                </span>
+              </li>
+            </slot>
           </ListboxOption>
         </ListboxOptions>
       </transition>
