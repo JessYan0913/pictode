@@ -35,8 +35,12 @@ const dialogVisible = computed<boolean>({
 const enabled = ref<boolean>(false);
 const pixelRatio = ref<number>(2);
 
-const people = [{ name: 'PNG' }, { name: 'SVG' }, { name: 'JPG' }];
-const selectedPerson = ref(people[0]);
+const formats = [
+  { name: 'PNG', value: 'image/png' },
+  { name: 'SVG', value: 'image/svg' },
+  { name: 'JPG', value: 'image/jpg' },
+];
+const selectedFormat = ref(formats[0]);
 
 const imgSrc = ref<string>('https://i.imgur.com/RWYeUDM.png');
 
@@ -45,7 +49,11 @@ const closeModal = () => {
 };
 
 const updateImgSrc = async () => {
-  imgSrc.value = await app.toDataURL();
+  console.log('=====>?', pixelRatio.value, selectedFormat.value);
+
+  imgSrc.value = await app.toDataURL({
+    pixelRatio: pixelRatio.value,
+  });
 };
 
 onMounted(() => {
@@ -81,12 +89,12 @@ onMounted(() => {
       </div>
       <div class="flex flex-row justify-between items-center">
         <label>图片格式</label>
-        <Listbox v-model="selectedPerson" class="w-24">
+        <Listbox v-model="selectedFormat" class="w-24">
           <div class="relative mt-1">
             <ListboxButton
               class="relative w-full cursor-default rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
             >
-              <span class="block truncate">{{ selectedPerson.name }}</span>
+              <span class="block truncate">{{ selectedFormat.name }}</span>
               <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
@@ -102,9 +110,9 @@ onMounted(() => {
               >
                 <ListboxOption
                   v-slot="{ active, selected }"
-                  v-for="person in people"
-                  :key="person.name"
-                  :value="person"
+                  v-for="format in formats"
+                  :key="format.name"
+                  :value="format"
                   as="template"
                 >
                   <li
@@ -113,7 +121,7 @@ onMounted(() => {
                       'relative cursor-default select-none py-2 pl-10 pr-4',
                     ]"
                   >
-                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ person.name }}</span>
+                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ format.name }}</span>
                     <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
                       <CheckIcon class="h-5 w-5" aria-hidden="true" />
                     </span>
