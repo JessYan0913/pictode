@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid';
 
 import Dialog from '@/components/Dailog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
+import Select from '@/components/Select.vue';
+import SelectOption from '@/components/SelectOption.vue';
 import Switch from '@/components/Switch.vue';
 import usePictode from '@/hooks/usePictode';
 
@@ -89,48 +89,14 @@ onMounted(() => {
       </div>
       <div class="flex flex-row justify-between items-center">
         <label>图片格式</label>
-        <Listbox v-model="selectedFormat" class="w-24">
-          <div class="relative mt-1">
-            <ListboxButton
-              class="relative w-full cursor-default rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
-            >
-              <span class="block truncate">{{ selectedFormat.name }}</span>
-              <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </span>
-            </ListboxButton>
-
-            <transition
-              leave-active-class="transition duration-100 ease-in"
-              leave-from-class="opacity-100"
-              leave-to-class="opacity-0"
-            >
-              <ListboxOptions
-                class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-              >
-                <ListboxOption
-                  v-slot="{ active, selected }"
-                  v-for="format in formats"
-                  :key="format.name"
-                  :value="format"
-                  as="template"
-                >
-                  <li
-                    :class="[
-                      active ? 'bg-blue-100' : 'text-gray-900',
-                      'relative cursor-default select-none py-2 pl-10 pr-4',
-                    ]"
-                  >
-                    <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ format.name }}</span>
-                    <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
-                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                    </span>
-                  </li>
-                </ListboxOption>
-              </ListboxOptions>
-            </transition>
-          </div>
-        </Listbox>
+        <Select v-model="selectedFormat" @change="updateImgSrc">
+          <SelectOption
+            v-for="(item, index) in formats"
+            :key="index"
+            :label="item.name"
+            :value="item.value"
+          ></SelectOption>
+        </Select>
       </div>
       <div class="grow flex flex-col justify-end">
         <button
