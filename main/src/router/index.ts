@@ -12,7 +12,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Canvas',
-    component: () => import('../view/canvas.vue'),
+    component: () => import('../view/canvas/index.vue'),
   },
 ];
 
