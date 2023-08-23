@@ -5,7 +5,7 @@ import { useCommandComponent } from '@pictode/vue-aide';
 import SvgIcon from '@/components/SvgIcon.vue';
 import usePictode from '@/hooks/usePictode';
 
-import ExportImage from './ExportImage.vue';
+import ExportImageDialog from './ExportImageDialog.vue';
 
 interface MenuConfig {
   label: string;
@@ -14,7 +14,7 @@ interface MenuConfig {
 
 const { app } = usePictode();
 
-const exportImageDialog = useCommandComponent(ExportImage);
+const exportImageDialog = useCommandComponent(ExportImageDialog);
 
 const menuGroups: MenuConfig[][] = [
   [
