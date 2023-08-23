@@ -2,6 +2,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { useCommandComponent } from '@pictode/vue-aide';
 
+import MessageBox from '@/components/MessageBox.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
 import usePictode from '@/hooks/usePictode';
 
@@ -15,6 +16,7 @@ interface MenuConfig {
 const { app } = usePictode();
 
 const exportImageDialog = useCommandComponent(ExportImageDialog);
+const messageBox = useCommandComponent(MessageBox);
 
 const menuGroups: MenuConfig[][] = [
   [
@@ -35,7 +37,13 @@ const menuGroups: MenuConfig[][] = [
     {
       label: '重置画布',
       handler: () => {
-        app.clear();
+        messageBox({
+          title: '清除画布',
+          message: '将会清空画布内容，是否继续？',
+          onConfirm: () => {
+            app.clear();
+          },
+        });
       },
     },
   ],
