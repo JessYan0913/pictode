@@ -153,12 +153,6 @@ export class Selector extends Service {
     return this.transformer.getClientRect();
   }
 
-  public clear(): void {
-    this.transformer.removeChildren();
-    this.optionLayer.clear();
-    this.selected.clear();
-  }
-
   private onTransformStart = (): void => {
     this.app.emit('node:transform:start', { nodes: [...this.selected.values()] });
     this.app.emit('node:update:before', { nodes: [...this.selected.values()] });

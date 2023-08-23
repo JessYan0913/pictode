@@ -204,8 +204,9 @@ export class App extends BaseService<EventArgs> {
 
   public clear(): void {
     this.mainLayer.removeChildren();
-    this.selector.clear();
+    this.selector.destroy();
     this.render();
+    this.selector = new Selector(this);
   }
 
   public async toDataURL(config?: {
