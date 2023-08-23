@@ -54,6 +54,9 @@ const tools: ToolInfo[] = [
             app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
             nextTick(() => app.select(node));
@@ -70,6 +73,9 @@ const tools: ToolInfo[] = [
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
           },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
@@ -88,6 +94,9 @@ const tools: ToolInfo[] = [
             app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
             nextTick(() => app.select(node));
@@ -105,6 +114,9 @@ const tools: ToolInfo[] = [
             app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
           },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
             nextTick(() => app.select(node));
@@ -121,6 +133,9 @@ const tools: ToolInfo[] = [
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
             app.cancelSelect();
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
           },
         },
       }),
@@ -140,6 +155,9 @@ const tools: ToolInfo[] = [
             const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
             tool.config && (tool.config.image.src = imgSrc);
           },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
             nextTick(() => app.select(node));
@@ -155,6 +173,9 @@ const tools: ToolInfo[] = [
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
           },
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
