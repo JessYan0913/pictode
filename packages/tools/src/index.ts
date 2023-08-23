@@ -6,5 +6,6 @@ export * from './line';
 export * from './rect';
 export * from './select';
 export * from './text';
+export * from './eraser';
 
 export * from './types';

@@ -5,6 +5,7 @@ import {
   DiamondTool,
   DrawingTool,
   EllipseTool,
+  EraserTool,
   ImageTool,
   LineTool,
   RectTool,
@@ -12,6 +13,7 @@ import {
   TextTool,
 } from '@pictode/tools';
 
+import eraserRect from '@/assets/images/eraser-rect.svg';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
@@ -157,6 +159,21 @@ const tools: ToolInfo[] = [
           onCompleteDrawing(app, node) {
             currentTool.value = selectTool.name;
             nextTick(() => app.select(node));
+          },
+        },
+      }),
+  },
+  {
+    icon: 'eraser',
+    name: 'eraserTool',
+    tool: () =>
+      new EraserTool({
+        hooks: {
+          onActive(app) {
+            app.containerElement.style.cursor = `url(${eraserRect}), auto`;
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
           },
         },
       }),
