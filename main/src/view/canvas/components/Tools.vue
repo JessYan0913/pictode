@@ -145,15 +145,12 @@ const tools: ToolInfo[] = [
     name: 'imageTool',
     tool: () =>
       new ImageTool({
-        config: {
-          image: new Image(),
-        },
         hooks: {
           async onActive(app, tool) {
             app.cancelSelect();
             const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
             const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-            tool.config && (tool.config.image.src = imgSrc);
+            (tool as ImageTool).imageElement.src = imgSrc;
           },
           onInactive(app) {
             app.containerElement.style.cursor = `default`;

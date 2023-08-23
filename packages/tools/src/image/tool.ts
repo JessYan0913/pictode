@@ -1,11 +1,9 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type ImageToolConfig = Pick<Konva.ImageConfig, 'stroke' | 'strokeWidth' | 'opacity' | 'image'> & {
-  image: HTMLImageElement;
-};
+type ImageToolConfig = Pick<Konva.ImageConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
 
 interface ImageToolOptions {
-  config: ImageToolConfig;
+  config?: ImageToolConfig;
   hooks?: ToolHooks;
 }
 
@@ -13,43 +11,44 @@ export class ImageTool implements Tool<ImageToolConfig> {
   public name: string = 'imageTool';
   public config?: ImageToolConfig | undefined;
   public hooks?: ToolHooks | undefined;
-  private img: Konva.Image | null = null;
+  private image: Konva.Image | null = null;
   private isAdded: boolean = false;
+  public imageElement: HTMLImageElement = new Image();
 
   constructor({ config, hooks }: ImageToolOptions) {
     this.config = config;
     this.hooks = hooks;
-
-    this.img = new Konva.Image({
-      strokeScaleEnabled: false,
-      ...this.config,
-    });
-    this.img.opacity(0.5);
   }
 
   public mousedown({ app }: ToolEvent) {
-    if (!this.img) {
+    if (!this.image) {
       return;
     }
-    this.img.opacity(1);
-    this.hooks?.onCompleteDrawing?.(app, this.img);
-    this.img = null;
+    this.image.opacity(1);
+    this.hooks?.onCompleteDrawing?.(app, this.image);
+    this.image = null;
   }
 
   public mousemove({ app, pointer }: ToolEvent) {
-    if (!this.img) {
-      return;
-    }
     if (!this.isAdded) {
-      this.img.image(this.config?.image);
-      app.add(this.img);
+      this.image = new Konva.Image({
+        strokeScaleEnabled: false,
+        image: this.imageElement,
+        ...this.config,
+      });
+      this.image.opacity(0.5);
+      this.image.image(this.imageElement);
+      app.add(this.image);
       this.isAdded = true;
     }
+    if (!this.image) {
+      return;
+    }
     const width = 200;
-    const height = width * ((this.config?.image.height ?? 1) / (this.config?.image.width ?? 1));
-    this.img.width(width);
-    this.img.height(height);
-    this.img.position(new util.Point(pointer.x - width / 2, pointer.y - height / 2));
+    const height = width * ((this.imageElement.height ?? 1) / (this.imageElement.width ?? 1));
+    this.image.width(width);
+    this.image.height(height);
+    this.image.position(new util.Point(pointer.x - width / 2, pointer.y - height / 2));
     app.render();
   }
 }

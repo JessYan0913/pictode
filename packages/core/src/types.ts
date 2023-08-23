@@ -22,9 +22,9 @@ export interface ToolEvent {
   app: App;
 }
 
-export interface ToolHooks {
-  onActive?: (app: App, tool: Tool) => void | Promise<void>;
-  onInactive?: (app: App, tool: Tool) => void | Promise<void>;
+export interface ToolHooks<T extends Tool = Tool> {
+  onActive?: (app: App, tool: T) => void | Promise<void>;
+  onInactive?: (app: App, tool: T) => void | Promise<void>;
   onStartDrawing?: (app: App, node: KonvaNode) => void;
   onCompleteDrawing?: (app: App, node: KonvaNode) => void;
 }
