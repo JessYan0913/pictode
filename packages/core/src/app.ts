@@ -213,8 +213,9 @@ export class App extends BaseService<EventArgs> {
     pixelRatio?: number;
     mimeType?: string;
     quality?: number;
+    haveBackground?: boolean;
   }): Promise<string> {
-    const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1 } = config ?? {};
+    const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1, haveBackground = false } = config ?? {};
     let clientRect = this.mainLayer.getClientRect();
     if (this.selected.length > 0) {
       clientRect = this.selector.getSelectClientRect();
@@ -223,6 +224,18 @@ export class App extends BaseService<EventArgs> {
     const height = clientRect.height + padding * 2;
     const x = clientRect.x - padding;
     const y = clientRect.y - padding;
+    const rect = new Konva.Rect({
+      width,
+      height,
+      x,
+      y,
+      fill: this.stage.container().style.backgroundColor,
+    });
+
+    if (haveBackground) {
+      this.mainLayer.add(rect);
+      rect.moveToBottom();
+    }
     return new Promise((resolve, reject) => {
       try {
         this.mainLayer.toDataURL({
@@ -235,6 +248,9 @@ export class App extends BaseService<EventArgs> {
           quality,
           callback: (str) => {
             resolve(str);
+            if (haveBackground) {
+              rect.remove();
+            }
           },
         });
       } catch (error) {

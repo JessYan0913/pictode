@@ -33,12 +33,11 @@ const dialogVisible = computed<boolean>({
   },
 });
 
-const enabled = ref<boolean>(false);
+const haveBackground = ref<boolean>(false);
 const pixelRatio = ref<number>(2);
 
 const formats = [
   { label: 'PNG', value: MimeType.PNG, format: 'png' },
-  { label: 'SVG', value: MimeType.SVG, format: 'svg' },
   { label: 'JPEG', value: MimeType.JPEG, format: 'jpeg' },
 ];
 const selectedFormat = ref(formats[0]);
@@ -53,20 +52,20 @@ const updateImgSrc = async () => {
   imgSrc.value = await app.toDataURL({
     pixelRatio: pixelRatio.value,
     mimeType: selectedFormat.value.value,
+    haveBackground: haveBackground.value,
   });
 };
 
-const { loading, execute } = useExport(
-  () => {
-    return imgSrc.value;
-  },
-  `file.${selectedFormat.value.format}`,
-  MimeType.PNG,
-  'utf-8',
-  true
-);
-
 const onDownload = async () => {
+  const { execute } = useExport(
+    () => {
+      return imgSrc.value;
+    },
+    `file.${selectedFormat.value.format}`,
+    selectedFormat.value.value,
+    'utf-8',
+    true
+  );
   await execute();
   dialogVisible.value = false;
 };
@@ -92,7 +91,7 @@ onMounted(() => {
       <div class="text-lg">导出图片</div>
       <div class="flex flex-row justify-between items-center">
         <label>背景</label>
-        <Switch v-model="enabled"></Switch>
+        <Switch v-model="haveBackground" @change="updateImgSrc"></Switch>
       </div>
       <div class="flex flex-row justify-between items-center">
         <label>缩放比</label>
@@ -108,8 +107,6 @@ onMounted(() => {
       </div>
       <div class="grow flex flex-col justify-end">
         <button
-          v-loading="loading"
-          type="button"
           class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-blue-400 text-blue-50"
           @click="onDownload"
         >
