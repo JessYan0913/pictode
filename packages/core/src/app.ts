@@ -218,14 +218,25 @@ export class App extends BaseService<EventArgs> {
   }): Promise<{ dataURL: string; width: number; height: number }> {
     const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1, haveBackground = false } = config ?? {};
     let clientRect = this.mainLayer.getClientRect();
+    let objects = this.mainLayer.children?.map((object) => object.toObject());
     if (this.selected.length > 0) {
       clientRect = this.selector.getSelectClientRect();
+      objects = this.selected.map((object) => object.toObject());
     }
     const width = clientRect.width + padding * 2;
     const height = clientRect.height + padding * 2;
     const x = clientRect.x - padding;
     const y = clientRect.y - padding;
-    const rect = new Konva.Rect({
+
+    const exportLayer = new Konva.Layer();
+
+    this.stage.add(exportLayer);
+
+    objects?.forEach((object) => {
+      exportLayer.add(Konva.Node.create(object));
+    });
+
+    const background = new Konva.Rect({
       width,
       height,
       x,
@@ -234,12 +245,12 @@ export class App extends BaseService<EventArgs> {
     });
 
     if (haveBackground) {
-      this.mainLayer.add(rect);
-      rect.moveToBottom();
+      exportLayer.add(background);
+      background.moveToBottom();
     }
     return new Promise((resolve, reject) => {
       try {
-        this.mainLayer.toDataURL({
+        exportLayer.toDataURL({
           width,
           height,
           x,
@@ -253,9 +264,7 @@ export class App extends BaseService<EventArgs> {
               width,
               height,
             });
-            if (haveBackground) {
-              rect.remove();
-            }
+            exportLayer.remove();
           },
         });
       } catch (error) {
