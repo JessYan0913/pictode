@@ -19,11 +19,7 @@ const handleFormChange = (value: any) => {
 </script>
 
 <template>
-  <Form
-    v-if="panelFormConfig.length"
-    :model="panelFormModel"
-    :config="panelFormConfig"
-    label-position="top"
-    @change="handleFormChange"
-  ></Form>
+  <div v-if="panelFormConfig.length">
+    <Form :model="panelFormModel" :config="panelFormConfig" label-position="top" @change="handleFormChange"></Form>
+  </div>
 </template>
