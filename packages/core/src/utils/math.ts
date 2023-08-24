@@ -43,3 +43,45 @@ export class Point implements Konva.Vector2d {
 
 export const flatPoints = (points: Point[]): number[] =>
   points.reduce<number[]>((points, point) => [...points, ...point.toArray()], []);
+
+export const pointInConvexPolygon = (point: Point, area: Point[]): boolean => {
+  const x = point.x;
+  const y = point.y;
+  const count = area.length;
+  let inInside = false;
+  const precision = 2e-10;
+
+  for (let i = 0, j = count - 1; i < count; j = i, i++) {
+    const x1 = area[i].x;
+    const y1 = area[i].y;
+    const x2 = area[j].x;
+    const y2 = area[j].y;
+
+    if ((x1 === x && y1 === y) || (x2 === x && y2 === y)) {
+      return true;
+    }
+
+    if (y === y1 && y === y2) {
+      return true;
+    }
+
+    if ((y >= y1 && y < y2) || (y < y1 && y >= y2)) {
+      const k = (x2 - x1) / (y2 - y1);
+      const _x = x1 + k * (y - y1);
+
+      if (_x === x) {
+        return true;
+      }
+
+      if (Math.abs(_x - x) < precision) {
+        return true;
+      }
+
+      if (_x > x) {
+        inInside = !inInside;
+      }
+    }
+  }
+
+  return inInside;
+};

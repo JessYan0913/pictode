@@ -2,7 +2,7 @@ import Konva from 'konva';
 
 import { App } from '../app';
 import { EventArgs, KonvaNode, Service } from '../types';
-import { Point, shapeArrayEqual } from '../utils';
+import { Point, pointInConvexPolygon, shapeArrayEqual } from '../utils';
 
 export class Selector extends Service {
   public selected: Map<number | string, KonvaNode>;
@@ -171,14 +171,6 @@ export class Selector extends Service {
     this.app.emit('node:updated', { nodes: [...this.selected.values()] });
   };
 
-  // private onTransformerOver = (): void => {
-  //   this.app.stage.container().style.cursor = 'move';
-  // };
-
-  // private onTransformerOut = (): void => {
-  //   this.app.stage.container().style.cursor = 'default';
-  // };
-
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
     if (!this.enable) {
       return;
@@ -195,18 +187,29 @@ export class Selector extends Service {
   };
 
   private onMouseMove = (): void => {
-    if (!this.enable || !this.rubberEnable) {
+    if (!this.enable) {
       return;
     }
+    // 判断鼠标坐标是否在transformer内，如果在光标为move，否则为默认
+    const { x, y, width, height } = this.transformer.getClientRect();
+    const inTransformer = pointInConvexPolygon(this.app.pointer, [
+      new Point(x, y),
+      new Point(x + width, y),
+      new Point(x + width, y + height),
+      new Point(x, y + height),
+    ]);
+    this.app.stage.container().style.cursor = inTransformer ? 'move' : 'default';
+    if (!this.rubberEnable) {
+      return;
+    }
+    // 如果弹性框选可用，则改变弹性框的尺寸
     const position = new Point(
       Math.min(this.app.pointer.x, this.rubberStartPoint.x),
       Math.min(this.app.pointer.y, this.rubberStartPoint.y)
     );
-    const width = Math.max(this.app.pointer.x, this.rubberStartPoint.x) - position.x;
-    const height = Math.max(this.app.pointer.y, this.rubberStartPoint.y) - position.y;
     this.rubberRect.setPosition(position);
-    this.rubberRect.width(width);
-    this.rubberRect.height(height);
+    this.rubberRect.width(Math.max(this.app.pointer.x, this.rubberStartPoint.x) - position.x);
+    this.rubberRect.height(Math.max(this.app.pointer.y, this.rubberStartPoint.y) - position.y);
     this.rubberRect.visible(true);
   };
 
