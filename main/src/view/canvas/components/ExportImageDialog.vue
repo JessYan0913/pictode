@@ -38,7 +38,7 @@ const formats = [
   { label: 'JPEG', value: MimeType.JPEG, format: 'jpeg' },
 ];
 
-const haveBackground = ref<boolean>(false);
+const haveBackground = ref<boolean>(true);
 const pixelRatio = ref<number>(2);
 const selectedFormat = ref(formats[0]);
 
@@ -62,7 +62,7 @@ const onDownload = async () => {
     () => {
       return imgSrc.value;
     },
-    `file.${selectedFormat.value.format}`,
+    () => `Pictode-${new Date()}.${selectedFormat.value.format}`,
     selectedFormat.value.value,
     'utf-8',
     true

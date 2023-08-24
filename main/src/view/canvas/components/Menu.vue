@@ -20,7 +20,12 @@ const { app } = usePictode();
 
 const exportImageDialog = useCommandComponent(ExportImageDialog);
 const messageBox = useCommandComponent(MessageBox);
-const { execute: exportToFile } = useExport(() => app.toJSON(), 'file.pictode', MimeType.JSON, 'utf-8');
+const { execute: exportToFile } = useExport(
+  () => app.toJSON(),
+  () => `Pictode-${new Date()}.pictode`,
+  MimeType.JSON,
+  'utf-8'
+);
 const { execute: readFileContent } = useReadFileContent();
 
 const menuGroups: MenuConfig[][] = [
