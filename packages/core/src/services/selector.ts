@@ -92,6 +92,7 @@ export class Selector extends Service {
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
     this.app.on('mouse:out', this.onMouseOut);
+    this.enable = true;
   }
 
   public select(...nodes: KonvaNode[]): void {

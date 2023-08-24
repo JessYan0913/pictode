@@ -205,8 +205,8 @@ export class App extends BaseService<EventArgs> {
   public clear(): void {
     this.mainLayer.removeChildren();
     this.selector.destroy();
-    this.render();
     this.selector = new Selector(this);
+    this.render();
   }
 
   public async toDataURL(config?: {
@@ -274,12 +274,15 @@ export class App extends BaseService<EventArgs> {
   }
 
   public toJSON(): string {
-    return this.mainLayer.toJSON();
+    return JSON.stringify(this.mainLayer.toObject());
   }
 
   public fromJSON(json: string): void {
+    this.clear();
+    this.mainLayer.remove();
     const layer = Konva.Node.create(json, 'layer');
     this.mainLayer = layer;
+    this.stage.add(this.mainLayer);
     this.render();
   }
 
