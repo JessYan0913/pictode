@@ -40,8 +40,9 @@ const menuGroups: MenuConfig[][] = [
         messageBox({
           title: '清除画布',
           message: '将会清空画布内容，是否继续？',
-          onConfirm: () => {
+          onSubmit: () => {
             app.clear();
+            messageBox.close();
           },
         });
       },

@@ -55,7 +55,7 @@ function closeModal() {
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="overflow-auto max-w-5xl min-w-fit rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-auto max-w-5xl min-w-fit rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
               <slot></slot>
             </DialogPanel>

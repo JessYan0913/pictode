@@ -42,7 +42,7 @@ const formats = [
 ];
 const selectedFormat = ref(formats[0]);
 
-const imgSrc = ref<string>('https://i.imgur.com/RWYeUDM.png');
+const imgSrc = ref<string>('');
 
 const closeModal = () => {
   dialogVisible.value = false;
@@ -77,8 +77,8 @@ onMounted(() => {
 
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
-    <div class="w-screen max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
-      <div class="flex items-center h-96 w-[50%]">
+    <div class="w-max max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
+      <div class="flex items-center h-96 w-[50%] min-w-max">
         <div
           class="w-full h-full flex flex-grow justify-center bg-fixed rounded-md p-1"
           style="
@@ -88,7 +88,7 @@ onMounted(() => {
           <img :src="imgSrc" />
         </div>
       </div>
-      <div class="flex flex-col flex-wrap gap-6 grow ml-6 antialiased">
+      <div class="flex flex-col flex-wrap w-96 min-w-max gap-6 grow ml-6 antialiased p-2">
         <div class="text-lg">导出图片</div>
         <div class="flex flex-row justify-between items-center">
           <label>背景</label>
