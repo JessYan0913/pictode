@@ -215,7 +215,7 @@ export class App extends BaseService<EventArgs> {
     mimeType?: string;
     quality?: number;
     haveBackground?: boolean;
-  }): Promise<string> {
+  }): Promise<{ dataURL: string; width: number; height: number }> {
     const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1, haveBackground = false } = config ?? {};
     let clientRect = this.mainLayer.getClientRect();
     if (this.selected.length > 0) {
@@ -248,7 +248,11 @@ export class App extends BaseService<EventArgs> {
           mimeType,
           quality,
           callback: (str) => {
-            resolve(str);
+            resolve({
+              dataURL: str,
+              width,
+              height,
+            });
             if (haveBackground) {
               rect.remove();
             }

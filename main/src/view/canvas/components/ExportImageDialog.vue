@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 
 import Dialog from '@/components/Dialog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
@@ -33,13 +33,13 @@ const dialogVisible = computed<boolean>({
   },
 });
 
-const haveBackground = ref<boolean>(false);
-const pixelRatio = ref<number>(2);
-
 const formats = [
   { label: 'PNG', value: MimeType.PNG, format: 'png' },
   { label: 'JPEG', value: MimeType.JPEG, format: 'jpeg' },
 ];
+
+const haveBackground = ref<boolean>(false);
+const pixelRatio = ref<number>(2);
 const selectedFormat = ref(formats[0]);
 
 const imgSrc = ref<string>('');
@@ -49,11 +49,12 @@ const closeModal = () => {
 };
 
 const updateImgSrc = async () => {
-  imgSrc.value = await app.toDataURL({
+  const { dataURL } = await app.toDataURL({
     pixelRatio: pixelRatio.value,
     mimeType: selectedFormat.value.value,
     haveBackground: haveBackground.value,
   });
+  imgSrc.value = dataURL;
 };
 
 const onDownload = async () => {
@@ -71,21 +72,23 @@ const onDownload = async () => {
 };
 
 onMounted(() => {
-  updateImgSrc();
+  nextTick(() => {
+    updateImgSrc();
+  });
 });
 </script>
 
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
     <div class="w-max max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
-      <div class="flex items-center h-96 w-[50%] min-w-max">
+      <div class="flex items-center h-96 w-96">
         <div
           class="w-full h-full flex flex-grow justify-center bg-fixed rounded-md p-1"
           style="
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==);
           "
         >
-          <img :src="imgSrc" />
+          <img :src="imgSrc" class="object-contain max-w-full max-h-full" />
         </div>
       </div>
       <div class="flex flex-col flex-wrap w-96 min-w-max gap-6 grow ml-6 antialiased p-2">
