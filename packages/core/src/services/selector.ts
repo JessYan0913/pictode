@@ -215,23 +215,30 @@ export class Selector extends Service {
 
   private onMouseUp = ({ event }: EventArgs['mouse:up']): void => {
     if (!this.enable) {
-      return;
+      return; // 未启用时直接返回
     }
+
     if (this.rubberEnable) {
-      this.select(...this.app.getShapesInArea(this.rubberRect));
-    } else if (!(event.target instanceof Konva.Stage) && event.target.attrs.id) {
-      if (this.multipleEnable) {
-        if (this.selected.has(event.target.attrs.id)) {
-          this.cancelSelect(event.target);
-        } else {
-          this.select(...this.selected.values(), event.target);
-        }
-      } else {
-        this.select(event.target);
-      }
+      const shapesInRubberRect = this.app.getShapesInArea(this.rubberRect);
+      this.select(...shapesInRubberRect);
+      this.rubberRect.visible(false);
+      this.rubberEnable = false;
+      return; // 橡皮擦模式处理后直接返回
     }
-    this.rubberRect.visible(false);
-    this.rubberEnable = false;
+
+    if (event.target instanceof Konva.Stage || !event.target.attrs.id) {
+      return; // 如果是舞台或者没有ID属性，直接返回
+    }
+
+    if (this.multipleEnable) {
+      if (this.selected.has(event.target.attrs.id)) {
+        this.cancelSelect(event.target);
+      } else {
+        this.select(...this.selected.values(), event.target);
+      }
+    } else {
+      this.select(event.target);
+    }
   };
 
   private onMouseOut = ({ event }: EventArgs['mouse:out']): void => {
