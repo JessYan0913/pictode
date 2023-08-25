@@ -30,6 +30,22 @@ export const linePanelConfig: PanelConfig = {
       ],
     },
     {
+      name: 'tension',
+      label: '边角',
+      type: 'RadioGroup',
+      optionType: 'icon',
+      options: [
+        {
+          label: 'node-flat',
+          value: 0,
+        },
+        {
+          label: 'node-round',
+          value: 0.4,
+        },
+      ],
+    },
+    {
       name: 'opacity',
       label: '透明度',
       type: 'Slider',
@@ -39,6 +55,7 @@ export const linePanelConfig: PanelConfig = {
     stroke: '#000000',
     strokeWidth: 2,
     opacity: 1,
+    tension: 0.4,
   },
 };
 
