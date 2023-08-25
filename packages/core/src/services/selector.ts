@@ -87,6 +87,7 @@ export class Selector extends Service {
     this.app.on('mouse:down', this.onMouseDown);
     this.app.on('mouse:move', this.onMouseMove);
     this.app.on('mouse:up', this.onMouseUp);
+    this.app.on('mouse:click', this.onMouseClick);
     this.app.on('mouse:out', this.onMouseOut);
     this.enable = true;
   }
@@ -212,7 +213,7 @@ export class Selector extends Service {
     this.rubberRect.visible(true);
   };
 
-  private onMouseUp = ({ event }: EventArgs['mouse:up']): void => {
+  private onMouseUp = (): void => {
     if (!this.enable) {
       return; // 未启用时直接返回
     }
@@ -223,6 +224,12 @@ export class Selector extends Service {
       this.rubberRect.visible(false);
       this.rubberEnable = false;
       return; // 橡皮擦模式处理后直接返回
+    }
+  };
+
+  private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
+    if (!this.enable) {
+      return; // 未启用时直接返回
     }
 
     if (event.target instanceof Konva.Stage || !event.target.attrs.id) {
@@ -255,6 +262,7 @@ export class Selector extends Service {
     this.app.off('mouse:down', this.onMouseDown);
     this.app.off('mouse:move', this.onMouseMove);
     this.app.off('mouse:up', this.onMouseUp);
+    this.app.off('mouse:click', this.onMouseClick);
     this.app.off('mouse:out', this.onMouseOut);
     this.selected.clear();
     this.enable = false;
