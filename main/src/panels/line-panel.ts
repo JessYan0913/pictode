@@ -57,7 +57,7 @@ export const linePanelConfig: PanelConfig = {
         },
         {
           label: 'dotted-line-2',
-          value: [10, 8],
+          value: [12, 8],
         },
         {
           label: 'dotted-line-1',
