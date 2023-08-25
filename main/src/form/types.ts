@@ -51,7 +51,7 @@ export interface RadioGroupConfig extends FormItem {
   type: 'RadioGroup';
   optionType?: 'text' | 'icon';
   options: {
-    value: string | number | boolean;
+    value: string | number | boolean | Array<string | number | boolean>;
     label: string;
     class?: string;
   }[];

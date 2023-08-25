@@ -23,6 +23,7 @@ Konva.Rect.prototype.toObject = function (): any {
     attrs: {
       ...object.attrs,
       strokeWidth: this.strokeWidth(),
+      dash: this.dash(),
     },
   };
 };
@@ -34,6 +35,7 @@ Konva.Ellipse.prototype.toObject = function (): any {
     attrs: {
       ...object.attrs,
       strokeWidth: this.strokeWidth(),
+      dash: this.dash(),
     },
   };
 };
@@ -45,6 +47,7 @@ Konva.RegularPolygon.prototype.toObject = function (): any {
     attrs: {
       ...object.attrs,
       strokeWidth: this.strokeWidth(),
+      dash: this.dash(),
     },
   };
 };
@@ -56,6 +59,7 @@ Konva.Line.prototype.toObject = function (): any {
     attrs: {
       ...object.attrs,
       strokeWidth: this.strokeWidth(),
+      dash: this.dash(),
     },
   };
 };

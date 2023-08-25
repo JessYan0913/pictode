@@ -46,6 +46,26 @@ export const linePanelConfig: PanelConfig = {
       ],
     },
     {
+      name: 'dash',
+      label: '边框样式',
+      type: 'RadioGroup',
+      optionType: 'icon',
+      options: [
+        {
+          label: 'line-1',
+          value: [],
+        },
+        {
+          label: 'dotted-line-2',
+          value: [10, 8],
+        },
+        {
+          label: 'dotted-line-1',
+          value: [6, 4],
+        },
+      ],
+    },
+    {
       name: 'opacity',
       label: '透明度',
       type: 'Slider',
@@ -56,6 +76,7 @@ export const linePanelConfig: PanelConfig = {
     strokeWidth: 2,
     opacity: 1,
     tension: 0.4,
+    dash: [],
   },
 };
 
