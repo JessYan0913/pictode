@@ -25,6 +25,7 @@ export class LineTool implements Tool<LineToolConfig> {
         points: util.flatPoints(this.points),
         fill: 'transparent',
         strokeScaleEnabled: false,
+        hitStrokeWidth: 20,
         ...this.config,
       });
       app.add(this.line);

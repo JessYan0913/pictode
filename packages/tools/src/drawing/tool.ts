@@ -33,6 +33,7 @@ export class DrawingTool implements Tool<DrawingToolConfig> {
       lineCap: 'round',
       lineJoin: 'round',
       strokeScaleEnabled: false,
+      hitStrokeWidth: 20,
       ...this.config,
     });
     app.add(this.line);
