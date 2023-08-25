@@ -2,8 +2,6 @@ export type FormValue = Record<string | number, any>;
 
 export type FormSize = 'small' | 'default' | 'large';
 
-export type FormItemLabelPosition = 'top' | 'left' | 'right';
-
 export type FormState = {
   config: FormConfig;
   model: FormValue;

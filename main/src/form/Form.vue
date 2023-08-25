@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { provide, reactive, ref, toRaw, toRefs } from 'vue';
-import { ElForm, FormInstance } from 'element-plus';
 
 import { FormStateKey } from '../constants/inject-key';
 
 import Container from './Container.vue';
-import { FormConfig, FormItemLabelPosition, FormSize, FormState, FormValue } from './types';
+import { FormConfig, FormSize, FormState, FormValue } from './types';
 
 const props = withDefaults(
   defineProps<{
@@ -16,7 +15,6 @@ const props = withDefaults(
     height?: string;
     size?: FormSize;
     inline?: boolean;
-    labelPosition?: FormItemLabelPosition;
   }>(),
   {
     config: () => [],
@@ -26,7 +24,6 @@ const props = withDefaults(
     height: 'auto',
     size: 'default',
     inline: false,
-    labelPosition: 'right',
   }
 );
 
@@ -37,7 +34,7 @@ const emits = defineEmits<{
 
 const { config, model } = toRefs(props);
 
-const formRef = ref<FormInstance>();
+const formRef = ref<HTMLFormElement>();
 
 const formModel = ref<FormValue>(model);
 
@@ -72,7 +69,7 @@ defineExpose({
 </script>
 
 <template>
-  <ElForm ref="formRef" :model="formModel" :label-position="labelPosition" :size="size" @change="handleChange">
+  <form ref="formRef" :model="formModel" :size="size" @change="handleChange">
     <Container
       v-for="(childConfig, index) in props.config"
       :key="index"
@@ -80,5 +77,5 @@ defineExpose({
       :model="formModel"
       @change="handleChange"
     ></Container>
-  </ElForm>
+  </form>
 </template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
-import { ElFormItem } from 'element-plus';
 
 import { FormStateKey } from '../constants/inject-key';
 
@@ -71,22 +70,22 @@ const handleChange = async (prop: string, v: any) => {
 </script>
 
 <template>
-  <div>
-    <ElFormItem
-      :class="{ hidden: `${labelWidth}` === '0' || !config.label, 'select-none': true }"
+  <div
+    :class="[
+      `${labelWidth}` === '0' || !config.label ? 'hidden' : '',
+      'select-none',
+      'flex flex-col content-start gap-1 px-1 py-2',
+    ]"
+  >
+    <label :style="{ width: `${labelWidth}px` }" class="text-start text-sm text-gray-600">{{ config.label }}</label>
+    <component
+      :key="config.name"
+      :is="type"
+      :class="config.class"
+      :model="model"
+      :config="config"
       :prop="itemProp"
-      :label-width="labelWidth"
-      :label="config.label"
-    >
-      <component
-        :key="config.name"
-        :is="type"
-        :class="config.class"
-        :model="model"
-        :config="config"
-        :prop="itemProp"
-        @change="handleChange"
-      ></component>
-    </ElFormItem>
+      @change="handleChange"
+    ></component>
   </div>
 </template>
