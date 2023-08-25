@@ -8,7 +8,6 @@ export class Selector extends Service {
   public selected: Map<number | string, KonvaNode>;
   public optionLayer: Konva.Layer;
   public enable: boolean = false;
-  public multipleEnable: boolean = false;
 
   private transformer: Konva.Transformer;
   private rubberRect: Konva.Rect;
@@ -230,7 +229,8 @@ export class Selector extends Service {
       return; // 如果是舞台或者没有ID属性，直接返回
     }
 
-    if (this.multipleEnable) {
+    // 如果同时按下了shift键则认为是多选模式
+    if (event.evt.shiftKey) {
       if (this.selected.has(event.target.attrs.id)) {
         this.cancelSelect(event.target);
       } else {
