@@ -2,16 +2,6 @@ import { App, Konva, KonvaMouseEvent, KonvaNode } from '@pictode/core';
 
 import { SelectorPlugin } from './index';
 
-Object.defineProperty(App.prototype, 'selected', {
-  get() {
-    const selectorPlugin = this.getPlugin('selectorPlugin') as SelectorPlugin;
-    if (selectorPlugin) {
-      return [...(selectorPlugin.selector?.selected.values() ?? [])];
-    }
-    return [];
-  },
-});
-
 App.prototype.select = function (...nodes: KonvaNode[]): App {
   const selectorPlugin = this.getPlugin('selectorPlugin') as SelectorPlugin;
   if (selectorPlugin) {
