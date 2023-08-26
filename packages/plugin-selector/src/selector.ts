@@ -6,7 +6,8 @@ export class Selector {
   public app: App;
   public selected: Map<number | string, KonvaNode>;
   public optionLayer: Konva.Layer;
-  public enable: boolean = false;
+  public enable: boolean;
+  public multipleSelect: boolean;
 
   private transformer: Konva.Transformer;
   private rubberRect: Konva.Rect;
@@ -14,10 +15,11 @@ export class Selector {
   private rubberEnable: boolean = false;
 
   constructor(app: App, options?: Options) {
-    const { enable = true } = options ?? {};
+    const { enable = true, multipleSelect = false } = options ?? {};
     this.app = app;
     this.selected = new Map();
     this.enable = enable;
+    this.multipleSelect = multipleSelect;
 
     this.optionLayer = new Konva.Layer();
     this.optionLayer.name('pictode:option:layer');
@@ -238,7 +240,7 @@ export class Selector {
     }
 
     // 如果同时按下了shift键则认为是多选模式
-    if (event.evt.shiftKey) {
+    if (event.evt.shiftKey && this.multipleSelect) {
       if (this.selected.has(event.target.attrs.id)) {
         this.cancelSelect(event.target);
       } else {
