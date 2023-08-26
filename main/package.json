@@ -15,6 +15,7 @@
     "@heroicons/vue": "^2.0.18",
     "@pictode/core": "workspace:^0.0.1",
     "@pictode/plugin-history": "workspace:^0.0.1",
+    "@pictode/plugin-selector": "workspace:^0.0.1",
     "@pictode/tools": "workspace:^0.0.1",
     "@pictode/utils": "workspace:^0.0.1",
     "@pictode/vue-aide": "workspace:^0.0.1",

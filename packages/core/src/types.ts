@@ -58,9 +58,6 @@ export interface EventArgs {
   'canvas:rendered': {
     time: number;
   };
-  'selected:changed': {
-    selected: KonvaNode[];
-  };
   'node:added': {
     nodes: KonvaNode[];
   };

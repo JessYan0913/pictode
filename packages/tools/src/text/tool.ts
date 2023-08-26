@@ -2,7 +2,6 @@ import { App, Konva, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 
 const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => void) => {
   textNode.hide();
-  app.cancelSelect();
   let textPosition = textNode.absolutePosition();
   let areaPosition = {
     x: app.stage.container().offsetLeft + textPosition.x,

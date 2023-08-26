@@ -4,9 +4,8 @@ import Konva from 'konva';
 import './polyfill';
 
 import { Mouse } from './services/mouse';
-import { Selector } from './services/selector';
 import { Tooler } from './services/tooler';
-import { EventArgs, KonvaMouseEvent, KonvaNode, Plugin, Tool } from './types';
+import { EventArgs, KonvaNode, Plugin, Tool } from './types';
 import { guid, Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
@@ -15,7 +14,6 @@ export class App extends BaseService<EventArgs> {
   public containerElement: HTMLDivElement;
 
   private mouse: Mouse;
-  private selector: Selector;
   private tooler: Tooler;
   private installedPlugins: Map<string, Plugin> = new Map();
   private resizeObserver: ResizeObserver;
@@ -40,7 +38,6 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer.name('pictode:main:layer');
     this.stage.add(this.mainLayer);
 
-    this.selector = new Selector(this);
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
     this.resizeObserver = new ResizeObserver(this.onContainerResize);
@@ -56,10 +53,6 @@ export class App extends BaseService<EventArgs> {
   public get pointer(): Point {
     const { x, y } = this.stage.getRelativePointerPosition() ?? { x: 0, y: 0 };
     return new Point(x, y);
-  }
-
-  public get selected(): KonvaNode[] {
-    return [...this.selector.selected.values()];
   }
 
   public get curTool(): Tool | null {
@@ -102,7 +95,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public _remove(...nodes: KonvaNode[]): void {
-    this.cancelSelect(...nodes);
+    // this.cancelSelect(...nodes);
     nodes.forEach((node) => {
       node.remove();
     });
@@ -135,29 +128,8 @@ export class App extends BaseService<EventArgs> {
     return this.getNodes((node) => node.id() === id)?.[0];
   }
 
-  public getNodes(selector: (node: KonvaNode) => boolean): KonvaNode[] {
-    return this.mainLayer.find(selector) ?? [];
-  }
-
-  public triggerSelector(enable?: boolean): void {
-    this.cancelSelect();
-    this.selector.triggerSelector(enable);
-  }
-
-  public select(...nodes: KonvaNode[]): void {
-    this.selector.select(...nodes);
-  }
-
-  public selectByEvent(event: KonvaMouseEvent): void {
-    if (event.target instanceof Konva.Stage) {
-      this.cancelSelect();
-    } else {
-      this.select(event.target);
-    }
-  }
-
-  public cancelSelect(...nodes: KonvaNode[]): void {
-    this.selector.cancelSelect(...nodes);
+  public getNodes(callback: (node: KonvaNode) => boolean): KonvaNode[] {
+    return this.mainLayer.find(callback) ?? [];
   }
 
   public isPointInArea(point: Point, area: { width: number; height: number; x: number; y: number }): boolean {
@@ -204,8 +176,8 @@ export class App extends BaseService<EventArgs> {
 
   public clear(): void {
     this.mainLayer.removeChildren();
-    this.selector.destroy();
-    this.selector = new Selector(this);
+    // this.selector.destroy();
+    // this.selector = new Selector(this);
     this.render();
   }
 
@@ -219,10 +191,10 @@ export class App extends BaseService<EventArgs> {
     const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1, haveBackground = false } = config ?? {};
     let clientRect = this.mainLayer.getClientRect();
     let objects = this.mainLayer.children?.map((object) => object.toObject());
-    if (this.selected.length > 0) {
-      clientRect = this.selector.getSelectClientRect();
-      objects = this.selected.map((object) => object.toObject());
-    }
+    // if (this.selected.length > 0) {
+    //   clientRect = this.selector.getSelectClientRect();
+    //   objects = this.selected.map((object) => object.toObject());
+    // }
     const width = clientRect.width + padding * 2;
     const height = clientRect.height + padding * 2;
     const x = clientRect.x - padding;
@@ -337,7 +309,6 @@ export class App extends BaseService<EventArgs> {
     this.resizeObserver.disconnect();
     this.destroyPlugins(Array.from(this.installedPlugins.keys()));
     this.mouse.destroy();
-    this.selector.destroy();
     this.tooler.destroy();
     this.stage.destroy();
     this.removeAllListeners();

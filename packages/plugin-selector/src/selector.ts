@@ -1,22 +1,24 @@
-import Konva from 'konva';
+import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 
-import { App } from '../app';
-import { EventArgs, KonvaNode, Service } from '../types';
-import { Point, pointInConvexPolygon, shapeArrayEqual } from '../utils';
+import { Options } from './types';
 
-export class Selector extends Service {
+export class Selector {
+  public app: App;
   public selected: Map<number | string, KonvaNode>;
   public optionLayer: Konva.Layer;
   public enable: boolean = false;
 
   private transformer: Konva.Transformer;
   private rubberRect: Konva.Rect;
-  private rubberStartPoint: Point = new Point(0, 0);
+  private rubberStartPoint: util.Point = new util.Point(0, 0);
   private rubberEnable: boolean = false;
 
-  constructor(app: App) {
-    super(app);
+  constructor(app: App, options?: Options) {
+    const { enable = true } = options ?? {};
+    this.app = app;
     this.selected = new Map();
+    this.enable = enable;
+
     this.optionLayer = new Konva.Layer();
     this.optionLayer.name('pictode:option:layer');
     this.app.stage.add(this.optionLayer);
@@ -89,14 +91,13 @@ export class Selector extends Service {
     this.app.on('mouse:up', this.onMouseUp);
     this.app.on('mouse:click', this.onMouseClick);
     this.app.on('mouse:out', this.onMouseOut);
-    this.enable = true;
   }
 
   public select(...nodes: KonvaNode[]): void {
     if (!this.enable) {
       return;
     }
-    if (shapeArrayEqual(nodes, [...this.selected.values()])) {
+    if (util.shapeArrayEqual(nodes, [...this.selected.values()])) {
       return;
     }
     this.cancelSelect();
@@ -192,18 +193,18 @@ export class Selector extends Service {
     }
     // 判断鼠标坐标是否在transformer内，如果在光标为move，否则为默认
     const { x, y, width, height } = this.transformer.getClientRect();
-    const inTransformer = pointInConvexPolygon(this.app.pointer, [
-      new Point(x, y),
-      new Point(x + width, y),
-      new Point(x + width, y + height),
-      new Point(x, y + height),
+    const inTransformer = util.pointInConvexPolygon(this.app.pointer, [
+      new util.Point(x, y),
+      new util.Point(x + width, y),
+      new util.Point(x + width, y + height),
+      new util.Point(x, y + height),
     ]);
     this.app.stage.container().style.cursor = inTransformer ? 'move' : 'default';
     if (!this.rubberEnable) {
       return;
     }
     // 如果弹性框选可用，则改变弹性框的尺寸
-    const position = new Point(
+    const position = new util.Point(
       Math.min(this.app.pointer.x, this.rubberStartPoint.x),
       Math.min(this.app.pointer.y, this.rubberStartPoint.y)
     );

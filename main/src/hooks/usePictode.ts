@@ -1,12 +1,25 @@
 import { ref } from 'vue';
 import { App, KonvaNode } from '@pictode/core';
-import { HistoryPlugin } from '@pictode/plugin-history';
+import HistoryPlugin from '@pictode/plugin-history';
+import SelectorPlugin from '@pictode/plugin-selector';
 
 import { FormConfig, FormValue } from '@/form';
 import { getPanelConfigByShape, getPanelConfigByTool } from '@/panels';
 
 const app = new App();
-app.use(new HistoryPlugin());
+
+const historyPlugin = new HistoryPlugin({
+  enable: true,
+  stackSize: 50,
+});
+
+const selectorPlugin = new SelectorPlugin({
+  enable: true,
+  multipleSelect: true,
+});
+
+app.use(historyPlugin);
+app.use(selectorPlugin);
 
 const selected = ref<Array<KonvaNode>>([]);
 const panelFormConfig = ref<FormConfig>([]);

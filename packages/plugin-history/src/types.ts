@@ -50,7 +50,7 @@ export namespace Cmd {
 }
 
 export interface Options {
-  enabled?: boolean;
+  enable?: boolean;
   stackSize?: number;
 }
 

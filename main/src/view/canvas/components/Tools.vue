@@ -30,10 +30,10 @@ interface ToolInfo {
 const selectTool = new SelectTool({
   hooks: {
     onActive(app) {
-      app.triggerSelector(true);
+      app.getPlugin('selectorPlugin')?.enable?.();
     },
     onInactive(app) {
-      app.triggerSelector(false);
+      app.getPlugin('selectorPlugin')?.disable?.();
     },
   },
 });

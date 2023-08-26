@@ -43,18 +43,18 @@ export class HistoryPlugin implements Plugin {
     if (!this.history) {
       return;
     }
-    this.history.enabled = true;
+    this.history.enable = true;
   }
 
   public disable(): void {
     if (!this.history) {
       return;
     }
-    this.history.enabled = false;
+    this.history.enable = false;
   }
 
   public isEnabled(): boolean {
-    return this.history?.enabled ?? false;
+    return this.history?.enable ?? false;
   }
 
   private onNodeAdded = ({ nodes }: EventArgs['node:added']) => {
