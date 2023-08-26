@@ -203,7 +203,7 @@ export class App extends BaseService<EventArgs> {
       objects = this.mainLayer.children?.map((object) => object.toObject()) ?? [];
     }
 
-    const newNodes = objects?.map((object) => Konva.Node.create(object)) ?? [];
+    const newNodes = objects.map((object) => Konva.Node.create(object));
     exportLayer.add(...newNodes);
 
     const transformer = new Konva.Transformer({ rotateAnchorOffset: 0 });
