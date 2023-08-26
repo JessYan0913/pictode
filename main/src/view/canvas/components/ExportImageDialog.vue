@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
+import { KonvaNode } from '@pictode/core';
 
 import Dialog from '@/components/Dialog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
@@ -19,7 +20,7 @@ const emits = defineEmits<{
   (event: 'close'): void;
 }>();
 
-const { app } = usePictode();
+const { app, selected } = usePictode();
 
 const dialogVisible = computed<boolean>({
   get() {
@@ -49,7 +50,7 @@ const closeModal = () => {
 };
 
 const updateImgSrc = async () => {
-  const { dataURL } = await app.toDataURL({
+  const { dataURL } = await app.toDataURL(selected.value as KonvaNode[], {
     pixelRatio: pixelRatio.value,
     mimeType: selectedFormat.value.value,
     haveBackground: haveBackground.value,

@@ -180,32 +180,40 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public async toDataURL(config?: {
-    padding?: number;
-    pixelRatio?: number;
-    mimeType?: string;
-    quality?: number;
-    haveBackground?: boolean;
-  }): Promise<{ dataURL: string; width: number; height: number }> {
+  public async toDataURL(
+    nodes?: KonvaNode[],
+    config?: {
+      padding?: number;
+      pixelRatio?: number;
+      mimeType?: string;
+      quality?: number;
+      haveBackground?: boolean;
+    }
+  ): Promise<{ dataURL: string; width: number; height: number }> {
     const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1, haveBackground = false } = config ?? {};
-    let clientRect = this.mainLayer.getClientRect();
-    let objects = this.mainLayer.children?.map((object) => object.toObject());
-    // if (this.selected.length > 0) {
-    //   clientRect = this.selector.getSelectClientRect();
-    //   objects = this.selected.map((object) => object.toObject());
-    // }
-    const width = clientRect.width + padding * 2;
-    const height = clientRect.height + padding * 2;
-    const x = clientRect.x - padding;
-    const y = clientRect.y - padding;
 
     const exportLayer = new Konva.Layer();
 
     this.stage.add(exportLayer);
 
-    objects?.forEach((object) => {
-      exportLayer.add(Konva.Node.create(object));
-    });
+    let objects = [];
+    if (nodes && nodes.length > 0) {
+      objects = nodes.map((object) => object.toObject());
+    } else {
+      objects = this.mainLayer.children?.map((object) => object.toObject()) ?? [];
+    }
+
+    const newNodes = objects?.map((object) => Konva.Node.create(object)) ?? [];
+    exportLayer.add(...newNodes);
+
+    const transformer = new Konva.Transformer({ rotateAnchorOffset: 0 });
+    transformer.nodes(newNodes);
+
+    const clientRect = transformer.getClientRect();
+    const width = clientRect.width + padding * 2;
+    const height = clientRect.height + padding * 2;
+    const x = clientRect.x - padding;
+    const y = clientRect.y - padding;
 
     const background = new Konva.Rect({
       width,
@@ -235,6 +243,7 @@ export class App extends BaseService<EventArgs> {
               width,
               height,
             });
+            transformer.remove();
             exportLayer.remove();
           },
         });
