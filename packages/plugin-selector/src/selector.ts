@@ -103,10 +103,15 @@ export class Selector {
       return;
     }
     this.cancelSelect();
+    const handleNodeRemoved = (node: KonvaNode) => {
+      this.cancelSelect(node);
+      node.off('removed');
+    };
     this.transformer.nodes(
       nodes.filter((node) => {
         node.draggable(true);
         this.selected.set(node.id(), node);
+        node.on<'removed'>('removed', () => handleNodeRemoved(node));
         return node !== this.rubberRect;
       })
     );
