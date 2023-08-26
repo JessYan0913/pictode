@@ -18,12 +18,13 @@ export class SelectorPlugin implements Plugin {
   public install(app: App) {
     this.app = app;
     this.selector = new Selector(app, this.options);
-    this.selector.app = app;
+    this.app.on('canvas:cleared', this.onCanvasCleared);
     this.app.emit('selector:installed', { selector: this });
   }
 
   public destroy(): void {
     this.selector?.destroy();
+    this.app?.off('canvas:cleared', this.onCanvasCleared);
     this.app?.emit('selector:destroy', { selector: this });
   }
 
@@ -45,6 +46,10 @@ export class SelectorPlugin implements Plugin {
   public isEnabled(): boolean {
     return this.selector?.enable ?? false;
   }
+
+  private onCanvasCleared = (): void => {
+    this.selector?.cancelSelect();
+  };
 }
 
 export default SelectorPlugin;

@@ -267,8 +267,8 @@ export class Selector {
     this.app.off('mouse:out', this.onMouseOut);
     this.selected.clear();
     this.enable = false;
-    this.transformer.destroy();
-    this.optionLayer.destroy();
+    this.transformer.remove();
+    this.optionLayer.remove();
   }
 }
 

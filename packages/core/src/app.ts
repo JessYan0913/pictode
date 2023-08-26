@@ -176,8 +176,7 @@ export class App extends BaseService<EventArgs> {
 
   public clear(): void {
     this.mainLayer.removeChildren();
-    // this.selector.destroy();
-    // this.selector = new Selector(this);
+    this.emit('canvas:cleared', {});
     this.render();
   }
 
