@@ -2,11 +2,19 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useOnEventOutside } from '@pictode/vue-aide';
 
-const props = defineProps<{
-  visible: boolean;
-  x: number;
-  y: number;
-}>();
+type MenuGroups = Array<Array<{ label: string; action?: () => void }>>;
+
+const props = withDefaults(
+  defineProps<{
+    visible: boolean;
+    x: number;
+    y: number;
+    menuGroups?: MenuGroups;
+  }>(),
+  {
+    menuGroups: () => [],
+  }
+);
 
 const popoverRef = ref<HTMLElement | null>(null);
 
@@ -32,7 +40,7 @@ const popoverStyle = computed(() => {
   const top = Math.max(props.y - 2, 0);
 
   const menuWidth = 224; // 菜单的宽度，根据实际情况调整
-  const menuHeight = menuGroups.flat().length * 40; // 假设每个菜单项的高度为40
+  const menuHeight = props.menuGroups.flat().length * 40; // 假设每个菜单项的高度为40
 
   const rightOverflow = left + menuWidth - window.innerWidth;
   const bottomOverflow = top + menuHeight - window.innerHeight;
@@ -42,6 +50,8 @@ const popoverStyle = computed(() => {
     top: bottomOverflow > 0 ? `${top - bottomOverflow}px` : `${top}px`,
   };
 });
+
+const popoverMenuGroups = computed<MenuGroups>(() => props.menuGroups.filter((menus) => menus.length));
 
 useOnEventOutside('mousedown', popoverRef, () => {
   popoverVisible.value = false;
@@ -62,37 +72,6 @@ onUnmounted(() => {
     popoverRef.value.removeEventListener('contextmenu', onContextmenu, false);
   }
 });
-
-const menuGroups = [
-  [
-    {
-      name: '上移一层',
-    },
-    {
-      name: '下移一层',
-    },
-    {
-      name: '置于顶层',
-    },
-    {
-      name: '置于底层',
-    },
-  ],
-  [
-    {
-      name: '上移一层',
-    },
-    {
-      name: '下移一层',
-    },
-    {
-      name: '置于顶层',
-    },
-    {
-      name: '置于底层',
-    },
-  ],
-];
 </script>
 
 <template>
@@ -109,15 +88,16 @@ const menuGroups = [
         ref="popoverRef"
         class="absolute w-56 p-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
-        <div v-for="(menus, index) in menuGroups" :key="index" class="py-1">
+        <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
             v-for="(item, index) in menus"
             :key="index"
-            class="flex items-center cursor-default rounded-sm p-2 transition duration-150 ease-in-out hover:bg-blue-200"
+            class="flex items-center cursor-pointer rounded-sm p-2 transition duration-150 ease-in-out hover:bg-blue-200"
+            @click="item.action?.()"
           >
             <div>
               <p class="text-sm font-medium text-gray-700">
-                {{ item.name }}
+                {{ item.label }}
               </p>
             </div>
           </div>

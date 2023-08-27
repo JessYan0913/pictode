@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { Konva } from '@pictode/core';
 import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
@@ -10,16 +11,68 @@ import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
-const { app } = usePictode();
+const { app, selected } = usePictode();
 
 const canvasRef = ref<HTMLDivElement>();
 const contextMenu = useCommandComponent(ContextMenu);
 
 app.on('mouse:contextmenu', ({ event }) => {
   event.evt.preventDefault();
+  const shapeLayerMenus = selected.value.length
+    ? [
+        {
+          label: '上移一层',
+          action: () => {
+            console.log('上移一层');
+          },
+        },
+        {
+          label: '下移一层',
+        },
+        {
+          label: '置于顶层',
+        },
+        {
+          label: '置于底层',
+          action: () => {
+            selected.value.forEach((node) => node.moveToBottom());
+          },
+        },
+      ]
+    : [];
+  const shapeDeleteMenus = selected.value.length
+    ? [
+        {
+          label: '删除',
+        },
+      ]
+    : [];
+  const targetIsStage = event.target instanceof Konva.Stage;
+  const stageMenus =
+    targetIsStage || selected.value.length === 0
+      ? [
+          {
+            label: '全部选中',
+          },
+          {
+            label: '重置画布',
+          },
+        ]
+      : [];
+  const historyMenus = [
+    {
+      label: '撤销',
+    },
+    {
+      label: '重做',
+    },
+  ];
+  const menuGroups = [stageMenus, shapeLayerMenus, historyMenus, shapeDeleteMenus];
+
   contextMenu({
     x: event.evt.clientX,
     y: event.evt.clientY,
+    menuGroups,
   });
 });
 
