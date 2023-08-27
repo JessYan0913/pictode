@@ -27,6 +27,22 @@ const popoverVisible = computed<boolean>({
   },
 });
 
+const popoverStyle = computed(() => {
+  const left = Math.max(props.x - 2, 0);
+  const top = Math.max(props.y - 2, 0);
+
+  const menuWidth = 224; // 菜单的宽度，根据实际情况调整
+  const menuHeight = menuGroups.flat().length * 40; // 假设每个菜单项的高度为40
+
+  const rightOverflow = left + menuWidth - window.innerWidth;
+  const bottomOverflow = top + menuHeight - window.innerHeight;
+
+  return {
+    left: rightOverflow > 0 ? `${left - rightOverflow}px` : `${left}px`,
+    top: bottomOverflow > 0 ? `${top - bottomOverflow}px` : `${top}px`,
+  };
+});
+
 useOnEventOutside('mousedown', popoverRef, () => {
   popoverVisible.value = false;
 });
@@ -88,11 +104,7 @@ const menuGroups = [
     leave-from-class="translate-y-0 opacity-100"
     leave-to-class="translate-y-1 opacity-0"
   >
-    <div
-      v-if="popoverVisible"
-      :style="{ left: `${Math.max(x - 2, 0)}px`, top: `${Math.max(y - 2, 0)}px` }"
-      class="absolute w-screen max-w-sm transform"
-    >
+    <div v-if="popoverVisible" :style="popoverStyle" class="absolute w-screen max-w-sm transform">
       <div
         ref="popoverRef"
         class="absolute w-56 p-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -114,3 +126,9 @@ const menuGroups = [
     </div>
   </transition>
 </template>
+
+<style>
+body {
+  overflow-x: hidden;
+}
+</style>
