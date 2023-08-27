@@ -85,18 +85,17 @@ const solutions = [
         class="absolute w-56 p-1 divide-y rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="px-1 py-1">
-          <a
+          <div
             v-for="item in solutions"
             :key="item.name"
-            :href="item.href"
-            class="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-blue-50"
+            class="flex items-center cursor-default rounded-lg p-2 transition duration-150 ease-in-out hover:bg-blue-50"
           >
             <div>
               <p class="text-sm font-medium text-gray-900">
                 {{ item.name }}
               </p>
             </div>
-          </a>
+          </div>
         </div>
       </div>
     </div>
