@@ -78,6 +78,9 @@ export interface EventArgs {
   'node:transform:end': {
     nodes: KonvaNode[];
   };
+  'node:zindex:changed': {
+    nodes: KonvaNode[];
+  };
   'mouse:down': {
     event: KonvaMouseEvent;
   };

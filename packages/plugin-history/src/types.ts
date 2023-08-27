@@ -47,6 +47,17 @@ export namespace Cmd {
     oldNodes: KonvaNode[];
     newNodes: KonvaNode[];
   }
+
+  export interface MoveZIndexObjectOptions {
+    oldNodes: {
+      node: KonvaNode;
+      zIndex: number;
+    }[];
+    newNodes: {
+      node: KonvaNode;
+      zIndex: number;
+    }[];
+  }
 }
 
 export interface Options {

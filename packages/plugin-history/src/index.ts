@@ -25,6 +25,7 @@ export class HistoryPlugin implements Plugin {
     this.app.on('node:added', this.onNodeAdded);
     this.app.on('node:removed', this.onNodeRemove);
     this.app.on('node:update:before', this.onNodeUpdateBefore);
+    // this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
     this.app.on('node:updated', this.onNodeUpdated);
   }
 
@@ -86,6 +87,14 @@ export class HistoryPlugin implements Plugin {
       })
     );
   };
+
+  // private onNodeZIndexChanged = ({ nodes }: EventArgs['node:zindex:changed']) => {
+  //   if (!this.app || !this.history) {
+  //     return;
+  //   }
+  //   // this.history.execute(new MoveZIndexObjectCmd({
+  //   // }));
+  // };
 }
 
 export default HistoryPlugin;

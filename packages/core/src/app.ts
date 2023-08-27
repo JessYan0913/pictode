@@ -123,6 +123,26 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
+  public moveUp(...nodes: KonvaNode[]): void {
+    nodes.forEach((node) => node.moveUp());
+    this.emit('node:zindex:changed', { nodes });
+  }
+
+  public moveDown(...nodes: KonvaNode[]): void {
+    nodes.forEach((node) => node.moveDown());
+    this.emit('node:zindex:changed', { nodes });
+  }
+
+  public moveTop(...nodes: KonvaNode[]): void {
+    nodes.forEach((node) => node.moveToTop());
+    this.emit('node:zindex:changed', { nodes });
+  }
+
+  public moveBottom(...nodes: KonvaNode[]): void {
+    nodes.forEach((node) => node.moveToBottom());
+    this.emit('node:zindex:changed', { nodes });
+  }
+
   public getNodeById(id: string): KonvaNode | undefined {
     return this.getNodes((node) => node.id() === id)?.[0];
   }
