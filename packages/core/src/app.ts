@@ -97,7 +97,6 @@ export class App extends BaseService<EventArgs> {
   public _remove(...nodes: KonvaNode[]): void {
     nodes.forEach((node) => {
       node.remove();
-      node.fire('removed', { node });
     });
     this.render();
   }
