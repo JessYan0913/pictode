@@ -64,6 +64,11 @@ export class EllipseTool implements Tool<EllipseToolConfig> {
     this.ellipse = null;
     this.startPointer.setXY(0, 0);
   }
+
+  public enableChanged(): void {
+    this.ellipse = null;
+    this.startPointer.setXY(0, 0);
+  }
 }
 
 export default EllipseTool;

@@ -54,6 +54,11 @@ export class LineTool implements Tool<LineToolConfig> {
     this.line = null;
     this.points = [];
   }
+
+  public enableChanged(): void {
+    this.line = null;
+    this.points = [];
+  }
 }
 
 export default LineTool;

@@ -60,6 +60,11 @@ export class DrawingTool implements Tool<DrawingToolConfig> {
     this.line = null;
     this.points = [];
   }
+
+  public enableChanged(): void {
+    this.line = null;
+    this.points = [];
+  }
 }
 
 export default DrawingTool;

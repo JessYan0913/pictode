@@ -134,6 +134,10 @@ export class TextTool implements Tool<TextToolConfig> {
     app.add(this.textNode);
     this.textNode.fire('dblclick');
   }
+
+  public enableChanged(): void {
+    this.textNode = null;
+  }
 }
 
 export default TextTool;

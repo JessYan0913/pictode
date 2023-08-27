@@ -27,6 +27,10 @@ export class EraserTool implements Tool {
     app.remove(this.target);
     this.target = null;
   }
+
+  public enableChanged(): void {
+    this.target = null;
+  }
 }
 
 export default EraserTool;

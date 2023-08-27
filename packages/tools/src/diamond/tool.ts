@@ -61,6 +61,11 @@ export class DiamondTool implements Tool<DiamondToolConfig> {
     this.diamond = null;
     this.startPointer.setXY(0, 0);
   }
+
+  public enableChanged(): void {
+    this.diamond = null;
+    this.startPointer.setXY(0, 0);
+  }
 }
 
 export default DiamondTool;

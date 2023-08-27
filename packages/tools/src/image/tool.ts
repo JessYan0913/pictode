@@ -51,6 +51,11 @@ export class ImageTool implements Tool<ImageToolConfig> {
     this.image.position(new util.Point(pointer.x - width / 2, pointer.y - height / 2));
     app.render();
   }
+
+  public enableChanged(): void {
+    this.image = null;
+    this.imageElement = new Image();
+  }
 }
 
 export default ImageTool;

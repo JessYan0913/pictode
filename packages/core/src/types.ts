@@ -38,6 +38,7 @@ export interface Tool<T extends Konva.ShapeConfig = Konva.ShapeConfig> {
   mouseup?: (event: ToolEvent) => void;
   doubleClick?: (event: ToolEvent) => void;
   click?: (event: ToolEvent) => void;
+  enableChanged?: (oldEnable: boolean, newEnable: boolean) => void;
 }
 
 export abstract class Service {
@@ -96,6 +97,9 @@ export interface EventArgs {
     event: KonvaMouseEvent;
   };
   'mouse:out': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:contextmenu': {
     event: KonvaMouseEvent;
   };
 }

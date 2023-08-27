@@ -12,6 +12,7 @@ export class Mouse extends Service {
     this.app.stage.on<'mouseout'>('mouseout', this.onMouseOut);
     this.app.stage.on<'dblclick'>('dblclick', this.onMouseDoubleClick);
     this.app.stage.on<'click'>('click', this.onMouseClick);
+    this.app.stage.on<'contextmenu'>('contextmenu', this.onMouseContextmenu);
   }
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
@@ -42,6 +43,12 @@ export class Mouse extends Service {
     this.app.emit('mouse:click', { event });
   };
 
+  private onMouseContextmenu = (event: KonvaMouseEvent): void => {
+    this.app.triggerToolAvailability(false);
+    this.app.emit('mouse:contextmenu', { event });
+    setTimeout(() => this.app.triggerToolAvailability(true), 100);
+  };
+
   public destroy(): void {
     this.app.stage.off('mousedown', this.onMouseDown);
     this.app.stage.off('mouseup', this.onMouseUp);
@@ -50,5 +57,6 @@ export class Mouse extends Service {
     this.app.stage.off('mouseout', this.onMouseOut);
     this.app.stage.off('dblclick', this.onMouseDoubleClick);
     this.app.stage.off('click', this.onMouseClick);
+    this.app.stage.off('contextmenu', this.onMouseContextmenu);
   }
 }

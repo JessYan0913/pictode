@@ -38,10 +38,14 @@ export class Tooler extends Service {
   }
 
   public triggerAvailability(enable?: boolean): void {
+    let oldEnable = this.enable;
     if (enable === void 0) {
       this.enable = !this.enable;
     } else {
       this.enable = enable;
+    }
+    if (this.currentTool?.enableChanged) {
+      this.currentTool.enableChanged(oldEnable, this.enable);
     }
   }
 

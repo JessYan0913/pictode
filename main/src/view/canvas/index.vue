@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import usePictode from '@/hooks/usePictode';
 
+import ContextMenu from './components/ContextMenu.vue';
 import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
@@ -11,6 +13,15 @@ import Tools from './components/Tools.vue';
 const { app } = usePictode();
 
 const canvasRef = ref<HTMLDivElement>();
+const contextMenu = useCommandComponent(ContextMenu);
+
+app.on('mouse:contextmenu', ({ event }) => {
+  event.evt.preventDefault();
+  contextMenu({
+    x: event.evt.clientX,
+    y: event.evt.clientY,
+  });
+});
 
 onMounted(() => {
   if (canvasRef.value) {

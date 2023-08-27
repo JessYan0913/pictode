@@ -60,6 +60,11 @@ export class RectTool implements Tool<RectToolConfig> {
     this.rectangle = null;
     this.startPointer.setXY(0, 0);
   }
+
+  public enableChanged(): void {
+    this.rectangle = null;
+    this.startPointer.setXY(0, 0);
+  }
 }
 
 export default RectTool;
