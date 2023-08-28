@@ -4,10 +4,10 @@ import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
 import { useCommandComponent } from '@pictode/vue-aide';
 
+import ContextMenu from '@/components/ContextMenu.vue';
 import MessageBox from '@/components/MessageBox.vue';
 import { FormConfig, FormValue } from '@/form';
 import { getPanelConfigByShape, getPanelConfigByTool } from '@/panels';
-import ContextMenu from '@/view/canvas/components/ContextMenu.vue';
 
 const app = new App();
 
