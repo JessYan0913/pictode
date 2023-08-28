@@ -52,6 +52,9 @@ app.on('mouse:contextmenu', ({ event }) => {
     ? [
         {
           label: '删除',
+          action: () => {
+            app.remove(...selected.value);
+          },
         },
       ]
     : [];
