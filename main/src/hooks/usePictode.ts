@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { App, KonvaNode } from '@pictode/core';
 import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
@@ -21,7 +21,7 @@ const selectorPlugin = new SelectorPlugin({
 app.use(historyPlugin);
 app.use(selectorPlugin);
 
-const selected = ref<Array<KonvaNode>>([]);
+const selected: Ref<Array<KonvaNode>> = ref([]);
 const panelFormConfig = ref<FormConfig>([]);
 const panelFormModel = ref<FormValue>({});
 

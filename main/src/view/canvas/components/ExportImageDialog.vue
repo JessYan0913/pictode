@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { KonvaNode } from '@pictode/core';
 
 import Dialog from '@/components/Dialog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
@@ -50,7 +49,7 @@ const closeModal = () => {
 };
 
 const updateImgSrc = async () => {
-  const { dataURL } = await app.toDataURL(selected.value as KonvaNode[], {
+  const { dataURL } = await app.toDataURL(selected.value, {
     pixelRatio: pixelRatio.value,
     mimeType: selectedFormat.value.value,
     haveBackground: haveBackground.value,

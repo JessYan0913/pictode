@@ -96,7 +96,7 @@ onUnmounted(() => {
             @click="item.action?.()"
           >
             <div>
-              <p class="text-sm font-medium text-gray-700">
+              <p class="text-sm font-medium text-gray-700 select-none">
                 {{ item.label }}
               </p>
             </div>

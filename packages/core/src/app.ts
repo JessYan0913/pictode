@@ -72,12 +72,12 @@ export class App extends BaseService<EventArgs> {
     this.tooler.triggerAvailability(enable);
   }
 
-  public add(...nodes: KonvaNode[]): void {
+  public add(...nodes: Array<KonvaNode>): void {
     this._add(...nodes);
     this.emit('node:added', { nodes: nodes });
   }
 
-  public _add(...nodes: KonvaNode[]): void {
+  public _add(...nodes: Array<KonvaNode>): void {
     this.mainLayer.add(
       ...nodes.map((node) => {
         if (!node.attrs.id) {
@@ -89,33 +89,33 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public remove(...nodes: KonvaNode[]): void {
+  public remove(...nodes: Array<KonvaNode>): void {
     this._remove(...nodes);
     this.emit('node:removed', { nodes: nodes });
   }
 
-  public _remove(...nodes: KonvaNode[]): void {
+  public _remove(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => {
       node.remove();
     });
     this.render();
   }
 
-  public update(...nodes: KonvaNode[]): void {
-    const getNodes = (nodes: KonvaNode[]): KonvaNode[] =>
-      nodes.reduce((result, node) => {
+  public update(...nodes: Array<KonvaNode>): void {
+    const getNodes = (nodes: Array<KonvaNode>): KonvaNode[] =>
+      nodes.reduce<Array<KonvaNode>>((result, node) => {
         const originNode = this.getNodeById(node.attrs.id);
         if (originNode) {
           result.push(originNode);
         }
         return result;
-      }, [] as KonvaNode[]);
+      }, []);
     this.emit('node:update:before', { nodes: getNodes(nodes) });
     this._update(...nodes);
     this.emit('node:updated', { nodes: getNodes(nodes) });
   }
 
-  public _update(...nodes: KonvaNode[]): void {
+  public _update(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => {
       const originNode = this.getNodeById(node.attrs.id);
       originNode?.setAttrs(node.attrs);
@@ -123,22 +123,22 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public moveUp(...nodes: KonvaNode[]): void {
+  public moveUp(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => node.moveUp());
     this.emit('node:zindex:changed', { nodes });
   }
 
-  public moveDown(...nodes: KonvaNode[]): void {
+  public moveDown(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => node.moveDown());
     this.emit('node:zindex:changed', { nodes });
   }
 
-  public moveTop(...nodes: KonvaNode[]): void {
+  public moveTop(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => node.moveToTop());
     this.emit('node:zindex:changed', { nodes });
   }
 
-  public moveBottom(...nodes: KonvaNode[]): void {
+  public moveBottom(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => node.moveToBottom());
     this.emit('node:zindex:changed', { nodes });
   }
@@ -200,7 +200,7 @@ export class App extends BaseService<EventArgs> {
   }
 
   public async toDataURL(
-    nodes?: KonvaNode[],
+    nodes?: Array<KonvaNode>,
     config?: {
       padding?: number;
       pixelRatio?: number;
