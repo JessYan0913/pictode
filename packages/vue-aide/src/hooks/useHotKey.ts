@@ -28,7 +28,7 @@ export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<
     if (options.ctrlKey) keyCombination.push(osContext?.OS === 'macOS' ? 'Cmd' : 'Ctrl');
     if (options.shiftKey) keyCombination.push(osContext?.OS === 'macOS' ? 'Option' : 'Shift');
 
-    keyCombination.push(key.toUpperCase());
+    keyCombination.push(`${key.charAt(0).toUpperCase()}${key.slice(1)}`);
 
     return keyCombination.join('+');
   });
