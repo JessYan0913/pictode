@@ -7,6 +7,7 @@ declare module '@pictode/core' {
     select(...nodes: KonvaNode[]): void;
     cancelSelect(...nodes: KonvaNode[]): void;
     selectByEvent(event: KonvaMouseEvent): void;
+    selectAll(): void;
   }
 
   export interface EventArgs {

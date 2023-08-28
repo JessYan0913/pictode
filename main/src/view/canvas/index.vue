@@ -64,6 +64,9 @@ app.on('mouse:contextmenu', ({ event }) => {
       ? [
           {
             label: '全部选中',
+            action: () => {
+              app.selectAll();
+            },
           },
           {
             label: '重置画布',

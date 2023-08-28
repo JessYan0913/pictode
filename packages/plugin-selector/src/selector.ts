@@ -135,6 +135,10 @@ export class Selector {
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
+  public selectAll(): void {
+    this.select(...this.app.mainLayer.getChildren());
+  }
+
   public triggerSelector(enable?: boolean): void {
     if (enable === void 0) {
       this.enable = !this.enable;

@@ -29,3 +29,11 @@ App.prototype.selectByEvent = function (event: KonvaMouseEvent): App {
   }
   return this;
 };
+
+App.prototype.selectAll = function (): App {
+  const selectorPlugin = this.getPlugin('selectorPlugin') as SelectorPlugin;
+  if (selectorPlugin) {
+    selectorPlugin.selector?.selectAll();
+  }
+  return this;
+};
