@@ -180,7 +180,7 @@ export class Selector {
   };
 
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
-    if (!this.enable) {
+    if (!this.enable || event.evt.button !== 0) {
       return;
     }
     if (event.target instanceof Konva.Stage) {
@@ -221,8 +221,8 @@ export class Selector {
     this.rubberRect.visible(true);
   };
 
-  private onMouseUp = (): void => {
-    if (!this.enable) {
+  private onMouseUp = ({ event }: EventArgs['mouse:up']): void => {
+    if (!this.enable || event.evt.button !== 0) {
       return; // 未启用时直接返回
     }
 
@@ -236,7 +236,7 @@ export class Selector {
   };
 
   private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (!this.enable) {
+    if (!this.enable || event.evt.button !== 0) {
       return; // 未启用时直接返回
     }
 
