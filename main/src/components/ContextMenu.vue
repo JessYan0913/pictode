@@ -6,6 +6,7 @@ interface Menu {
   label: string;
   action?: () => void;
   disable?: boolean;
+  hotKey?: string;
 }
 
 type MenuGroups = Array<Array<Menu>>;
@@ -100,20 +101,21 @@ onUnmounted(() => {
     <div v-if="popoverVisible" :style="popoverStyle" class="absolute w-screen max-w-sm transform">
       <div
         ref="popoverRef"
-        class="absolute w-56 p-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
+        class="absolute w-56 py-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
       >
         <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
             v-for="(menu, index) in menus"
             :key="index"
-            class="flex items-center rounded-sm p-2 transition duration-150 ease-in-out"
+            class="flex items-center py-2 px-4 transition duration-150 ease-in-out"
             :class="[menu.disable ? 'text-gray-300 cursor-default' : 'text-gray-700 hover:bg-blue-200 cursor-pointer']"
             @click="onClickMenu(menu)"
           >
-            <div>
-              <p class="text-sm font-medium select-none">
+            <div class="w-full flex flex-row justify-between text-sm font-medium select-none">
+              <p>
                 {{ menu.label }}
               </p>
+              <p :class="[menu.disable ? '' : 'text-gray-400', 'text-end text-xs']">{{ menu.hotKey }}</p>
             </div>
           </div>
         </div>

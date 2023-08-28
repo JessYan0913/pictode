@@ -64,27 +64,31 @@ app.on('mouse:contextmenu', ({ event }) => {
   const shapeLayerMenus = selected.value.length
     ? [
         {
-          label: '上移一层',
-          action: () => {
-            app.moveUp(...selected.value);
-          },
-        },
-        {
           label: '下移一层',
+          hotKey: 'Ctrl+[',
           action: () => {
             app.moveDown(...selected.value);
           },
         },
         {
-          label: '置于顶层',
+          label: '上移一层',
+          hotKey: 'Ctrl+]',
           action: () => {
-            app.moveTop(...selected.value);
+            app.moveUp(...selected.value);
           },
         },
         {
           label: '置于底层',
+          hotKey: 'Ctrl+Option+[',
           action: () => {
             app.moveBottom(...selected.value);
+          },
+        },
+        {
+          label: '置于顶层',
+          hotKey: 'Ctrl+Option+]',
+          action: () => {
+            app.moveTop(...selected.value);
           },
         },
       ]
@@ -93,6 +97,7 @@ app.on('mouse:contextmenu', ({ event }) => {
     ? [
         {
           label: '删除',
+          hotKey: 'Delete',
           action: () => {
             app.remove(...selected.value);
           },
@@ -105,12 +110,14 @@ app.on('mouse:contextmenu', ({ event }) => {
       ? [
           {
             label: '全部选中',
+            hotKey: 'Ctrl+A',
             action: () => {
               app.selectAll();
             },
           },
           {
             label: '重置画布',
+            hotKey: 'Ctrl+R',
             action: () => {
               messageBox({
                 title: '清除画布',
@@ -127,6 +134,7 @@ app.on('mouse:contextmenu', ({ event }) => {
   const historyMenus = [
     {
       label: '撤销',
+      hotKey: 'Ctrl+Z',
       disable: !app.canUndo(),
       action: () => {
         app.undo();
@@ -134,6 +142,7 @@ app.on('mouse:contextmenu', ({ event }) => {
     },
     {
       label: '重做',
+      hotKey: 'Ctrl+Y',
       disable: !app.canRedo(),
       action: () => {
         app.redo();
