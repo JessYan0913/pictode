@@ -50,35 +50,35 @@ export class Tooler extends Service {
   }
 
   private onMousedown = ({ event }: EventArgs['mouse:down']): void => {
-    if (!this.available || !this.currentTool?.mousedown) {
+    if (!this.available || !this.currentTool?.mousedown || event.evt.button !== 0) {
       return;
     }
     this.currentTool.mousedown({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMouseup = ({ event }: EventArgs['mouse:up']): void => {
-    if (!this.available || !this.currentTool?.mouseup) {
+    if (!this.available || !this.currentTool?.mouseup || event.evt.button !== 0) {
       return;
     }
     this.currentTool.mouseup({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onMousemove = ({ event }: EventArgs['mouse:move']): void => {
-    if (!this.available || !this.currentTool?.mousemove) {
+    if (!this.available || !this.currentTool?.mousemove || event.evt.button !== 0) {
       return;
     }
     this.currentTool.mousemove({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (!this.available || !this.currentTool?.click) {
+    if (!this.available || !this.currentTool?.click || event.evt.button !== 0) {
       return;
     }
     this.currentTool.click({ event, pointer: this.app.pointer, app: this.app });
   };
 
   private onDoubleClick = ({ event }: EventArgs['mouse:dbclick']): void => {
-    if (!this.available || !this.currentTool?.doubleClick) {
+    if (!this.available || !this.currentTool?.doubleClick || event.evt.button !== 0) {
       return;
     }
     this.currentTool.doubleClick({ event, pointer: this.app.pointer, app: this.app });
