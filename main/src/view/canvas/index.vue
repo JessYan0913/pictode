@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useHotKey } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import usePictode from '@/hooks/usePictode';
@@ -11,6 +12,14 @@ import Tools from './components/Tools.vue';
 const { app } = usePictode();
 
 const canvasRef = ref<HTMLDivElement>();
+
+useHotKey(
+  'a',
+  () => {
+    console.log('你按下了a+n');
+  },
+  { ctrlKey: true }
+);
 
 onMounted(() => {
   if (canvasRef.value) {

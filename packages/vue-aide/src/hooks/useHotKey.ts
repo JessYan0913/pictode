@@ -1,6 +1,7 @@
 import { computed, inject, Ref } from 'vue';
 
 import { OSContextKey } from '../constants/inject-keys';
+import { OSContext } from '../types';
 
 import useEventListener from './useEventListener';
 import useOSContext from './useOSContext';
@@ -8,7 +9,7 @@ import useOSContext from './useOSContext';
 export interface HotKeyOptions {
   target: Ref<EventTarget> | EventTarget;
   shiftKey: boolean;
-  ctrKey: boolean;
+  ctrlKey: boolean;
   exact: boolean; // 当 exact 设置为 true 时，表示在判断快捷键是否匹配时，不仅要考虑按下的按键是否匹配，还需要考虑是否同时满足 Ctrl 键和 Shift 键的状态
 }
 
@@ -23,7 +24,7 @@ export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<
     const options = opts || {};
     const keyCombination = [];
 
-    if (options.ctrKey) keyCombination.push(OSContext?.OS === 'Windows' ? 'Ctrl' : 'Cmd');
+    if (options.ctrlKey) keyCombination.push(OSContext?.OS === 'macOS' ? 'Cmd' : 'Ctrl');
     if (options.shiftKey) keyCombination.push('Shift');
 
     keyCombination.push(key);
@@ -32,25 +33,29 @@ export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<
   });
   useEventListener(target, 'keydown', (event) => {
     const options = opts || {};
-    if (event.key === key && matchKeyScheme(options, event)) {
+    if (event.key === key && matchKeyScheme(options, event, OSContext)) {
       event.preventDefault();
       onKeyPressed();
     }
   });
-  return hotKeyString;
+  return {
+    hotKeyString,
+    onKeyPressed,
+  };
 };
 
 const matchKeyScheme = (
-  opts: Pick<Partial<HotKeyOptions>, 'shiftKey' | 'ctrKey' | 'exact'>,
-  event: KeyboardEvent
+  opts: Pick<Partial<HotKeyOptions>, 'shiftKey' | 'ctrlKey' | 'exact'>,
+  event: KeyboardEvent,
+  context?: OSContext
 ): boolean => {
-  const ctrKey = opts.ctrKey ?? false;
+  const ctrlKey = opts.ctrlKey ?? false;
   const shiftKey = opts.shiftKey ?? false;
   if (opts.exact) {
-    return ctrKey === event.ctrlKey && shiftKey === event.shiftKey;
+    return ctrlKey === event.ctrlKey && shiftKey === event.shiftKey;
   }
   const satisfiedKeys: boolean[] = [];
-  satisfiedKeys.push(ctrKey === event.ctrlKey);
+  satisfiedKeys.push(ctrlKey === (context?.OS === 'macOS' ? event.metaKey : event.ctrlKey));
   satisfiedKeys.push(shiftKey === event.shiftKey);
   return satisfiedKeys.every((item) => item);
 };

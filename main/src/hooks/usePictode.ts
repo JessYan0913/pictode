@@ -62,9 +62,9 @@ const hotKey = useHotKey(
   () => {
     console.log('下移一层');
   },
-  { ctrKey: true }
+  { ctrlKey: true }
 );
-console.log('====>', hotKey.value);
+console.log('====>', hotKey);
 
 const contextMenu = useCommandComponent(ContextMenu);
 const messageBox = useCommandComponent(MessageBox);
