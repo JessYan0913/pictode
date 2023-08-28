@@ -86,7 +86,7 @@ onUnmounted(() => {
     <div v-if="popoverVisible" :style="popoverStyle" class="absolute w-screen max-w-sm transform">
       <div
         ref="popoverRef"
-        class="absolute w-56 p-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute w-56 p-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
       >
         <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
