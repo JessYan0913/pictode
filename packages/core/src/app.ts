@@ -151,7 +151,9 @@ export class App extends BaseService<EventArgs> {
       result.newZIndex = node.getZIndex();
       return result;
     });
-    this.emit('node:zindex:changed', { nodes: eventPayload });
+    if (eventPayload.some(({ oldZIndex, newZIndex }) => oldZIndex !== newZIndex)) {
+      this.emit('node:zindex:changed', { nodes: eventPayload });
+    }
   }
 
   public getNodeById(id: string): KonvaNode | undefined {
