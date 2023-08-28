@@ -124,23 +124,34 @@ export class App extends BaseService<EventArgs> {
   }
 
   public moveUp(...nodes: Array<KonvaNode>): void {
-    nodes.forEach((node) => node.moveUp());
-    this.emit('node:zindex:changed', { nodes });
+    this.moveZIndexNodes(nodes, (node) => node.moveUp());
   }
 
   public moveDown(...nodes: Array<KonvaNode>): void {
-    nodes.forEach((node) => node.moveDown());
-    this.emit('node:zindex:changed', { nodes });
+    this.moveZIndexNodes(nodes, (node) => node.moveDown());
   }
 
   public moveTop(...nodes: Array<KonvaNode>): void {
-    nodes.forEach((node) => node.moveToTop());
-    this.emit('node:zindex:changed', { nodes });
+    this.moveZIndexNodes(nodes, (node) => node.moveToTop());
   }
 
   public moveBottom(...nodes: Array<KonvaNode>): void {
     nodes.forEach((node) => node.moveToBottom());
-    this.emit('node:zindex:changed', { nodes });
+    this.moveZIndexNodes(nodes, (node) => node.moveToBottom());
+  }
+
+  private moveZIndexNodes(nodes: Array<KonvaNode>, handler: (node: KonvaNode) => void): void {
+    const eventPayload = nodes.map((node) => {
+      const result = {
+        node,
+        oldZIndex: node.getZIndex(),
+        newZIndex: node.getZIndex(),
+      };
+      handler(node);
+      result.newZIndex = node.getZIndex();
+      return result;
+    });
+    this.emit('node:zindex:changed', { nodes: eventPayload });
   }
 
   public getNodeById(id: string): KonvaNode | undefined {

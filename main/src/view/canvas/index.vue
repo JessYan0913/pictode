@@ -23,19 +23,25 @@ app.on('mouse:contextmenu', ({ event }) => {
         {
           label: '上移一层',
           action: () => {
-            console.log('上移一层');
+            app.moveUp(...selected.value);
           },
         },
         {
           label: '下移一层',
+          action: () => {
+            app.moveDown(...selected.value);
+          },
         },
         {
           label: '置于顶层',
+          action: () => {
+            app.moveTop(...selected.value);
+          },
         },
         {
           label: '置于底层',
           action: () => {
-            selected.value.forEach((node) => node.moveToBottom());
+            app.moveBottom(...selected.value);
           },
         },
       ]

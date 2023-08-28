@@ -10,14 +10,14 @@ export class MoveZIndexObjectCmd extends BaseCmd<Cmd.MoveZIndexObjectOptions> {
   }
 
   public execute(): void {
-    this.options.newNodes.forEach(({ node, zIndex }) => {
-      node.zIndex(zIndex);
+    this.options.nodes.forEach(({ node, newZIndex }) => {
+      node.setZIndex(newZIndex);
     });
   }
 
   public undo(): void {
-    this.options.oldNodes.forEach(({ node, zIndex }) => {
-      node.zIndex(zIndex);
+    this.options.nodes.forEach(({ node, oldZIndex }) => {
+      node.setZIndex(oldZIndex);
     });
   }
 }

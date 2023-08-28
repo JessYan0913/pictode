@@ -79,7 +79,11 @@ export interface EventArgs {
     nodes: KonvaNode[];
   };
   'node:zindex:changed': {
-    nodes: KonvaNode[];
+    nodes: {
+      node: KonvaNode;
+      oldZIndex: number;
+      newZIndex: number;
+    }[];
   };
   'mouse:down': {
     event: KonvaMouseEvent;

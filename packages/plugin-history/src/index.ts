@@ -2,7 +2,7 @@ import { App, EventArgs, KonvaNode, Plugin } from '@pictode/core';
 
 import './methods';
 
-import { AddObjectCmd, ModifiedObjectCmd, RemoveObjectCmd } from './commands';
+import { AddObjectCmd, ModifiedObjectCmd, MoveZIndexObjectCmd, RemoveObjectCmd } from './commands';
 import { History } from './history';
 import { Options } from './types';
 
@@ -25,7 +25,7 @@ export class HistoryPlugin implements Plugin {
     this.app.on('node:added', this.onNodeAdded);
     this.app.on('node:removed', this.onNodeRemove);
     this.app.on('node:update:before', this.onNodeUpdateBefore);
-    // this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
+    this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
     this.app.on('node:updated', this.onNodeUpdated);
   }
 
@@ -88,13 +88,12 @@ export class HistoryPlugin implements Plugin {
     );
   };
 
-  // private onNodeZIndexChanged = ({ nodes }: EventArgs['node:zindex:changed']) => {
-  //   if (!this.app || !this.history) {
-  //     return;
-  //   }
-  //   // this.history.execute(new MoveZIndexObjectCmd({
-  //   // }));
-  // };
+  private onNodeZIndexChanged = ({ nodes }: EventArgs['node:zindex:changed']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(new MoveZIndexObjectCmd(this.app, { nodes }));
+  };
 }
 
 export default HistoryPlugin;

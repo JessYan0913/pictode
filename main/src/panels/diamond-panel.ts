@@ -42,7 +42,7 @@ export const diamondPanelConfig: PanelConfig = {
   ],
   model: {
     stroke: '#000000',
-    fill: '#ffffff00',
+    fill: '#ffffff',
     strokeWidth: 2,
     opacity: 1,
   },

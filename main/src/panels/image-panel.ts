@@ -36,7 +36,7 @@ export const imagePanelConfig: PanelConfig = {
     },
   ],
   model: {
-    stroke: '#ffffff00',
+    stroke: '#ffffff',
     strokeWidth: 2,
     opacity: 1,
   },

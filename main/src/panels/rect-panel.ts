@@ -58,7 +58,7 @@ export const rectPanelConfig: PanelConfig = {
   ],
   model: {
     stroke: '#000000',
-    fill: '#ffffff00',
+    fill: '#ffffff',
     strokeWidth: 2,
     cornerRadius: 10,
     opacity: 1,
