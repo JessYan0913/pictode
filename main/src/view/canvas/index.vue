@@ -4,6 +4,7 @@ import { Konva } from '@pictode/core';
 import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
+import MessageBox from '@/components/MessageBox.vue';
 import usePictode from '@/hooks/usePictode';
 
 import ContextMenu from './components/ContextMenu.vue';
@@ -15,6 +16,7 @@ const { app, selected } = usePictode();
 
 const canvasRef = ref<HTMLDivElement>();
 const contextMenu = useCommandComponent(ContextMenu);
+const clearStageMessageBox = useCommandComponent(MessageBox);
 
 app.on('mouse:contextmenu', ({ event }) => {
   event.evt.preventDefault();
@@ -62,6 +64,16 @@ app.on('mouse:contextmenu', ({ event }) => {
           },
           {
             label: '重置画布',
+            action: () => {
+              clearStageMessageBox({
+                title: '清除画布',
+                message: '将会清空画布内容，是否继续？',
+                onSubmit: () => {
+                  app.clear();
+                  clearStageMessageBox.close();
+                },
+              });
+            },
           },
         ]
       : [];
