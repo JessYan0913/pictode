@@ -2,7 +2,7 @@ import { Ref, ref } from 'vue';
 import { App, Konva, KonvaNode } from '@pictode/core';
 import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
-import { useCommandComponent } from '@pictode/vue-aide';
+import { useCommandComponent, useHotKey } from '@pictode/vue-aide';
 
 import ContextMenu from '@/components/ContextMenu.vue';
 import MessageBox from '@/components/MessageBox.vue';
@@ -56,6 +56,15 @@ app.on('tool:changed', ({ curTool }) => {
   panelFormModel.value = newPanelConfig.model;
   curTool.config = panelFormModel.value;
 });
+
+const hotKey = useHotKey(
+  '[',
+  () => {
+    console.log('下移一层');
+  },
+  { ctrKey: true }
+);
+console.log('====>', hotKey.value);
 
 const contextMenu = useCommandComponent(ContextMenu);
 const messageBox = useCommandComponent(MessageBox);

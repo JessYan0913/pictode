@@ -1,6 +1,9 @@
-import { Ref } from 'vue';
+import { computed, inject, Ref } from 'vue';
+
+import { OSContextKey } from '../constants/inject-keys';
 
 import useEventListener from './useEventListener';
+import useOSContext from './useOSContext';
 
 export interface HotKeyOptions {
   target: Ref<EventTarget> | EventTarget;
@@ -11,6 +14,22 @@ export interface HotKeyOptions {
 
 export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<HotKeyOptions>) => {
   const target = opts?.target ?? window;
+  let OSContext = inject(OSContextKey);
+  if (!OSContext) {
+    OSContext = useOSContext();
+  }
+
+  const hotKeyString = computed(() => {
+    const options = opts || {};
+    const keyCombination = [];
+
+    if (options.ctrKey) keyCombination.push(OSContext?.OS === 'Windows' ? 'Ctrl' : 'Cmd');
+    if (options.shiftKey) keyCombination.push('Shift');
+
+    keyCombination.push(key);
+
+    return keyCombination.join('+');
+  });
   useEventListener(target, 'keydown', (event) => {
     const options = opts || {};
     if (event.key === key && matchKeyScheme(options, event)) {
@@ -18,6 +37,7 @@ export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<
       onKeyPressed();
     }
   });
+  return hotKeyString;
 };
 
 const matchKeyScheme = (
