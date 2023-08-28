@@ -2,7 +2,13 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useOnEventOutside } from '@pictode/vue-aide';
 
-type MenuGroups = Array<Array<{ label: string; action?: () => void }>>;
+interface Menu {
+  label: string;
+  action?: () => void;
+  disable?: boolean;
+}
+
+type MenuGroups = Array<Array<Menu>>;
 
 const props = withDefaults(
   defineProps<{
@@ -61,6 +67,14 @@ const onContextmenu = (e: MouseEvent) => {
   e.preventDefault();
 };
 
+const onClickMenu = (menu: Menu) => {
+  if (menu.disable) {
+    return;
+  }
+  menu.action?.();
+  popoverVisible.value = false;
+};
+
 onMounted(() => {
   if (popoverRef.value) {
     popoverRef.value.addEventListener('contextmenu', onContextmenu, false);
@@ -90,14 +104,15 @@ onUnmounted(() => {
       >
         <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
-            v-for="(item, index) in menus"
+            v-for="(menu, index) in menus"
             :key="index"
-            class="flex items-center cursor-pointer rounded-sm p-2 transition duration-150 ease-in-out hover:bg-blue-200"
-            @click="item.action?.()"
+            class="flex items-center rounded-sm p-2 transition duration-150 ease-in-out"
+            :class="[menu.disable ? 'text-gray-300 cursor-default' : 'text-gray-700 hover:bg-blue-200 cursor-pointer']"
+            @click="onClickMenu(menu)"
           >
             <div>
-              <p class="text-sm font-medium text-gray-700 select-none">
-                {{ item.label }}
+              <p class="text-sm font-medium select-none">
+                {{ menu.label }}
               </p>
             </div>
           </div>

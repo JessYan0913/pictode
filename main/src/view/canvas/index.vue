@@ -24,28 +24,24 @@ app.on('mouse:contextmenu', ({ event }) => {
           label: '上移一层',
           action: () => {
             app.moveUp(...selected.value);
-            contextMenu.close();
           },
         },
         {
           label: '下移一层',
           action: () => {
             app.moveDown(...selected.value);
-            contextMenu.close();
           },
         },
         {
           label: '置于顶层',
           action: () => {
             app.moveTop(...selected.value);
-            contextMenu.close();
           },
         },
         {
           label: '置于底层',
           action: () => {
             app.moveBottom(...selected.value);
-            contextMenu.close();
           },
         },
       ]
@@ -72,9 +68,17 @@ app.on('mouse:contextmenu', ({ event }) => {
   const historyMenus = [
     {
       label: '撤销',
+      disable: !app.canUndo(),
+      action: () => {
+        app.undo();
+      },
     },
     {
       label: '重做',
+      disable: !app.canRedo(),
+      action: () => {
+        app.redo();
+      },
     },
   ];
   const menuGroups = [stageMenus, shapeLayerMenus, historyMenus, shapeDeleteMenus];
