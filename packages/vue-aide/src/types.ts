@@ -18,3 +18,9 @@ export interface OSContext {
   geolocation: null | Geolocation;
   timeZone: string;
 }
+
+export interface HotKeyInfo {
+  hotKey: string;
+  directions?: string;
+  onKeyPressed: () => void;
+}

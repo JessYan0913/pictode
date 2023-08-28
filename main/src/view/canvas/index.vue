@@ -1,25 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useHotKey } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
+import useContextMenu from '@/hooks/useContextMenu';
 import usePictode from '@/hooks/usePictode';
 
 import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
-const { app } = usePictode();
+const { app, selected } = usePictode();
+
+useContextMenu(app, selected);
 
 const canvasRef = ref<HTMLDivElement>();
-
-useHotKey(
-  'a',
-  () => {
-    console.log('你按下了a+n');
-  },
-  { ctrlKey: true }
-);
 
 onMounted(() => {
   if (canvasRef.value) {

@@ -1,11 +1,8 @@
 import { Ref, ref } from 'vue';
-import { App, Konva, KonvaNode } from '@pictode/core';
+import { App, KonvaNode } from '@pictode/core';
 import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
-import { useCommandComponent, useHotKey } from '@pictode/vue-aide';
 
-import ContextMenu from '@/components/ContextMenu.vue';
-import MessageBox from '@/components/MessageBox.vue';
 import { FormConfig, FormValue } from '@/form';
 import { getPanelConfigByShape, getPanelConfigByTool } from '@/panels';
 
@@ -55,116 +52,6 @@ app.on('tool:changed', ({ curTool }) => {
   panelFormConfig.value = newPanelConfig.formConfig;
   panelFormModel.value = newPanelConfig.model;
   curTool.config = panelFormModel.value;
-});
-
-const hotKey = useHotKey(
-  '[',
-  () => {
-    console.log('下移一层');
-  },
-  { ctrlKey: true }
-);
-console.log('====>', hotKey);
-
-const contextMenu = useCommandComponent(ContextMenu);
-const messageBox = useCommandComponent(MessageBox);
-app.on('mouse:contextmenu', ({ event }) => {
-  event.evt.preventDefault();
-  const shapeLayerMenus = selected.value.length
-    ? [
-        {
-          label: '下移一层',
-          hotKey: 'Ctrl+[',
-          action: () => {
-            app.moveDown(...selected.value);
-          },
-        },
-        {
-          label: '上移一层',
-          hotKey: 'Ctrl+]',
-          action: () => {
-            app.moveUp(...selected.value);
-          },
-        },
-        {
-          label: '置于底层',
-          hotKey: 'Ctrl+Option+[',
-          action: () => {
-            app.moveBottom(...selected.value);
-          },
-        },
-        {
-          label: '置于顶层',
-          hotKey: 'Ctrl+Option+]',
-          action: () => {
-            app.moveTop(...selected.value);
-          },
-        },
-      ]
-    : [];
-  const shapeDeleteMenus = selected.value.length
-    ? [
-        {
-          label: '删除',
-          hotKey: 'Delete',
-          action: () => {
-            app.remove(...selected.value);
-          },
-        },
-      ]
-    : [];
-  const targetIsStage = event.target instanceof Konva.Stage;
-  const stageMenus =
-    targetIsStage || selected.value.length === 0
-      ? [
-          {
-            label: '全部选中',
-            hotKey: 'Ctrl+A',
-            action: () => {
-              app.selectAll();
-            },
-          },
-          {
-            label: '重置画布',
-            hotKey: 'Ctrl+R',
-            action: () => {
-              messageBox({
-                title: '清除画布',
-                message: '将会清空画布内容，是否继续？',
-                onSubmit: () => {
-                  app.clear();
-                  messageBox.close();
-                },
-              });
-            },
-          },
-        ]
-      : [];
-  const historyMenus = [
-    {
-      label: '撤销',
-      hotKey: 'Ctrl+Z',
-      disable: !app.canUndo(),
-      action: () => {
-        app.undo();
-      },
-    },
-    {
-      label: '重做',
-      hotKey: 'Ctrl+Y',
-      disable: !app.canRedo(),
-      action: () => {
-        app.redo();
-      },
-    },
-  ];
-  const menuGroups = [stageMenus, shapeLayerMenus, historyMenus, shapeDeleteMenus];
-
-  contextMenu({
-    x: event.evt.clientX,
-    y: event.evt.clientY,
-    menuGroups,
-  });
 });
 
 export const usePictode = () => {
