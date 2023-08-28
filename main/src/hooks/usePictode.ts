@@ -1,10 +1,13 @@
 import { Ref, ref } from 'vue';
-import { App, KonvaNode } from '@pictode/core';
+import { App, Konva, KonvaNode } from '@pictode/core';
 import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
+import { useCommandComponent } from '@pictode/vue-aide';
 
+import MessageBox from '@/components/MessageBox.vue';
 import { FormConfig, FormValue } from '@/form';
 import { getPanelConfigByShape, getPanelConfigByTool } from '@/panels';
+import ContextMenu from '@/view/canvas/components/ContextMenu.vue';
 
 const app = new App();
 
@@ -52,6 +55,98 @@ app.on('tool:changed', ({ curTool }) => {
   panelFormConfig.value = newPanelConfig.formConfig;
   panelFormModel.value = newPanelConfig.model;
   curTool.config = panelFormModel.value;
+});
+
+const contextMenu = useCommandComponent(ContextMenu);
+const messageBox = useCommandComponent(MessageBox);
+app.on('mouse:contextmenu', ({ event }) => {
+  event.evt.preventDefault();
+  const shapeLayerMenus = selected.value.length
+    ? [
+        {
+          label: '上移一层',
+          action: () => {
+            app.moveUp(...selected.value);
+          },
+        },
+        {
+          label: '下移一层',
+          action: () => {
+            app.moveDown(...selected.value);
+          },
+        },
+        {
+          label: '置于顶层',
+          action: () => {
+            app.moveTop(...selected.value);
+          },
+        },
+        {
+          label: '置于底层',
+          action: () => {
+            app.moveBottom(...selected.value);
+          },
+        },
+      ]
+    : [];
+  const shapeDeleteMenus = selected.value.length
+    ? [
+        {
+          label: '删除',
+          action: () => {
+            app.remove(...selected.value);
+          },
+        },
+      ]
+    : [];
+  const targetIsStage = event.target instanceof Konva.Stage;
+  const stageMenus =
+    targetIsStage || selected.value.length === 0
+      ? [
+          {
+            label: '全部选中',
+            action: () => {
+              app.selectAll();
+            },
+          },
+          {
+            label: '重置画布',
+            action: () => {
+              messageBox({
+                title: '清除画布',
+                message: '将会清空画布内容，是否继续？',
+                onSubmit: () => {
+                  app.clear();
+                  messageBox.close();
+                },
+              });
+            },
+          },
+        ]
+      : [];
+  const historyMenus = [
+    {
+      label: '撤销',
+      disable: !app.canUndo(),
+      action: () => {
+        app.undo();
+      },
+    },
+    {
+      label: '重做',
+      disable: !app.canRedo(),
+      action: () => {
+        app.redo();
+      },
+    },
+  ];
+  const menuGroups = [stageMenus, shapeLayerMenus, historyMenus, shapeDeleteMenus];
+
+  contextMenu({
+    x: event.evt.clientX,
+    y: event.evt.clientY,
+    menuGroups,
+  });
 });
 
 export const usePictode = () => {

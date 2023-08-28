@@ -1,112 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Konva } from '@pictode/core';
-import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
-import MessageBox from '@/components/MessageBox.vue';
 import usePictode from '@/hooks/usePictode';
 
-import ContextMenu from './components/ContextMenu.vue';
 import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
-const { app, selected } = usePictode();
+const { app } = usePictode();
 
 const canvasRef = ref<HTMLDivElement>();
-const contextMenu = useCommandComponent(ContextMenu);
-const clearStageMessageBox = useCommandComponent(MessageBox);
-
-app.on('mouse:contextmenu', ({ event }) => {
-  event.evt.preventDefault();
-  const shapeLayerMenus = selected.value.length
-    ? [
-        {
-          label: '上移一层',
-          action: () => {
-            app.moveUp(...selected.value);
-          },
-        },
-        {
-          label: '下移一层',
-          action: () => {
-            app.moveDown(...selected.value);
-          },
-        },
-        {
-          label: '置于顶层',
-          action: () => {
-            app.moveTop(...selected.value);
-          },
-        },
-        {
-          label: '置于底层',
-          action: () => {
-            app.moveBottom(...selected.value);
-          },
-        },
-      ]
-    : [];
-  const shapeDeleteMenus = selected.value.length
-    ? [
-        {
-          label: '删除',
-          action: () => {
-            app.remove(...selected.value);
-          },
-        },
-      ]
-    : [];
-  const targetIsStage = event.target instanceof Konva.Stage;
-  const stageMenus =
-    targetIsStage || selected.value.length === 0
-      ? [
-          {
-            label: '全部选中',
-            action: () => {
-              app.selectAll();
-            },
-          },
-          {
-            label: '重置画布',
-            action: () => {
-              clearStageMessageBox({
-                title: '清除画布',
-                message: '将会清空画布内容，是否继续？',
-                onSubmit: () => {
-                  app.clear();
-                  clearStageMessageBox.close();
-                },
-              });
-            },
-          },
-        ]
-      : [];
-  const historyMenus = [
-    {
-      label: '撤销',
-      disable: !app.canUndo(),
-      action: () => {
-        app.undo();
-      },
-    },
-    {
-      label: '重做',
-      disable: !app.canRedo(),
-      action: () => {
-        app.redo();
-      },
-    },
-  ];
-  const menuGroups = [stageMenus, shapeLayerMenus, historyMenus, shapeDeleteMenus];
-
-  contextMenu({
-    x: event.evt.clientX,
-    y: event.evt.clientY,
-    menuGroups,
-  });
-});
 
 onMounted(() => {
   if (canvasRef.value) {
