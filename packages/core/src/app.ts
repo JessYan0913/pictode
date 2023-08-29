@@ -68,6 +68,14 @@ export class App extends BaseService<EventArgs> {
     await this.tooler.setTool(curTool);
   }
 
+  public triggerStageDraggable(draggable?: boolean): void {
+    if (draggable === void 0) {
+      this.stage.draggable(this.stage.draggable());
+    } else {
+      this.stage.draggable(draggable);
+    }
+  }
+
   public triggerToolAvailability(enable?: boolean): void {
     this.tooler.triggerAvailability(enable);
   }

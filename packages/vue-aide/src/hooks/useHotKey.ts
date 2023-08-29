@@ -1,4 +1,4 @@
-import { computed, inject, Ref } from 'vue';
+import { computed, inject, Ref, unref } from 'vue';
 
 import { OSContextKey } from '../constants/inject-keys';
 import { HotKeyInfo, OSContext } from '../types';
@@ -14,7 +14,11 @@ export interface HotKeyOptions {
   exact: boolean; // 当 exact 设置为 true 时，表示在判断快捷键是否匹配时，不仅要考虑按下的按键是否匹配，还需要考虑是否同时满足 Ctrl 键和 Shift 键的状态
 }
 
-export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<HotKeyOptions>): HotKeyInfo => {
+export const useHotKey = (
+  key: string,
+  onKeyPressed: () => void | (() => void),
+  opts?: Partial<HotKeyOptions>
+): HotKeyInfo => {
   const target = opts?.target ?? window;
   let osContext = inject(OSContextKey, undefined);
   if (!osContext) {
@@ -36,7 +40,17 @@ export const useHotKey = (key: string, onKeyPressed: () => void, opts?: Partial<
     const options = opts || {};
     if (event.key === key.toLowerCase() && matchKeyScheme(options, event, osContext)) {
       event.preventDefault();
-      onKeyPressed();
+      const result = onKeyPressed();
+      if (typeof result !== 'function') {
+        return;
+      }
+      const targetElement: EventTarget = unref(target);
+      const handleKeyup = (event: Event) => {
+        event.preventDefault();
+        result();
+        targetElement.removeEventListener('keyup', handleKeyup);
+      };
+      targetElement.addEventListener('keyup', handleKeyup);
     }
   });
   return {

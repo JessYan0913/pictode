@@ -16,30 +16,52 @@ export class Mouse extends Service {
   }
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      this.app.stage.draggable(true);
+      return;
+    }
     this.app.emit('mouse:down', { event });
   };
 
   private onMouseUp = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:up', { event });
   };
 
   private onMouseMove = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:move', { event });
   };
 
   private onMouseOver = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:over', { event });
   };
 
   private onMouseOut = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:out', { event });
   };
 
   private onMouseDoubleClick = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:dbclick', { event });
   };
 
   private onMouseClick = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:click', { event });
   };
 

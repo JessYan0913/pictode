@@ -77,6 +77,16 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     },
     { directions: '重做', exact: true, ctrlKey: true }
   );
+  const stageDrag = useHotKey(
+    ' ',
+    () => {
+      app.triggerStageDraggable(true);
+      return () => {
+        app.triggerStageDraggable(false);
+      };
+    },
+    { directions: '移动画布' }
+  );
   return {
     moveDown,
     moveUp,
@@ -87,6 +97,7 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     resetStage,
     undo,
     redo,
+    stageDrag,
   };
 };
 
