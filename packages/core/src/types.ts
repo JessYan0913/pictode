@@ -4,6 +4,7 @@ import App from './app';
 import { Point } from './utils';
 
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
+export type KonvaWheelEvent = Konva.KonvaEventObject<WheelEvent>;
 export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
 export type KonvaNode = Konva.Group | Konva.Shape;
 
@@ -121,8 +122,4 @@ export interface ControlVisible {
   tl?: boolean;
   tr?: boolean;
   mtr?: boolean;
-}
-
-export interface AppConfig {
-  backgroundColor?: string;
 }
