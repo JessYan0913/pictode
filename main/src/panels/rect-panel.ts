@@ -46,7 +46,7 @@ export const rectPanelConfig: PanelConfig = {
         },
         {
           label: 'node-round',
-          value: 10,
+          value: 20,
         },
       ],
     },
@@ -60,7 +60,7 @@ export const rectPanelConfig: PanelConfig = {
     stroke: '#000000',
     fill: '#ffffff',
     strokeWidth: 2,
-    cornerRadius: 10,
+    cornerRadius: 20,
     opacity: 1,
   },
 };
