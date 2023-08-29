@@ -68,9 +68,9 @@ export class Mouse extends Service {
   };
 
   private onMouseContextmenu = (event: KonvaMouseEvent): void => {
-    this.app.triggerToolAvailability(false);
+    this.app.triggerTool(false);
     this.app.emit('mouse:contextmenu', { event });
-    setTimeout(() => this.app.triggerToolAvailability(true), 100);
+    setTimeout(() => this.app.triggerTool(true), 100);
   };
 
   private onWheel = (event: KonvaWheelEvent): void => {

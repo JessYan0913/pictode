@@ -37,12 +37,12 @@ export class Tooler extends Service {
     this.app.emit('tool:changed', { oldTool, curTool });
   }
 
-  public triggerAvailability(enable?: boolean): void {
+  public trigger(enabled?: boolean): void {
     let oldEnable = this.enable;
-    if (enable === void 0) {
+    if (enabled === void 0) {
       this.enable = !this.enable;
     } else {
-      this.enable = enable;
+      this.enable = enabled;
     }
     if (this.currentTool?.enableChanged) {
       this.currentTool.enableChanged(oldEnable, this.enable);

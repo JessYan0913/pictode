@@ -83,8 +83,16 @@ export class App extends BaseService<EventArgs> {
     }
   }
 
-  public triggerToolAvailability(enable?: boolean): void {
-    this.tooler.triggerAvailability(enable);
+  public triggerMouseWheel(enabled?: boolean): void {
+    if (enabled === void 0) {
+      this.config.mousewheel.enabled = !this.config.mousewheel.enabled;
+    } else {
+      this.config.mousewheel.enabled = enabled;
+    }
+  }
+
+  public triggerTool(enabled?: boolean): void {
+    this.tooler.trigger(enabled);
   }
 
   public add(...nodes: Array<KonvaNode>): void {
