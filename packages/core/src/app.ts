@@ -225,8 +225,13 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer.draw();
   }
 
-  public scrollToContent(): void {
-    //TODO: 需要实现滚动到内容功能
+  public scale(): number {
+    return this.stage.scaleX();
+  }
+
+  public scaleTo(scale: number): void {
+    const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
+    this.stage.scale({ x: newScale, y: newScale });
   }
 
   public clear(): void {
