@@ -75,6 +75,9 @@ export class Mouse extends Service {
 
   private onWheel = (event: KonvaWheelEvent): void => {
     event.evt.preventDefault();
+    if (!event.evt.metaKey && !(event.evt.ctrlKey && navigator.userAgent.indexOf('Win') > -1)) {
+      return;
+    }
     const oldScale = this.app.stage.scaleX();
     const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
     const mousePointTo = new Point(
@@ -83,9 +86,6 @@ export class Mouse extends Service {
     );
 
     let direction = event.evt.deltaY > 0 ? 1 : -1;
-    if (event.evt.ctrlKey) {
-      direction = -direction;
-    }
     let newScale = oldScale;
     if (direction > 0) {
       newScale += 0.1;
