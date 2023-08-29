@@ -3,6 +3,24 @@ import Konva from 'konva';
 import App from './app';
 import { Point } from './utils';
 
+export type Modifier = 'ctrl' | 'alt' | 'shift';
+
+export interface AppConfig {
+  backgroundColor: string;
+  panning: {
+    enabled: boolean;
+  };
+  scale: {
+    min: number;
+    max: number;
+  };
+  mousewheel: {
+    enabled: boolean;
+    zoomAtMousePosition?: boolean;
+    modifiers?: Modifier | Modifier[];
+  };
+}
+
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
 export type KonvaWheelEvent = Konva.KonvaEventObject<WheelEvent>;
 export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;

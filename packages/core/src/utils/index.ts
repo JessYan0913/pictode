@@ -6,6 +6,18 @@ export { guid, readeFile, selectFile } from '@pictode/utils';
 
 export const DEFAULT_APP_CONFIG: AppConfig = {
   backgroundColor: '#ffffff',
+  scale: {
+    min: 0.05,
+    max: 5,
+  },
+  panning: {
+    enabled: true,
+  },
+  mousewheel: {
+    enabled: true,
+    zoomAtMousePosition: true,
+    modifiers: 'ctrl',
+  },
 };
 
 export const shapeArrayEqual = (nodes1: KonvaNode[], nodes2: KonvaNode[]): boolean => {
