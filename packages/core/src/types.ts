@@ -9,6 +9,8 @@ export interface AppConfig {
   backgroundColor: string;
   panning: {
     enabled: boolean;
+    modifiers?: Modifier[] | string;
+    cursor?: string;
   };
   scale: {
     min: number;
@@ -17,7 +19,7 @@ export interface AppConfig {
   mousewheel: {
     enabled: boolean;
     zoomAtMousePosition?: boolean;
-    modifiers?: Modifier | Modifier[];
+    modifiers?: Modifier[] | string;
   };
 }
 

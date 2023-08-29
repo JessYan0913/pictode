@@ -5,21 +5,23 @@ import './polyfill';
 
 import { Mouse } from './services/mouse';
 import { Tooler } from './services/tooler';
-import { EventArgs, KonvaNode, Plugin, Tool } from './types';
-import { guid, Point } from './utils';
+import { AppConfig, EventArgs, KonvaNode, Plugin, Tool } from './types';
+import { DEFAULT_APP_CONFIG, guid, Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public mainLayer: Konva.Layer;
   public containerElement: HTMLDivElement;
+  public config: AppConfig;
 
   private mouse: Mouse;
   private tooler: Tooler;
   private installedPlugins: Map<string, Plugin> = new Map();
   private resizeObserver: ResizeObserver;
 
-  constructor() {
+  constructor(config?: Partial<AppConfig>) {
     super();
+    this.config = { ...DEFAULT_APP_CONFIG, ...config };
     this.containerElement = document.createElement('div');
     this.containerElement.setAttribute(
       'style',

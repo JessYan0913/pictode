@@ -94,7 +94,7 @@ export class Mouse extends Service {
     }
 
     // Set the scale value
-    newScale = Math.min(Math.max(newScale, 0.05), 5);
+    newScale = Math.min(Math.max(newScale, this.app.config.scale.min), this.app.config.scale.max);
 
     // Apply this scale to the stage.
     this.app.stage.scale({ x: newScale, y: newScale });
