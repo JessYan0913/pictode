@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
+import { injectStrict } from '@pictode/vue-aide';
 
 import Dialog from '@/components/Dialog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import Select from '@/components/Select.vue';
 import Switch from '@/components/Switch.vue';
+import { PictodeAppKey, PictodeSelectedKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
 import useExport from '@/hooks/useExport';
-import usePictode from '@/hooks/usePictode';
 
 const props = defineProps<{
   visible: boolean;
@@ -19,7 +20,8 @@ const emits = defineEmits<{
   (event: 'close'): void;
 }>();
 
-const { app, selected } = usePictode();
+const app = injectStrict(PictodeAppKey);
+const selected = injectStrict(PictodeSelectedKey);
 
 const dialogVisible = computed<boolean>({
   get() {

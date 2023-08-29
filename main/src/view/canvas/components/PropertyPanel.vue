@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { Form } from '@/form';
-import usePictode from '@/hooks/usePictode';
+import { injectStrict } from '@pictode/vue-aide';
 
-const { app, selected, panelFormConfig, panelFormModel } = usePictode();
+import { PictodeAppKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
+import { Form } from '@/form';
+
+const app = injectStrict(PictodeAppKey);
+const selected = injectStrict(PictodeSelectedKey);
+const { panelFormConfig, panelFormModel } = injectStrict(PictodePanelFormKey);
 
 const handleFormChange = (value: any) => {
   app.update(

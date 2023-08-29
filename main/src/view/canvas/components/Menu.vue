@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { useCommandComponent } from '@pictode/vue-aide';
+import { injectStrict, useCommandComponent } from '@pictode/vue-aide';
 
 import MessageBox from '@/components/MessageBox.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
+import { PictodeAppKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
 import useExport from '@/hooks/useExport';
-import usePictode from '@/hooks/usePictode';
 import useReadFileContent from '@/hooks/useReadFileContent';
 
 import ExportImageDialog from './ExportImageDialog.vue';
@@ -16,7 +16,7 @@ interface MenuConfig {
   handler: () => void;
 }
 
-const { app } = usePictode();
+const app = injectStrict(PictodeAppKey);
 
 const exportImageDialog = useCommandComponent(ExportImageDialog);
 const messageBox = useCommandComponent(MessageBox);

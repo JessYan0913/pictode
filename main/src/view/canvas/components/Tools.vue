@@ -12,14 +12,15 @@ import {
   SelectTool,
   TextTool,
 } from '@pictode/tools';
+import { injectStrict } from '@pictode/vue-aide';
 
 import eraserRect from '@/assets/images/eraser-rect.svg';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import SvgIcon from '@/components/SvgIcon.vue';
-import usePictode from '@/hooks/usePictode';
+import { PictodeAppKey } from '@/constants/inject-key';
 
-const { app } = usePictode();
+const app = injectStrict(PictodeAppKey);
 
 interface ToolInfo {
   icon: string;
