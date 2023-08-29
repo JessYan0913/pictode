@@ -1,4 +1,4 @@
-import { provide, reactive, watch } from 'vue';
+import { MaybeRef, provide, reactive, unref, watch, watchEffect } from 'vue';
 
 import { OSContextKey } from '../constants/inject-keys';
 import { BrowserInfo, Geolocation, OperatingSystem, OSContext } from '../types';
@@ -125,7 +125,7 @@ const getUserGeolocation = (): Promise<Geolocation> => {
   }
 };
 
-export const useOSContext = () => {
+export const useOSContext = (needLocation: MaybeRef<boolean> = false) => {
   const isDarkModel = useMedia('(prefers-color-scheme: dark)');
   const osContext = reactive<OSContext>({
     OS: getOperatingSystem(),
@@ -138,14 +138,17 @@ export const useOSContext = () => {
     geolocation: null,
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   });
-  getUserGeolocation()
-    .then((geoInfo) => {
-      osContext.geolocation = geoInfo;
-    })
-    .catch((error) => {
-      console.error('Error getting geolocation:', error);
-    });
-
+  watchEffect(() => {
+    if (unref(needLocation)) {
+      getUserGeolocation()
+        .then((geoInfo) => {
+          osContext.geolocation = geoInfo;
+        })
+        .catch((error) => {
+          console.error('Error getting geolocation:', error);
+        });
+    }
+  });
   watch(
     () => isDarkModel.value,
     () => {
