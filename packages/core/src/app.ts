@@ -70,16 +70,16 @@ export class App extends BaseService<EventArgs> {
     await this.tooler.setTool(curTool);
   }
 
-  public triggerStageDraggable(draggable?: boolean): void {
-    if (draggable === void 0) {
+  public triggerPanning(enabled?: boolean): void {
+    if (enabled === void 0) {
       this.stage.draggable(this.stage.draggable());
     } else {
-      this.stage.draggable(draggable);
+      this.stage.draggable(enabled);
     }
     if (this.stage.draggable()) {
-      this.containerElement.style.cursor = 'grabbing';
+      this.stage.container().style.cursor = this.config.panning.cursor ?? 'grabbing';
     } else {
-      this.containerElement.style.cursor = 'default';
+      this.stage.container().style.cursor = 'default';
     }
   }
 

@@ -11,8 +11,7 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
     max: 5,
   },
   panning: {
-    enabled: true,
-    modifiers: 'ctrl',
+    enabled: false,
     cursor: 'grabbing',
   },
   mousewheel: {

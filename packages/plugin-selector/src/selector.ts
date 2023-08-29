@@ -63,7 +63,7 @@ export class Selector {
         if (!anchor.hasName('rotater')) {
           return;
         }
-        setAnchorCursor('grab');
+        setAnchorCursor('grabbing');
       });
       anchor.on('mouseout', () => {
         this.enable = true;

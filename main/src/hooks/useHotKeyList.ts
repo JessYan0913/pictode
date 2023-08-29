@@ -80,9 +80,9 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const stageDrag = useHotKey(
     ' ',
     () => {
-      app.triggerStageDraggable(true);
+      app.triggerPanning(true);
       return () => {
-        app.triggerStageDraggable(false);
+        app.triggerPanning(false);
       };
     },
     { directions: '移动画布' }

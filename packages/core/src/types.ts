@@ -9,7 +9,6 @@ export interface AppConfig {
   backgroundColor: string;
   panning: {
     enabled: boolean;
-    modifiers?: Modifier[] | string;
     cursor?: string;
   };
   scale: {
