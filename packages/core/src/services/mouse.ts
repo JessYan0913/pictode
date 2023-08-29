@@ -1,6 +1,6 @@
 import { App } from '../app';
 import { KonvaMouseEvent, KonvaWheelEvent, Service } from '../types';
-import { Point } from '../utils';
+import { matchKeyScheme, Point } from '../utils';
 
 export class Mouse extends Service {
   constructor(app: App) {
@@ -75,7 +75,9 @@ export class Mouse extends Service {
 
   private onWheel = (event: KonvaWheelEvent): void => {
     event.evt.preventDefault();
-    if (!event.evt.metaKey && !(event.evt.ctrlKey && navigator.userAgent.indexOf('Win') > -1)) {
+    if (
+      !matchKeyScheme(this.app.config.mousewheel.modifiers ?? {}, event.evt, navigator.userAgent.indexOf('Win') > -1)
+    ) {
       return;
     }
     const oldScale = this.app.stage.scaleX();

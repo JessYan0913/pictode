@@ -3,7 +3,12 @@ import Konva from 'konva';
 import App from './app';
 import { Point } from './utils';
 
-export type Modifier = 'ctrl' | 'alt' | 'shift';
+export interface Modifier {
+  ctrlKey: boolean;
+  shiftKey: boolean;
+  altKey: boolean;
+  exact: boolean;
+}
 
 export interface AppConfig {
   backgroundColor: string;
@@ -18,7 +23,7 @@ export interface AppConfig {
   mousewheel: {
     enabled: boolean;
     zoomAtMousePosition?: boolean;
-    modifiers?: Modifier[] | string;
+    modifiers?: Partial<Modifier>;
   };
 }
 

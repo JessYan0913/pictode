@@ -2,6 +2,8 @@ import { AppConfig, KonvaNode } from '../types';
 
 export * from './math';
 
+export * from './event';
+
 export { guid, readeFile, selectFile } from '@pictode/utils';
 
 export const DEFAULT_APP_CONFIG: AppConfig = {
@@ -17,7 +19,9 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
   mousewheel: {
     enabled: true,
     zoomAtMousePosition: true,
-    modifiers: 'ctrl',
+    modifiers: {
+      ctrlKey: true,
+    },
   },
 };
 
