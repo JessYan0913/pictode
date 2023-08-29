@@ -41,7 +41,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
           ]
         : [];
     const shapeDeleteMenus =
-      selected.value.length && targetIsStage
+      selected.value.length && !targetIsStage
         ? [
             {
               label: deleteNode.directions,
