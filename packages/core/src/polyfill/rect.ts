@@ -10,6 +10,7 @@ Konva.Rect.prototype.toObject = function (): any {
       ...object.attrs,
       strokeWidth: this.strokeWidth(),
       dash: this.dash(),
+      cornerRadius: this.cornerRadius(),
     },
   };
 };
