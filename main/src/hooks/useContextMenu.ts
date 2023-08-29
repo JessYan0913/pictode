@@ -14,40 +14,42 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   );
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
-    const shapeLayerMenus = selected.value.length
-      ? [
-          {
-            label: moveDown.directions,
-            hotKey: moveDown.hotKey,
-            action: moveDown.onKeyPressed,
-          },
-          {
-            label: moveUp.directions,
-            hotKey: moveUp.hotKey,
-            action: moveUp.onKeyPressed,
-          },
-          {
-            label: moveBottom.directions,
-            hotKey: moveBottom.hotKey,
-            action: moveBottom.onKeyPressed,
-          },
-          {
-            label: moveTop.directions,
-            hotKey: moveTop.hotKey,
-            action: moveTop.onKeyPressed,
-          },
-        ]
-      : [];
-    const shapeDeleteMenus = selected.value.length
-      ? [
-          {
-            label: deleteNode.directions,
-            hotKey: deleteNode.hotKey,
-            action: deleteNode.onKeyPressed,
-          },
-        ]
-      : [];
     const targetIsStage = event.target instanceof Konva.Stage;
+    const shapeLayerMenus =
+      selected.value.length && !targetIsStage
+        ? [
+            {
+              label: moveDown.directions,
+              hotKey: moveDown.hotKey,
+              action: moveDown.onKeyPressed,
+            },
+            {
+              label: moveUp.directions,
+              hotKey: moveUp.hotKey,
+              action: moveUp.onKeyPressed,
+            },
+            {
+              label: moveBottom.directions,
+              hotKey: moveBottom.hotKey,
+              action: moveBottom.onKeyPressed,
+            },
+            {
+              label: moveTop.directions,
+              hotKey: moveTop.hotKey,
+              action: moveTop.onKeyPressed,
+            },
+          ]
+        : [];
+    const shapeDeleteMenus =
+      selected.value.length && targetIsStage
+        ? [
+            {
+              label: deleteNode.directions,
+              hotKey: deleteNode.hotKey,
+              action: deleteNode.onKeyPressed,
+            },
+          ]
+        : [];
     const stageMenus =
       targetIsStage || selected.value.length === 0
         ? [
