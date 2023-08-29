@@ -1,5 +1,6 @@
 import { App } from '../app';
 import { KonvaMouseEvent, Service } from '../types';
+// import { Point } from '../utils';
 
 export class Mouse extends Service {
   constructor(app: App) {
@@ -13,6 +14,20 @@ export class Mouse extends Service {
     this.app.stage.on<'dblclick'>('dblclick', this.onMouseDoubleClick);
     this.app.stage.on<'click'>('click', this.onMouseClick);
     this.app.stage.on<'contextmenu'>('contextmenu', this.onMouseContextmenu);
+    // this.app.stage.on<'wheel'>('wheel', (event) => {
+    //   event.evt.preventDefault();
+    //   const oldScale = this.app.stage.scaleX();
+    //   const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
+    //   const mousePointTo = new Point(
+    //     (pointer.x - this.app.stage.x()) / oldScale,
+    //     (pointer.y - this.app.stage.y()) / oldScale
+    //   );
+
+    //   let direction = event.evt.deltaY > 0 ? 1 : -1;
+    //   if (event.evt.ctrlKey) {
+
+    //   }
+    // });
   }
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
