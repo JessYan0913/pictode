@@ -74,6 +74,11 @@ export class App extends BaseService<EventArgs> {
     } else {
       this.stage.draggable(draggable);
     }
+    if (this.stage.draggable()) {
+      this.containerElement.style.cursor = 'grabbing';
+    } else {
+      this.containerElement.style.cursor = 'default';
+    }
   }
 
   public triggerToolAvailability(enable?: boolean): void {
