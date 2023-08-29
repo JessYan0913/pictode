@@ -3,10 +3,6 @@ import { KonvaMouseEvent, KonvaWheelEvent, Service } from '../types';
 import { Point } from '../utils';
 
 export class Mouse extends Service {
-  private scales = [5, 4, 3, 2.5, 2, 1.5, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05];
-  private zoomErr = false; // tracks zoom errors
-  private currentScaleIdx = 6;
-
   constructor(app: App) {
     super(app);
 
@@ -79,7 +75,7 @@ export class Mouse extends Service {
 
   private onWheel = (event: KonvaWheelEvent): void => {
     event.evt.preventDefault();
-    const oldScale = this.scales[this.currentScaleIdx];
+    const oldScale = this.app.stage.scaleX();
     const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
     const mousePointTo = new Point(
       (pointer.x - this.app.stage.x()) / oldScale,
@@ -90,18 +86,15 @@ export class Mouse extends Service {
     if (event.evt.ctrlKey) {
       direction = -direction;
     }
-
+    let newScale = oldScale;
     if (direction > 0) {
-      this.zoomErr = this.currentScaleIdx > 0 ? false : true;
-      this.currentScaleIdx = this.currentScaleIdx > 0 ? this.currentScaleIdx - 1 : this.currentScaleIdx;
+      newScale += 0.1;
     } else {
-      this.zoomErr = this.currentScaleIdx < this.scales.length - 1 ? false : true;
-      this.currentScaleIdx =
-        this.currentScaleIdx < this.scales.length - 1 ? this.currentScaleIdx + 1 : this.currentScaleIdx;
+      newScale -= 0.1;
     }
 
     // Set the scale value
-    let newScale = this.scales[this.currentScaleIdx];
+    newScale = Math.min(Math.max(newScale, 0.05), 5);
 
     // Apply this scale to the stage.
     this.app.stage.scale({ x: newScale, y: newScale });
