@@ -19,7 +19,6 @@ export class Mouse extends Service {
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
     if (this.app.stage.draggable()) {
-      this.app.stage.draggable(true);
       return;
     }
     this.app.emit('mouse:down', { event });
