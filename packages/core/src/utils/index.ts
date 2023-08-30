@@ -18,6 +18,7 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
   },
   mousewheel: {
     enabled: false,
+    factor: 0.1,
   },
 };
 

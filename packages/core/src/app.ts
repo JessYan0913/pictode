@@ -55,7 +55,7 @@ export class App extends BaseService<EventArgs> {
   };
 
   public get pointer(): Point {
-    const { x, y } = this.stage.getRelativePointerPosition() ?? { x: 0, y: 0 };
+    const { x, y } = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
     return new Point(x, y);
   }
 
@@ -231,9 +231,17 @@ export class App extends BaseService<EventArgs> {
     return this.stage.scaleX();
   }
 
-  public scaleTo(scale: number): void {
+  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): void {
+    const oldScale = this.scale();
+    this.emit('canvas:zoom:start', { scale: oldScale });
     const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
+    const mousePointTo = new Point((pointer.x - this.stage.x()) / oldScale, (pointer.y - this.stage.y()) / oldScale);
     this.stage.scale({ x: newScale, y: newScale });
+    this.stage.position({
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    });
+    this.emit('canvas:zoom:end', { scale: this.scale() });
   }
 
   public clear(): void {

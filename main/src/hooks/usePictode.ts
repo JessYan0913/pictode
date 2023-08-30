@@ -26,6 +26,7 @@ export const usePictode = () => {
   const selected: Ref<Array<KonvaNode>> = ref([]);
   const panelFormConfig = ref<FormConfig>([]);
   const panelFormModel = ref<FormValue>({});
+  const scale = ref<number>(app.scale());
 
   const onSelectedChanged = ({ selected: newSelected }: EventArgs['selected:changed']) => {
     selected.value = newSelected;
@@ -56,14 +57,20 @@ export const usePictode = () => {
     curTool.config = panelFormModel.value;
   };
 
+  const onZoomEnd = ({ scale: newScale }: EventArgs['canvas:zoom:end']) => {
+    scale.value = newScale;
+  };
+
   onMounted(() => {
     app.on('selected:changed', onSelectedChanged);
     app.on('tool:changed', onToolChanged);
+    app.on('canvas:zoom:end', onZoomEnd);
   });
 
   onUnmounted(() => {
     app.off('selected:changed', onSelectedChanged);
     app.off('tool:changed', onToolChanged);
+    app.off('canvas:zoom:end', onZoomEnd);
   });
 
   provide(PictodeAppKey, app);
@@ -72,6 +79,7 @@ export const usePictode = () => {
   provide(PictodePanelFormKey, { panelFormConfig, panelFormModel });
   return {
     app,
+    scale,
     selected,
     panelFormConfig,
     panelFormModel,

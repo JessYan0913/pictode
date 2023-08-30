@@ -86,7 +86,8 @@ export class Mouse extends Service {
       return;
     }
     const oldScale = this.app.stage.scaleX();
-    const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
+    this.app.emit('canvas:zoom:start', { scale: oldScale });
+    const pointer = this.app.pointer;
     const mousePointTo = new Point(
       (pointer.x - this.app.stage.x()) / oldScale,
       (pointer.y - this.app.stage.y()) / oldScale
@@ -95,9 +96,9 @@ export class Mouse extends Service {
     const direction = (event.evt.shiftKey && !event.evt.ctrlKey ? event.evt.deltaX : event.evt.deltaY) > 0 ? 1 : -1;
     let newScale = oldScale;
     if (direction > 0) {
-      newScale += 0.1;
+      newScale += this.app.config.mousewheel.factor;
     } else {
-      newScale -= 0.1;
+      newScale -= this.app.config.mousewheel.factor;
     }
 
     // Set the scale value
@@ -113,6 +114,7 @@ export class Mouse extends Service {
       x: pointer.x - mousePointTo.x * newScale,
       y: pointer.y - mousePointTo.y * newScale,
     });
+    this.app.emit('canvas:zoom:end', { scale: newScale });
   };
 
   public destroy(): void {
