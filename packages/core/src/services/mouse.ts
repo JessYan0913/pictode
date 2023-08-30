@@ -87,7 +87,7 @@ export class Mouse extends Service {
     }
     const oldScale = this.app.stage.scaleX();
     this.app.emit('canvas:zoom:start', { scale: oldScale });
-    const pointer = this.app.pointer;
+    const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
     const mousePointTo = new Point(
       (pointer.x - this.app.stage.x()) / oldScale,
       (pointer.y - this.app.stage.y()) / oldScale

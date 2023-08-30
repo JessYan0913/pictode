@@ -55,7 +55,7 @@ export class App extends BaseService<EventArgs> {
   };
 
   public get pointer(): Point {
-    const { x, y } = this.stage.getPointerPosition() ?? { x: 0, y: 0 };
+    const { x, y } = this.stage.getRelativePointerPosition() ?? { x: 0, y: 0 };
     return new Point(x, y);
   }
 
