@@ -1,48 +1,54 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { App, drawingTool, ellipseTool, polylineTool, rectTool, selectTool, triangleTool } from '@pictode/core';
-import { HistoryPlugin } from '@pictode/plugin-history';
 
-const containerRef = ref<HTMLDivElement>();
+import Button from '@/components/Button.vue';
+import useContextMenu from '@/hooks/useContextMenu';
+import usePictode from '@/hooks/usePictode';
 
-const app = new App();
-app.use(new HistoryPlugin());
+import Menu from './components/Menu.vue';
+import PropertyPanel from './components/PropertyPanel.vue';
+import Tools from './components/Tools.vue';
+
+const { app, selected } = usePictode();
+
+useContextMenu(app, selected);
+
+const canvasRef = ref<HTMLDivElement>();
+
 onMounted(() => {
-  if (containerRef.value) {
-    app.mount(containerRef.value);
+  if (canvasRef.value) {
+    app.mount(canvasRef.value);
   }
 });
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="tools">
-      <button @click="app.undo()">回退</button>
-      <button @click="app.redo()">恢复</button>
-      <button @click="app.setTool(selectTool)">选择🖱️</button>
-      <button @click="app.setTool(rectTool)">矩形⬜️</button>
-      <button @click="app.setTool(ellipseTool)">圆形⭕️</button>
-      <button @click="app.setTool(triangleTool)">三角形🔺</button>
-      <button @click="app.setTool(polylineTool)">线条📉</button>
-      <button @click="app.setTool(drawingTool)">铅笔✏️</button>
+  <div class="w-full h-full">
+    <div
+      class="absolute left-0 top-0 right-0 bottom-0 p-8 z-10 pointer-events-none grid grid-cols-3 grid-rows-[auto_1fr_50px] gap-12"
+    >
+      <section class="row-start-1 col-start-1 justify-self-start">
+        <Menu class="pointer-events-auto"></Menu>
+      </section>
+      <section class="row-start-1 col-start-2 justify-self-stretch">
+        <Tools
+          class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+        ></Tools>
+      </section>
+      <section class="row-start-1 col-start-3 justify-self-end">
+        <div
+          class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+        >
+          <Button class="w-8 h-8" icon="undo" @click="app.undo()"></Button>
+          <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
+        </div>
+      </section>
+      <section class="row-start-2 col-start-3 justify-self-end">
+        <PropertyPanel
+          class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow pointer-events-auto"
+        ></PropertyPanel>
+      </section>
     </div>
-    <div ref="containerRef" class="container"></div>
+    <div ref="canvasRef" class="w-full h-full"></div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.tools {
-  height: 30px;
-}
-
-.container {
-  flex: 1;
-}
-</style>

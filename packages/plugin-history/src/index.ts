@@ -1,8 +1,8 @@
-import { App, BaseFabricObject, Plugin } from '@pictode/core';
+import { App, EventArgs, KonvaNode, Plugin } from '@pictode/core';
 
 import './methods';
 
-import { AddObjectCmd, RemoveObjectCmd } from './commands';
+import { AddObjectCmd, ModifiedObjectCmd, MoveZIndexObjectCmd, RemoveObjectCmd } from './commands';
 import { History } from './history';
 import { Options } from './types';
 
@@ -12,26 +12,29 @@ export class HistoryPlugin implements Plugin {
   public app?: App;
   public options?: Options;
 
+  private oldNodes: KonvaNode[] = [];
+
   constructor(options?: Options) {
     this.options = options;
-    (['onObjectAdded', 'onObjectRemove'] as (keyof this)[]).forEach((method) => {
-      method = method as keyof HistoryPlugin;
-      this[method] = (this[method] as Function).bind(this);
-    });
   }
 
   public install(app: App) {
     this.app = app;
     this.history = new History(app, this.options);
     this.history.app = app;
-    this.app.canvas.on('object:added', this.onObjectAdded);
-    this.app.canvas.on('object:removed', this.onObjectRemove);
+    this.app.on('node:added', this.onNodeAdded);
+    this.app.on('node:removed', this.onNodeRemove);
+    this.app.on('node:update:before', this.onNodeUpdateBefore);
+    this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
+    this.app.on('node:updated', this.onNodeUpdated);
   }
 
-  public dispose(): void {
-    this.history?.dispose();
-    this.app?.canvas.off('object:added', this.onObjectAdded);
-    this.app?.canvas.off('object:added', this.onObjectRemove);
+  public destroy(): void {
+    this.history?.destroy();
+    this.app?.off('node:added', this.onNodeAdded);
+    this.app?.off('node:removed', this.onNodeRemove);
+    this.app?.off('node:update:before', this.onNodeUpdateBefore);
+    this.app?.off('node:updated', this.onNodeUpdated);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -41,33 +44,56 @@ export class HistoryPlugin implements Plugin {
     if (!this.history) {
       return;
     }
-    this.history.enabled = true;
+    this.history.enable = true;
   }
 
   public disable(): void {
     if (!this.history) {
       return;
     }
-    this.history.enabled = false;
+    this.history.enable = false;
   }
 
   public isEnabled(): boolean {
-    return this.history?.enabled ?? false;
+    return this.history?.enable ?? false;
   }
 
-  private onObjectAdded({ target }: { target: BaseFabricObject }) {
+  private onNodeAdded = ({ nodes }: EventArgs['node:added']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new AddObjectCmd(this.app, { object: target.toJSON() }));
-  }
+    this.history.execute(new AddObjectCmd(this.app, { nodes }));
+  };
 
-  private onObjectRemove({ target }: { target: BaseFabricObject }) {
+  private onNodeRemove = ({ nodes }: EventArgs['node:removed']) => {
     if (!this.app || !this.history) {
       return;
     }
-    this.history.execute(new RemoveObjectCmd(this.app, { object: target.toJSON() }));
-  }
+    this.history.execute(new RemoveObjectCmd(this.app, { nodes }));
+  };
+
+  private onNodeUpdateBefore = ({ nodes }: EventArgs['node:transform:start']) => {
+    this.oldNodes = nodes.map((node) => node.toObject());
+  };
+
+  private onNodeUpdated = ({ nodes }: EventArgs['node:transform:end']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(
+      new ModifiedObjectCmd(this.app, {
+        oldNodes: this.oldNodes,
+        newNodes: nodes.map((node) => node.toObject()),
+      })
+    );
+  };
+
+  private onNodeZIndexChanged = ({ nodes }: EventArgs['node:zindex:changed']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(new MoveZIndexObjectCmd(this.app, { nodes }));
+  };
 }
 
 export default HistoryPlugin;

@@ -1,8 +1,6 @@
 packages:
   # all packages in direct subdirs of main/
   - 'main'
-  # all packages in direct subdirs of renderer/
-  - 'renderer'
   # all packages in direct subdirs of packages/
   - 'packages/*'
   # exclude packages that are inside test directories

@@ -1,30 +1,69 @@
-import { TPointerEvent, TPointerEventInfo } from 'fabric';
+import Konva from 'konva';
 
 import App from './app';
+import { Point } from './utils';
+
+export interface Modifier {
+  ctrlKey: boolean;
+  shiftKey: boolean;
+  altKey: boolean;
+  exact: boolean;
+}
+
+export interface AppConfig {
+  backgroundColor: string;
+  panning: {
+    enabled: boolean;
+    cursor?: string;
+  };
+  scale: {
+    min: number;
+    max: number;
+  };
+  mousewheel: {
+    enabled: boolean;
+    zoomAtMousePosition?: boolean;
+    modifiers?: Partial<Modifier>;
+  };
+}
+
+export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
+export type KonvaWheelEvent = Konva.KonvaEventObject<WheelEvent>;
+export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
+export type KonvaNode = Konva.Group | Konva.Shape;
 
 export interface Plugin {
   name: string;
   install(app: App, ...options: any[]): any;
-  dispose(): void;
+  destroy(): void;
   enable?(): void;
   disable?(): void;
   isEnabled?(): boolean;
 }
 
-export interface AppMouseEvent {
-  event: TPointerEventInfo<TPointerEvent>;
+export interface ToolEvent {
+  event: KonvaMouseEvent;
+  pointer: Point;
   app: App;
 }
 
-export interface Tool {
+export interface ToolHooks<T extends Tool = Tool> {
+  onActive?: (app: App, tool: T) => void | Promise<void>;
+  onInactive?: (app: App, tool: T) => void | Promise<void>;
+  onStartDrawing?: (app: App, node: KonvaNode) => void;
+  onCompleteDrawing?: (app: App, node: KonvaNode) => void;
+}
+
+export interface Tool<T extends Konva.ShapeConfig = Konva.ShapeConfig> {
   name: string;
-  drawable: boolean;
-  onMouseDown?: (event: AppMouseEvent) => void;
-  onMouseMove?: (event: AppMouseEvent) => void;
-  onMouseUp?: (event: AppMouseEvent) => void;
-  onMouseDoubleClick?: (event: AppMouseEvent) => void;
-  onMouseOver?: (event: AppMouseEvent) => void;
-  onMouseOut?: (event: AppMouseEvent) => void;
+  config?: T;
+  hooks?: ToolHooks;
+  mousedown?: (event: ToolEvent) => void;
+  mousemove?: (event: ToolEvent) => void;
+  mouseup?: (event: ToolEvent) => void;
+  doubleClick?: (event: ToolEvent) => void;
+  click?: (event: ToolEvent) => void;
+  enableChanged?: (oldEnable: boolean, newEnable: boolean) => void;
 }
 
 export abstract class Service {
@@ -34,7 +73,7 @@ export abstract class Service {
     this.app = app;
   }
 
-  public abstract dispose(): void;
+  public abstract destroy(): void;
 }
 
 export interface EventArgs {
@@ -44,6 +83,56 @@ export interface EventArgs {
   };
   'canvas:rendered': {
     time: number;
+  };
+  'canvas:cleared': {};
+  'node:added': {
+    nodes: KonvaNode[];
+  };
+  'node:removed': {
+    nodes: KonvaNode[];
+  };
+  'node:update:before': {
+    nodes: KonvaNode[];
+  };
+  'node:updated': {
+    nodes: KonvaNode[];
+  };
+  'node:transform:start': {
+    nodes: KonvaNode[];
+  };
+  'node:transform:end': {
+    nodes: KonvaNode[];
+  };
+  'node:zindex:changed': {
+    nodes: {
+      node: KonvaNode;
+      oldZIndex: number;
+      newZIndex: number;
+    }[];
+  };
+  'mouse:down': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:up': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:move': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:click': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:dbclick': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:over': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:out': {
+    event: KonvaMouseEvent;
+  };
+  'mouse:contextmenu': {
+    event: KonvaMouseEvent;
   };
 }
 
@@ -57,34 +146,4 @@ export interface ControlVisible {
   tl?: boolean;
   tr?: boolean;
   mtr?: boolean;
-}
-
-export interface ObjectConfig {
-  objectCaching?: boolean;
-  hasControls?: boolean;
-  padding?: number;
-  borderColor?: string;
-  cornerColor?: string;
-  cornerStrokeColor?: string;
-  cornerStyle?: 'rect' | 'circle';
-  cornerSize?: number;
-  rotatingPointOffset?: number;
-  transparentCorners?: boolean;
-  centeredScaling?: boolean;
-  centeredRotation?: boolean;
-  controlVisible?: ControlVisible;
-}
-
-export interface CanvasConfig {
-  isDrawingMode?: boolean;
-  selection?: boolean;
-  selectionColor?: string;
-  selectionBorderColor?: string;
-  selectionLineWidth?: number;
-}
-
-export interface AppOption {
-  backgroundColor?: string;
-  canvasConfig?: CanvasConfig | boolean;
-  objectConfig?: ObjectConfig | boolean;
 }

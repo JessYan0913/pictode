@@ -6,25 +6,13 @@ import {
   RouteRecordRaw,
 } from 'vue-router';
 
-import useRoutersStore from '@/store/routers';
+import { useRouterCache } from '@/hooks/useRouterCache';
 
 export const routes: RouteRecordRaw[] = [
   {
-    path: '/example',
-    redirect: '/',
-    meta: {
-      menu: '组件示例',
-    },
-    children: [
-      {
-        path: '/example/canvas',
-        name: 'Dialog',
-        component: () => import('../view/canvas/index.vue'),
-        meta: {
-          menu: true,
-        },
-      },
-    ],
+    path: '/',
+    name: 'Canvas',
+    component: () => import('../view/canvas/index.vue'),
   },
 ];
 
@@ -34,24 +22,15 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      redirect: '/example/canvas',
+      redirect: '/canvas',
       component: () => import('../layout/index.vue'),
       children: routes,
-    },
-    {
-      path: '/404',
-      name: '404',
-      component: () => import('../layout/404.vue'),
-    },
-    {
-      path: '/:catchAll(.*)',
-      redirect: '/404',
     },
   ],
 });
 
+const { cacheRouter } = useRouterCache();
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  const { cacheRouter } = useRoutersStore();
   cacheRouter(from, to);
   next();
 });

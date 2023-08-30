@@ -1,0 +1,43 @@
+{
+  "version": "0.0.1",
+  "name": "@pictode/vue-aide",
+  "sideEffects": [
+    "dist/*",
+    "src/theme/*"
+  ],
+  "main": "dist/pictode-form.umd.js",
+  "module": "dist/pictode-form.mjs",
+  "style": "dist/style.css",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/pictode-form.mjs",
+      "require": "./dist/pictode-form.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    },
+    "./*": "./*"
+  },
+  "scripts": {
+    "build": "npm run build:type && vite build",
+    "build:type": "npm run clear:type && vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
+    "clear:type": "rimraf ./types"
+  },
+  "dependencies": {
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@babel/core": "^7.18.0",
+    "@types/lodash-es": "^4.17.4",
+    "@types/node": "^15.12.4",
+    "@types/sortablejs": "^1.10.7",
+    "@vue/compiler-sfc": "^3.2.37",
+    "rimraf": "^3.0.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vue-tsc": "^1.8.5"
+  }
+}

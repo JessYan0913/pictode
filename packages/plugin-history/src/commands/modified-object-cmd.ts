@@ -9,9 +9,13 @@ export class ModifiedObjectCmd extends BaseCmd<Cmd.ModifiedObjectOptions> {
     super(app, options);
   }
 
-  public execute(): void {}
+  public execute(): void {
+    this.app._update(...this.options.newNodes);
+  }
 
-  public undo(): void {}
+  public undo(): void {
+    this.app._update(...this.options.oldNodes);
+  }
 }
 
 export default ModifiedObjectCmd;

@@ -1,37 +1,15 @@
-<script lang="ts" setup>
-import { useTheme } from '@/hooks/useTheme';
+<script setup lang="ts">
+import { RouterView } from 'vue-router';
 
-import Header from './Header.vue';
-import Main from './Main.vue';
-import Menu from './Menu.vue';
+import { useRouterCache } from '@/hooks/useRouterCache';
 
-useTheme();
+const { keepAliveComps } = useRouterCache();
 </script>
 
 <template>
-  <el-container class="layout">
-    <el-aside width="200px">
-      <Menu />
-    </el-aside>
-    <el-container>
-      <el-header>
-        <Header />
-      </el-header>
-      <el-main>
-        <Main />
-      </el-main>
-    </el-container>
-  </el-container>
+  <RouterView v-slot="{ Component }">
+    <KeepAlive :include="keepAliveComps">
+      <component :is="Component"></component>
+    </KeepAlive>
+  </RouterView>
 </template>
-
-<style lang="scss" scoped>
-.layout {
-  width: 100%;
-  height: 100%;
-  background-color: #f5f5f5;
-}
-
-.el-header {
-  padding: 0;
-}
-</style>

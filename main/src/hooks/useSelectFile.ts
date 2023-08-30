@@ -6,7 +6,7 @@ export const useSelectFile = () => {
 
   const error = ref<FileSelectCancelError | IllegalFileError>();
 
-  const execute = async (accepts: string[] = ['*'], multiple: boolean = false) => {
+  const execute = async (accepts: string[] = ['*'], multiple: boolean = false): Promise<File[]> => {
     try {
       loading.value = true;
       const files = await selectFile(accepts, multiple);

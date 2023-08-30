@@ -1,12 +1,9 @@
-import { BaseFabricObject } from '@pictode/core';
+import { KonvaNode } from '@pictode/core';
 
-import { BaseCmd } from './commands/base';
-import { CommandClass, HistoryPlugin } from './index';
+import { HistoryPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    registerCommands<T extends BaseCmd>(commandClasses: CommandClass<T> | Array<CommandClass<T>>): App;
-    execute<T extends Cmd.Options>(command: BaseCmd | string, options?: T): App;
     undo(step?: number): App;
     redo(step?: number): App;
     canUndo(): boolean;
@@ -39,21 +36,29 @@ export namespace Cmd {
   }
 
   export interface AddObjectOptions {
-    object: BaseFabricObject;
+    nodes: KonvaNode[];
   }
 
   export interface RemoveObjectOptions {
-    object: BaseFabricObject;
+    nodes: KonvaNode[];
   }
 
   export interface ModifiedObjectOptions {
-    oldObject: BaseFabricObject;
-    newObject: BaseFabricObject;
+    oldNodes: KonvaNode[];
+    newNodes: KonvaNode[];
+  }
+
+  export interface MoveZIndexObjectOptions {
+    nodes: {
+      node: KonvaNode;
+      oldZIndex: number;
+      newZIndex: number;
+    }[];
   }
 }
 
 export interface Options {
-  enabled?: boolean;
+  enable?: boolean;
   stackSize?: number;
 }
 

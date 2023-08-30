@@ -8,7 +8,7 @@ import { Options } from './types';
 export class History {
   public name: string = 'history';
   public app: App;
-  public enabled: boolean;
+  public enable: boolean;
   public stackSize: number;
 
   private undoStack: BaseCmd[] = [];
@@ -16,9 +16,9 @@ export class History {
   private idCounter: number = 0;
 
   constructor(app: App, options?: Options) {
-    const { enabled = true, stackSize = 500 } = options ?? {};
+    const { enable = true, stackSize = 500 } = options ?? {};
     this.app = app;
-    this.enabled = enabled;
+    this.enable = enable;
     this.stackSize = stackSize;
   }
 
@@ -44,7 +44,7 @@ export class History {
   }
 
   public undo(step: number = 1): BaseCmd | undefined {
-    if (!this.enabled) {
+    if (!this.enable) {
       return;
     }
 
@@ -72,7 +72,7 @@ export class History {
   }
 
   public redo(step: number = 1): BaseCmd | undefined {
-    if (!this.enabled) {
+    if (!this.enable) {
       return;
     }
     let command: BaseCmd | undefined;
@@ -106,7 +106,7 @@ export class History {
   }
 
   public jump(id: number): void {
-    if (!this.enabled) {
+    if (!this.enable) {
       return;
     }
 
@@ -137,7 +137,7 @@ export class History {
     });
   }
 
-  public dispose(): void {
+  public destroy(): void {
     this.undoStack = [];
     this.redoStack = [];
     this.app.emit('stack:changed', {
