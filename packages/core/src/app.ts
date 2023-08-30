@@ -43,6 +43,8 @@ export class App extends BaseService<EventArgs> {
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
     this.resizeObserver = new ResizeObserver(this.onContainerResize);
+    this.triggerPanning(this.config.panning.enabled);
+    this.triggerMouseWheel(this.config.mousewheel.enabled);
   }
 
   private onContainerResize = (e: ResizeObserverEntry[]) => {

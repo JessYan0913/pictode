@@ -22,8 +22,6 @@ export interface AppConfig {
   };
   mousewheel: {
     enabled: boolean;
-    zoomAtMousePosition?: boolean;
-    modifiers?: Partial<Modifier>;
   };
 }
 

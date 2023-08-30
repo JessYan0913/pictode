@@ -78,14 +78,24 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     { directions: '重做', exact: true, ctrlKey: true }
   );
   const stageDrag = useHotKey(
-    ' ',
+    'Control',
     () => {
       app.triggerPanning(true);
       return () => {
         app.triggerPanning(false);
       };
     },
-    { directions: '移动画布' }
+    { directions: '移动画布', ctrlKey: true }
+  );
+  const mouseWheel = useHotKey(
+    'Control',
+    () => {
+      app.triggerMouseWheel(true);
+      return () => {
+        app.triggerMouseWheel(false);
+      };
+    },
+    { directions: '缩放画布', ctrlKey: true }
   );
   return {
     moveDown,
@@ -98,6 +108,7 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     undo,
     redo,
     stageDrag,
+    mouseWheel,
   };
 };
 

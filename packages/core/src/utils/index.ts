@@ -17,11 +17,7 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
     cursor: 'grabbing',
   },
   mousewheel: {
-    enabled: true,
-    zoomAtMousePosition: true,
-    modifiers: {
-      ctrlKey: true,
-    },
+    enabled: false,
   },
 };
 
