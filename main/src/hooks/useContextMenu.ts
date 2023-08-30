@@ -14,7 +14,12 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   );
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
-    const targetIsStage = event.target instanceof Konva.Stage;
+    let targetIsStage = false;
+    if (event.target instanceof Konva.Stage) {
+      targetIsStage = true;
+    } else {
+      app.select(event.target);
+    }
     const shapeLayerMenus =
       selected.value.length && !targetIsStage
         ? [
