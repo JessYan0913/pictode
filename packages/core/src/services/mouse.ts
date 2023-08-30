@@ -18,6 +18,10 @@ export class Mouse extends Service {
   }
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
+    if (event.evt.button === 1) {
+      this.app.triggerPanning(true);
+    }
+
     if (this.app.stage.draggable()) {
       return;
     }
@@ -25,6 +29,10 @@ export class Mouse extends Service {
   };
 
   private onMouseUp = (event: KonvaMouseEvent): void => {
+    if (event.evt.button === 1) {
+      this.app.triggerPanning(false);
+    }
+
     if (this.app.stage.draggable()) {
       return;
     }
