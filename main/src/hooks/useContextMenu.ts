@@ -17,7 +17,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     let targetIsStage = false;
     if (event.target instanceof Konva.Stage) {
       targetIsStage = true;
-    } else {
+    } else if (!selected.value.find((node) => node.id() === event.target.id())) {
       app.select(event.target);
     }
     const shapeLayerMenus =
