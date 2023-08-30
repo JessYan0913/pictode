@@ -36,7 +36,7 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     { directions: '置于顶层', exact: true, ctrlKey: true, shiftKey: true }
   );
   const deleteNode = useHotKey(
-    'Delete',
+    ['Delete', 'Backspace'],
     () => {
       app.remove(...selected.value);
     },

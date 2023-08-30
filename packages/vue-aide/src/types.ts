@@ -20,7 +20,7 @@ export interface OSContext {
 }
 
 export interface HotKeyInfo {
-  hotKey: string;
+  hotKey: (string | string[])[];
   directions?: string;
   onKeyPressed: () => void;
 }

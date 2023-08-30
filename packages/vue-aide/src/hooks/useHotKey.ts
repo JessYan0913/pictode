@@ -15,7 +15,7 @@ export interface HotKeyOptions {
 }
 
 export const useHotKey = (
-  key: string,
+  key: string | string[],
   onKeyPressed: () => void | (() => void),
   opts?: Partial<HotKeyOptions>
 ): HotKeyInfo => {
@@ -24,21 +24,20 @@ export const useHotKey = (
   if (!osContext) {
     osContext = useOSContext();
   }
-
   const hotKey = computed(() => {
     const options = opts || {};
     const keyCombination = [];
 
     if (options.ctrlKey) keyCombination.push(osContext?.OS === 'macOS' ? 'Cmd' : 'Ctrl');
     if (options.shiftKey) keyCombination.push(osContext?.OS === 'macOS' ? 'Option' : 'Shift');
+    keyCombination.push(key);
 
-    keyCombination.push(`${key.charAt(0).toUpperCase()}${key.slice(1)}`);
-
-    return keyCombination.join('+');
+    return keyCombination;
   });
   useEventListener(target, 'keydown', (event) => {
     const options = opts || {};
-    if (event.key === key.toLowerCase() && matchKeyScheme(options, event, osContext)) {
+    key = typeof key === 'string' ? [key] : key;
+    if (key.includes(event.key) && matchKeyScheme(options, event, osContext)) {
       event.preventDefault();
       const result = onKeyPressed();
       if (typeof result !== 'function') {
