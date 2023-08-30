@@ -80,6 +80,7 @@ export class Selector {
       stroke: 'rgb(157, 157, 231)',
       fill: 'rgba(157, 157, 231, 0.5)',
       strokeWidth: 2,
+      strokeScaleEnabled: false,
     });
     this.optionLayer.add(this.rubberRect);
 
