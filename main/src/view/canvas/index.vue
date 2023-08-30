@@ -40,7 +40,7 @@ onMounted(() => {
           class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button class="w-8 h-8" icon="plus"></Button>
-          <div class="flex text-center h-full items-center select-none">100%</div>
+          <div class="flex text-center text-sm h-full items-center select-none">100%</div>
           <Button class="w-8 h-8" icon="minus"></Button>
         </div>
         <div
