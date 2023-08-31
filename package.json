@@ -5,10 +5,10 @@
   "packageManager": "pnpm@7.13.6",
   "scripts": {
     "bootstrap": "pnpm i && pnpm build",
-    "main": "pnpm --filter \"main\" dev",
+    "pictode": "pnpm --filter \"pictode\" dev",
     "build": "pnpm --filter \"@pictode/*\" build",
-    "build:main": "pnpm --filter \"main\" build",
-    "build:main:github": "pnpm --filter \"main\" build:github",
+    "build:pictode": "pnpm --filter \"pictode\" build",
+    "build:pictode:github": "pnpm --filter \"pictode\" build:github",
     "lint": "eslint . --ext .js,.vue,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.vue,.ts,.tsx",
     "commit": "git-cz",

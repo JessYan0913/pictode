@@ -1,6 +1,7 @@
 {
-  "version": "0.0.1",
   "name": "@pictode/vue-aide",
+  "private": false,
+  "version": "0.0.1-beta01",
   "sideEffects": [
     "dist/*",
     "src/theme/*"
