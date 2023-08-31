@@ -38,7 +38,11 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     if (event.target instanceof Konva.Stage) {
       targetIsStage = true;
     } else if (!selected.value.find((node) => node.id() === event.target.id())) {
-      app.select(event.target);
+      if (event.target.parent instanceof Konva.Group) {
+        app.select(event.target.parent);
+      } else {
+        app.select(event.target);
+      }
     }
     const shapeLayerMenus =
       selected.value.length && !targetIsStage
@@ -62,6 +66,32 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
               label: moveTop.directions,
               hotKey: hotKeyFactory(moveTop.hotKey),
               action: moveTop.onKeyPressed,
+            },
+          ]
+        : [];
+    const groupMenus =
+      selected.value.length > 1 && !targetIsStage
+        ? [
+            {
+              label: '组合',
+              hotKey: '',
+              action: () => {
+                app.makeGroup(...selected.value);
+              },
+            },
+          ]
+        : [];
+    const removeGroupMenus =
+      selected.value.length === 1 && selected.value[0] instanceof Konva.Group
+        ? [
+            {
+              label: '解除组合',
+              hotKey: '',
+              action: () => {
+                console.log('====>', selected.value);
+
+                app.removeGroup(selected.value[0] as Konva.Group);
+              },
             },
           ]
         : [];
@@ -104,7 +134,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
         action: redo.onKeyPressed,
       },
     ];
-    const menuGroups = [stageMenus, shapeLayerMenus, historyMenus, shapeDeleteMenus];
+    const menuGroups = [stageMenus, shapeLayerMenus, groupMenus, removeGroupMenus, historyMenus, shapeDeleteMenus];
 
     contextMenu({
       x: event.evt.clientX,

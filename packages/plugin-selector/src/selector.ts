@@ -257,7 +257,11 @@ export class Selector {
         this.select(...this.selected.values(), event.target);
       }
     } else {
-      this.select(event.target);
+      if (event.target.parent instanceof Konva.Group) {
+        this.select(event.target.parent);
+      } else {
+        this.select(event.target);
+      }
     }
   };
 

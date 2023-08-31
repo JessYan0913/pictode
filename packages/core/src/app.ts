@@ -148,6 +148,23 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
+  public makeGroup(...nodes: Array<KonvaNode>): void {
+    const group = new Konva.Group({ draggable: true });
+    group.add(
+      ...nodes.map((node) => {
+        node.draggable(false);
+        return node;
+      })
+    );
+    this.add(group);
+  }
+
+  public removeGroup(group: Konva.Group): void {
+    const parent = group.parent;
+    parent?.add(...(group.children ?? []));
+    group.remove();
+  }
+
   public moveUp(...nodes: Array<KonvaNode>): void {
     this.moveZIndexNodes(nodes, (node) => node.moveUp());
   }
