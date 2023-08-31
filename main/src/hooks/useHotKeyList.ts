@@ -87,6 +87,16 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     },
     { directions: '移动画布' }
   );
+  const mouseWheel = useHotKey(
+    ['Control', 'Meta'],
+    () => {
+      app.triggerMouseWheel(true);
+      return () => {
+        app.triggerMouseWheel(false);
+      };
+    },
+    { directions: '缩放画布' }
+  );
   return {
     moveDown,
     moveUp,
@@ -98,6 +108,7 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     undo,
     redo,
     stageDrag,
+    mouseWheel,
   };
 };
 

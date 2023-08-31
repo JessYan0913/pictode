@@ -15,7 +15,7 @@ defineProps<{
     :disabled="disabled"
   >
     <label>
-      <SvgIcon v-if="icon" :name="icon"></SvgIcon>
+      <SvgIcon v-if="icon" :name="icon" class="cursor-pointer"></SvgIcon>
       {{ text }}
     </label>
   </button>

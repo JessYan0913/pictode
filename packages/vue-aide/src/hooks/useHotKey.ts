@@ -1,7 +1,7 @@
 import { computed, inject, Ref, unref } from 'vue';
 
 import { OSContextKey } from '../constants/inject-keys';
-import { HotKeyInfo, OSContext } from '../types';
+import { HotKeyInfo } from '../types';
 
 import useEventListener from './useEventListener';
 import useOSContext from './useOSContext';
@@ -37,7 +37,7 @@ export const useHotKey = (
   useEventListener(target, 'keydown', (event) => {
     const options = opts || {};
     key = typeof key === 'string' ? [key] : key;
-    if (key.includes(event.key) && matchKeyScheme(options, event, osContext)) {
+    if (key.includes(event.key) && matchKeyScheme(options, event)) {
       event.preventDefault();
       const result = onKeyPressed();
       if (typeof result !== 'function') {
@@ -61,16 +61,15 @@ export const useHotKey = (
 
 const matchKeyScheme = (
   opts: Pick<Partial<HotKeyOptions>, 'shiftKey' | 'ctrlKey' | 'exact'>,
-  event: KeyboardEvent,
-  osContext?: OSContext
+  event: KeyboardEvent
 ): boolean => {
   const ctrlKey = opts.ctrlKey ?? false;
   const shiftKey = opts.shiftKey ?? false;
   if (opts.exact) {
-    return ctrlKey === (osContext?.OS === 'macOS' ? event.metaKey : event.ctrlKey) && shiftKey === event.shiftKey;
+    return (ctrlKey === event.metaKey || ctrlKey === event.ctrlKey) && shiftKey === event.shiftKey;
   }
   const satisfiedKeys: boolean[] = [];
-  satisfiedKeys.push(ctrlKey === (osContext?.OS === 'macOS' ? event.metaKey : event.ctrlKey));
+  satisfiedKeys.push(ctrlKey === event.metaKey || ctrlKey === event.ctrlKey);
   satisfiedKeys.push(shiftKey === event.shiftKey);
   return satisfiedKeys.every((item) => item);
 };

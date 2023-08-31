@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import Button from '@/components/Button.vue';
 import useContextMenu from '@/hooks/useContextMenu';
@@ -9,11 +9,23 @@ import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
-const { app, selected } = usePictode();
+const { app, selected, scale } = usePictode();
 
 useContextMenu(app, selected);
 
 const canvasRef = ref<HTMLDivElement>();
+
+const displayScale = computed<string>(() => {
+  return `${Math.ceil(scale.value * 100)}%`;
+});
+
+const onClickZoomIn = () => {
+  app.scaleTo(scale.value + app.config.mousewheel.factor);
+};
+
+const onClickZoomOut = () => {
+  app.scaleTo(scale.value - app.config.mousewheel.factor);
+};
 
 onMounted(() => {
   if (canvasRef.value) {
@@ -35,7 +47,14 @@ onMounted(() => {
           class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         ></Tools>
       </section>
-      <section class="row-start-1 col-start-3 justify-self-end">
+      <section class="row-start-1 col-start-3 justify-self-end flex flex-row gap-2">
+        <div
+          class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+        >
+          <Button class="w-8 h-8" icon="minus" @click="onClickZoomOut"></Button>
+          <div class="flex text-center text-sm h-full items-center select-none">{{ displayScale }}</div>
+          <Button class="w-8 h-8" icon="plus" @click="onClickZoomIn"></Button>
+        </div>
         <div
           class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >

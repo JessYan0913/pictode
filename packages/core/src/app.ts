@@ -43,6 +43,8 @@ export class App extends BaseService<EventArgs> {
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
     this.resizeObserver = new ResizeObserver(this.onContainerResize);
+    this.triggerPanning(this.config.panning.enabled);
+    this.triggerMouseWheel(this.config.mousewheel.enabled);
   }
 
   private onContainerResize = (e: ResizeObserverEntry[]) => {
@@ -229,9 +231,17 @@ export class App extends BaseService<EventArgs> {
     return this.stage.scaleX();
   }
 
-  public scaleTo(scale: number): void {
+  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): void {
+    const oldScale = this.scale();
+    this.emit('canvas:zoom:start', { scale: oldScale });
     const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
+    const mousePointTo = new Point((pointer.x - this.stage.x()) / oldScale, (pointer.y - this.stage.y()) / oldScale);
     this.stage.scale({ x: newScale, y: newScale });
+    this.stage.position({
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    });
+    this.emit('canvas:zoom:end', { scale: this.scale() });
   }
 
   public clear(): void {

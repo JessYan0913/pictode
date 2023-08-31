@@ -1,7 +1,7 @@
 {
   "name": "@pictode/plugin-selector",
-  "private": true,
-  "version": "0.0.1",
+  "private": false,
+  "version": "0.0.1-beta01",
   "main": "dist/pictode-plugin-selector.umd.js",
   "module": "dist/pictode-plugin-selector.mjs",
   "types": "types/index.d.ts",
@@ -17,8 +17,8 @@
     "clear:type": "rimraf ./types"
   },
   "dependencies": {
-    "@pictode/core": "workspace:^0.0.1",
-    "@pictode/utils": "workspace:^0.0.1",
+    "@pictode/core": "^0.0.1-beta01",
+    "@pictode/utils": "^0.0.1-beta01",
     "dot": "2.0.0-beta.1",
     "rimraf": "^3.0.2",
     "roughjs": "^4.5.2"

@@ -22,8 +22,7 @@ export interface AppConfig {
   };
   mousewheel: {
     enabled: boolean;
-    zoomAtMousePosition?: boolean;
-    modifiers?: Partial<Modifier>;
+    factor: number;
   };
 }
 
@@ -85,6 +84,12 @@ export interface EventArgs {
     time: number;
   };
   'canvas:cleared': {};
+  'canvas:zoom:start': {
+    scale: number;
+  };
+  'canvas:zoom:end': {
+    scale: number;
+  };
   'node:added': {
     nodes: KonvaNode[];
   };

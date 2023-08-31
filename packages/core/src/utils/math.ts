@@ -32,6 +32,10 @@ export class Point implements Konva.Vector2d {
     return Math.sqrt(dx * dx + dy * dy);
   }
 
+  public midPointBtw(point: Point): Point {
+    return new Point(this.x + (point.x - this.x) / 2, this.y + (point.y - this.y) / 2);
+  }
+
   public toArray(): number[] {
     return [this.x, this.y];
   }

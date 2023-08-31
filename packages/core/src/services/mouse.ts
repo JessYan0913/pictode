@@ -1,6 +1,6 @@
 import { App } from '../app';
 import { KonvaMouseEvent, KonvaWheelEvent, Service } from '../types';
-import { matchKeyScheme, Point } from '../utils';
+import { Point } from '../utils';
 
 export class Mouse extends Service {
   constructor(app: App) {
@@ -18,6 +18,10 @@ export class Mouse extends Service {
   }
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
+    if (event.evt.button === 1) {
+      this.app.triggerPanning(true);
+    }
+
     if (this.app.stage.draggable()) {
       return;
     }
@@ -25,6 +29,10 @@ export class Mouse extends Service {
   };
 
   private onMouseUp = (event: KonvaMouseEvent): void => {
+    if (event.evt.button === 1) {
+      this.app.triggerPanning(false);
+    }
+
     if (this.app.stage.draggable()) {
       return;
     }
@@ -74,13 +82,11 @@ export class Mouse extends Service {
 
   private onWheel = (event: KonvaWheelEvent): void => {
     event.evt.preventDefault();
-    if (
-      !this.app.config.mousewheel.enabled ||
-      !matchKeyScheme(this.app.config.mousewheel.modifiers ?? {}, event.evt, navigator.userAgent.indexOf('Win') > -1)
-    ) {
+    if (!this.app.config.mousewheel.enabled) {
       return;
     }
     const oldScale = this.app.stage.scaleX();
+    this.app.emit('canvas:zoom:start', { scale: oldScale });
     const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
     const mousePointTo = new Point(
       (pointer.x - this.app.stage.x()) / oldScale,
@@ -90,9 +96,9 @@ export class Mouse extends Service {
     const direction = (event.evt.shiftKey && !event.evt.ctrlKey ? event.evt.deltaX : event.evt.deltaY) > 0 ? 1 : -1;
     let newScale = oldScale;
     if (direction > 0) {
-      newScale += 0.1;
+      newScale += this.app.config.mousewheel.factor;
     } else {
-      newScale -= 0.1;
+      newScale -= this.app.config.mousewheel.factor;
     }
 
     // Set the scale value
@@ -108,6 +114,7 @@ export class Mouse extends Service {
       x: pointer.x - mousePointTo.x * newScale,
       y: pointer.y - mousePointTo.y * newScale,
     });
+    this.app.emit('canvas:zoom:end', { scale: newScale });
   };
 
   public destroy(): void {
