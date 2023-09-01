@@ -159,9 +159,16 @@ export class App extends BaseService<EventArgs> {
     this.add(group);
   }
 
-  public removeGroup(group: Konva.Group): void {
+  public decomposeGroup(group: Konva.Group): void {
     const parent = group.parent;
-    parent?.add(...(group.children ?? []));
+    const groupTransform = group._getTransform();
+    parent?.add(
+      ...(group.children ?? []).map((child) => {
+        const transform = child._getTransform().multiply(groupTransform);
+        child._setTransform(transform.decompose());
+        return child;
+      })
+    );
     group.remove();
   }
 
@@ -211,9 +218,9 @@ export class App extends BaseService<EventArgs> {
     return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
   }
 
-  public getShapesInArea(shape: Konva.Shape): (Konva.Shape | Konva.Group)[] {
+  public getShapesInArea(shape: Konva.Shape): KonvaNode[] {
     return this.mainLayer.getChildren(
-      (node) => node instanceof Konva.Shape && node.visible() && node !== shape && this.haveIntersection(shape, node)
+      (node) => node.visible() && node !== shape && this.haveIntersection(shape, node as Konva.Shape)
     );
   }
 
