@@ -88,8 +88,6 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
               label: '解除组合',
               hotKey: '',
               action: () => {
-                console.log('====>', selected.value);
-
                 app.removeGroup(selected.value[0] as Konva.Group);
               },
             },

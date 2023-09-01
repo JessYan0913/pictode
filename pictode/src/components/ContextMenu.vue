@@ -45,12 +45,13 @@ const popoverVisible = computed<boolean>({
 const popoverStyle = computed(() => {
   const left = Math.max(props.x - 2, 0);
   const top = Math.max(props.y - 2, 0);
+  const buffer = 10; // 调整菜单到边框的最小距离
 
   const menuWidth = 224; // 菜单的宽度，根据实际情况调整
   const menuHeight = props.menuGroups.flat().length * 40; // 假设每个菜单项的高度为40
 
-  const rightOverflow = left + menuWidth - window.innerWidth;
-  const bottomOverflow = top + menuHeight - window.innerHeight;
+  const rightOverflow = left + menuWidth - window.innerWidth + buffer;
+  const bottomOverflow = top + menuHeight - window.innerHeight + buffer;
 
   return {
     left: rightOverflow > 0 ? `${left - rightOverflow}px` : `${left}px`,

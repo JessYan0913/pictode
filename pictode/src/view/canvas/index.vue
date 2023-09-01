@@ -49,14 +49,14 @@ onMounted(() => {
       </section>
       <section class="row-start-1 col-start-3 justify-self-end flex flex-row gap-2">
         <div
-          class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+          class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button class="w-8 h-8" icon="minus" @click="onClickZoomOut"></Button>
           <div class="flex text-center text-sm h-full items-center select-none">{{ displayScale }}</div>
           <Button class="w-8 h-8" icon="plus" @click="onClickZoomIn"></Button>
         </div>
         <div
-          class="grid grid-flow-col gap-4 w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+          class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button class="w-8 h-8" icon="undo" @click="app.undo()"></Button>
           <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
