@@ -148,7 +148,10 @@ export class App extends BaseService<EventArgs> {
     this.render();
   }
 
-  public makeGroup(...nodes: Array<KonvaNode>): void {
+  public makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+    if (nodes.length < 2) {
+      return nodes;
+    }
     const group = new Konva.Group({ draggable: true });
     group.add(
       ...nodes.map((node) => {
@@ -157,19 +160,21 @@ export class App extends BaseService<EventArgs> {
       })
     );
     this.add(group);
+    return group;
   }
 
-  public decomposeGroup(group: Konva.Group): void {
+  public decomposeGroup(group: Konva.Group): KonvaNode[] {
     const parent = group.parent;
     const groupTransform = group._getTransform();
-    parent?.add(
-      ...(group.children ?? []).map((child) => {
-        const transform = child._getTransform().multiply(groupTransform);
-        child._setTransform(transform.decompose());
-        return child;
-      })
-    );
+    const resolve = (group.children ?? []).map((child) => {
+      const childTransform = child._getTransform();
+      const transform = childTransform.multiply(groupTransform);
+      child._setTransform(transform.decompose());
+      return child;
+    });
+    parent?.add(...resolve);
     group.remove();
+    return resolve;
   }
 
   public moveUp(...nodes: Array<KonvaNode>): void {

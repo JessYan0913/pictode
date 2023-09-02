@@ -76,7 +76,11 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
               label: '组合',
               hotKey: '',
               action: () => {
-                app.makeGroup(...selected.value);
+                const group = app.makeGroup(selected.value);
+                if (Array.isArray(group)) {
+                  return;
+                }
+                app.select(group);
               },
             },
           ]
