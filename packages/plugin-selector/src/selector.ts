@@ -243,15 +243,6 @@ export class Selector {
     }
   };
 
-  private findTopGroup(target: Konva.Node): Konva.Group | null {
-    if (target.parent instanceof Konva.Group && target.parent.parent instanceof Konva.Group) {
-      // 继续向上查找最顶层的组
-      return this.findTopGroup(target.parent);
-    }
-    // 如果已经不再有父组，返回当前目标
-    return target.parent instanceof Konva.Group ? target.parent : null;
-  }
-
   private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
     if (!this.enable || event.evt.button !== 0) {
       return; // 未启用时直接返回
@@ -269,7 +260,7 @@ export class Selector {
         this.select(...this.selected.values(), event.target);
       }
     } else {
-      const topGroup = this.findTopGroup(event.target);
+      const topGroup = this.app.findTopGroup(event.target);
       if (topGroup) {
         this.select(topGroup);
       } else {

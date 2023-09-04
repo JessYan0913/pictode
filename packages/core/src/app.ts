@@ -199,6 +199,15 @@ export class App extends BaseService<EventArgs> {
     return resolve;
   }
 
+  public findTopGroup(target: Konva.Node): Konva.Group | null {
+    if (target.parent instanceof Konva.Group && target.parent.parent instanceof Konva.Group) {
+      // 继续向上查找最顶层的组
+      return this.findTopGroup(target.parent);
+    }
+    // 如果已经不再有父组，返回当前目标
+    return target.parent instanceof Konva.Group ? target.parent : null;
+  }
+
   public moveUp(...nodes: Array<KonvaNode>): void {
     this.moveZIndexNodes(nodes, (node) => node.moveUp());
   }
