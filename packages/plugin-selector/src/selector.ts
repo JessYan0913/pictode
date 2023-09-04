@@ -13,11 +13,13 @@ export class Selector {
   private rubberRect: Konva.Rect;
   private rubberStartPoint: util.Point = new util.Point(0, 0);
   private rubberEnable: boolean = false;
+  private hightLightRects: Map<string, Konva.Rect>;
 
   constructor(app: App, options?: Options) {
     const { enable = true, multipleSelect = false } = options ?? {};
     this.app = app;
     this.selected = new Map();
+    this.hightLightRects = new Map();
     this.enable = enable;
     this.multipleSelect = multipleSelect;
 
@@ -119,6 +121,7 @@ export class Selector {
         return node !== this.rubberRect;
       })
     );
+    this.setHightRect(...nodes);
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -130,11 +133,11 @@ export class Selector {
     if (nodes.length === 0) {
       nodes = [...this.selected.values()];
     }
-    const removed = nodes.map((node) => {
+    nodes.forEach((node) => {
       node.draggable(false);
-      return node.id();
+      this.selected.delete(node.id());
     });
-    removed.forEach((id) => this.selected.delete(id));
+    this.removeHightRect(...nodes);
     this.transformer.nodes([...this.selected.values()]);
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -165,6 +168,31 @@ export class Selector {
     y: number;
   } {
     return this.transformer.getClientRect();
+  }
+
+  private setHightRect(...nodes: KonvaNode[]) {
+    this.hightLightRects = nodes.reduce<Map<string, Konva.Rect>>((hightRects, node) => {
+      const rect = new Konva.Rect({
+        x: node.x() - 5,
+        y: node.y() - 5,
+        width: node.width() + 2 * 5,
+        height: node.height() + 2 * 5,
+        stroke: 'rgb(157, 157, 231)',
+        strokeWidth: 1,
+        fillEnabled: false,
+      });
+      this.optionLayer.add(rect);
+      hightRects.set(node.id(), rect);
+      return hightRects;
+    }, new Map());
+  }
+
+  private removeHightRect(...nodes: KonvaNode[]) {
+    nodes.forEach((node) => {
+      const rect = this.hightLightRects.get(node.id());
+      rect?.remove();
+      this.hightLightRects.delete(node.id());
+    });
   }
 
   private onTransformStart = (): void => {
