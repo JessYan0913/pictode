@@ -102,6 +102,14 @@ export interface EventArgs {
   'node:updated': {
     nodes: KonvaNode[];
   };
+  'node:group:make': {
+    nodes: KonvaNode[];
+    group: Konva.Group;
+  };
+  'node:group:decompose': {
+    nodes: KonvaNode[];
+    group: Konva.Group;
+  };
   'node:transform:start': {
     nodes: KonvaNode[];
   };

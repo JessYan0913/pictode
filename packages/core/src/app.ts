@@ -149,6 +149,17 @@ export class App extends BaseService<EventArgs> {
   }
 
   public makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+    const resolve = this._makeGroup(nodes);
+    if (resolve instanceof Konva.Group) {
+      this.emit('node:group:make', {
+        group: resolve,
+        nodes,
+      });
+    }
+    return resolve;
+  }
+
+  public _makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
     if (nodes.length < 2) {
       return nodes;
     }
@@ -159,11 +170,20 @@ export class App extends BaseService<EventArgs> {
         return node;
       })
     );
-    this.add(group);
+    this._add(group);
     return group;
   }
 
   public decomposeGroup(group: Konva.Group): KonvaNode[] {
+    const resolve = this._decomposeGroup(group);
+    this.emit('node:group:decompose', {
+      group,
+      nodes: resolve,
+    });
+    return resolve;
+  }
+
+  public _decomposeGroup(group: Konva.Group): KonvaNode[] {
     const parent = group.getParent() ?? this.mainLayer;
     const resolve = [...group.getChildren()].map((child) => {
       const transform = child.getAbsoluteTransform();
@@ -175,7 +195,7 @@ export class App extends BaseService<EventArgs> {
       child.rotation(transform.decompose().rotation);
       return child;
     });
-    group.remove();
+    this._remove(group);
     return resolve;
   }
 

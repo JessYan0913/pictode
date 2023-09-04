@@ -1,4 +1,4 @@
-import { KonvaNode } from '@pictode/core';
+import { Konva, KonvaNode } from '@pictode/core';
 
 import { HistoryPlugin } from './index';
 
@@ -54,6 +54,16 @@ export namespace Cmd {
       oldZIndex: number;
       newZIndex: number;
     }[];
+  }
+
+  export interface MakeGroupOptions {
+    group: Konva.Group;
+    nodes: KonvaNode[];
+  }
+
+  export interface DecomposeGroupOptions {
+    group: Konva.Group;
+    nodes: KonvaNode[];
   }
 }
 

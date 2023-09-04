@@ -2,7 +2,14 @@ import { App, EventArgs, KonvaNode, Plugin } from '@pictode/core';
 
 import './methods';
 
-import { AddObjectCmd, ModifiedObjectCmd, MoveZIndexObjectCmd, RemoveObjectCmd } from './commands';
+import {
+  AddObjectCmd,
+  DecomposeGroupCmd,
+  MakeGroupCmd,
+  ModifiedObjectCmd,
+  MoveZIndexObjectCmd,
+  RemoveObjectCmd,
+} from './commands';
 import { History } from './history';
 import { Options } from './types';
 
@@ -26,6 +33,8 @@ export class HistoryPlugin implements Plugin {
     this.app.on('node:removed', this.onNodeRemove);
     this.app.on('node:update:before', this.onNodeUpdateBefore);
     this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
+    this.app.on('node:group:make', this.onMakeGroup);
+    this.app.on('node:group:decompose', this.onDecomposeGroup);
     this.app.on('node:updated', this.onNodeUpdated);
   }
 
@@ -35,6 +44,8 @@ export class HistoryPlugin implements Plugin {
     this.app?.off('node:removed', this.onNodeRemove);
     this.app?.off('node:update:before', this.onNodeUpdateBefore);
     this.app?.off('node:updated', this.onNodeUpdated);
+    this.app?.off('node:group:make', this.onMakeGroup);
+    this.app?.off('node:group:decompose', this.onDecomposeGroup);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -93,6 +104,20 @@ export class HistoryPlugin implements Plugin {
       return;
     }
     this.history.execute(new MoveZIndexObjectCmd(this.app, { nodes }));
+  };
+
+  private onMakeGroup = ({ nodes, group }: EventArgs['node:group:make']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(new MakeGroupCmd(this.app, { nodes, group }));
+  };
+
+  private onDecomposeGroup = ({ nodes, group }: EventArgs['node:group:decompose']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(new DecomposeGroupCmd(this.app, { nodes, group }));
   };
 }
 
