@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { App, KonvaNode } from '@pictode/core';
+import { App, Konva, KonvaNode } from '@pictode/core';
 import { useCommandComponent, useHotKey } from '@pictode/vue-aide';
 
 import MessageBox from '@/components/MessageBox.vue';
@@ -86,6 +86,25 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     },
     { key: ['Control', 'Meta'], directions: '缩放画布' }
   );
+  const makeGroup = useHotKey(
+    () => {
+      const group = app.makeGroup(selected.value);
+      if (Array.isArray(group)) {
+        return;
+      }
+      app.select(group);
+    },
+    { key: 'g', directions: '组合', ctrlKey: true, shiftKey: true, exact: true }
+  );
+  const decomposeGroup = useHotKey(
+    () => {
+      const selectedNode = selected.value[0];
+      if (selectedNode instanceof Konva.Group) {
+        app.decomposeGroup(selectedNode);
+      }
+    },
+    { key: 'j', directions: '解除组合', ctrlKey: true, shiftKey: true, exact: true }
+  );
   return {
     moveDown,
     moveUp,
@@ -98,6 +117,8 @@ export const useBindHotKey = (app: App, selected: Ref<Array<KonvaNode>>) => {
     redo,
     stageDrag,
     mouseWheel,
+    makeGroup,
+    decomposeGroup,
   };
 };
 

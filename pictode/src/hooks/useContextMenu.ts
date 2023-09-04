@@ -28,10 +28,19 @@ const hotKeyFactory = (keys: (string | string[])[] = []): string => {
 
 export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const contextMenu = useCommandComponent(ContextMenu);
-  const { moveDown, moveUp, moveBottom, moveTop, deleteNode, selectAll, resetStage, undo, redo } = useBindHotKey(
-    app,
-    selected
-  );
+  const {
+    moveDown,
+    moveUp,
+    moveBottom,
+    moveTop,
+    deleteNode,
+    selectAll,
+    resetStage,
+    undo,
+    redo,
+    makeGroup,
+    decomposeGroup,
+  } = useBindHotKey(app, selected);
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
     let targetIsStage = false;
@@ -73,15 +82,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       selected.value.length > 1 && !targetIsStage
         ? [
             {
-              label: '组合',
-              hotKey: '',
-              action: () => {
-                const group = app.makeGroup(selected.value);
-                if (Array.isArray(group)) {
-                  return;
-                }
-                app.select(group);
-              },
+              label: makeGroup.directions,
+              hotKey: hotKeyFactory(makeGroup.hotKey),
+              action: makeGroup,
             },
           ]
         : [];
@@ -89,11 +92,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       selected.value.length === 1 && selected.value[0] instanceof Konva.Group
         ? [
             {
-              label: '解除组合',
-              hotKey: '',
-              action: () => {
-                app.decomposeGroup(selected.value[0] as Konva.Group);
-              },
+              label: decomposeGroup.directions,
+              hotKey: hotKeyFactory(decomposeGroup.hotKey),
+              action: decomposeGroup,
             },
           ]
         : [];
