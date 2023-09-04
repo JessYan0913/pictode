@@ -26,10 +26,11 @@ export class Selector {
     this.app.stage.add(this.optionLayer);
 
     this.transformer = new Konva.Transformer({
-      padding: 3,
+      padding: 5,
       ignoreStroke: true,
       borderStroke: 'rgb(157, 157, 231)',
       borderStrokeWidth: 1,
+      borderDash: [3, 3],
       anchorSize: 8,
       anchorStroke: 'rgb(157, 157, 231)',
       anchorCornerRadius: 3,
