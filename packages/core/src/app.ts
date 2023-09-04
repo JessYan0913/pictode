@@ -166,7 +166,13 @@ export class App extends BaseService<EventArgs> {
   public decomposeGroup(group: Konva.Group): KonvaNode[] {
     const parent = group.getParent() ?? this.mainLayer;
     const resolve = [...group.getChildren()].map((child) => {
+      const transform = child.getAbsoluteTransform();
       child.moveTo(parent);
+      child.x(transform.decompose().x);
+      child.y(transform.decompose().y);
+      child.scaleX(transform.decompose().scaleX);
+      child.scaleY(transform.decompose().scaleY);
+      child.rotation(transform.decompose().rotation);
       return child;
     });
     group.remove();
