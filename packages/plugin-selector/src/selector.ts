@@ -258,6 +258,7 @@ export class Selector {
       }
     } else {
       if (event.target.parent instanceof Konva.Group) {
+        // TODO: 这里关于组的处理还存在问题
         this.select(event.target.parent);
       } else {
         this.select(event.target);
