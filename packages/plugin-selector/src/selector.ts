@@ -41,7 +41,9 @@ export class Selector {
         ['middle-left', 'middle-right', 'top-center', 'bottom-center'].some((anchorName) =>
           anchor.hasName(anchorName)
         ) &&
-        ([...this.selected.values()]?.[0] instanceof Konva.Text || this.selected.size > 1)
+        ([...this.selected.values()]?.[0] instanceof Konva.Text ||
+          [...this.selected.values()]?.[0] instanceof Konva.Group ||
+          this.selected.size > 1)
       ) {
         anchor.visible(false);
       }
@@ -240,6 +242,15 @@ export class Selector {
     }
   };
 
+  private findTopGroup(target: Konva.Node): Konva.Group | null {
+    if (target.parent instanceof Konva.Group && target.parent.parent instanceof Konva.Group) {
+      // 继续向上查找最顶层的组
+      return this.findTopGroup(target.parent);
+    }
+    // 如果已经不再有父组，返回当前目标
+    return target.parent instanceof Konva.Group ? target.parent : null;
+  }
+
   private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
     if (!this.enable || event.evt.button !== 0) {
       return; // 未启用时直接返回
@@ -257,9 +268,9 @@ export class Selector {
         this.select(...this.selected.values(), event.target);
       }
     } else {
-      if (event.target.parent instanceof Konva.Group) {
-        // TODO: 这里关于组的处理还存在问题
-        this.select(event.target.parent);
+      const topGroup = this.findTopGroup(event.target);
+      if (topGroup) {
+        this.select(topGroup);
       } else {
         this.select(event.target);
       }
