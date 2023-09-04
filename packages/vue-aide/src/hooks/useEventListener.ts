@@ -6,7 +6,7 @@ export const useEventListener = <K extends keyof EventMap>(
   target: Ref<EventTarget | null> | EventTarget,
   event: K,
   handler: (event: EventMap[K]) => void
-) => {
+): (() => void) => {
   const eventHandler = (event: Event) => {
     handler(event as EventMap[K]);
   };
@@ -21,9 +21,15 @@ export const useEventListener = <K extends keyof EventMap>(
     });
   }
 
-  onUnmounted(() => {
+  const removeEventListener = () => {
     unref(target)?.removeEventListener(event, eventHandler);
+  };
+
+  onUnmounted(() => {
+    removeEventListener();
   });
+
+  return removeEventListener;
 };
 
 export default useEventListener;

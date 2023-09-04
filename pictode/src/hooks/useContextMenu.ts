@@ -6,7 +6,7 @@ import ContextMenu from '@/components/ContextMenu.vue';
 
 import useBindHotKey from './useHotKeyList';
 
-const hotKeyFactory = (keys: (string | string[])[]): string => {
+const hotKeyFactory = (keys: (string | string[])[] = []): string => {
   function capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -50,22 +50,22 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               label: moveDown.directions,
               hotKey: hotKeyFactory(moveDown.hotKey),
-              action: moveDown.onKeyPressed,
+              action: moveDown,
             },
             {
               label: moveUp.directions,
               hotKey: hotKeyFactory(moveUp.hotKey),
-              action: moveUp.onKeyPressed,
+              action: moveUp,
             },
             {
               label: moveBottom.directions,
               hotKey: hotKeyFactory(moveBottom.hotKey),
-              action: moveBottom.onKeyPressed,
+              action: moveBottom,
             },
             {
               label: moveTop.directions,
               hotKey: hotKeyFactory(moveTop.hotKey),
-              action: moveTop.onKeyPressed,
+              action: moveTop,
             },
           ]
         : [];
@@ -103,7 +103,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               label: deleteNode.directions,
               hotKey: hotKeyFactory(deleteNode.hotKey),
-              action: deleteNode.onKeyPressed,
+              action: deleteNode,
             },
           ]
         : [];
@@ -113,12 +113,12 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               label: selectAll.directions,
               hotKey: hotKeyFactory(selectAll.hotKey),
-              action: selectAll.onKeyPressed,
+              action: selectAll,
             },
             {
               label: resetStage.directions,
               hotKey: hotKeyFactory(resetStage.hotKey),
-              action: resetStage.onKeyPressed,
+              action: resetStage,
             },
           ]
         : [];
@@ -127,13 +127,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
         label: undo.directions,
         hotKey: hotKeyFactory(undo.hotKey),
         disable: !app.canUndo(),
-        action: undo.onKeyPressed,
+        action: undo,
       },
       {
         label: redo.directions,
         hotKey: hotKeyFactory(redo.hotKey),
         disable: !app.canRedo(),
-        action: redo.onKeyPressed,
+        action: redo,
       },
     ];
     const menuGroups = [stageMenus, shapeLayerMenus, groupMenus, removeGroupMenus, historyMenus, shapeDeleteMenus];
