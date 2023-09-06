@@ -192,6 +192,8 @@ export class App extends BaseService<EventArgs> {
       child.y(transform.decompose().y);
       child.scaleX(transform.decompose().scaleX);
       child.scaleY(transform.decompose().scaleY);
+      child.skewX(transform.decompose().skewX);
+      child.skewY(transform.decompose().skewY);
       child.rotation(transform.decompose().rotation);
       return child;
     });

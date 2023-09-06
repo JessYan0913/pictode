@@ -2,6 +2,12 @@ import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 
 import { Options } from './types';
 
+interface HightLightRect {
+  rect: Konva.Rect;
+  transformHandler: (...args: any) => any;
+  dragHandler: (...args: any) => any;
+}
+
 export class Selector {
   public app: App;
   public selected: Map<number | string, KonvaNode>;
@@ -13,7 +19,7 @@ export class Selector {
   private rubberRect: Konva.Rect;
   private rubberStartPoint: util.Point = new util.Point(0, 0);
   private rubberEnable: boolean = false;
-  private hightLightRects: Map<string, Konva.Rect>;
+  private hightLightRects: Map<string, HightLightRect>;
 
   constructor(app: App, options?: Options) {
     const { enable = true, multipleSelect = false } = options ?? {};
@@ -171,26 +177,50 @@ export class Selector {
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
-    this.hightLightRects = nodes.reduce<Map<string, Konva.Rect>>((hightRects, node) => {
+    this.hightLightRects = nodes.reduce((hightRects, node) => {
+      const nodeClientRect = node.getClientRect();
       const rect = new Konva.Rect({
-        x: node.x() - 5,
-        y: node.y() - 5,
-        width: node.width() + 2 * 5,
-        height: node.height() + 2 * 5,
+        x: nodeClientRect.x,
+        y: nodeClientRect.y,
+        width: nodeClientRect.width,
+        height: nodeClientRect.height,
         stroke: 'rgb(157, 157, 231)',
         strokeWidth: 1,
         fillEnabled: false,
       });
       this.optionLayer.add(rect);
-      hightRects.set(node.id(), rect);
+      const dragHandler = ({ target }: Konva.KonvaEventObject<DragEvent>) => {
+        const { x, y } = target.getClientRect();
+        rect.x(x);
+        rect.y(y);
+      };
+      const transformHandler = ({ target }: Konva.KonvaEventObject<TransitionEvent>) => {
+        const { x, y, width, height } = target.getClientRect();
+        rect.x(x);
+        rect.y(y);
+        rect.width(width);
+        rect.height(height);
+      };
+      node.on('dragmove', dragHandler);
+      node.on('transform', transformHandler);
+      hightRects.set(node.id(), {
+        rect,
+        transformHandler,
+        dragHandler,
+      });
       return hightRects;
-    }, new Map());
+    }, new Map<string, HightLightRect>());
   }
 
   private removeHightRect(...nodes: KonvaNode[]) {
     nodes.forEach((node) => {
-      const rect = this.hightLightRects.get(node.id());
-      rect?.remove();
+      const hightLight = this.hightLightRects.get(node.id());
+      if (!hightLight) {
+        return;
+      }
+      node.off('dragmove', hightLight.dragHandler);
+      node.off('transform', hightLight.transformHandler);
+      hightLight.rect.remove();
       this.hightLightRects.delete(node.id());
     });
   }
