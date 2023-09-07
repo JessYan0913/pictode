@@ -45,7 +45,8 @@ export class DrawingTool implements Tool<DrawingToolConfig> {
       return;
     }
     event.evt.stopPropagation();
-    this.line.points(this.line.points().concat([app.pointer.x, app.pointer.y]));
+    this.points.push(app.pointer);
+    this.line.points(util.flatPoints(this.points));
   }
 
   public mouseup({ app, pointer }: ToolEvent) {
