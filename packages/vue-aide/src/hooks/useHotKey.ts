@@ -45,7 +45,7 @@ export const useHotKey = (hotKeyFunction: HotKeyFunction, opts?: Partial<HotKeyO
       return;
     }
     key = typeof key === 'string' ? [key] : key;
-    if (key.includes(event.key.toLowerCase()) && matchKeyScheme(options, event)) {
+    if (key.map((k) => k.toLowerCase()).includes(event.key.toLowerCase()) && matchKeyScheme(options, event)) {
       event.preventDefault();
       const result = hotKeyFunction();
       if (typeof result !== 'function') {
