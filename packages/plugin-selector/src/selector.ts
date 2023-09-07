@@ -178,28 +178,38 @@ export class Selector {
 
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
-      const nodeClientRect = node.getClientRect();
+      const position = node.getAbsolutePosition();
+      const size = {
+        width: node.width() * node.scaleX(),
+        height: node.height() * node.scaleY(),
+      };
+      const rotation = node.rotation();
       const rect = new Konva.Rect({
-        x: nodeClientRect.x,
-        y: nodeClientRect.y,
-        width: nodeClientRect.width,
-        height: nodeClientRect.height,
+        x: position.x,
+        y: position.y,
+        width: size.width,
+        height: size.height,
+        rotation,
         stroke: 'rgb(157, 157, 231)',
         strokeWidth: 1,
         fillEnabled: false,
       });
       this.optionLayer.add(rect);
       const dragHandler = ({ target }: Konva.KonvaEventObject<DragEvent>) => {
-        const { x, y } = target.getClientRect();
-        rect.x(x);
-        rect.y(y);
+        const position = target.getAbsolutePosition();
+        rect.position(position);
       };
       const transformHandler = ({ target }: Konva.KonvaEventObject<TransitionEvent>) => {
-        const { x, y, width, height } = target.getClientRect();
-        rect.x(x);
-        rect.y(y);
-        rect.width(width);
-        rect.height(height);
+        const position = target.getAbsolutePosition();
+        const size = {
+          width: target.width() * target.scaleX(),
+          height: target.height() * target.scaleY(),
+        };
+        const rotation = target.rotation();
+        rect.position(position);
+        rect.width(size.width);
+        rect.height(size.height);
+        rect.rotation(rotation);
       };
       node.on('dragmove', dragHandler);
       node.on('transform', transformHandler);
