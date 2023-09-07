@@ -342,6 +342,10 @@ export class App extends BaseService<EventArgs> {
     transformer.nodes(newNodes);
 
     const clientRect = transformer.getClientRect();
+    const canvasScaleX = this.stage.scaleX();
+    const canvasScaleY = this.stage.scaleY();
+    const canvasOffsetX = this.stage.x();
+    const canvasOffsetY = this.stage.y();
     const width = clientRect.width + padding * 2;
     const height = clientRect.height + padding * 2;
     const x = clientRect.x - padding;
@@ -350,8 +354,8 @@ export class App extends BaseService<EventArgs> {
     const background = new Konva.Rect({
       width,
       height,
-      x,
-      y,
+      x: (x - canvasOffsetX) / canvasScaleX,
+      y: (y - canvasOffsetY) / canvasScaleY,
       fill: this.stage.container().style.backgroundColor,
     });
 
