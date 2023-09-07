@@ -216,23 +216,31 @@ export class Selector {
   }
 
   private calculateNodeRect(node: KonvaNode, rect: Konva.Rect): void {
-    const position = this.getNodeRectPosition(node);
-    const size = {
-      width: node.width() * node.scaleX(),
-      height: node.height() * node.scaleY(),
-    };
-    const rotation = node.rotation();
-    const canvasScaleX = this.app.stage.scaleX();
-    const canvasScaleY = this.app.stage.scaleY();
-    const canvasOffsetX = this.app.stage.x();
-    const canvasOffsetY = this.app.stage.y();
-    rect.position({
-      x: (position.x - canvasOffsetX) / canvasScaleX,
-      y: (position.y - canvasOffsetY) / canvasScaleY,
-    });
-    rect.width(size.width);
-    rect.height(size.height);
-    rect.rotation(rotation);
+    if (node instanceof Konva.Group) {
+      const box = node.getClientRect();
+      rect.position({ x: box.x, y: box.y });
+      rect.width(box.width);
+      rect.height(box.height);
+      rect.dash([5, 5]);
+      rect.stroke('#000');
+    } else {
+      const position = this.getNodeRectPosition(node);
+      const size = {
+        width: node.width() * node.scaleX(),
+        height: node.height() * node.scaleY(),
+      };
+      const canvasScaleX = this.app.stage.scaleX();
+      const canvasScaleY = this.app.stage.scaleY();
+      const canvasOffsetX = this.app.stage.x();
+      const canvasOffsetY = this.app.stage.y();
+      rect.position({
+        x: (position.x - canvasOffsetX) / canvasScaleX,
+        y: (position.y - canvasOffsetY) / canvasScaleY,
+      });
+      rect.width(size.width);
+      rect.height(size.height);
+      rect.rotation(node.rotation());
+    }
   }
 
   private getNodeRectPosition(node: KonvaNode): util.Point {
