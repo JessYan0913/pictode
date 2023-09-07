@@ -184,9 +184,13 @@ export class Selector {
         height: node.height() * node.scaleY(),
       };
       const rotation = node.rotation();
+      const canvasScaleX = this.app.stage.scaleX();
+      const canvasScaleY = this.app.stage.scaleY();
+      const canvasOffsetX = this.app.stage.x();
+      const canvasOffsetY = this.app.stage.y();
       const rect = new Konva.Rect({
-        x: position.x,
-        y: position.y,
+        x: (position.x - canvasOffsetX) / canvasScaleX,
+        y: (position.y - canvasOffsetY) / canvasScaleY,
         width: size.width,
         height: size.height,
         rotation,
@@ -197,7 +201,14 @@ export class Selector {
       this.optionLayer.add(rect);
       const dragHandler = ({ target }: Konva.KonvaEventObject<DragEvent>) => {
         const position = target.getAbsolutePosition();
-        rect.position(position);
+        const canvasScaleX = this.app.stage.scaleX();
+        const canvasScaleY = this.app.stage.scaleY();
+        const canvasOffsetX = this.app.stage.x();
+        const canvasOffsetY = this.app.stage.y();
+        rect.position({
+          x: (position.x - canvasOffsetX) / canvasScaleX,
+          y: (position.y - canvasOffsetY) / canvasScaleY,
+        });
       };
       const transformHandler = ({ target }: Konva.KonvaEventObject<TransitionEvent>) => {
         const position = target.getAbsolutePosition();
@@ -206,7 +217,14 @@ export class Selector {
           height: target.height() * target.scaleY(),
         };
         const rotation = target.rotation();
-        rect.position(position);
+        const canvasScaleX = this.app.stage.scaleX();
+        const canvasScaleY = this.app.stage.scaleY();
+        const canvasOffsetX = this.app.stage.x();
+        const canvasOffsetY = this.app.stage.y();
+        rect.position({
+          x: (position.x - canvasOffsetX) / canvasScaleX,
+          y: (position.y - canvasOffsetY) / canvasScaleY,
+        });
         rect.width(size.width);
         rect.height(size.height);
         rect.rotation(rotation);
