@@ -178,45 +178,13 @@ export class Selector {
 
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
-      const position = node.getAbsolutePosition();
-      const size = {
-        width: node.width() * node.scaleX(),
-        height: node.height() * node.scaleY(),
-      };
-      const rotation = node.rotation();
-      const canvasScaleX = this.app.stage.scaleX();
-      const canvasScaleY = this.app.stage.scaleY();
-      const canvasOffsetX = this.app.stage.x();
-      const canvasOffsetY = this.app.stage.y();
-      const rect = new Konva.Rect({
-        x: (position.x - canvasOffsetX) / canvasScaleX,
-        y: (position.y - canvasOffsetY) / canvasScaleY,
-        width: size.width,
-        height: size.height,
-        rotation,
-        stroke: 'rgb(157, 157, 231)',
-        strokeWidth: 1,
-        fillEnabled: false,
-      });
-      this.optionLayer.add(rect);
-      const dragHandler = ({ target }: Konva.KonvaEventObject<DragEvent>) => {
-        const position = target.getAbsolutePosition();
-        const canvasScaleX = this.app.stage.scaleX();
-        const canvasScaleY = this.app.stage.scaleY();
-        const canvasOffsetX = this.app.stage.x();
-        const canvasOffsetY = this.app.stage.y();
-        rect.position({
-          x: (position.x - canvasOffsetX) / canvasScaleX,
-          y: (position.y - canvasOffsetY) / canvasScaleY,
-        });
-      };
-      const transformHandler = ({ target }: Konva.KonvaEventObject<TransitionEvent>) => {
-        const position = target.getAbsolutePosition();
+      const calculateHightLightRectPosture = (rect: Konva.Rect, node: KonvaNode) => {
+        const position = node.getAbsolutePosition();
         const size = {
-          width: target.width() * target.scaleX(),
-          height: target.height() * target.scaleY(),
+          width: node.width() * node.scaleX(),
+          height: node.height() * node.scaleY(),
         };
-        const rotation = target.rotation();
+        const rotation = node.rotation();
         const canvasScaleX = this.app.stage.scaleX();
         const canvasScaleY = this.app.stage.scaleY();
         const canvasOffsetX = this.app.stage.x();
@@ -229,8 +197,21 @@ export class Selector {
         rect.height(size.height);
         rect.rotation(rotation);
       };
+      const rect = new Konva.Rect({
+        stroke: 'rgb(157, 157, 231)',
+        strokeWidth: 1,
+        fillEnabled: false,
+        strokeScaleEnabled: false,
+      });
+      calculateHightLightRectPosture(rect, node);
+      this.optionLayer.add(rect);
+
+      const dragHandler = () => calculateHightLightRectPosture(rect, node);
+      const transformHandler = () => calculateHightLightRectPosture(rect, node);
+
       node.on('dragmove', dragHandler);
       node.on('transform', transformHandler);
+
       hightRects.set(node.id(), {
         rect,
         transformHandler,
