@@ -44,6 +44,7 @@ export class Selector {
       anchorCornerRadius: 3,
       anchorStrokeWidth: 1,
       rotateAnchorOffset: 20,
+      shouldOverdrawWholeArea: false, // 空白区域是否支持鼠标事件
     });
     this.transformer.anchorStyleFunc((anchor) => {
       if (
@@ -115,23 +116,15 @@ export class Selector {
       return;
     }
     this.cancelSelect();
-    const handleNodeRemoved = (node: KonvaNode) => {
-      this.cancelSelect(node);
-      node.off('removed');
-    };
-    const handleNodeMouseenter = () => {
-      this.app.stage.container().style.cursor = 'move';
-    };
-    const handleNodeMouseout = () => {
-      this.app.stage.container().style.cursor = 'default';
+    const handleNodeRemoved = ({ target }: any) => {
+      this.cancelSelect(target);
+      target.off('removed', handleNodeRemoved);
     };
     this.transformer.nodes(
       nodes.filter((node) => {
         node.draggable(true);
+        node.on<'removed'>('removed', handleNodeRemoved);
         this.selected.set(node.id(), node);
-        node.on<'removed'>('removed', () => handleNodeRemoved(node));
-        node.on<'mouseenter'>('mouseenter', handleNodeMouseenter);
-        node.on<'mouseout'>('mouseout', handleNodeMouseout);
         return node !== this.rubberRect;
       })
     );

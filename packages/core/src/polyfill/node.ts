@@ -21,7 +21,7 @@ Konva.Node.prototype.toObject = newToObject;
 const originRemove = Konva.Node.prototype.remove;
 Konva.Node.prototype.remove = function (this: Konva.Node) {
   originRemove.call(this);
-  this.fire('removed');
+  this.fire('removed', { target: this });
   return this;
 };
 
