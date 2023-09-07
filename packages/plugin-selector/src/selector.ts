@@ -178,36 +178,17 @@ export class Selector {
 
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
-      const calculateHightLightRectPosture = (rect: Konva.Rect, node: KonvaNode) => {
-        const position = node.getAbsolutePosition();
-        const size = {
-          width: node.width() * node.scaleX(),
-          height: node.height() * node.scaleY(),
-        };
-        const rotation = node.rotation();
-        const canvasScaleX = this.app.stage.scaleX();
-        const canvasScaleY = this.app.stage.scaleY();
-        const canvasOffsetX = this.app.stage.x();
-        const canvasOffsetY = this.app.stage.y();
-        rect.position({
-          x: (position.x - canvasOffsetX) / canvasScaleX,
-          y: (position.y - canvasOffsetY) / canvasScaleY,
-        });
-        rect.width(size.width);
-        rect.height(size.height);
-        rect.rotation(rotation);
-      };
       const rect = new Konva.Rect({
         stroke: 'rgb(157, 157, 231)',
         strokeWidth: 1,
         fillEnabled: false,
         strokeScaleEnabled: false,
       });
-      calculateHightLightRectPosture(rect, node);
+      this.calculateNodeRect(node, rect);
       this.optionLayer.add(rect);
 
-      const dragHandler = () => calculateHightLightRectPosture(rect, node);
-      const transformHandler = () => calculateHightLightRectPosture(rect, node);
+      const dragHandler = () => this.calculateNodeRect(node, rect);
+      const transformHandler = () => this.calculateNodeRect(node, rect);
 
       node.on('dragmove', dragHandler);
       node.on('transform', transformHandler);
@@ -232,6 +213,26 @@ export class Selector {
       hightLight.rect.remove();
       this.hightLightRects.delete(node.id());
     });
+  }
+
+  private calculateNodeRect(node: KonvaNode, rect: Konva.Rect): void {
+    const position = node.getAbsolutePosition();
+    const size = {
+      width: node.width() * node.scaleX(),
+      height: node.height() * node.scaleY(),
+    };
+    const rotation = node.rotation();
+    const canvasScaleX = this.app.stage.scaleX();
+    const canvasScaleY = this.app.stage.scaleY();
+    const canvasOffsetX = this.app.stage.x();
+    const canvasOffsetY = this.app.stage.y();
+    rect.position({
+      x: (position.x - canvasOffsetX) / canvasScaleX,
+      y: (position.y - canvasOffsetY) / canvasScaleY,
+    });
+    rect.width(size.width);
+    rect.height(size.height);
+    rect.rotation(rotation);
   }
 
   private onTransformStart = (): void => {
