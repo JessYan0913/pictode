@@ -119,11 +119,19 @@ export class Selector {
       this.cancelSelect(node);
       node.off('removed');
     };
+    const handleNodeMouseenter = () => {
+      this.app.stage.container().style.cursor = 'move';
+    };
+    const handleNodeMouseout = () => {
+      this.app.stage.container().style.cursor = 'default';
+    };
     this.transformer.nodes(
       nodes.filter((node) => {
         node.draggable(true);
         this.selected.set(node.id(), node);
         node.on<'removed'>('removed', () => handleNodeRemoved(node));
+        node.on<'mouseenter'>('mouseenter', handleNodeMouseenter);
+        node.on<'mouseout'>('mouseout', handleNodeMouseout);
         return node !== this.rubberRect;
       })
     );
@@ -321,15 +329,6 @@ export class Selector {
     if (!this.enable) {
       return;
     }
-    // 判断鼠标坐标是否在transformer内，如果在光标为move，否则为默认
-    const { x, y, width, height } = this.transformer.getClientRect();
-    const inTransformer = util.pointInConvexPolygon(this.app.pointer, [
-      new util.Point(x, y),
-      new util.Point(x + width, y),
-      new util.Point(x + width, y + height),
-      new util.Point(x, y + height),
-    ]);
-    this.app.stage.container().style.cursor = inTransformer ? 'move' : 'default';
     if (!this.rubberEnable) {
       return;
     }
