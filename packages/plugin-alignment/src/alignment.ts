@@ -1,4 +1,4 @@
-import { App, KonvaNode, util } from '@pictode/core';
+import { App, KonvaNode } from '@pictode/core';
 
 import { Options } from './types';
 
@@ -77,32 +77,34 @@ export class Alignment {
 
   public alignCenterX(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
-    const centerX = util.getMiddleValue(clientRects.map((node) => node.x + node.width / 2));
+    const centerX = clientRects.reduce((sumX, rect) => sumX + (rect.x + rect.width / 2), 0) / clientRects.length;
+
     this.app.update(
       ...nodes.map((node, index) => {
         const newNode = node.toObject();
-        const offsetX = clientRects[index].x - centerX;
+        const offsetX = centerX - (clientRects[index].x + clientRects[index].width / 2);
         newNode.attrs = {
           ...newNode.attrs,
-          x: newNode.attrs.x - offsetX,
+          x: newNode.attrs.x + offsetX,
         };
-        return node;
+        return newNode;
       })
     );
   }
 
   public alignCenterY(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
-    const centerY = util.getMiddleValue(clientRects.map((node) => node.y + node.height / 2));
+    const centerY = clientRects.reduce((sumY, rect) => sumY + (rect.y + rect.height / 2), 0) / clientRects.length;
+
     this.app.update(
       ...nodes.map((node, index) => {
         const newNode = node.toObject();
-        const offsetY = clientRects[index].y - centerY;
+        const offsetY = centerY - (clientRects[index].y + clientRects[index].height / 2);
         newNode.attrs = {
           ...newNode.attrs,
-          y: newNode.attrs.y - offsetY,
+          y: newNode.attrs.y + offsetY,
         };
-        return node;
+        return newNode;
       })
     );
   }
