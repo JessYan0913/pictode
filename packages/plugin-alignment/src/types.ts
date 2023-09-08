@@ -4,8 +4,10 @@ import { AlignmentPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    aligned(nodes: KonvaNode[]): void;
-    distributeEvenly(nodes: KonvaNode[]): void;
+    alignLeft(nodes: KonvaNode[]): void;
+    alignRight(nodes: KonvaNode[]): void;
+    alignTop(nodes: KonvaNode[]): void;
+    alignBottom(nodes: KonvaNode[]): void;
   }
 
   export interface EventArgs {
@@ -20,5 +22,4 @@ declare module '@pictode/core' {
 
 export interface Options {
   enable?: boolean;
-  multipleSelect?: boolean;
 }

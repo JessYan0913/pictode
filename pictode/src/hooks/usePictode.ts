@@ -1,5 +1,6 @@
 import { onMounted, onUnmounted, provide, Ref, ref } from 'vue';
 import { App, EventArgs, KonvaNode } from '@pictode/core';
+import AlignmentPlugin from '@pictode/plugin-alignment';
 import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
 
@@ -20,8 +21,13 @@ export const usePictode = () => {
     multipleSelect: true,
   });
 
+  const alignmentPlugin = new AlignmentPlugin({
+    enable: true,
+  });
+
   app.use(historyPlugin);
   app.use(selectorPlugin);
+  app.use(alignmentPlugin);
 
   const selected: Ref<Array<KonvaNode>> = ref([]);
   const panelFormConfig = ref<FormConfig>([]);

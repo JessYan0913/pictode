@@ -30,6 +30,10 @@ export default defineConfig(({ mode }) => {
         { find: '@', replacement: r('./src') },
         { find: /^@pictode\/utils/, replacement: join(__dirname, '../packages/utils/src/index.ts') },
         { find: /^@pictode\/core/, replacement: join(__dirname, '../packages/core/src/index.ts') },
+        {
+          find: /^@pictode\/plugin-alignment/,
+          replacement: join(__dirname, '../packages/plugin-alignment/src/index.ts'),
+        },
         { find: /^@pictode\/plugin-history/, replacement: join(__dirname, '../packages/plugin-history/src/index.ts') },
         {
           find: /^@pictode\/plugin-selector/,

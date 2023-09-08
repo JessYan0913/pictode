@@ -137,7 +137,48 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
         action: redo,
       },
     ];
-    const menuGroups = [stageMenus, shapeLayerMenus, groupMenus, removeGroupMenus, historyMenus, shapeDeleteMenus];
+    const alignmentMenus =
+      selected.value.length > 1
+        ? [
+            {
+              label: '左对齐',
+              hotKey: '',
+              action: () => {
+                app.alignLeft(selected.value);
+              },
+            },
+            {
+              label: '右对齐',
+              hotKey: '',
+              action: () => {
+                app.alignRight(selected.value);
+              },
+            },
+            {
+              label: '顶对齐',
+              hotKey: '',
+              action: () => {
+                app.alignTop(selected.value);
+              },
+            },
+            {
+              label: '底对齐',
+              hotKey: '',
+              action: () => {
+                app.alignBottom(selected.value);
+              },
+            },
+          ]
+        : [];
+    const menuGroups = [
+      stageMenus,
+      shapeLayerMenus,
+      alignmentMenus,
+      groupMenus,
+      removeGroupMenus,
+      historyMenus,
+      shapeDeleteMenus,
+    ];
 
     contextMenu({
       x: event.evt.clientX,
