@@ -5,7 +5,6 @@ import { Options } from './types';
 interface HightLightRect {
   rect: Konva.Rect;
   transformHandler: (...args: any) => any;
-  dragHandler: (...args: any) => any;
 }
 
 export class Selector {
@@ -190,16 +189,13 @@ export class Selector {
       this.calculateNodeRect(node, rect);
       this.optionLayer.add(rect);
 
-      const dragHandler = () => this.calculateNodeRect(node, rect);
-      const transformHandler = () => this.calculateNodeRect(node, rect);
+      const transformHandler = () => requestAnimationFrame(() => this.calculateNodeRect(node, rect));
 
-      node.on('dragmove', dragHandler);
-      node.on('transform', transformHandler);
+      node.on('dragmove transform xChange yChange', transformHandler);
 
       hightRects.set(node.id(), {
         rect,
         transformHandler,
-        dragHandler,
       });
       return hightRects;
     }, new Map<string, HightLightRect>());
@@ -211,8 +207,7 @@ export class Selector {
       if (!hightLight) {
         return;
       }
-      node.off('dragmove', hightLight.dragHandler);
-      node.off('transform', hightLight.transformHandler);
+      node.off('dragmove transform xChange yChange', hightLight.transformHandler);
       hightLight.rect.remove();
       this.hightLightRects.delete(node.id());
     });
