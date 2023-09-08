@@ -44,6 +44,7 @@ export class Selector {
       anchorStrokeWidth: 1,
       rotateAnchorOffset: 20,
       shouldOverdrawWholeArea: false, // 空白区域是否支持鼠标事件
+      flipEnabled: false,
     });
     this.transformer.anchorStyleFunc((anchor) => {
       if (
