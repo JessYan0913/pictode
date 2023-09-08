@@ -1,4 +1,4 @@
-import { App, KonvaNode } from '@pictode/core';
+import { App, KonvaNode, util } from '@pictode/core';
 
 import { Options } from './types';
 
@@ -71,6 +71,38 @@ export class Alignment {
           y: newNode.attrs.y + offsetY,
         };
         return newNode;
+      })
+    );
+  }
+
+  public alignCenterX(nodes: KonvaNode[]): void {
+    const clientRects = nodes.map((node) => node.getClientRect());
+    const centerX = util.getMiddleValue(clientRects.map((node) => node.x + node.width / 2));
+    this.app.update(
+      ...nodes.map((node, index) => {
+        const newNode = node.toObject();
+        const offsetX = clientRects[index].x - centerX;
+        newNode.attrs = {
+          ...newNode.attrs,
+          x: newNode.attrs.x - offsetX,
+        };
+        return node;
+      })
+    );
+  }
+
+  public alignCenterY(nodes: KonvaNode[]): void {
+    const clientRects = nodes.map((node) => node.getClientRect());
+    const centerY = util.getMiddleValue(clientRects.map((node) => node.y + node.height / 2));
+    this.app.update(
+      ...nodes.map((node, index) => {
+        const newNode = node.toObject();
+        const offsetY = clientRects[index].y - centerY;
+        newNode.attrs = {
+          ...newNode.attrs,
+          y: newNode.attrs.y - offsetY,
+        };
+        return node;
       })
     );
   }

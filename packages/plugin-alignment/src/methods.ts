@@ -33,3 +33,19 @@ App.prototype.alignBottom = function (nodes: KonvaNode[]): App {
   }
   return this;
 };
+
+App.prototype.alignCenterX = function (nodes: KonvaNode[]): App {
+  const alignmentPlugin = this.getPlugin('alignmentPlugin') as AlignmentPlugin;
+  if (alignmentPlugin) {
+    alignmentPlugin.alignment?.alignCenterX(nodes);
+  }
+  return this;
+};
+
+App.prototype.alignCenterY = function (nodes: KonvaNode[]): App {
+  const alignmentPlugin = this.getPlugin('alignmentPlugin') as AlignmentPlugin;
+  if (alignmentPlugin) {
+    alignmentPlugin.alignment?.alignCenterY(nodes);
+  }
+  return this;
+};

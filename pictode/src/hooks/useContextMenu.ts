@@ -168,6 +168,20 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
                 app.alignBottom(selected.value);
               },
             },
+            {
+              label: '垂直居中',
+              hotKey: '',
+              action: () => {
+                app.alignCenterY(selected.value);
+              },
+            },
+            {
+              label: '水平居中',
+              hotKey: '',
+              action: () => {
+                app.alignCenterX(selected.value);
+              },
+            },
           ]
         : [];
     const menuGroups = [

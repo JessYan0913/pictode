@@ -8,6 +8,8 @@ declare module '@pictode/core' {
     alignRight(nodes: KonvaNode[]): void;
     alignTop(nodes: KonvaNode[]): void;
     alignBottom(nodes: KonvaNode[]): void;
+    alignCenterX(nodes: KonvaNode[]): void;
+    alignCenterY(nodes: KonvaNode[]): void;
   }
 
   export interface EventArgs {
