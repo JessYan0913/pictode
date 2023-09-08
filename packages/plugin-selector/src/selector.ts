@@ -108,6 +108,11 @@ export class Selector {
     this.app.on('mouse:out', this.onMouseOut);
   }
 
+  private handleNodeRemoved = ({ target }: any): void => {
+    this.cancelSelect(target);
+    target.off('removed', this.handleNodeRemoved);
+  };
+
   public select(...nodes: KonvaNode[]): void {
     if (!this.enable) {
       return;
@@ -116,14 +121,10 @@ export class Selector {
       return;
     }
     this.cancelSelect();
-    const handleNodeRemoved = ({ target }: any) => {
-      this.cancelSelect(target);
-      target.off('removed', handleNodeRemoved);
-    };
     this.transformer.nodes(
       nodes.filter((node) => {
         node.draggable(true);
-        node.on<'removed'>('removed', handleNodeRemoved);
+        node.on<'removed'>('removed', this.handleNodeRemoved);
         this.selected.set(node.id(), node);
         return node !== this.rubberRect;
       })
@@ -142,6 +143,7 @@ export class Selector {
     }
     nodes.forEach((node) => {
       node.draggable(false);
+      node.off('removed', this.handleNodeRemoved);
       this.selected.delete(node.id());
     });
     this.removeHightRect(...nodes);
