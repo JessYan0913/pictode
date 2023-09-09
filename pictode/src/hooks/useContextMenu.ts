@@ -182,6 +182,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
                 app.alignCenterX(selected.value);
               },
             },
+            {
+              label: '水平分布',
+              hotKey: '',
+              action: () => {
+                app.dispersionX(selected.value);
+              },
+            },
           ]
         : [];
     const menuGroups = [

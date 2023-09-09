@@ -109,6 +109,36 @@ export class Alignment {
     );
   }
 
+  public dispersionX(nodes: KonvaNode[]): void {
+    const clientRects = nodes.map((node) => node.getClientRect());
+    const { minX, maxX } = clientRects.reduce<{ minX: number; maxX: number }>(
+      (resolve, { x, width }) => {
+        const centerX = x + width / 2;
+        return {
+          minX: Math.min(centerX, resolve.minX),
+          maxX: Math.max(centerX, resolve.maxX),
+        };
+      },
+      {
+        minX: clientRects[0].x + clientRects[0].width / 2,
+        maxX: clientRects[0].x + clientRects[0].width / 2,
+      }
+    );
+    const avgX = (maxX - minX) / clientRects.length;
+
+    this.app.update(
+      ...nodes.map((node, index) => {
+        const newNode = node.toObject();
+        const offsetX = minX + index * avgX - (clientRects[index].x + clientRects[index].width / 2);
+        newNode.attrs = {
+          ...newNode.attrs,
+          x: newNode.attrs.x + offsetX,
+        };
+        return newNode;
+      })
+    );
+  }
+
   public destroy(): void {}
 }
 
