@@ -147,15 +147,15 @@ export class Alignment {
     }
     nodes.sort((a, b) => a.getClientRect().y - b.getClientRect().y);
 
-    const space =
-      nodes[nodes.length - 1].getClientRect().y - (nodes[0].getClientRect().y + nodes[0].getClientRect().height);
-    const middleHeight = nodes.reduce(
-      (middleHeight, node, index) =>
-        index === 0 || index === nodes.length - 1 ? middleHeight : middleHeight + node.getClientRect().height,
-      0
-    );
+    const firstNode = nodes[0];
+    const lastNode = nodes[nodes.length - 1];
+    const firstY = firstNode.getClientRect().y + firstNode.getClientRect().height;
+    const space = lastNode.getClientRect().y - firstY;
+    const middleNodes = nodes.slice(1, -1);
+    const middleHeight = middleNodes.reduce((middleHeight, node) => middleHeight + node.getClientRect().height, 0);
     const gap = (space - middleHeight) / (nodes.length - 1);
-    let curY = nodes[0].getClientRect().y + nodes[0].getClientRect().height;
+
+    let curY = firstY;
     this.app.update(
       ...nodes.map((node, index) => {
         const newNode = node.toObject();
