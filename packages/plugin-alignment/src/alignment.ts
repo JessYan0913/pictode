@@ -110,30 +110,32 @@ export class Alignment {
   }
 
   public dispersionX(nodes: KonvaNode[]): void {
-    const clientRects = nodes.map((node) => node.getClientRect());
-    const { minX, maxX } = clientRects.reduce<{ minX: number; maxX: number }>(
-      (resolve, { x, width }) => {
-        const centerX = x + width / 2;
-        return {
-          minX: Math.min(centerX, resolve.minX),
-          maxX: Math.max(centerX, resolve.maxX),
-        };
-      },
-      {
-        minX: clientRects[0].x + clientRects[0].width / 2,
-        maxX: clientRects[0].x + clientRects[0].width / 2,
-      }
-    );
-    const avgX = (maxX - minX) / clientRects.length;
+    if (nodes.length <= 2) {
+      return;
+    }
+    nodes.sort((a, b) => a.getClientRect().x - b.getClientRect().x);
 
+    const space =
+      nodes[nodes.length - 1].getClientRect().x - (nodes[0].getClientRect().x + nodes[0].getClientRect().width);
+    const middleWidth = nodes.reduce(
+      (middleWidth, node, index) =>
+        index === 0 || index === nodes.length - 1 ? middleWidth : middleWidth + node.getClientRect().width,
+      0
+    );
+    const gap = (space - middleWidth) / (nodes.length - 1);
+    let curX = nodes[0].getClientRect().x + nodes[0].getClientRect().width;
     this.app.update(
       ...nodes.map((node, index) => {
         const newNode = node.toObject();
-        const offsetX = minX + index * avgX - (clientRects[index].x + clientRects[index].width / 2);
+        if (index === 0 || index === nodes.length - 1) {
+          return newNode;
+        }
+        const newX = curX + gap;
         newNode.attrs = {
           ...newNode.attrs,
-          x: newNode.attrs.x + offsetX,
+          x: newX,
         };
+        curX = newX + node.getClientRect().width;
         return newNode;
       })
     );
