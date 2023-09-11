@@ -189,6 +189,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
                 app.dispersionX(selected.value);
               },
             },
+            {
+              label: '垂直分布',
+              hotKey: '',
+              action: () => {
+                app.dispersionY(selected.value);
+              },
+            },
           ]
         : [];
     const menuGroups = [

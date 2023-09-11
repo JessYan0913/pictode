@@ -141,6 +141,38 @@ export class Alignment {
     );
   }
 
+  public dispersionY(nodes: KonvaNode[]): void {
+    if (nodes.length <= 2) {
+      return;
+    }
+    nodes.sort((a, b) => a.getClientRect().y - b.getClientRect().y);
+
+    const space =
+      nodes[nodes.length - 1].getClientRect().y - (nodes[0].getClientRect().y + nodes[0].getClientRect().height);
+    const middleHeight = nodes.reduce(
+      (middleHeight, node, index) =>
+        index === 0 || index === nodes.length - 1 ? middleHeight : middleHeight + node.getClientRect().height,
+      0
+    );
+    const gap = (space - middleHeight) / (nodes.length - 1);
+    let curY = nodes[0].getClientRect().y + nodes[0].getClientRect().height;
+    this.app.update(
+      ...nodes.map((node, index) => {
+        const newNode = node.toObject();
+        if (index === 0 || index === nodes.length - 1) {
+          return newNode;
+        }
+        const newY = curY + gap;
+        newNode.attrs = {
+          ...newNode.attrs,
+          y: newY,
+        };
+        curY = newY + node.getClientRect().height;
+        return newNode;
+      })
+    );
+  }
+
   public destroy(): void {}
 }
 

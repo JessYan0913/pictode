@@ -57,3 +57,11 @@ App.prototype.dispersionX = function (nodes: KonvaNode[]): App {
   }
   return this;
 };
+
+App.prototype.dispersionY = function (nodes: KonvaNode[]): App {
+  const alignmentPlugin = this.getPlugin('alignmentPlugin') as AlignmentPlugin;
+  if (alignmentPlugin) {
+    alignmentPlugin.alignment?.dispersionY(nodes);
+  }
+  return this;
+};

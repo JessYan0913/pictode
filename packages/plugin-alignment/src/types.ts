@@ -11,6 +11,7 @@ declare module '@pictode/core' {
     alignCenterX(nodes: KonvaNode[]): void;
     alignCenterY(nodes: KonvaNode[]): void;
     dispersionX(nodes: KonvaNode[]): void;
+    dispersionY(nodes: KonvaNode[]): void;
   }
 
   export interface EventArgs {
