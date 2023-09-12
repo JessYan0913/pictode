@@ -109,68 +109,56 @@ export class Alignment {
     );
   }
 
-  public dispersionX(nodes: KonvaNode[]): void {
+  private distributeNodes(nodes: KonvaNode[], key: 'x' | 'y'): void {
     if (nodes.length <= 2) {
       return;
     }
-    nodes.sort((a, b) => a.getClientRect().x - b.getClientRect().x);
+    nodes.sort((a, b) => a.getClientRect()[key] - b.getClientRect()[key]);
 
     const firstNode = nodes[0];
     const lastNode = nodes[nodes.length - 1];
-    const firstX = firstNode.getClientRect().x + firstNode.getClientRect().width;
-    const space = lastNode.getClientRect().x - firstX;
+    const firstValue =
+      firstNode.getClientRect()[key] +
+      (key === 'x' ? firstNode.getClientRect().width : firstNode.getClientRect().height);
+    const space = lastNode.getClientRect()[key] - firstValue;
     const middleNodes = nodes.slice(1, -1);
-    const middleWidth = middleNodes.reduce((middleWidth, node) => middleWidth + node.getClientRect().width, 0);
-    const gap = (space - middleWidth) / (nodes.length - 1);
+    const middleValue = middleNodes.reduce(
+      (middleValue, node) => middleValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height),
+      0
+    );
+    const gap = Math.max((space - middleValue) / (nodes.length - 1), 0);
 
-    let curX = firstX;
+    let curValue = firstValue;
     this.app.update(
       ...nodes.map((node, index) => {
         const newNode = node.toObject();
         if (index === 0 || index === nodes.length - 1) {
           return newNode;
         }
-        const newX = curX + gap;
-        newNode.attrs = {
-          ...newNode.attrs,
-          x: newX,
-        };
-        curX = newX + node.getClientRect().width;
+        const newValue = curValue + gap;
+        newNode.attrs[key] = newValue;
+        curValue = newValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height);
         return newNode;
       })
     );
   }
 
-  public dispersionY(nodes: KonvaNode[]): void {
-    if (nodes.length <= 2) {
+  public dispersionX(nodes: KonvaNode[]): void {
+    const centerXValues = nodes.map((node) => node.getClientRect().x + node.getClientRect().width / 2);
+    const isCenterXConsistent = centerXValues.every((value, index, arr) => value === arr[0]);
+    if (isCenterXConsistent) {
       return;
     }
-    nodes.sort((a, b) => a.getClientRect().y - b.getClientRect().y);
+    this.distributeNodes(nodes, 'x');
+  }
 
-    const firstNode = nodes[0];
-    const lastNode = nodes[nodes.length - 1];
-    const firstY = firstNode.getClientRect().y + firstNode.getClientRect().height;
-    const space = lastNode.getClientRect().y - firstY;
-    const middleNodes = nodes.slice(1, -1);
-    const middleHeight = middleNodes.reduce((middleHeight, node) => middleHeight + node.getClientRect().height, 0);
-    const gap = (space - middleHeight) / (nodes.length - 1);
-
-    let curY = firstY;
-    this.app.update(
-      ...nodes.map((node, index) => {
-        const newNode = node.toObject();
-        if (index === 0 || index === nodes.length - 1) {
-          return newNode;
-        }
-        const newY = curY + gap;
-        newNode.attrs = {
-          ...newNode.attrs,
-          y: newY,
-        };
-        curY = newY + node.getClientRect().height;
-        return newNode;
-      })
-    );
+  public dispersionY(nodes: KonvaNode[]): void {
+    const centerYValues = nodes.map((node) => node.getClientRect().y + node.getClientRect().height / 2);
+    const isCenterYConsistent = centerYValues.every((value, index, arr) => value === arr[0]);
+    if (isCenterYConsistent) {
+      return;
+    }
+    this.distributeNodes(nodes, 'y');
   }
 
   public destroy(): void {}
