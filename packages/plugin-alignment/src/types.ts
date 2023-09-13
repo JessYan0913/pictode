@@ -4,14 +4,14 @@ import { AlignmentPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    alignLeft(nodes: KonvaNode[]): void;
-    alignRight(nodes: KonvaNode[]): void;
-    alignTop(nodes: KonvaNode[]): void;
-    alignBottom(nodes: KonvaNode[]): void;
-    alignCenterX(nodes: KonvaNode[]): void;
-    alignCenterY(nodes: KonvaNode[]): void;
-    dispersionX(nodes: KonvaNode[]): void;
-    dispersionY(nodes: KonvaNode[]): void;
+    alignLeft(nodes: KonvaNode[]): App;
+    alignRight(nodes: KonvaNode[]): App;
+    alignTop(nodes: KonvaNode[]): App;
+    alignBottom(nodes: KonvaNode[]): App;
+    alignCenterX(nodes: KonvaNode[]): App;
+    alignCenterY(nodes: KonvaNode[]): App;
+    dispersionX(nodes: KonvaNode[]): App;
+    dispersionY(nodes: KonvaNode[]): App;
   }
 
   export interface EventArgs {

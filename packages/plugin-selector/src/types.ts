@@ -4,10 +4,10 @@ import { SelectorPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    select(...nodes: KonvaNode[]): void;
-    cancelSelect(...nodes: KonvaNode[]): void;
-    selectByEvent(event: KonvaMouseEvent): void;
-    selectAll(): void;
+    select(...nodes: KonvaNode[]): App;
+    cancelSelect(...nodes: KonvaNode[]): App;
+    selectByEvent(event: KonvaMouseEvent): App;
+    selectAll(): App;
   }
 
   export interface EventArgs {
