@@ -26,7 +26,7 @@ export class HistoryPlugin implements Plugin {
 
   private oldNodes: KonvaNode[] = [];
 
-  constructor(options?: Options) {
+  constructor(options?: Partial<Options>) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
