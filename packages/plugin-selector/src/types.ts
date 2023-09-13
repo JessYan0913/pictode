@@ -42,7 +42,7 @@ export type TransformerConfig = Pick<
 >;
 
 export interface Options {
-  enable: boolean;
+  enabled: boolean;
   multipleSelect: boolean;
   transformer: TransformerConfig;
   hightLight: HightLightConfig;

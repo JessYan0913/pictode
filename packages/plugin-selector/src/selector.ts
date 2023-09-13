@@ -11,7 +11,7 @@ export class Selector {
   public app: App;
   public selected: Map<number | string, KonvaNode>;
   public optionLayer: Konva.Layer;
-  public enable: boolean;
+  public enabled: boolean;
   public multipleSelect: boolean;
   public hightLightConfig: HightLightConfig;
   public transformerConfig: TransformerConfig;
@@ -23,11 +23,11 @@ export class Selector {
   private hightLightRects: Map<string, HightLightRect>;
 
   constructor(app: App, options: Options) {
-    const { enable, multipleSelect, transformer, hightLight } = options;
+    const { enabled, multipleSelect, transformer, hightLight } = options;
     this.app = app;
     this.selected = new Map();
     this.hightLightRects = new Map();
-    this.enable = enable;
+    this.enabled = enabled;
     this.multipleSelect = multipleSelect;
     this.transformerConfig = transformer;
     this.hightLightConfig = hightLight;
@@ -60,20 +60,20 @@ export class Selector {
         anchorStage.content.style.cursor = cursor;
       };
       anchor.on('mousedown', () => {
-        this.enable = false;
+        this.enabled = false;
       });
       anchor.on('mouseup', () => {
-        this.enable = true;
+        this.enabled = true;
       });
       anchor.on('mouseenter', () => {
-        this.enable = false;
+        this.enabled = false;
         if (!anchor.hasName('rotater')) {
           return;
         }
         setAnchorCursor('grabbing');
       });
       anchor.on('mouseout', () => {
-        this.enable = true;
+        this.enabled = true;
         if (!anchor.hasName('rotater')) {
           return;
         }
@@ -109,7 +109,7 @@ export class Selector {
   };
 
   public select(...nodes: KonvaNode[]): void {
-    if (!this.enable) {
+    if (!this.enabled) {
       return;
     }
     if (util.shapeArrayEqual(nodes, [...this.selected.values()])) {
@@ -152,11 +152,11 @@ export class Selector {
 
   public triggerSelector(enable?: boolean): void {
     if (enable === void 0) {
-      this.enable = !this.enable;
+      this.enabled = !this.enabled;
     } else {
-      this.enable = enable;
+      this.enabled = enable;
     }
-    if (!this.enable) {
+    if (!this.enabled) {
       this.rubberEnable = false;
     }
   }
@@ -297,7 +297,7 @@ export class Selector {
   };
 
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
-    if (!this.enable || event.evt.button !== 0) {
+    if (!this.enabled || event.evt.button !== 0) {
       return;
     }
     if (event.target instanceof Konva.Stage) {
@@ -312,7 +312,7 @@ export class Selector {
   };
 
   private onMouseMove = (): void => {
-    if (!this.enable) {
+    if (!this.enabled) {
       return;
     }
     if (!this.rubberEnable) {
@@ -330,7 +330,7 @@ export class Selector {
   };
 
   private onMouseUp = ({ event }: EventArgs['mouse:up']): void => {
-    if (!this.enable || event.evt.button !== 0) {
+    if (!this.enabled || event.evt.button !== 0) {
       return; // 未启用时直接返回
     }
 
@@ -344,7 +344,7 @@ export class Selector {
   };
 
   private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (!this.enable || event.evt.button !== 0) {
+    if (!this.enabled || event.evt.button !== 0) {
       return; // 未启用时直接返回
     }
 
@@ -386,7 +386,7 @@ export class Selector {
     this.app.off('mouse:click', this.onMouseClick);
     this.app.off('mouse:out', this.onMouseOut);
     this.selected.clear();
-    this.enable = false;
+    this.enabled = false;
     this.transformer.remove();
     this.optionLayer.remove();
   }

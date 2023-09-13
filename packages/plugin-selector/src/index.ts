@@ -6,7 +6,7 @@ import Selector from './selector';
 import { Options } from './types';
 
 const DEFAULT_OPTIONS: Options = {
-  enable: true,
+  enabled: true,
   multipleSelect: true,
   transformer: {
     padding: 6,
@@ -66,7 +66,7 @@ export class SelectorPlugin implements Plugin {
   }
 
   public isEnabled(): boolean {
-    return this.selector?.enable ?? false;
+    return this.selector?.enabled ?? false;
   }
 
   private onCanvasCleared = (): void => {
