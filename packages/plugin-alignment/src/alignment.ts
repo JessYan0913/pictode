@@ -2,15 +2,34 @@ import { App, KonvaNode } from '@pictode/core';
 
 import { Options } from './types';
 
+function enabledCheck(target: Alignment, propertyKey: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value; // 保存原始方法
+  console.log('------', target);
+
+  descriptor.value = function (this: Alignment, ...args: any[]) {
+    if (this.enabled) {
+      // 检查是否启用
+      return originalMethod.apply(this, args); // 如果启用，执行原始方法
+    } else {
+      console.log(`Method ${propertyKey} is disabled.`);
+      // 如果未启用，可以选择抛出错误或者执行其他操作
+    }
+  };
+
+  return descriptor;
+}
+
 export class Alignment {
   public app: App;
-  public options?: Options;
+  public enabled: boolean;
 
-  constructor(app: App, options?: Options) {
+  constructor(app: App, options: Options) {
+    const { enabled } = options;
     this.app = app;
-    this.options = options;
+    this.enabled = enabled;
   }
 
+  @enabledCheck
   public alignLeft(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
     const minX = Math.min(...clientRects.map((node) => node.x));

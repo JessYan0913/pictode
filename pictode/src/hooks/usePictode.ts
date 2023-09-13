@@ -12,17 +12,17 @@ export const usePictode = () => {
   const app = new App();
 
   const historyPlugin = new HistoryPlugin({
-    enable: true,
+    enabled: true,
     stackSize: 50,
   });
 
   const selectorPlugin = new SelectorPlugin({
-    enable: true,
+    enabled: true,
     multipleSelect: true,
   });
 
   const alignmentPlugin = new AlignmentPlugin({
-    enable: true,
+    enabled: true,
   });
 
   app.use(historyPlugin);

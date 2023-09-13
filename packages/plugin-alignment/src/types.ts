@@ -25,5 +25,5 @@ declare module '@pictode/core' {
 }
 
 export interface Options {
-  enable?: boolean;
+  enabled: boolean;
 }

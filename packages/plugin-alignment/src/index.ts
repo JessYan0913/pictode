@@ -5,14 +5,18 @@ import './methods';
 import Alignment from './alignment';
 import { Options } from './types';
 
+const DEFAULT_OPTIONS: Options = {
+  enabled: true,
+};
+
 export class AlignmentPlugin implements Plugin {
   public name: string = 'alignmentPlugin';
   public alignment?: Alignment;
   public app?: App;
-  public options?: Options;
+  public options: Options;
 
-  constructor(options?: Options) {
-    this.options = options;
+  constructor(options?: Partial<Options>) {
+    this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
   public install(app: App) {
