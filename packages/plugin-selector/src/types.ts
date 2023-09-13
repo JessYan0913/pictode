@@ -23,20 +23,27 @@ declare module '@pictode/core' {
   }
 }
 
+export type HightLightConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'dash'> & {
+  padding?: number;
+};
+
+export type TransformerConfig = Pick<
+  Konva.TransformerConfig,
+  | 'padding'
+  | 'ignoreStroke'
+  | 'borderStroke'
+  | 'borderStrokeWidth'
+  | 'borderDash'
+  | 'anchorSize'
+  | 'anchorStroke'
+  | 'anchorCornerRadius'
+  | 'anchorStrokeWidth'
+  | 'rotateAnchorOffset'
+>;
+
 export interface Options {
   enable: boolean;
   multipleSelect: boolean;
-  transformer: Pick<
-    Konva.TransformerConfig,
-    | 'padding'
-    | 'ignoreStroke'
-    | 'borderStroke'
-    | 'borderStrokeWidth'
-    | 'borderDash'
-    | 'anchorSize'
-    | 'anchorStroke'
-    | 'anchorCornerRadius'
-    | 'anchorStrokeWidth'
-    | 'rotateAnchorOffset'
-  >;
+  transformer: TransformerConfig;
+  hightLight: HightLightConfig;
 }

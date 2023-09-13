@@ -1,6 +1,6 @@
 import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 
-import { Options } from './types';
+import { HightLightConfig, Options, TransformerConfig } from './types';
 
 interface HightLightRect {
   rect: Konva.Rect;
@@ -13,6 +13,8 @@ export class Selector {
   public optionLayer: Konva.Layer;
   public enable: boolean;
   public multipleSelect: boolean;
+  public hightLightConfig: HightLightConfig;
+  public transformerConfig: TransformerConfig;
 
   private transformer: Konva.Transformer;
   private rubberRect: Konva.Rect;
@@ -21,19 +23,21 @@ export class Selector {
   private hightLightRects: Map<string, HightLightRect>;
 
   constructor(app: App, options: Options) {
-    const { enable, multipleSelect, transformer } = options;
+    const { enable, multipleSelect, transformer, hightLight } = options;
     this.app = app;
     this.selected = new Map();
     this.hightLightRects = new Map();
     this.enable = enable;
     this.multipleSelect = multipleSelect;
+    this.transformerConfig = transformer;
+    this.hightLightConfig = hightLight;
 
     this.optionLayer = new Konva.Layer();
     this.optionLayer.name('pictode:option:layer');
     this.app.stage.add(this.optionLayer);
 
     this.transformer = new Konva.Transformer({
-      ...transformer,
+      ...this.transformerConfig,
       shouldOverdrawWholeArea: false, // 空白区域是否支持鼠标事件
       flipEnabled: false,
     });
@@ -173,15 +177,17 @@ export class Selector {
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
       const rect = new Konva.Rect({
-        stroke: 'rgb(157, 157, 231)',
-        strokeWidth: 1,
+        stroke: this.hightLightConfig.stroke,
+        strokeWidth: this.hightLightConfig.strokeWidth,
+        dash: this.hightLightConfig.dash,
         fillEnabled: false,
         strokeScaleEnabled: false,
       });
-      this.calculateNodeRect(node, rect, 3);
+      this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
       this.optionLayer.add(rect);
 
-      const transformHandler = () => requestAnimationFrame(() => this.calculateNodeRect(node, rect, 3));
+      const transformHandler = () =>
+        requestAnimationFrame(() => this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
 
       node.on('dragmove transform xChange yChange', transformHandler);
 
@@ -211,8 +217,6 @@ export class Selector {
       rect.position({ x: box.x - padding, y: box.y - padding });
       rect.width(box.width + padding * 2);
       rect.height(box.height + padding * 2);
-      rect.dash([5, 5]);
-      rect.stroke('#000');
     } else {
       const position = this.getNodeRectPosition(node, padding);
       const size = {

@@ -20,6 +20,11 @@ const DEFAULT_OPTIONS: Options = {
     anchorStrokeWidth: 1,
     rotateAnchorOffset: 20,
   },
+  hightLight: {
+    padding: 3,
+    stroke: 'rgb(157, 157, 231)',
+    strokeWidth: 1,
+  },
 };
 
 export class SelectorPlugin implements Plugin {
