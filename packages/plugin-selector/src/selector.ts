@@ -33,7 +33,7 @@ export class Selector {
     this.app.stage.add(this.optionLayer);
 
     this.transformer = new Konva.Transformer({
-      padding: 5,
+      padding: 6,
       ignoreStroke: true,
       borderStroke: 'rgb(157, 157, 231)',
       borderStrokeWidth: 1,
@@ -187,10 +187,10 @@ export class Selector {
         fillEnabled: false,
         strokeScaleEnabled: false,
       });
-      this.calculateNodeRect(node, rect);
+      this.calculateNodeRect(node, rect, 3);
       this.optionLayer.add(rect);
 
-      const transformHandler = () => requestAnimationFrame(() => this.calculateNodeRect(node, rect));
+      const transformHandler = () => requestAnimationFrame(() => this.calculateNodeRect(node, rect, 3));
 
       node.on('dragmove transform xChange yChange', transformHandler);
 
@@ -214,16 +214,16 @@ export class Selector {
     });
   }
 
-  private calculateNodeRect(node: KonvaNode, rect: Konva.Rect): void {
+  private calculateNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
     if (node instanceof Konva.Group) {
       const box = node.getClientRect();
-      rect.position({ x: box.x, y: box.y });
-      rect.width(box.width);
-      rect.height(box.height);
+      rect.position({ x: box.x - padding, y: box.y - padding });
+      rect.width(box.width + padding * 2);
+      rect.height(box.height + padding * 2);
       rect.dash([5, 5]);
       rect.stroke('#000');
     } else {
-      const position = this.getNodeRectPosition(node);
+      const position = this.getNodeRectPosition(node, padding);
       const size = {
         width: node.width() * node.scaleX(),
         height: node.height() * node.scaleY(),
@@ -236,13 +236,13 @@ export class Selector {
         x: (position.x - canvasOffsetX) / canvasScaleX,
         y: (position.y - canvasOffsetY) / canvasScaleY,
       });
-      rect.width(size.width);
-      rect.height(size.height);
+      rect.width(size.width + padding * 2);
+      rect.height(size.height + padding * 2);
       rect.rotation(node.rotation());
     }
   }
 
-  private getNodeRectPosition(node: KonvaNode): util.Point {
+  private getNodeRectPosition(node: KonvaNode, padding: number = 0): util.Point {
     const getAngle = (angle: number): number => {
       return Konva.angleDeg ? (angle * Math.PI) / 180 : angle;
     };
@@ -277,7 +277,7 @@ export class Selector {
       y = Math.min(y, transformed.y);
     });
     tr.invert();
-    const p = tr.point({ x: x ?? 0, y: y ?? 0 });
+    const p = tr.point({ x: (x ?? 0) - padding, y: (y ?? 0) - padding });
     return new util.Point(p.x, p.y);
   }
 
