@@ -22,7 +22,6 @@ export class AlignmentPlugin implements Plugin {
   }
 
   public destroy(): void {
-    this.alignment?.destroy();
     this.app?.emit('alignment:destroy', { alignment: this });
   }
 

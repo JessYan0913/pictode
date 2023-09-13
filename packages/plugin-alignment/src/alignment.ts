@@ -160,8 +160,6 @@ export class Alignment {
     }
     this.distributeNodes(nodes, 'y');
   }
-
-  public destroy(): void {}
 }
 
 export default Alignment;
