@@ -4,7 +4,6 @@ import { Options } from './types';
 
 function enabledCheck(target: Alignment, propertyKey: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value; // 保存原始方法
-  console.log('------', target);
 
   descriptor.value = function (this: Alignment, ...args: any[]) {
     if (this.enabled) {
@@ -46,6 +45,7 @@ export class Alignment {
     );
   }
 
+  @enabledCheck
   public alignRight(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
     const maxX = Math.max(...clientRects.map((node) => node.x + node.width));
@@ -62,6 +62,7 @@ export class Alignment {
     );
   }
 
+  @enabledCheck
   public alignTop(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
     const minY = Math.min(...clientRects.map((node) => node.y));
@@ -78,6 +79,7 @@ export class Alignment {
     );
   }
 
+  @enabledCheck
   public alignBottom(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
     const maxY = Math.max(...clientRects.map((node) => node.y + node.height));
@@ -94,6 +96,7 @@ export class Alignment {
     );
   }
 
+  @enabledCheck
   public alignCenterX(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
     const centerX = clientRects.reduce((sumX, rect) => sumX + (rect.x + rect.width / 2), 0) / clientRects.length;
@@ -111,6 +114,7 @@ export class Alignment {
     );
   }
 
+  @enabledCheck
   public alignCenterY(nodes: KonvaNode[]): void {
     const clientRects = nodes.map((node) => node.getClientRect());
     const centerY = clientRects.reduce((sumY, rect) => sumY + (rect.y + rect.height / 2), 0) / clientRects.length;
@@ -126,6 +130,26 @@ export class Alignment {
         return newNode;
       })
     );
+  }
+
+  @enabledCheck
+  public dispersionX(nodes: KonvaNode[]): void {
+    const centerXValues = nodes.map((node) => node.getClientRect().x + node.getClientRect().width / 2);
+    const isCenterXConsistent = centerXValues.every((value, index, arr) => value === arr[0]);
+    if (isCenterXConsistent) {
+      return;
+    }
+    this.distributeNodes(nodes, 'x');
+  }
+
+  @enabledCheck
+  public dispersionY(nodes: KonvaNode[]): void {
+    const centerYValues = nodes.map((node) => node.getClientRect().y + node.getClientRect().height / 2);
+    const isCenterYConsistent = centerYValues.every((value, index, arr) => value === arr[0]);
+    if (isCenterYConsistent) {
+      return;
+    }
+    this.distributeNodes(nodes, 'y');
   }
 
   private distributeNodes(nodes: KonvaNode[], key: 'x' | 'y'): void {
@@ -161,24 +185,6 @@ export class Alignment {
         return newNode;
       })
     );
-  }
-
-  public dispersionX(nodes: KonvaNode[]): void {
-    const centerXValues = nodes.map((node) => node.getClientRect().x + node.getClientRect().width / 2);
-    const isCenterXConsistent = centerXValues.every((value, index, arr) => value === arr[0]);
-    if (isCenterXConsistent) {
-      return;
-    }
-    this.distributeNodes(nodes, 'x');
-  }
-
-  public dispersionY(nodes: KonvaNode[]): void {
-    const centerYValues = nodes.map((node) => node.getClientRect().y + node.getClientRect().height / 2);
-    const isCenterYConsistent = centerYValues.every((value, index, arr) => value === arr[0]);
-    if (isCenterYConsistent) {
-      return;
-    }
-    this.distributeNodes(nodes, 'y');
   }
 }
 
