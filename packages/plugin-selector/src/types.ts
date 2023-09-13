@@ -1,4 +1,4 @@
-import { KonvaMouseEvent, KonvaNode } from '@pictode/core';
+import { Konva, KonvaMouseEvent, KonvaNode } from '@pictode/core';
 
 import { SelectorPlugin } from './index';
 
@@ -24,6 +24,19 @@ declare module '@pictode/core' {
 }
 
 export interface Options {
-  enable?: boolean;
-  multipleSelect?: boolean;
+  enable: boolean;
+  multipleSelect: boolean;
+  transformer: Pick<
+    Konva.TransformerConfig,
+    | 'padding'
+    | 'ignoreStroke'
+    | 'borderStroke'
+    | 'borderStrokeWidth'
+    | 'borderDash'
+    | 'anchorSize'
+    | 'anchorStroke'
+    | 'anchorCornerRadius'
+    | 'anchorStrokeWidth'
+    | 'rotateAnchorOffset'
+  >;
 }

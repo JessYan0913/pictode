@@ -5,14 +5,31 @@ import './methods';
 import Selector from './selector';
 import { Options } from './types';
 
+const DEFAULT_OPTIONS: Options = {
+  enable: true,
+  multipleSelect: true,
+  transformer: {
+    padding: 6,
+    ignoreStroke: true,
+    borderStroke: 'rgb(157, 157, 231)',
+    borderStrokeWidth: 1,
+    borderDash: [3, 3],
+    anchorSize: 8,
+    anchorStroke: 'rgb(157, 157, 231)',
+    anchorCornerRadius: 3,
+    anchorStrokeWidth: 1,
+    rotateAnchorOffset: 20,
+  },
+};
+
 export class SelectorPlugin implements Plugin {
   public name: string = 'selectorPlugin';
   public selector?: Selector;
   public app?: App;
-  public options?: Options;
+  public options: Options;
 
-  constructor(options?: Options) {
-    this.options = options;
+  constructor(options?: Partial<Options>) {
+    this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
   public install(app: App) {

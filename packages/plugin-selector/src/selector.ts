@@ -20,8 +20,8 @@ export class Selector {
   private rubberEnable: boolean = false;
   private hightLightRects: Map<string, HightLightRect>;
 
-  constructor(app: App, options?: Options) {
-    const { enable = true, multipleSelect = false } = options ?? {};
+  constructor(app: App, options: Options) {
+    const { enable, multipleSelect, transformer } = options;
     this.app = app;
     this.selected = new Map();
     this.hightLightRects = new Map();
@@ -33,16 +33,7 @@ export class Selector {
     this.app.stage.add(this.optionLayer);
 
     this.transformer = new Konva.Transformer({
-      padding: 6,
-      ignoreStroke: true,
-      borderStroke: 'rgb(157, 157, 231)',
-      borderStrokeWidth: 1,
-      borderDash: [3, 3],
-      anchorSize: 8,
-      anchorStroke: 'rgb(157, 157, 231)',
-      anchorCornerRadius: 3,
-      anchorStrokeWidth: 1,
-      rotateAnchorOffset: 20,
+      ...transformer,
       shouldOverdrawWholeArea: false, // 空白区域是否支持鼠标事件
       flipEnabled: false,
     });
