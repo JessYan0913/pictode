@@ -46,7 +46,7 @@ export class AlignmentPlugin implements Plugin {
   }
 
   public isEnabled(): boolean {
-    return this.options.enabled;
+    return this.options.enabled && (this.alignment?.enabled ?? false);
   }
 }
 

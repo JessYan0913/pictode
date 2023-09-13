@@ -60,6 +60,7 @@ export class HistoryPlugin implements Plugin {
     if (!this.history) {
       return;
     }
+    this.options.enabled = true;
     this.history.enabled = true;
   }
 
@@ -67,11 +68,12 @@ export class HistoryPlugin implements Plugin {
     if (!this.history) {
       return;
     }
+    this.options.enabled = false;
     this.history.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return this.history?.enabled ?? false;
+    return this.options.enabled && (this.history?.enabled ?? false);
   }
 
   private onNodeAdded = ({ nodes }: EventArgs['node:added']) => {

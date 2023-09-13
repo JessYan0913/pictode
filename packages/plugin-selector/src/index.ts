@@ -55,6 +55,7 @@ export class SelectorPlugin implements Plugin {
       return;
     }
     this.selector.triggerSelector(true);
+    this.options.enabled = true;
   }
 
   public disable(): void {
@@ -63,10 +64,11 @@ export class SelectorPlugin implements Plugin {
     }
     this.selector.cancelSelect();
     this.selector.triggerSelector(false);
+    this.options.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return this.selector?.enabled ?? false;
+    return this.options.enabled && (this.selector?.enabled ?? false);
   }
 
   private onCanvasCleared = (): void => {
