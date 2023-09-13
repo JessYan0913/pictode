@@ -33,16 +33,20 @@ export class AlignmentPlugin implements Plugin {
     if (!this.alignment) {
       return;
     }
+    this.options.enabled = true;
+    this.alignment.enabled = true;
   }
 
   public disable(): void {
     if (!this.alignment) {
       return;
     }
+    this.options.enabled = false;
+    this.alignment.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return false;
+    return this.options.enabled;
   }
 }
 
