@@ -72,7 +72,7 @@ export class App extends BaseService<EventArgs> {
     await this.tooler.setTool(curTool);
   }
 
-  public triggerPanning(enabled?: boolean): void {
+  public triggerPanning(enabled?: boolean): App {
     if (enabled === void 0) {
       this.stage.draggable(this.stage.draggable());
     } else {
@@ -83,26 +83,30 @@ export class App extends BaseService<EventArgs> {
     } else {
       this.stage.container().style.cursor = 'default';
     }
+    return this;
   }
 
-  public triggerMouseWheel(enabled?: boolean): void {
+  public triggerMouseWheel(enabled?: boolean): App {
     if (enabled === void 0) {
       this.config.mousewheel.enabled = !this.config.mousewheel.enabled;
     } else {
       this.config.mousewheel.enabled = enabled;
     }
+    return this;
   }
 
-  public triggerTool(enabled?: boolean): void {
+  public triggerTool(enabled?: boolean): App {
     this.tooler.trigger(enabled);
+    return this;
   }
 
-  public add(...nodes: Array<KonvaNode>): void {
+  public add(...nodes: Array<KonvaNode>): App {
     this._add(...nodes);
     this.emit('node:added', { nodes: nodes });
+    return this;
   }
 
-  public _add(...nodes: Array<KonvaNode>): void {
+  public _add(...nodes: Array<KonvaNode>): App {
     this.mainLayer.add(
       ...nodes.map((node) => {
         if (!node.attrs.id) {
@@ -112,21 +116,24 @@ export class App extends BaseService<EventArgs> {
       })
     );
     this.render();
+    return this;
   }
 
-  public remove(...nodes: Array<KonvaNode>): void {
+  public remove(...nodes: Array<KonvaNode>): App {
     this._remove(...nodes);
     this.emit('node:removed', { nodes: nodes });
+    return this;
   }
 
-  public _remove(...nodes: Array<KonvaNode>): void {
+  public _remove(...nodes: Array<KonvaNode>): App {
     nodes.forEach((node) => {
       node.remove();
     });
     this.render();
+    return this;
   }
 
-  public update(...nodes: Array<KonvaNode>): void {
+  public update(...nodes: Array<KonvaNode>): App {
     const getNodes = (nodes: Array<KonvaNode>): KonvaNode[] =>
       nodes.reduce<Array<KonvaNode>>((result, node) => {
         const originNode = this.getNodeById(node.attrs.id);
@@ -138,14 +145,16 @@ export class App extends BaseService<EventArgs> {
     this.emit('node:update:before', { nodes: getNodes(nodes) });
     this._update(...nodes);
     this.emit('node:updated', { nodes: getNodes(nodes) });
+    return this;
   }
 
-  public _update(...nodes: Array<KonvaNode>): void {
+  public _update(...nodes: Array<KonvaNode>): App {
     nodes.forEach((node) => {
       const originNode = this.getNodeById(node.attrs.id);
       originNode?.setAttrs(node.attrs);
     });
     this.render();
+    return this;
   }
 
   public makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
@@ -210,21 +219,25 @@ export class App extends BaseService<EventArgs> {
     return target.parent instanceof Konva.Group ? target.parent : null;
   }
 
-  public moveUp(...nodes: Array<KonvaNode>): void {
+  public moveUp(...nodes: Array<KonvaNode>): App {
     this.moveZIndexNodes(nodes, (node) => node.moveUp());
+    return this;
   }
 
-  public moveDown(...nodes: Array<KonvaNode>): void {
+  public moveDown(...nodes: Array<KonvaNode>): App {
     this.moveZIndexNodes(nodes, (node) => node.moveDown());
+    return this;
   }
 
-  public moveTop(...nodes: Array<KonvaNode>): void {
+  public moveTop(...nodes: Array<KonvaNode>): App {
     this.moveZIndexNodes(nodes, (node) => node.moveToTop());
+    return this;
   }
 
-  public moveBottom(...nodes: Array<KonvaNode>): void {
+  public moveBottom(...nodes: Array<KonvaNode>): App {
     nodes.forEach((node) => node.moveToBottom());
     this.moveZIndexNodes(nodes, (node) => node.moveToBottom());
+    return this;
   }
 
   private moveZIndexNodes(nodes: Array<KonvaNode>, handler: (node: KonvaNode) => void): void {
@@ -293,7 +306,7 @@ export class App extends BaseService<EventArgs> {
     return this.stage.scaleX();
   }
 
-  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): void {
+  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): App {
     const oldScale = this.scale();
     this.emit('canvas:zoom:start', { scale: oldScale });
     const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
@@ -304,6 +317,7 @@ export class App extends BaseService<EventArgs> {
       y: pointer.y - mousePointTo.y * newScale,
     });
     this.emit('canvas:zoom:end', { scale: this.scale() });
+    return this;
   }
 
   public clear(): void {
@@ -393,13 +407,14 @@ export class App extends BaseService<EventArgs> {
     return JSON.stringify(this.mainLayer.toObject());
   }
 
-  public fromJSON(json: string): void {
+  public fromJSON(json: string): App {
     this.clear();
     this.mainLayer.remove();
     const layer = Konva.Node.create(json, 'layer');
     this.mainLayer = layer;
     this.stage.add(this.mainLayer);
     this.render();
+    return this;
   }
 
   public use(plugin: Plugin, ...options: any[]): App {
