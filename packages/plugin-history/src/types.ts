@@ -81,6 +81,6 @@ export interface CmdStack {
 }
 
 export interface Options {
-  enable: boolean;
+  enabled: boolean;
   stackSize: number;
 }

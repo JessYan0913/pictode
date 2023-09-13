@@ -14,7 +14,7 @@ import { History } from './history';
 import { Options } from './types';
 
 const DEFAULT_OPTIONS: Options = {
-  enable: true,
+  enabled: true,
   stackSize: 100,
 };
 
@@ -60,18 +60,18 @@ export class HistoryPlugin implements Plugin {
     if (!this.history) {
       return;
     }
-    this.history.enable = true;
+    this.history.enabled = true;
   }
 
   public disable(): void {
     if (!this.history) {
       return;
     }
-    this.history.enable = false;
+    this.history.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return this.history?.enable ?? false;
+    return this.history?.enabled ?? false;
   }
 
   private onNodeAdded = ({ nodes }: EventArgs['node:added']) => {
