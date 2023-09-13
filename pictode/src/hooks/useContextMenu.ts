@@ -137,76 +137,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
         action: redo,
       },
     ];
-    const alignmentMenus =
-      selected.value.length > 1
-        ? [
-            {
-              label: '左对齐',
-              hotKey: '',
-              action: () => {
-                app.alignLeft(selected.value);
-              },
-            },
-            {
-              label: '右对齐',
-              hotKey: '',
-              action: () => {
-                app.alignRight(selected.value);
-              },
-            },
-            {
-              label: '顶对齐',
-              hotKey: '',
-              action: () => {
-                app.alignTop(selected.value);
-              },
-            },
-            {
-              label: '底对齐',
-              hotKey: '',
-              action: () => {
-                app.alignBottom(selected.value);
-              },
-            },
-            {
-              label: '垂直居中',
-              hotKey: '',
-              action: () => {
-                app.alignCenterY(selected.value);
-              },
-            },
-            {
-              label: '水平居中',
-              hotKey: '',
-              action: () => {
-                app.alignCenterX(selected.value);
-              },
-            },
-            {
-              label: '水平分布',
-              hotKey: '',
-              action: () => {
-                app.dispersionX(selected.value);
-              },
-            },
-            {
-              label: '垂直分布',
-              hotKey: '',
-              action: () => {
-                app.dispersionY(selected.value);
-              },
-            },
-          ]
-        : [];
-    const menuGroups = [
-      stageMenus,
-      shapeLayerMenus,
-      alignmentMenus,
-      groupMenus,
-      removeGroupMenus,
-      historyMenus,
-      shapeDeleteMenus,
-    ];
+    const menuGroups = [stageMenus, shapeLayerMenus, groupMenus, removeGroupMenus, historyMenus, shapeDeleteMenus];
 
     contextMenu({
       x: event.evt.clientX,
