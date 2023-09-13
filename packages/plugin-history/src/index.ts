@@ -13,16 +13,21 @@ import {
 import { History } from './history';
 import { Options } from './types';
 
+const DEFAULT_OPTIONS: Options = {
+  enable: true,
+  stackSize: 100,
+};
+
 export class HistoryPlugin implements Plugin {
   public name: string = 'historyPlugin';
   public history?: History;
   public app?: App;
-  public options?: Options;
+  public options: Options;
 
   private oldNodes: KonvaNode[] = [];
 
   constructor(options?: Options) {
-    this.options = options;
+    this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
   public install(app: App) {

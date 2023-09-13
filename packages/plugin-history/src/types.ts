@@ -67,11 +67,6 @@ export namespace Cmd {
   }
 }
 
-export interface Options {
-  enable?: boolean;
-  stackSize?: number;
-}
-
 export interface Command<T extends Cmd.Options = Cmd.Options> {
   id: number;
   name: string;
@@ -83,4 +78,9 @@ export interface Command<T extends Cmd.Options = Cmd.Options> {
 export interface CmdStack {
   undoStack: Command[];
   redoStack: Command[];
+}
+
+export interface Options {
+  enable: boolean;
+  stackSize: number;
 }

@@ -15,8 +15,8 @@ export class History {
   private redoStack: BaseCmd[] = [];
   private idCounter: number = 0;
 
-  constructor(app: App, options?: Options) {
-    const { enable = true, stackSize = 500 } = options ?? {};
+  constructor(app: App, options: Options) {
+    const { enable, stackSize } = options;
     this.app = app;
     this.enable = enable;
     this.stackSize = stackSize;
