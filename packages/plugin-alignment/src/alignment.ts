@@ -136,7 +136,8 @@ export class Alignment {
           return newNode;
         }
         const newValue = curValue + gap;
-        newNode.attrs[key] = newValue;
+        // 先计算出包围盒的偏移量，再将偏移量加到坐标上
+        newNode.attrs[key] = newValue - node.getClientRect()[key] + newNode.attrs[key];
         curValue = newValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height);
         return newNode;
       })
