@@ -8,6 +8,8 @@ Konva.Line.prototype.toObject = function (): any {
     ...object,
     attrs: {
       ...object.attrs,
+      x: this.getAbsolutePosition().x,
+      y: this.getAbsolutePosition().y,
       strokeWidth: this.strokeWidth(),
       dash: this.dash(),
     },
