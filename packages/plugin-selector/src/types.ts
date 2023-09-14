@@ -8,6 +8,8 @@ declare module '@pictode/core' {
     cancelSelect(...nodes: KonvaNode[]): App;
     selectByEvent(event: KonvaMouseEvent): App;
     selectAll(): App;
+    triggerSelector(enabled?: boolean): App;
+    isSelected(node: KonvaNode): boolean;
   }
 
   export interface EventArgs {
