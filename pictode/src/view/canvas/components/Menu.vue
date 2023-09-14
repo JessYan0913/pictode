@@ -12,6 +12,7 @@ import useReadFileContent from '@/hooks/useReadFileContent';
 import ExportImageDialog from './ExportImageDialog.vue';
 
 interface MenuConfig {
+  icon: string;
   label: string;
   handler: () => void;
 }
@@ -31,6 +32,7 @@ const { execute: readFileContent } = useReadFileContent();
 const menuGroups: MenuConfig[][] = [
   [
     {
+      icon: 'folder-close',
       label: '打开',
       handler: async () => {
         const result = await readFileContent(['.pictode']);
@@ -38,18 +40,21 @@ const menuGroups: MenuConfig[][] = [
       },
     },
     {
+      icon: 'hard-disk-one',
       label: '保存到本地',
       handler: () => {
         exportToFile();
       },
     },
     {
+      icon: 'down-picture',
       label: '导出图片',
       handler: () => {
         exportImageDialog({});
       },
     },
     {
+      icon: 'clear',
       label: '重置画布',
       handler: () => {
         messageBox({
@@ -90,9 +95,12 @@ const menuGroups: MenuConfig[][] = [
                   active ? 'bg-blue-100' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                 ]"
-                @click="menu.handler()"
+                @click="menu.handler"
               >
-                {{ menu.label }}
+                <div class="flex flex-row gap-2">
+                  <SvgIcon :name="menu.icon"></SvgIcon>
+                  <span>{{ menu.label }}</span>
+                </div>
               </button>
             </MenuItem>
           </div>
