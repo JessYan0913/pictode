@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue';
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 
 const props = defineProps<{
   visible: boolean;
@@ -57,6 +57,14 @@ function closeModal() {
             <DialogPanel
               class="w-auto max-w-5xl min-w-fit rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
+              <DialogTitle class="grid grid-cols-[1fr_2rem]">
+                <div>
+                  <slot name="title"></slot>
+                </div>
+                <button class="flex justify-center items-center" @click="closeModal">
+                  <iconpark-icon name="close" width="1rem" height="1rem"></iconpark-icon>
+                </button>
+              </DialogTitle>
               <slot></slot>
             </DialogPanel>
           </TransitionChild>
