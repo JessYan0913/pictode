@@ -2,7 +2,10 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useOnEventOutside } from '@pictode/vue-aide';
 
+import SvgIcon from './SvgIcon.vue';
+
 interface Menu {
+  icon?: string;
   label: string;
   action?: () => void;
   disable?: boolean;
@@ -112,7 +115,8 @@ onUnmounted(() => {
             :class="[menu.disable ? 'text-gray-300 cursor-default' : 'text-gray-700 hover:bg-blue-200 cursor-pointer']"
             @click="onClickMenu(menu)"
           >
-            <div class="w-full flex flex-row justify-between text-sm font-medium select-none">
+            <div class="w-full grid grid-cols-[1rem_1fr_1fr] gap-2 text-sm font-medium select-none">
+              <SvgIcon v-if="menu.icon" :name="menu.icon" :color="menu.disable ? '' : 'text-gray-400'"></SvgIcon>
               <p>
                 {{ menu.label }}
               </p>

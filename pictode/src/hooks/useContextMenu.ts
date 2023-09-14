@@ -57,21 +57,25 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       selected.value.length && !targetIsStage
         ? [
             {
+              icon: 'sent-to-back',
               label: moveDown.directions,
               hotKey: hotKeyFactory(moveDown.hotKey),
               action: moveDown,
             },
             {
+              icon: 'bring-to-front',
               label: moveUp.directions,
               hotKey: hotKeyFactory(moveUp.hotKey),
               action: moveUp,
             },
             {
+              icon: 'bring-to-front-one',
               label: moveBottom.directions,
               hotKey: hotKeyFactory(moveBottom.hotKey),
               action: moveBottom,
             },
             {
+              icon: 'send-to-back',
               label: moveTop.directions,
               hotKey: hotKeyFactory(moveTop.hotKey),
               action: moveTop,
@@ -82,6 +86,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       selected.value.length > 1 && !targetIsStage
         ? [
             {
+              icon: 'group',
               label: makeGroup.directions,
               hotKey: hotKeyFactory(makeGroup.hotKey),
               action: makeGroup,
@@ -92,6 +97,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       selected.value.length === 1 && selected.value[0] instanceof Konva.Group
         ? [
             {
+              icon: 'ungroup',
               label: decomposeGroup.directions,
               hotKey: hotKeyFactory(decomposeGroup.hotKey),
               action: decomposeGroup,
@@ -102,6 +108,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       selected.value.length && !targetIsStage
         ? [
             {
+              icon: 'delete-one',
               label: deleteNode.directions,
               hotKey: hotKeyFactory(deleteNode.hotKey),
               action: deleteNode,
@@ -112,11 +119,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       targetIsStage || selected.value.length === 0
         ? [
             {
+              icon: 'full-selection',
               label: selectAll.directions,
               hotKey: hotKeyFactory(selectAll.hotKey),
               action: selectAll,
             },
             {
+              icon: 'clear',
               label: resetStage.directions,
               hotKey: hotKeyFactory(resetStage.hotKey),
               action: resetStage,
@@ -125,12 +134,14 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
         : [];
     const historyMenus = [
       {
+        icon: 'undo',
         label: undo.directions,
         hotKey: hotKeyFactory(undo.hotKey),
         disable: !app.canUndo(),
         action: undo,
       },
       {
+        icon: 'redo',
         label: redo.directions,
         hotKey: hotKeyFactory(redo.hotKey),
         disable: !app.canRedo(),
