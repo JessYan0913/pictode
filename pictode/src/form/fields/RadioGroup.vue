@@ -50,8 +50,8 @@ watch(
         <iconpark-icon
           v-if="config.optionType === 'icon'"
           :name="option.label"
-          :stroke="value === option.value ? 'rgb(101, 166, 251)' : '#333'"
-          :fill="value === option.value ? 'rgb(101, 166, 251)' : 'none'"
+          :stroke="value === option.value ? 'rgb(143, 191, 255)' : '#333'"
+          :fill="value === option.value ? 'rgb(143, 191, 255)' : 'none'"
         ></iconpark-icon>
         <div v-else :class="option.class">{{ option.label }}</div>
       </RadioGroupOption>

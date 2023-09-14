@@ -226,8 +226,8 @@ watchEffect(() => {
     <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="item.title">
       <iconpark-icon
         :name="item.icon"
-        :stroke="currentTool === item.name ? 'rgb(101, 166, 251)' : '#333'"
-        :fill="currentTool === item.name ? 'rgb(101, 166, 251)' : 'none'"
+        :stroke="currentTool === item.name ? 'rgb(143, 191, 255)' : '#333'"
+        :fill="currentTool === item.name ? 'rgb(143, 191, 255)' : 'none'"
       ></iconpark-icon>
     </RadioGroupOption>
   </RadioGroup>
