@@ -11,18 +11,18 @@ const DEFAULT_OPTIONS: Options = {
   transformer: {
     padding: 6,
     ignoreStroke: true,
-    borderStroke: 'rgb(157, 157, 231)',
+    borderStroke: 'rgb(100, 163, 252)',
     borderStrokeWidth: 1,
     borderDash: [3, 3],
     anchorSize: 8,
-    anchorStroke: 'rgb(157, 157, 231)',
+    anchorStroke: 'rgb(100, 163, 252)',
     anchorCornerRadius: 3,
     anchorStrokeWidth: 1,
     rotateAnchorOffset: 20,
   },
   hightLight: {
     padding: 3,
-    stroke: 'rgb(157, 157, 231)',
+    stroke: 'rgb(100, 163, 252)',
     strokeWidth: 1,
   },
 };
