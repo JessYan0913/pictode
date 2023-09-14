@@ -18,14 +18,17 @@ export const imagePanelConfig: PanelConfig = {
         {
           label: 'line-1',
           value: 2,
+          title: '细',
         },
         {
           label: 'line-2',
           value: 4,
+          title: '粗',
         },
         {
           label: 'line-3',
           value: 8,
+          title: '特粗',
         },
       ],
     },
@@ -36,7 +39,7 @@ export const imagePanelConfig: PanelConfig = {
     },
   ],
   model: {
-    stroke: '#ffffff',
+    stroke: '#ffffff00',
     strokeWidth: 2,
     opacity: 1,
   },

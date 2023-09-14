@@ -23,14 +23,17 @@ export const rectPanelConfig: PanelConfig = {
         {
           label: 'line-1',
           value: 2,
+          title: '细',
         },
         {
           label: 'line-2',
           value: 4,
+          title: '粗',
         },
         {
           label: 'line-3',
           value: 8,
+          title: '特粗',
         },
       ],
     },
@@ -43,10 +46,12 @@ export const rectPanelConfig: PanelConfig = {
         {
           label: 'node-flat',
           value: 0,
+          title: '直角',
         },
         {
           label: 'node-round',
           value: 20,
+          title: '圆角',
         },
       ],
     },

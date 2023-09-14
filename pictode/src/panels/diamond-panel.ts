@@ -23,14 +23,17 @@ export const diamondPanelConfig: PanelConfig = {
         {
           label: 'line-1',
           value: 2,
+          title: '细',
         },
         {
           label: 'line-2',
           value: 4,
+          title: '粗',
         },
         {
           label: 'line-3',
           value: 8,
+          title: '特粗',
         },
       ],
     },

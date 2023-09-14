@@ -45,6 +45,7 @@ watch(
         v-for="(option, index) in config.options"
         :key="index"
         :value="option.value"
+        :title="option.title"
         class="border rounded-lg inline-flex items-center relative cursor-pointer select-none"
       >
         <SvgIcon v-if="config.optionType === 'icon'" :name="option.label" :class="option.class"></SvgIcon>

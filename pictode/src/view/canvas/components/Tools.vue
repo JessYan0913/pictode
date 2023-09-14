@@ -25,6 +25,7 @@ const app = injectStrict(PictodeAppKey);
 interface ToolInfo {
   icon: string;
   name: string;
+  title: string;
   tool: Tool | (() => Tool);
 }
 
@@ -43,11 +44,13 @@ const tools: ToolInfo[] = [
   {
     icon: 'move',
     name: 'selectTool',
+    title: '选择',
     tool: selectTool,
   },
   {
     icon: 'rectangle',
     name: 'rectTool',
+    title: '矩形',
     tool: () =>
       new RectTool({
         hooks: {
@@ -68,6 +71,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'oval',
     name: 'ellipseTool',
+    title: '椭圆',
     tool: () =>
       new EllipseTool({
         hooks: {
@@ -88,6 +92,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'diamond',
     name: 'diamondTool',
+    title: '菱形',
     tool: () =>
       new DiamondTool({
         hooks: {
@@ -108,6 +113,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'line-1',
     name: 'lineTool',
+    title: '线条',
     tool: () =>
       new LineTool({
         hooks: {
@@ -128,6 +134,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'pencil',
     name: 'drawingTool',
+    title: '自由书写',
     tool: () =>
       new DrawingTool({
         hooks: {
@@ -144,6 +151,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'picture',
     name: 'imageTool',
+    title: '图片',
     tool: () =>
       new ImageTool({
         hooks: {
@@ -166,6 +174,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'text',
     name: 'textTool',
+    title: '文本',
     tool: () =>
       new TextTool({
         hooks: {
@@ -185,6 +194,7 @@ const tools: ToolInfo[] = [
   {
     icon: 'eraser',
     name: 'eraserTool',
+    title: '橡皮擦',
     tool: () =>
       new EraserTool({
         hooks: {
@@ -214,7 +224,7 @@ watchEffect(() => {
 
 <template>
   <RadioGroup v-model="currentTool">
-    <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name">
+    <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="item.title">
       <SvgIcon :name="item.icon"></SvgIcon>
     </RadioGroupOption>
   </RadioGroup>

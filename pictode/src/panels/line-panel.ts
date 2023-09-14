@@ -18,14 +18,17 @@ export const linePanelConfig: PanelConfig = {
         {
           label: 'line-1',
           value: 2,
+          title: '细',
         },
         {
           label: 'line-2',
           value: 4,
+          title: '粗',
         },
         {
           label: 'line-3',
           value: 8,
+          title: '特粗',
         },
       ],
     },
@@ -38,10 +41,12 @@ export const linePanelConfig: PanelConfig = {
         {
           label: 'node-flat',
           value: 0,
+          title: '直角',
         },
         {
           label: 'node-round',
           value: 0.4,
+          title: '圆润',
         },
       ],
     },
@@ -54,14 +59,17 @@ export const linePanelConfig: PanelConfig = {
         {
           label: 'line-1',
           value: [],
+          title: '实线',
         },
         {
           label: 'dotted-line-2',
           value: [12, 8],
+          title: '虚线',
         },
         {
           label: 'dotted-line-1',
           value: [6, 4],
+          title: '点虚线',
         },
       ],
     },

@@ -51,15 +51,15 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Button class="w-8 h-8" icon="minus" @click="onClickZoomOut"></Button>
+          <Button class="w-8 h-8" icon="minus" title="缩小" @click="onClickZoomOut"></Button>
           <div class="flex text-center text-sm h-full items-center select-none">{{ displayScale }}</div>
-          <Button class="w-8 h-8" icon="plus" @click="onClickZoomIn"></Button>
+          <Button class="w-8 h-8" icon="plus" title="放大" @click="onClickZoomIn"></Button>
         </div>
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Button class="w-8 h-8" icon="undo" @click="app.undo()"></Button>
-          <Button class="w-8 h-8" icon="redo" @click="app.redo()"></Button>
+          <Button class="w-8 h-8" icon="undo" title="撤销" @click="app.undo()"></Button>
+          <Button class="w-8 h-8" icon="redo" title="重做" @click="app.redo()"></Button>
         </div>
       </section>
       <section class="row-start-2 col-start-3 justify-self-end">
