@@ -47,7 +47,12 @@ watch(
         :title="option.title"
         class="border rounded-lg inline-flex items-center relative cursor-pointer select-none"
       >
-        <iconpark-icon v-if="config.optionType === 'icon'" :name="option.label"></iconpark-icon>
+        <iconpark-icon
+          v-if="config.optionType === 'icon'"
+          :name="option.label"
+          :stroke="value === option.value ? 'rgb(101, 166, 251)' : '#333'"
+          :fill="value === option.value ? 'rgb(101, 166, 251)' : 'none'"
+        ></iconpark-icon>
         <div v-else :class="option.class">{{ option.label }}</div>
       </RadioGroupOption>
     </div>

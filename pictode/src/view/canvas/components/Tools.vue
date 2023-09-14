@@ -224,7 +224,11 @@ watchEffect(() => {
 <template>
   <RadioGroup v-model="currentTool">
     <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="item.title">
-      <iconpark-icon :name="item.icon"></iconpark-icon>
+      <iconpark-icon
+        :name="item.icon"
+        :stroke="currentTool === item.name ? 'rgb(101, 166, 251)' : '#333'"
+        :fill="currentTool === item.name ? 'rgb(101, 166, 251)' : 'none'"
+      ></iconpark-icon>
     </RadioGroupOption>
   </RadioGroup>
 </template>
