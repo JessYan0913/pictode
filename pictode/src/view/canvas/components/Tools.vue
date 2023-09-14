@@ -14,7 +14,7 @@ import {
 } from '@pictode/tools';
 import { injectStrict } from '@pictode/vue-aide';
 
-import eraserRect from '@/assets/images/eraser-rect.svg';
+import round from '@/assets/images/round.svg';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import { PictodeAppKey } from '@/constants/inject-key';
@@ -198,7 +198,7 @@ const tools: ToolInfo[] = [
       new EraserTool({
         hooks: {
           onActive(app) {
-            app.containerElement.style.cursor = `url(${eraserRect}), auto`;
+            app.containerElement.style.cursor = `url(${round}), auto`;
           },
           onInactive(app) {
             app.containerElement.style.cursor = `default`;
