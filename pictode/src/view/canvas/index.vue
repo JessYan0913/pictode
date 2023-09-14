@@ -67,6 +67,17 @@ onMounted(() => {
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow pointer-events-auto"
         ></PropertyPanel>
       </section>
+      <section class="row-start-3 col-start-3 justify-self-end">
+        <div class="w-full h-full flex flex-row items-center pointer-events-auto">
+          <button
+            class="border inline-flex items-center shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow p-2 hover:bg-slate-200"
+            title="帮助"
+            type="button"
+          >
+            <iconpark-icon name="undo" class="cursor-pointer"></iconpark-icon>
+          </button>
+        </div>
+      </section>
     </div>
     <div ref="canvasRef" class="w-full h-full"></div>
   </div>
