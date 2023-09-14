@@ -11,7 +11,19 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     base: env.VITE_BASE_URL,
-    plugins: [vue(), vueSetupExtend(), glsl()],
+    plugins: [
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => {
+              return tag.includes('iconpark-icon');
+            },
+          },
+        },
+      }),
+      vueSetupExtend(),
+      glsl(),
+    ],
     build: {
       emptyOutDir: true,
     },
