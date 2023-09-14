@@ -45,7 +45,10 @@ export const useHotKeyList = (app: App, selected: Ref<Array<KonvaNode>>) => {
     ),
     selectAll: useHotKey(
       () => {
+        const originEnabled = app.isPluginEnable('selectorPlugin');
+        app.triggerSelector(true);
         app.selectAll();
+        app.triggerSelector(originEnabled);
       },
       { key: 'a', directions: '全部选中', exact: true, ctrlKey: true }
     ),
