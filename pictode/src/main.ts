@@ -7,8 +7,6 @@ import piniaPresistedState from 'pinia-plugin-persistedstate';
 import App from '@/App.vue';
 import router from '@/router';
 
-import 'virtual:svg-icons-register';
-
 import formPlugin from './form';
 
 import 'tailwindcss/tailwind.css';

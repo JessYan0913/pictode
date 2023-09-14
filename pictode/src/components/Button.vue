@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import SvgIcon from './SvgIcon.vue';
-
 defineProps<{
   icon?: string;
   text?: string;
@@ -10,12 +8,12 @@ defineProps<{
 
 <template>
   <button
-    class="flex justify-center items-center rounded-lg relative select-none border-0 bg-transparent disabled:bg-opacity-50 hover:bg-blue-100"
+    class="flex justify-center items-center cursor-pointer rounded-lg relative select-none border-0 bg-transparent disabled:bg-opacity-50 hover:bg-blue-100"
     v-bind="$attrs"
     :disabled="disabled"
   >
-    <label>
-      <SvgIcon v-if="icon" :name="icon" class="cursor-pointer"></SvgIcon>
+    <label class="flex items-center">
+      <iconpark-icon v-if="icon" :name="icon" class="cursor-pointer"></iconpark-icon>
       {{ text }}
     </label>
   </button>

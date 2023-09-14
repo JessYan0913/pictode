@@ -3,7 +3,6 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { injectStrict, useCommandComponent } from '@pictode/vue-aide';
 
 import MessageBox from '@/components/MessageBox.vue';
-import SvgIcon from '@/components/SvgIcon.vue';
 import { PictodeAppKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
 import useExport from '@/hooks/useExport';
@@ -74,7 +73,7 @@ const menuGroups: MenuConfig[][] = [
 <template>
   <Menu as="div">
     <MenuButton class="outline-none flex justify-start">
-      <SvgIcon name="logo" size="3rem"></SvgIcon>
+      <iconpark-icon name="logo" width="3rem" height="3rem"></iconpark-icon>
     </MenuButton>
     <transition
       enter-active-class="transition duration-100 ease-out"
@@ -98,7 +97,7 @@ const menuGroups: MenuConfig[][] = [
                 @click="menu.handler"
               >
                 <div class="flex flex-row gap-2">
-                  <SvgIcon :name="menu.icon"></SvgIcon>
+                  <iconpark-icon :name="menu.icon"></iconpark-icon>
                   <span>{{ menu.label }}</span>
                 </div>
               </button>

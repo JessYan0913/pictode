@@ -2,7 +2,6 @@ import { join, resolve } from 'path';
 
 import { defineConfig, loadEnv } from 'vite';
 import glsl from 'vite-plugin-glsl';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import vueSetupExtend from 'vite-plugin-vue-setup-extend';
 import vue from '@vitejs/plugin-vue';
 
@@ -12,16 +11,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     base: env.VITE_BASE_URL,
-    plugins: [
-      vue(),
-      vueSetupExtend(),
-      glsl(),
-      createSvgIconsPlugin({
-        iconDirs: [resolve(process.cwd(), 'src/assets/images')],
-        symbolId: 'icon-[dir]-[name]',
-        customDomId: '__svg__icons__dom__',
-      }),
-    ],
+    plugins: [vue(), vueSetupExtend(), glsl()],
     build: {
       emptyOutDir: true,
     },

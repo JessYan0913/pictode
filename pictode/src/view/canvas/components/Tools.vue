@@ -17,7 +17,6 @@ import { injectStrict } from '@pictode/vue-aide';
 import eraserRect from '@/assets/images/eraser-rect.svg';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
-import SvgIcon from '@/components/SvgIcon.vue';
 import { PictodeAppKey } from '@/constants/inject-key';
 
 const app = injectStrict(PictodeAppKey);
@@ -225,7 +224,7 @@ watchEffect(() => {
 <template>
   <RadioGroup v-model="currentTool">
     <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="item.title">
-      <SvgIcon :name="item.icon"></SvgIcon>
+      <iconpark-icon :name="item.icon"></iconpark-icon>
     </RadioGroupOption>
   </RadioGroup>
 </template>

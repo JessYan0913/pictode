@@ -3,7 +3,6 @@ import { ref, toRefs, watch } from 'vue';
 
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
-import SvgIcon from '@/components/SvgIcon.vue';
 
 import { FormValue, RadioGroupConfig } from '../types';
 
@@ -48,7 +47,7 @@ watch(
         :title="option.title"
         class="border rounded-lg inline-flex items-center relative cursor-pointer select-none"
       >
-        <SvgIcon v-if="config.optionType === 'icon'" :name="option.label" :class="option.class"></SvgIcon>
+        <iconpark-icon v-if="config.optionType === 'icon'" :name="option.label"></iconpark-icon>
         <div v-else :class="option.class">{{ option.label }}</div>
       </RadioGroupOption>
     </div>

@@ -2,8 +2,6 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useOnEventOutside } from '@pictode/vue-aide';
 
-import SvgIcon from './SvgIcon.vue';
-
 interface Menu {
   icon?: string;
   label: string;
@@ -116,7 +114,7 @@ onUnmounted(() => {
             @click="onClickMenu(menu)"
           >
             <div class="w-full grid grid-cols-[1rem_1fr_1fr] gap-2 text-sm font-medium select-none">
-              <SvgIcon v-if="menu.icon" :name="menu.icon" :color="menu.disable ? '' : 'text-gray-400'"></SvgIcon>
+              <iconpark-icon v-if="menu.icon" :name="menu.icon"></iconpark-icon>
               <p>
                 {{ menu.label }}
               </p>

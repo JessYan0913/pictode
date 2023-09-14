@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
-import SvgIcon from '@/components/SvgIcon.vue';
 import { PictodeAppKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
 import { Form } from '@/form';
 import useHotKeyList from '@/hooks/useHotKeyList';
@@ -132,10 +131,10 @@ const handleFormChange = (value: any) => {
             :title="button.title"
             @click="button.action"
           >
-            <SvgIcon :name="button.icon" class="cursor-pointer"></SvgIcon>
+            <iconpark-icon :name="button.icon"></iconpark-icon>
           </button>
           <div v-else class="select-none p-2">
-            <SvgIcon name=""></SvgIcon>
+            <iconpark-icon></iconpark-icon>
           </div>
         </div>
       </div>
@@ -150,7 +149,7 @@ const handleFormChange = (value: any) => {
           :title="button.title"
           @click="button.action"
         >
-          <SvgIcon :name="button.icon" class="cursor-pointer"></SvgIcon>
+          <iconpark-icon :name="button.icon" class="cursor-pointer"></iconpark-icon>
         </button>
       </div>
     </div>
