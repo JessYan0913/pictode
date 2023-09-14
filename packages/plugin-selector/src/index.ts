@@ -25,6 +25,11 @@ const DEFAULT_OPTIONS: Options = {
     stroke: 'rgb(100, 163, 252)',
     strokeWidth: 1,
   },
+  rubber: {
+    stroke: 'rgb(100, 163, 252)',
+    strokeWidth: 1,
+    fill: 'rgba(100, 163, 252, 0.5)',
+  },
 };
 
 export class SelectorPlugin implements Plugin {

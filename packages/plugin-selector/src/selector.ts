@@ -1,6 +1,6 @@
 import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 
-import { HightLightConfig, Options, TransformerConfig } from './types';
+import { HightLightConfig, Options, RubberConfig, TransformerConfig } from './types';
 
 interface HightLightRect {
   rect: Konva.Rect;
@@ -15,6 +15,7 @@ export class Selector {
   public multipleSelect: boolean;
   public hightLightConfig: HightLightConfig;
   public transformerConfig: TransformerConfig;
+  public rubberConfig: RubberConfig;
 
   private transformer: Konva.Transformer;
   private rubberRect: Konva.Rect;
@@ -23,7 +24,7 @@ export class Selector {
   private hightLightRects: Map<string, HightLightRect>;
 
   constructor(app: App, options: Options) {
-    const { enabled, multipleSelect, transformer, hightLight } = options;
+    const { enabled, multipleSelect, transformer, hightLight, rubber } = options;
     this.app = app;
     this.selected = new Map();
     this.hightLightRects = new Map();
@@ -31,6 +32,7 @@ export class Selector {
     this.multipleSelect = multipleSelect;
     this.transformerConfig = transformer;
     this.hightLightConfig = hightLight;
+    this.rubberConfig = rubber;
 
     this.optionLayer = new Konva.Layer();
     this.optionLayer.name('pictode:option:layer');
@@ -84,9 +86,9 @@ export class Selector {
     this.optionLayer.add(this.transformer);
 
     this.rubberRect = new Konva.Rect({
-      stroke: 'rgb(157, 157, 231)',
-      fill: 'rgba(157, 157, 231, 0.5)',
-      strokeWidth: 2,
+      stroke: this.rubberConfig.stroke,
+      fill: this.rubberConfig.fill,
+      strokeWidth: this.rubberConfig.strokeWidth,
       strokeScaleEnabled: false,
     });
     this.optionLayer.add(this.rubberRect);

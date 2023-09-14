@@ -41,9 +41,12 @@ export type TransformerConfig = Pick<
   | 'rotateAnchorOffset'
 >;
 
+export type RubberConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'fill'>;
+
 export interface Options {
   enabled: boolean;
   multipleSelect: boolean;
   transformer: TransformerConfig;
   hightLight: HightLightConfig;
+  rubber: RubberConfig;
 }
