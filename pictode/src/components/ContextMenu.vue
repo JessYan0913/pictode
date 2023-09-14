@@ -113,7 +113,7 @@ onUnmounted(() => {
             :class="[menu.disable ? 'text-gray-300 cursor-default' : 'text-gray-700 hover:bg-blue-200 cursor-pointer']"
             @click="onClickMenu(menu)"
           >
-            <div class="w-full grid grid-cols-[1rem_1fr_1fr] gap-2 text-sm font-medium select-none">
+            <div class="w-full grid grid-cols-[1rem_1fr_1.5fr] gap-2 text-sm font-medium select-none">
               <iconpark-icon v-if="menu.icon" :name="menu.icon"></iconpark-icon>
               <p>
                 {{ menu.label }}
