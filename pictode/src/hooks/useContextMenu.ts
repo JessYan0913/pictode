@@ -4,7 +4,7 @@ import { useCommandComponent } from '@pictode/vue-aide';
 
 import ContextMenu from '@/components/ContextMenu.vue';
 
-import useBindHotKey from './useHotKeyList';
+import useHotKeyList from './useHotKeyList';
 
 const hotKeyFactory = (keys: (string | string[])[] = []): string => {
   function capitalize(str: string): string {
@@ -40,7 +40,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     redo,
     makeGroup,
     decomposeGroup,
-  } = useBindHotKey(app, selected);
+  } = useHotKeyList(app, selected);
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
     let targetIsStage = false;

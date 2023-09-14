@@ -5,6 +5,7 @@ import { injectStrict } from '@pictode/vue-aide';
 import SvgIcon from '@/components/SvgIcon.vue';
 import { PictodeAppKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
 import { Form } from '@/form';
+import useHotKeyList from '@/hooks/useHotKeyList';
 
 const app = injectStrict(PictodeAppKey);
 const selected = injectStrict(PictodeSelectedKey);
@@ -69,6 +70,31 @@ const alignButtons = [
   },
 ];
 
+const { moveBottom, moveDown, moveUp, moveTop } = useHotKeyList(app, selected);
+
+const layerButtons = [
+  {
+    icon: 'bring-to-front-one',
+    title: `${moveBottom.directions}-${moveBottom.hotKey?.join('+')}`,
+    action: moveBottom,
+  },
+  {
+    icon: 'sent-to-back',
+    title: `${moveDown.directions}-${moveDown.hotKey?.join('+')}`,
+    action: moveDown,
+  },
+  {
+    icon: 'bring-to-front',
+    title: `${moveUp.directions}-${moveUp.hotKey?.join('+')}`,
+    action: moveUp,
+  },
+  {
+    icon: 'send-to-back',
+    title: `${moveTop.directions}-${moveTop.hotKey?.join('+')}`,
+    action: moveTop,
+  },
+];
+
 const showAlignButtons = computed<boolean>(() => selected.value.length > 2);
 
 const handleFormChange = (value: any) => {
@@ -93,6 +119,20 @@ const handleFormChange = (value: any) => {
       <div class="flex flex-row justify-start flex-wrap gap-2">
         <button
           v-for="(button, index) in alignButtons"
+          :key="index"
+          class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200"
+          :title="button.title"
+          @click="button.action"
+        >
+          <SvgIcon :name="button.icon" class="cursor-pointer"></SvgIcon>
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col content-start gap-1 px-1 py-2 select-none">
+      <label class="text-start text-sm text-gray-600">图层</label>
+      <div class="flex flex-row justify-start flex-wrap gap-2">
+        <button
+          v-for="(button, index) in layerButtons"
           :key="index"
           class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200"
           :title="button.title"

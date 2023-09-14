@@ -2,6 +2,7 @@ import { InjectionKey, Ref } from 'vue';
 import { App, KonvaNode } from '@pictode/core';
 import HistoryPlugin from '@pictode/plugin-history';
 import SelectorPlugin from '@pictode/plugin-selector';
+import { HotKeyFunction } from '@pictode/vue-aide';
 
 import { FormConfig, FormState, FormValue } from '@/form/types';
 
@@ -16,3 +17,19 @@ export const PictodeSelectedKey: InjectionKey<Ref<Array<KonvaNode>>> = Symbol('P
 
 export const PictodePanelFormKey: InjectionKey<{ panelFormConfig: Ref<FormConfig>; panelFormModel: Ref<FormValue> }> =
   Symbol('PictodePanelFormKey');
+
+export const PictodeHotKeyListKey: InjectionKey<{
+  moveDown: HotKeyFunction;
+  moveUp: HotKeyFunction;
+  moveBottom: HotKeyFunction;
+  moveTop: HotKeyFunction;
+  deleteNode: HotKeyFunction;
+  selectAll: HotKeyFunction;
+  resetStage: HotKeyFunction;
+  undo: HotKeyFunction;
+  redo: HotKeyFunction;
+  stageDrag: HotKeyFunction;
+  mouseWheel: HotKeyFunction;
+  makeGroup: HotKeyFunction;
+  decomposeGroup: HotKeyFunction;
+}> = Symbol('PictodeHotKeyListKey');
