@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { DialogTitle } from '@headlessui/vue';
 
 import Dialog from '@/components/Dialog.vue';
 
@@ -40,8 +39,10 @@ const onConfirmed = () => {
 
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
+    <template #title>
+      <div as="h3" class="text-lg font-medium leading-6 text-gray-900">{{ title }}</div>
+    </template>
     <div class="flex flex-col">
-      <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900"> {{ title }} </DialogTitle>
       <div class="mt-3">
         <p class="text-sm text-gray-500">
           {{ message }}
