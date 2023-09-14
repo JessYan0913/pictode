@@ -3,6 +3,8 @@ import { computed } from 'vue';
 
 import Dialog from '@/components/Dialog.vue';
 
+import Button from './Button.vue';
+
 const props = defineProps<{
   visible: boolean;
   title: string;
@@ -50,20 +52,20 @@ const onConfirmed = () => {
       </div>
 
       <div class="mt-4 flex flex-row justify-between">
-        <button
-          type="button"
+        <Button
           class="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-red-50 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+          title="关闭"
+          text="关闭"
           @click="closeModal"
         >
-          关闭
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
           class="inline-flex justify-center rounded-md border border-transparent bg-blue-400 px-4 py-2 text-sm font-medium text-blue-50 hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          title="确认"
+          text="确认"
           @click="onConfirmed"
         >
-          确认
-        </button>
+        </Button>
       </div>
     </div>
   </Dialog>

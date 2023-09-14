@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 
+import Button from './Button.vue';
+
 const props = defineProps<{
   visible: boolean;
 }>();
@@ -61,9 +63,7 @@ function closeModal() {
                 <div>
                   <slot name="title"></slot>
                 </div>
-                <button class="flex justify-center items-center" @click="closeModal">
-                  <iconpark-icon name="close" width="1rem" height="1rem"></iconpark-icon>
-                </button>
+                <Button class="hover:bg-none" icon="close" @click="closeModal"> </Button>
               </DialogTitle>
               <slot></slot>
             </DialogPanel>

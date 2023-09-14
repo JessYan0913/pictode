@@ -2,6 +2,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { injectStrict, useCommandComponent } from '@pictode/vue-aide';
 
+import Button from '@/components/Button.vue';
 import MessageBox from '@/components/MessageBox.vue';
 import { PictodeAppKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
@@ -89,7 +90,7 @@ const menuGroups: MenuConfig[][] = [
         >
           <div v-for="(menus, index) in menuGroups" :key="index" class="px-1 py-1">
             <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
-              <button
+              <Button
                 :class="[
                   active ? 'bg-blue-100' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
@@ -100,7 +101,7 @@ const menuGroups: MenuConfig[][] = [
                   <iconpark-icon :name="menu.icon"></iconpark-icon>
                   <span>{{ menu.label }}</span>
                 </div>
-              </button>
+              </Button>
             </MenuItem>
           </div>
         </MenuItems>

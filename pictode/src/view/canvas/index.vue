@@ -51,15 +51,20 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Button class="w-8 h-8" icon="minus" title="缩小" @click="onClickZoomOut"></Button>
+          <Button
+            class="w-8 h-8 rounded-lg hover:bg-blue-100"
+            icon="minus"
+            title="缩小"
+            @click="onClickZoomOut"
+          ></Button>
           <div class="flex text-center text-sm h-full items-center select-none">{{ displayScale }}</div>
-          <Button class="w-8 h-8" icon="plus" title="放大" @click="onClickZoomIn"></Button>
+          <Button class="w-8 h-8 rounded-lg hover:bg-blue-100" icon="plus" title="放大" @click="onClickZoomIn"></Button>
         </div>
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Button class="w-8 h-8" icon="undo" title="撤销" @click="app.undo()"></Button>
-          <Button class="w-8 h-8" icon="redo" title="重做" @click="app.redo()"></Button>
+          <Button class="w-8 h-8 rounded-lg hover:bg-blue-100" icon="undo" title="撤销" @click="app.undo()"></Button>
+          <Button class="w-8 h-8 rounded-lg hover:bg-blue-100" icon="redo" title="重做" @click="app.redo()"></Button>
         </div>
       </section>
       <section class="row-start-2 col-start-3 justify-self-end">
@@ -68,14 +73,10 @@ onMounted(() => {
         ></PropertyPanel>
       </section>
       <section class="row-start-3 col-start-3 justify-self-end">
-        <div class="w-full h-full flex flex-row items-center pointer-events-auto">
-          <button
-            class="border inline-flex items-center shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow p-2 hover:bg-slate-200"
-            title="帮助"
-            type="button"
-          >
-            <iconpark-icon name="undo" class="cursor-pointer"></iconpark-icon>
-          </button>
+        <div
+          class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+        >
+          <Button class="p-1" title="帮助" icon="redo"> </Button>
         </div>
       </section>
     </div>

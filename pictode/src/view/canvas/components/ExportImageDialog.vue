@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
+import Button from '@/components/Button.vue';
 import Dialog from '@/components/Dialog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
@@ -116,12 +117,13 @@ onMounted(() => {
           <Select v-model="selectedFormat" :options="formats" class="w-24" @change="updateImgSrc"> </Select>
         </div>
         <div class="grow flex flex-col justify-end">
-          <button
+          <Button
             class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-blue-400 text-blue-50"
+            title="下载"
+            text="下载"
             @click="onDownload"
           >
-            下载
-          </button>
+          </Button>
         </div>
       </div>
     </div>

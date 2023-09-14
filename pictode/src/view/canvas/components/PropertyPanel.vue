@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
+import Button from '@/components/Button.vue';
 import { PictodeAppKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
 import { Form } from '@/form';
 import useHotKeyList from '@/hooks/useHotKeyList';
@@ -125,14 +126,14 @@ const handleFormChange = (value: any) => {
       <label class="text-start text-sm text-gray-600">对齐</label>
       <div class="flex flex-row justify-start flex-wrap gap-2">
         <div v-for="(button, index) in alignButtons" :key="index">
-          <button
+          <Button
             v-if="button.visible"
             class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200"
             :title="button.title"
+            :icon="button.icon"
             @click="button.action"
           >
-            <iconpark-icon :name="button.icon"></iconpark-icon>
-          </button>
+          </Button>
           <div v-else class="select-none p-2">
             <iconpark-icon></iconpark-icon>
           </div>
@@ -142,15 +143,15 @@ const handleFormChange = (value: any) => {
     <div class="flex flex-col content-start gap-1 px-1 py-2 select-none">
       <label class="text-start text-sm text-gray-600">图层</label>
       <div class="flex flex-row justify-start flex-wrap gap-2">
-        <button
+        <Button
           v-for="(button, index) in layerButtons"
           :key="index"
           class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200"
           :title="button.title"
+          :icon="button.icon"
           @click="button.action"
         >
-          <iconpark-icon :name="button.icon" class="cursor-pointer"></iconpark-icon>
-        </button>
+        </Button>
       </div>
     </div>
   </div>
