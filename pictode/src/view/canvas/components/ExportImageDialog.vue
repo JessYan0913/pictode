@@ -83,7 +83,7 @@ onMounted(() => {
 
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
-    <div class="w-max max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
+    <div class="max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
       <div class="flex items-center h-96 w-96">
         <div
           class="w-full h-full flex flex-grow justify-center bg-fixed rounded-md p-1"
