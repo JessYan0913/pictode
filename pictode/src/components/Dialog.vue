@@ -56,16 +56,16 @@ function closeModal() {
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel
-              class="w-auto max-w-5xl min-w-fit rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
-            >
+            <DialogPanel class="rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
               <DialogTitle class="grid grid-cols-[1fr_2rem]">
                 <div>
                   <slot name="title"></slot>
                 </div>
                 <Button class="hover:bg-none" icon="close" @click="closeModal"> </Button>
               </DialogTitle>
-              <slot></slot>
+              <div>
+                <slot></slot>
+              </div>
             </DialogPanel>
           </TransitionChild>
         </div>

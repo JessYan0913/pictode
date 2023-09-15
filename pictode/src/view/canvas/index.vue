@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import useContextMenu from '@/hooks/useContextMenu';
 import usePictode from '@/hooks/usePictode';
 
+import HotKeyList from './components/HotKeyList.vue';
 import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
@@ -18,6 +20,8 @@ const canvasRef = ref<HTMLDivElement>();
 const displayScale = computed<string>(() => {
   return `${Math.ceil(scale.value * 100)}%`;
 });
+
+const hotKeyList = useCommandComponent(HotKeyList);
 
 const onClickZoomIn = () => {
   app.scaleTo(scale.value + app.config.mousewheel.factor);
@@ -76,7 +80,7 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Button class="p-1" title="帮助" icon="redo"> </Button>
+          <Button class="p-1" title="帮助中心" icon="helpcenter" @click="hotKeyList({})"> </Button>
         </div>
       </section>
     </div>
