@@ -22,6 +22,102 @@ const hotKeyList = useHotKeyList(app, selected);
 
 console.log('===>', hotKeyList);
 
+const hotKeyListMack = [
+  {
+    title: '工具',
+    hotKeyList: [
+      {
+        title: '选择',
+        hotKey: 'V',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '菱形',
+        hotKey: 'D',
+      },
+    ],
+  },
+  {
+    title: '编辑',
+    hotKeyList: [
+      {
+        title: '选择',
+        hotKey: 'V',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+    ],
+  },
+  {
+    title: '编辑',
+    hotKeyList: [
+      {
+        title: '选择',
+        hotKey: 'V',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+    ],
+  },
+  {
+    title: '编辑',
+    hotKeyList: [
+      {
+        title: '选择',
+        hotKey: 'V',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+    ],
+  },
+  {
+    title: '编辑',
+    hotKeyList: [
+      {
+        title: '选择',
+        hotKey: 'V',
+      },
+      {
+        title: '矩形',
+        hotKey: 'R',
+      },
+    ],
+  },
+];
+
 const dialogVisible = computed<boolean>({
   get() {
     return props.visible;
@@ -43,103 +139,25 @@ const closeModal = () => {
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title> 帮助中心 </template>
     <div
-      class="w-full min-w-fit md:min-w-[60rem] h-[50rem] p-4 overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100"
+      class="w-full min-w-fit md:min-w-[60rem] h-[40rem] p-4 overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100"
     >
       <h3 class="my-4 text-xl font-bold">快捷键列表</h3>
-      <div class="grid grid-flow-row auto-rows-auto gap-4">
-        <div>
-          <h4 class="my-4 text-lg font-bold">工具</h4>
+      <div class="columns-2 gap-8">
+        <div
+          v-for="({ title, hotKeyList }, index) in hotKeyListMack"
+          :key="index"
+          class="w-full break-inside-avoid-column pb-4"
+        >
+          <h2 class="font-bold text-base">{{ title }}</h2>
           <div class="border rounded-lg divide-y">
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
+            <div
+              v-for="({ title, hotKey }, index) in hotKeyList"
+              :key="index"
+              class="w-full p-4 flex flex-row justify-between items-center text-sm"
+            >
+              <div>{{ title }}</div>
               <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4 class="my-4 text-lg font-bold">编辑器</h4>
-          <div class="border rounded-lg divide-y">
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4 class="my-4 text-lg font-bold">画布</h4>
-          <div class="border rounded-lg divide-y">
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
+                <i class="w-7 p-2 bg-blue-100 rounded-lg">{{ hotKey }}</i>
               </div>
             </div>
           </div>
