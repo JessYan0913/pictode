@@ -18,101 +18,48 @@ const emits = defineEmits<{
 const app = injectStrict(PictodeAppKey);
 const selected = injectStrict(PictodeSelectedKey);
 
-const hotKeyList = useHotKeyList(app, selected);
-
-console.log('===>', hotKeyList);
+const { moveUp, moveBottom, moveTop, moveDown, undo, redo, makeGroup, decomposeGroup } = useHotKeyList(app, selected);
 
 const hotKeyListMack = [
   {
-    title: '工具',
+    title: '编辑',
     hotKeyList: [
       {
-        title: '选择',
-        hotKey: 'V',
+        title: undo.directions,
+        hotKey: undo.hotKey,
       },
       {
-        title: '矩形',
-        hotKey: 'R',
-      },
-      {
-        title: '菱形',
-        hotKey: 'D',
+        title: redo.directions,
+        hotKey: redo.hotKey,
       },
     ],
   },
   {
-    title: '编辑',
+    title: '转换',
     hotKeyList: [
       {
-        title: '选择',
-        hotKey: 'V',
+        title: moveTop.directions,
+        hotKey: moveTop.hotKey,
       },
       {
-        title: '矩形',
-        hotKey: 'R',
+        title: moveUp.directions,
+        hotKey: moveUp.hotKey,
       },
       {
-        title: '矩形',
-        hotKey: 'R',
+        title: moveDown.directions,
+        hotKey: moveDown.hotKey,
       },
       {
-        title: '矩形',
-        hotKey: 'R',
+        title: moveBottom.directions,
+        hotKey: moveBottom.hotKey,
       },
       {
-        title: '矩形',
-        hotKey: 'R',
+        title: makeGroup.directions,
+        hotKey: makeGroup.hotKey,
       },
       {
-        title: '矩形',
-        hotKey: 'R',
-      },
-      {
-        title: '矩形',
-        hotKey: 'R',
-      },
-      {
-        title: '矩形',
-        hotKey: 'R',
-      },
-    ],
-  },
-  {
-    title: '编辑',
-    hotKeyList: [
-      {
-        title: '选择',
-        hotKey: 'V',
-      },
-      {
-        title: '矩形',
-        hotKey: 'R',
-      },
-    ],
-  },
-  {
-    title: '编辑',
-    hotKeyList: [
-      {
-        title: '选择',
-        hotKey: 'V',
-      },
-      {
-        title: '矩形',
-        hotKey: 'R',
-      },
-    ],
-  },
-  {
-    title: '编辑',
-    hotKeyList: [
-      {
-        title: '选择',
-        hotKey: 'V',
-      },
-      {
-        title: '矩形',
-        hotKey: 'R',
+        title: decomposeGroup.directions,
+        hotKey: decomposeGroup.hotKey,
       },
     ],
   },
@@ -139,7 +86,7 @@ const closeModal = () => {
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title> 帮助中心 </template>
     <div
-      class="w-full min-w-fit md:min-w-[60rem] h-[40rem] p-4 overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100"
+      class="w-full min-w-fit md:min-w-[60rem] h-[40rem] p-2 overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100"
     >
       <h3 class="my-4 text-xl font-bold">快捷键列表</h3>
       <div class="columns-2 gap-8">
@@ -148,16 +95,18 @@ const closeModal = () => {
           :key="index"
           class="w-full break-inside-avoid-column pb-4"
         >
-          <h2 class="font-bold text-base">{{ title }}</h2>
+          <h3 class="font-bold text-base my-2">{{ title }}</h3>
           <div class="border rounded-lg divide-y">
             <div
               v-for="({ title, hotKey }, index) in hotKeyList"
               :key="index"
-              class="w-full p-4 flex flex-row justify-between items-center text-sm"
+              class="w-full p-4 flex flex-row justify-between items-center text-xs"
             >
               <div>{{ title }}</div>
-              <div class="justify-self-end">
-                <i class="w-7 p-2 bg-blue-100 rounded-lg">{{ hotKey }}</i>
+              <div class="justify-self-end flex flex-row gap-1">
+                <i v-for="(key, index) in hotKey" :key="index" class="p-2 min-w-fit bg-blue-100 rounded-lg">
+                  {{ key }}
+                </i>
               </div>
             </div>
           </div>
