@@ -114,6 +114,78 @@ export const useHotKeyList = (app: App, selected: Ref<Array<KonvaNode>>) => {
       },
       { key: 'j', directions: '解除组合', ctrlKey: true, shiftKey: true, exact: true }
     ),
+    alignLeft: useHotKey(
+      () => {
+        if (selected.value.length < 1) {
+          return;
+        }
+        app.alignLeft(selected.value);
+      },
+      { key: 'a', directions: '左对齐', shiftKey: true }
+    ),
+    alignCenterX: useHotKey(
+      () => {
+        if (selected.value.length < 1) {
+          return;
+        }
+        app.alignCenterX(selected.value);
+      },
+      { key: 'h', directions: '水平居中', shiftKey: true }
+    ),
+    alignRight: useHotKey(
+      () => {
+        if (selected.value.length < 1) {
+          return;
+        }
+        app.alignRight(selected.value);
+      },
+      { key: 'd', directions: '右对齐', shiftKey: true }
+    ),
+    alignTop: useHotKey(
+      () => {
+        if (selected.value.length < 1) {
+          return;
+        }
+        app.alignTop(selected.value);
+      },
+      { key: 'w', directions: '顶对齐', shiftKey: true }
+    ),
+    alignCenterY: useHotKey(
+      () => {
+        if (selected.value.length < 1) {
+          return;
+        }
+        app.alignCenterY(selected.value);
+      },
+      { key: 'v', directions: '垂直居中', shiftKey: true }
+    ),
+    alignBottom: useHotKey(
+      () => {
+        if (selected.value.length < 1) {
+          return;
+        }
+        app.alignBottom(selected.value);
+      },
+      { key: 's', directions: '底对齐', shiftKey: true }
+    ),
+    distributeX: useHotKey(
+      () => {
+        if (selected.value.length < 2) {
+          return;
+        }
+        app.dispersionX(selected.value);
+      },
+      { key: 'h', directions: '水平分布', ctrlKey: true, shiftKey: true }
+    ),
+    distributeY: useHotKey(
+      () => {
+        if (selected.value.length < 2) {
+          return;
+        }
+        app.dispersionY(selected.value);
+      },
+      { key: 'v', directions: '垂直分布', ctrlKey: true, shiftKey: true }
+    ),
   };
   provide(PictodeHotKeyListKey, resolve);
 

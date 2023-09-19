@@ -18,9 +18,31 @@ const emits = defineEmits<{
 const app = injectStrict(PictodeAppKey);
 const selected = injectStrict(PictodeSelectedKey);
 
-const { moveUp, moveBottom, moveTop, moveDown, undo, redo, makeGroup, decomposeGroup } = useHotKeyList(app, selected);
+const {
+  undo,
+  redo,
+  deleteNode,
+  selectAll,
+  moveUp,
+  moveBottom,
+  moveTop,
+  moveDown,
+  makeGroup,
+  decomposeGroup,
+  alignBottom,
+  alignLeft,
+  alignCenterX,
+  alignCenterY,
+  alignRight,
+  alignTop,
+  distributeX,
+  distributeY,
+} = useHotKeyList(app, selected);
 
-const hotKeyListMack = [
+const hotKeyListMack: Array<{
+  title: string;
+  hotKeyList: Array<{ title?: string; hotKey: (string | string[])[] | undefined }>;
+}> = [
   {
     title: '编辑',
     hotKeyList: [
@@ -31,6 +53,14 @@ const hotKeyListMack = [
       {
         title: redo.directions,
         hotKey: redo.hotKey,
+      },
+      {
+        title: selectAll.directions,
+        hotKey: selectAll.hotKey,
+      },
+      {
+        title: deleteNode.directions,
+        hotKey: deleteNode.hotKey,
       },
     ],
   },
@@ -60,6 +90,38 @@ const hotKeyListMack = [
       {
         title: decomposeGroup.directions,
         hotKey: decomposeGroup.hotKey,
+      },
+      {
+        title: alignLeft.directions,
+        hotKey: alignLeft.hotKey,
+      },
+      {
+        title: alignCenterX.directions,
+        hotKey: alignCenterX.hotKey,
+      },
+      {
+        title: alignRight.directions,
+        hotKey: alignRight.hotKey,
+      },
+      {
+        title: alignTop.directions,
+        hotKey: alignTop.hotKey,
+      },
+      {
+        title: alignCenterY.directions,
+        hotKey: alignCenterY.hotKey,
+      },
+      {
+        title: alignBottom.directions,
+        hotKey: alignBottom.hotKey,
+      },
+      {
+        title: distributeX.directions,
+        hotKey: distributeX.hotKey,
+      },
+      {
+        title: distributeY.directions,
+        hotKey: distributeY.hotKey,
       },
     ],
   },

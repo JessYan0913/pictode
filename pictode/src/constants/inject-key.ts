@@ -32,4 +32,12 @@ export const PictodeHotKeyListKey: InjectionKey<{
   mouseWheel: HotKeyFunction;
   makeGroup: HotKeyFunction;
   decomposeGroup: HotKeyFunction;
+  alignLeft: HotKeyFunction;
+  alignCenterX: HotKeyFunction;
+  alignRight: HotKeyFunction;
+  alignTop: HotKeyFunction;
+  alignCenterY: HotKeyFunction;
+  alignBottom: HotKeyFunction;
+  distributeX: HotKeyFunction;
+  distributeY: HotKeyFunction;
 }> = Symbol('PictodeHotKeyListKey');
