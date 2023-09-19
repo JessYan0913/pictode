@@ -27,7 +27,6 @@ const hotKeyFactory = (keys: (string | string[])[] = []): string => {
 
 export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const contextMenu = useCommandComponent(ContextMenu);
-  const hotKeyList = injectWithSelfStrict(PictodeHotKeyListKey);
   const {
     moveDown,
     moveUp,
@@ -40,7 +39,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     redo,
     makeGroup,
     decomposeGroup,
-  } = hotKeyList;
+  } = injectWithSelfStrict(PictodeHotKeyListKey);
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
     let targetIsStage = false;
