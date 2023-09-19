@@ -3,15 +3,27 @@ import { computed } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
-import { PictodeAppKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
+import { PictodeAppKey, PictodeHotKeyListKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
 import { Form } from '@/form';
-import useHotKeyList from '@/hooks/useHotKeyList';
 
 const app = injectStrict(PictodeAppKey);
 const selected = injectStrict(PictodeSelectedKey);
 const { panelFormConfig, panelFormModel } = injectStrict(PictodePanelFormKey);
 
-const { moveBottom, moveDown, moveUp, moveTop } = useHotKeyList(app, selected);
+const {
+  moveBottom,
+  moveDown,
+  moveUp,
+  moveTop,
+  alignLeft,
+  alignRight,
+  alignTop,
+  alignBottom,
+  alignCenterX,
+  alignCenterY,
+  distributeX,
+  distributeY,
+} = injectStrict(PictodeHotKeyListKey);
 
 const layerButtons = computed(() => [
   {
@@ -41,65 +53,49 @@ const alignButtons = computed(() => [
     icon: 'align-left',
     title: '左对齐',
     visible: selected.value.length > 1,
-    action: () => {
-      app.alignLeft(selected.value);
-    },
+    action: alignLeft,
   },
   {
     icon: 'align-horizontally',
     title: '水平居中',
     visible: selected.value.length > 1,
-    action: () => {
-      app.alignCenterX(selected.value);
-    },
+    action: alignCenterX,
   },
   {
     icon: 'align-right',
     title: '右对齐',
     visible: selected.value.length > 1,
-    action: () => {
-      app.alignRight(selected.value);
-    },
+    action: alignRight,
   },
   {
     icon: 'distribute-horizontal-spacing',
     title: '水平分布',
     visible: selected.value.length > 2,
-    action: () => {
-      app.dispersionX(selected.value);
-    },
+    action: distributeX,
   },
   {
     icon: 'align-top',
     title: '顶对齐',
     visible: selected.value.length > 1,
-    action: () => {
-      app.alignTop(selected.value);
-    },
+    action: alignTop,
   },
   {
     icon: 'align-vertically',
     title: '垂直居中',
     visible: selected.value.length > 1,
-    action: () => {
-      app.alignCenterY(selected.value);
-    },
+    action: alignCenterY,
   },
   {
     icon: 'align-bottom',
     title: '底对齐',
     visible: selected.value.length > 1,
-    action: () => {
-      app.alignBottom(selected.value);
-    },
+    action: alignBottom,
   },
   {
     icon: 'distribute-vertical-spacing',
     title: '垂直分布',
     visible: selected.value.length > 2,
-    action: () => {
-      app.dispersionY(selected.value);
-    },
+    action: distributeY,
   },
 ]);
 

@@ -3,8 +3,7 @@ import { computed } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
 import Dialog from '@/components/Dialog.vue';
-import { PictodeAppKey, PictodeSelectedKey } from '@/constants/inject-key';
-import useHotKeyList from '@/hooks/useHotKeyList';
+import { PictodeHotKeyListKey } from '@/constants/inject-key';
 
 const props = defineProps<{
   visible: boolean;
@@ -14,29 +13,6 @@ const emits = defineEmits<{
   (event: 'update:visible', visible: boolean): void;
   (event: 'close'): void;
 }>();
-
-const app = injectStrict(PictodeAppKey);
-const selected = injectStrict(PictodeSelectedKey);
-
-const hotKeyFactory = (keys: (string | string[])[] = []): (string | undefined)[] => {
-  function capitalize(str: string): string {
-    return str === ' ' ? 'Space' : str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  function processItem(item: string | string[]) {
-    if (typeof item === 'string') {
-      return capitalize(item);
-    } else if (Array.isArray(item)) {
-      return item.map((subItem) => capitalize(subItem)).join(' / ');
-    }
-  }
-
-  if (Array.isArray(keys)) {
-    return keys.map((item) => processItem(item));
-  }
-
-  return [capitalize(keys)];
-};
 
 const {
   undo,
@@ -60,7 +36,27 @@ const {
   alignTop,
   distributeX,
   distributeY,
-} = useHotKeyList(app, selected);
+} = injectStrict(PictodeHotKeyListKey);
+
+const hotKeyFactory = (keys: (string | string[])[] = []): (string | undefined)[] => {
+  function capitalize(str: string): string {
+    return str === ' ' ? 'Space' : str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function processItem(item: string | string[]) {
+    if (typeof item === 'string') {
+      return capitalize(item);
+    } else if (Array.isArray(item)) {
+      return item.map((subItem) => capitalize(subItem)).join(' / ');
+    }
+  }
+
+  if (Array.isArray(keys)) {
+    return keys.map((item) => processItem(item));
+  }
+
+  return [capitalize(keys)];
+};
 
 const hotKeyListMack: Array<{
   title: string;
