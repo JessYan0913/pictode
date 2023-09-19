@@ -18,9 +18,52 @@ const emits = defineEmits<{
 const app = injectStrict(PictodeAppKey);
 const selected = injectStrict(PictodeSelectedKey);
 
-const hotKeyList = useHotKeyList(app, selected);
+const { moveUp, moveBottom, moveTop, moveDown, undo, redo, makeGroup, decomposeGroup } = useHotKeyList(app, selected);
 
-console.log('===>', hotKeyList);
+const hotKeyListMack = [
+  {
+    title: '编辑',
+    hotKeyList: [
+      {
+        title: undo.directions,
+        hotKey: undo.hotKey,
+      },
+      {
+        title: redo.directions,
+        hotKey: redo.hotKey,
+      },
+    ],
+  },
+  {
+    title: '转换',
+    hotKeyList: [
+      {
+        title: moveTop.directions,
+        hotKey: moveTop.hotKey,
+      },
+      {
+        title: moveUp.directions,
+        hotKey: moveUp.hotKey,
+      },
+      {
+        title: moveDown.directions,
+        hotKey: moveDown.hotKey,
+      },
+      {
+        title: moveBottom.directions,
+        hotKey: moveBottom.hotKey,
+      },
+      {
+        title: makeGroup.directions,
+        hotKey: makeGroup.hotKey,
+      },
+      {
+        title: decomposeGroup.directions,
+        hotKey: decomposeGroup.hotKey,
+      },
+    ],
+  },
+];
 
 const dialogVisible = computed<boolean>({
   get() {
@@ -43,103 +86,27 @@ const closeModal = () => {
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title> 帮助中心 </template>
     <div
-      class="w-full min-w-fit md:min-w-[60rem] h-[50rem] overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-thumb-rounded-lg scrollbar-track-rounded-lg"
+      class="w-full min-w-fit md:min-w-[60rem] h-[40rem] p-2 overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100"
     >
       <h3 class="my-4 text-xl font-bold">快捷键列表</h3>
-      <div class="grid grid-flow-row auto-rows-auto gap-4 p-2">
-        <div>
-          <h4 class="my-4 text-lg font-bold">工具</h4>
+      <div class="columns-2 gap-8">
+        <div
+          v-for="({ title, hotKeyList }, index) in hotKeyListMack"
+          :key="index"
+          class="w-full break-inside-avoid-column pb-4"
+        >
+          <h3 class="font-bold text-base my-2">{{ title }}</h3>
           <div class="border rounded-lg divide-y">
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4 class="my-4 text-lg font-bold">编辑器</h4>
-          <div class="border rounded-lg divide-y">
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4 class="my-4 text-lg font-bold">画布</h4>
-          <div class="border rounded-lg divide-y">
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-              </div>
-            </div>
-            <div class="p-4 flex flex-row justify-between items-center text-sm">
-              <div>选择</div>
-              <div class="justify-self-end">
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
-                或
-                <i class="p-2 bg-blue-100 rounded-lg">H</i>
+            <div
+              v-for="({ title, hotKey }, index) in hotKeyList"
+              :key="index"
+              class="w-full p-4 flex flex-row justify-between items-center text-xs"
+            >
+              <div>{{ title }}</div>
+              <div class="justify-self-end flex flex-row gap-1">
+                <i v-for="(key, index) in hotKey" :key="index" class="p-2 min-w-fit bg-blue-100 rounded-lg">
+                  {{ key }}
+                </i>
               </div>
             </div>
           </div>
