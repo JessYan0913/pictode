@@ -20,7 +20,7 @@ const selected = injectStrict(PictodeSelectedKey);
 
 const hotKeyFactory = (keys: (string | string[])[] = []): (string | undefined)[] => {
   function capitalize(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str === ' ' ? 'Space' : str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   function processItem(item: string | string[]) {
@@ -43,6 +43,9 @@ const {
   redo,
   deleteNode,
   selectAll,
+  resetStage,
+  stageDrag,
+  mouseWheel,
   moveUp,
   moveBottom,
   moveTop,
@@ -81,6 +84,23 @@ const hotKeyListMack: Array<{
       {
         title: deleteNode.directions,
         hotKey: hotKeyFactory(deleteNode.hotKey),
+      },
+      {
+        title: resetStage.directions,
+        hotKey: hotKeyFactory(resetStage.hotKey),
+      },
+    ],
+  },
+  {
+    title: '视图',
+    hotKeyList: [
+      {
+        title: stageDrag.directions,
+        hotKey: hotKeyFactory(stageDrag.hotKey),
+      },
+      {
+        title: mouseWheel.directions,
+        hotKey: hotKeyFactory(mouseWheel.hotKey),
       },
     ],
   },
