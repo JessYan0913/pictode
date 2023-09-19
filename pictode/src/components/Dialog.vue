@@ -56,7 +56,7 @@ function closeModal() {
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel class="rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all w-auto">
+            <DialogPanel class="rounded-lg bg-white p-4 text-left align-middle shadow-xl transition-all w-auto">
               <DialogTitle class="grid grid-cols-[1fr_2rem] py-2">
                 <div>
                   <slot name="title"></slot>

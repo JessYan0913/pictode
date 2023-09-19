@@ -3,41 +3,37 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { injectStrict, useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
-import MessageBox from '@/components/MessageBox.vue';
-import { PictodeAppKey } from '@/constants/inject-key';
+import { PictodeAppKey, PictodeHotKeyActionsKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
 import useExport from '@/hooks/useExport';
-import useReadFileContent from '@/hooks/useReadFileContent';
 
 import ExportImageDialog from './ExportImageDialog.vue';
 
 interface MenuConfig {
   icon: string;
   label: string;
+  hotkey?: string;
   handler: () => void;
 }
 
 const app = injectStrict(PictodeAppKey);
+const { open, resetStage } = injectStrict(PictodeHotKeyActionsKey);
 
 const exportImageDialog = useCommandComponent(ExportImageDialog);
-const messageBox = useCommandComponent(MessageBox);
 const { execute: exportToFile } = useExport(
   () => app.toJSON(),
   () => `Pictode-${new Date()}.pictode`,
   MimeType.JSON,
   'utf-8'
 );
-const { execute: readFileContent } = useReadFileContent();
 
 const menuGroups: MenuConfig[][] = [
   [
     {
       icon: 'folder-close',
       label: '打开',
-      handler: async () => {
-        const result = await readFileContent(['.pictode']);
-        result && app.fromJSON(result);
-      },
+      hotkey: open.hotKey?.join('+'),
+      handler: open,
     },
     {
       icon: 'hard-disk-one',
@@ -56,16 +52,8 @@ const menuGroups: MenuConfig[][] = [
     {
       icon: 'clear',
       label: '重置画布',
-      handler: () => {
-        messageBox({
-          title: '清除画布',
-          message: '将会清空画布内容，是否继续？',
-          onSubmit: () => {
-            app.clear();
-            messageBox.close();
-          },
-        });
-      },
+      hotkey: resetStage.hotKey?.join('+'),
+      handler: resetStage,
     },
   ],
 ];
@@ -95,11 +83,13 @@ const menuGroups: MenuConfig[][] = [
                   active ? 'bg-blue-100' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                 ]"
+                :title="menu.label"
                 @click="menu.handler"
               >
-                <div class="flex flex-row gap-2">
+                <div class="w-full flex flex-row justify-between gap-2">
                   <iconpark-icon :name="menu.icon"></iconpark-icon>
-                  <span>{{ menu.label }}</span>
+                  <span class="flex-1 text-start">{{ menu.label }}</span>
+                  <span>{{ menu.hotkey }}</span>
                 </div>
               </Button>
             </MenuItem>

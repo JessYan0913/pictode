@@ -19,6 +19,7 @@ export const PictodePanelFormKey: InjectionKey<{ panelFormConfig: Ref<FormConfig
   Symbol('PictodePanelFormKey');
 
 export const PictodeHotKeyActionsKey: InjectionKey<{
+  open: HotKeyFunction;
   moveDown: HotKeyFunction;
   moveUp: HotKeyFunction;
   moveBottom: HotKeyFunction;

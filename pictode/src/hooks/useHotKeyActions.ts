@@ -4,6 +4,7 @@ import { injectWithSelf, useCommandComponent, useHotKey } from '@pictode/vue-aid
 
 import MessageBox from '@/components/MessageBox.vue';
 import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
+import useReadFileContent from '@/hooks/useReadFileContent';
 
 export const useHotKeyActions = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const existingHotKeyList = injectWithSelf(PictodeHotKeyActionsKey, null);
@@ -12,7 +13,15 @@ export const useHotKeyActions = (app: App, selected: Ref<Array<KonvaNode>>) => {
   }
 
   const messageBox = useCommandComponent(MessageBox);
+  const { execute: readFileContent } = useReadFileContent();
   const resolve = {
+    open: useHotKey(
+      async () => {
+        const result = await readFileContent(['.pictode']);
+        result && app.fromJSON(result);
+      },
+      { key: 'o', directions: '打开', exact: true, ctrlKey: true }
+    ),
     moveDown: useHotKey(
       () => {
         app.moveDown(...selected.value);

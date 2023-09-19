@@ -83,6 +83,9 @@ onMounted(() => {
 
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
+    <template #title>
+      <div class="text-lg">导出图片</div>
+    </template>
     <div class="max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
       <div class="flex items-center h-96 w-96">
         <div
@@ -95,7 +98,6 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex flex-col flex-wrap w-96 min-w-max gap-6 grow ml-6 antialiased p-2">
-        <div class="text-lg">导出图片</div>
         <div class="flex flex-row justify-between items-center">
           <label>背景</label>
           <Switch v-model="haveBackground" @change="updateImgSrc"></Switch>
