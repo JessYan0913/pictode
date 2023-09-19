@@ -157,8 +157,8 @@ const closeModal = () => {
           :key="index"
           class="w-full break-inside-avoid-column pb-4"
         >
-          <h3 class="font-bold text-base my-2">{{ title }}</h3>
-          <div class="border rounded-lg divide-y">
+          <h3 class="font-bold text-base">{{ title }}</h3>
+          <div class="border rounded-lg divide-y mt-2">
             <div
               v-for="({ title, hotKey }, index) in hotKeyList"
               :key="index"
