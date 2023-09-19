@@ -4,6 +4,7 @@ import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import useContextMenu from '@/hooks/useContextMenu';
+import useHotKeyList from '@/hooks/useHotKeyList';
 import usePictode from '@/hooks/usePictode';
 
 import HotKeyList from './components/HotKeyList.vue';
@@ -12,6 +13,8 @@ import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
 const { app, selected, scale } = usePictode();
+
+useHotKeyList(app, selected);
 
 useContextMenu(app, selected);
 

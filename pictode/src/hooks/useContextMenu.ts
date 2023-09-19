@@ -1,10 +1,9 @@
 import { onMounted, onUnmounted, Ref } from 'vue';
 import { App, EventArgs, Konva, KonvaNode } from '@pictode/core';
-import { useCommandComponent } from '@pictode/vue-aide';
+import { injectWithSelfStrict, useCommandComponent } from '@pictode/vue-aide';
 
 import ContextMenu from '@/components/ContextMenu.vue';
-
-import useHotKeyList from './useHotKeyList';
+import { PictodeHotKeyListKey } from '@/constants/inject-key';
 
 const hotKeyFactory = (keys: (string | string[])[] = []): string => {
   function capitalize(str: string): string {
@@ -28,6 +27,7 @@ const hotKeyFactory = (keys: (string | string[])[] = []): string => {
 
 export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const contextMenu = useCommandComponent(ContextMenu);
+  const hotKeyList = injectWithSelfStrict(PictodeHotKeyListKey);
   const {
     moveDown,
     moveUp,
@@ -40,7 +40,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     redo,
     makeGroup,
     decomposeGroup,
-  } = useHotKeyList(app, selected);
+  } = hotKeyList;
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
     let targetIsStage = false;
