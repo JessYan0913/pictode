@@ -77,7 +77,9 @@ const handleChange = async (prop: string, v: any) => {
       'flex flex-col content-start gap-1 px-1 py-2',
     ]"
   >
-    <label :style="{ width: `${labelWidth}px` }" class="text-start text-sm text-gray-600">{{ config.label }}</label>
+    <label :style="{ width: `${labelWidth}px` }" class="text-start text-sm text-gray-600">{{
+      $t(config.label ?? '')
+    }}</label>
     <component
       :key="config.name"
       :is="type"

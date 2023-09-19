@@ -10,7 +10,7 @@ import { hotKey2String } from '@/utils';
 
 interface MenuConfig {
   icon: string;
-  label?: string;
+  label: string;
   hotkey?: (string | string[])[];
   handler: () => void;
 }
@@ -29,7 +29,7 @@ const menuGroups: MenuConfig[][] = [
   [
     {
       icon: 'folder-close',
-      label: open.directions,
+      label: open.directions ?? '',
       hotkey: open.hotKey,
       handler: open,
     },
@@ -42,13 +42,13 @@ const menuGroups: MenuConfig[][] = [
     },
     {
       icon: 'down-picture',
-      label: exportImg.directions,
+      label: exportImg.directions ?? '',
       hotkey: exportImg.hotKey,
       handler: exportImg,
     },
     {
       icon: 'clear',
-      label: resetStage.directions,
+      label: resetStage.directions ?? '',
       hotkey: resetStage.hotKey,
       handler: resetStage,
     },
@@ -80,12 +80,12 @@ const menuGroups: MenuConfig[][] = [
                   active ? 'bg-blue-100' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                 ]"
-                :title="menu.label"
+                :title="$t(menu.label)"
                 @click="menu.handler"
               >
                 <div class="w-full flex flex-row justify-between items-center gap-2">
                   <iconpark-icon :name="menu.icon"></iconpark-icon>
-                  <span class="flex-1 text-start">{{ menu.label }}</span>
+                  <span class="flex-1 text-start">{{ $t(menu.label) }}</span>
                   <span class="text-xs text-gray-700">{{ hotKey2String(menu.hotkey) }}</span>
                 </div>
               </Button>

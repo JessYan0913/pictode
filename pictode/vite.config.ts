@@ -3,6 +3,7 @@ import { join, resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import glsl from 'vite-plugin-glsl';
 import vueSetupExtend from 'vite-plugin-vue-setup-extend';
+import vueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import vue from '@vitejs/plugin-vue';
 
 // https://vitejs.dev/config/
@@ -23,6 +24,11 @@ export default defineConfig(({ mode }) => {
       }),
       vueSetupExtend(),
       glsl(),
+      vueI18nPlugin({
+        runtimeOnly: true,
+        compositionOnly: true,
+        include: [resolve(__dirname, './src/locales/languages/**')],
+      }),
     ],
     build: {
       emptyOutDir: true,

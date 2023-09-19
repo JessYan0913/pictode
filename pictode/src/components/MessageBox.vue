@@ -42,27 +42,27 @@ const onConfirmed = () => {
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title>
-      <div as="h3" class="text-lg font-medium leading-6 text-gray-900">{{ title }}</div>
+      <div as="h3" class="text-lg font-medium leading-6 text-gray-900">{{ $t(title) }}</div>
     </template>
     <div class="flex flex-col">
       <div class="mt-3">
         <p class="text-sm text-gray-500">
-          {{ message }}
+          {{ $t(message) }}
         </p>
       </div>
 
       <div class="mt-4 flex flex-row justify-between">
         <Button
           class="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-red-50 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-          title="关闭"
-          text="关闭"
+          :title="$t('关闭')"
+          :text="$t('关闭')"
           @click="closeModal"
         >
         </Button>
         <Button
           class="inline-flex justify-center rounded-md border border-transparent bg-blue-400 px-4 py-2 text-sm font-medium text-blue-50 hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-          title="确认"
-          text="确认"
+          :title="$t('确认')"
+          :text="$t('确认')"
           @click="onConfirmed"
         >
         </Button>

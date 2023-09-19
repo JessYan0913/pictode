@@ -103,7 +103,7 @@ onUnmounted(() => {
     <div v-if="popoverVisible" :style="popoverStyle" class="absolute w-screen max-w-sm transform">
       <div
         ref="popoverRef"
-        class="absolute w-56 py-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
+        class="absolute w-fit py-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
       >
         <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
@@ -116,7 +116,7 @@ onUnmounted(() => {
             <div class="w-full grid grid-cols-[1rem_1fr_1.5fr] gap-2 text-sm font-medium select-none">
               <iconpark-icon v-if="menu.icon" :name="menu.icon"></iconpark-icon>
               <p>
-                {{ menu.label }}
+                {{ $t(menu.label) }}
               </p>
               <p :class="[menu.disable ? '' : 'text-gray-400', 'text-end text-xs']">{{ menu.hotKey }}</p>
             </div>

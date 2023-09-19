@@ -44,7 +44,7 @@ watch(
         v-for="(option, index) in config.options"
         :key="index"
         :value="option.value"
-        :title="option.title"
+        :title="$t(option.title ?? '')"
         class="border rounded-lg inline-flex items-center relative cursor-pointer select-none"
       >
         <iconpark-icon
@@ -53,7 +53,7 @@ watch(
           :stroke="value === option.value ? 'rgb(143, 191, 255)' : '#333'"
           :fill="value === option.value ? 'rgb(143, 191, 255)' : 'none'"
         ></iconpark-icon>
-        <div v-else :class="option.class">{{ option.label }}</div>
+        <div v-else :class="option.class">{{ $t(option.label) }}</div>
       </RadioGroupOption>
     </div>
   </RadioGroup>

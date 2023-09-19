@@ -84,7 +84,7 @@ onMounted(() => {
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title>
-      <div class="text-lg">导出图片</div>
+      <div class="text-lg">{{ $t('导出图片') }}</div>
     </template>
     <div class="max-w-5xl min-w-fit flex flex-row justify-between transform overflow-hidden">
       <div class="flex items-center h-96 w-96">
@@ -99,11 +99,11 @@ onMounted(() => {
       </div>
       <div class="flex flex-col flex-wrap w-96 min-w-max gap-6 grow ml-6 antialiased p-2">
         <div class="flex flex-row justify-between items-center">
-          <label>背景</label>
+          <label>{{ $t('背景') }}</label>
           <Switch v-model="haveBackground" @change="updateImgSrc"></Switch>
         </div>
         <div class="flex flex-row justify-between items-center">
-          <label>缩放比</label>
+          <label>{{ $t('缩放比') }}</label>
           <RadioGroup
             v-model="pixelRatio"
             class="rounded ring-1 ring-black ring-opacity-5 p-0.5"
@@ -115,14 +115,14 @@ onMounted(() => {
           </RadioGroup>
         </div>
         <div class="flex flex-row justify-between items-center">
-          <label>图片格式</label>
+          <label>{{ $t('图片格式') }}</label>
           <Select v-model="selectedFormat" :options="formats" class="w-24" @change="updateImgSrc"> </Select>
         </div>
         <div class="grow flex flex-col justify-end">
           <Button
             class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-blue-400 text-blue-50"
-            title="下载"
-            text="下载"
+            :title="$t('下载')"
+            :text="$t('下载')"
             @click="onDownload"
           >
           </Button>
