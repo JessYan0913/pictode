@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { injectStrict, useCommandComponent } from '@pictode/vue-aide';
+import { injectStrict } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import { PictodeAppKey, PictodeHotKeyActionsKey } from '@/constants/inject-key';
@@ -8,19 +8,16 @@ import { MimeType } from '@/constants/mime-type';
 import useExport from '@/hooks/useExport';
 import { hotKey2String } from '@/utils';
 
-import ExportImageDialog from './ExportImageDialog.vue';
-
 interface MenuConfig {
   icon: string;
-  label: string;
+  label?: string;
   hotkey?: (string | string[])[];
   handler: () => void;
 }
 
 const app = injectStrict(PictodeAppKey);
-const { open, resetStage } = injectStrict(PictodeHotKeyActionsKey);
+const { open, resetStage, exportImg } = injectStrict(PictodeHotKeyActionsKey);
 
-const exportImageDialog = useCommandComponent(ExportImageDialog);
 const { execute: exportToFile } = useExport(
   () => app.toJSON(),
   () => `Pictode-${new Date()}.pictode`,
@@ -32,7 +29,7 @@ const menuGroups: MenuConfig[][] = [
   [
     {
       icon: 'folder-close',
-      label: '打开',
+      label: open.directions,
       hotkey: open.hotKey,
       handler: open,
     },
@@ -45,14 +42,13 @@ const menuGroups: MenuConfig[][] = [
     },
     {
       icon: 'down-picture',
-      label: '导出图片',
-      handler: () => {
-        exportImageDialog({});
-      },
+      label: exportImg.directions,
+      hotkey: exportImg.hotKey,
+      handler: exportImg,
     },
     {
       icon: 'clear',
-      label: '重置画布',
+      label: resetStage.directions,
       hotkey: resetStage.hotKey,
       handler: resetStage,
     },
@@ -75,7 +71,7 @@ const menuGroups: MenuConfig[][] = [
     >
       <div class="relative">
         <MenuItems
-          class="absolute mt-2 w-56 p-1 divide-y rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
+          class="absolute mt-2 w-60 p-1 divide-y rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <div v-for="(menus, index) in menuGroups" :key="index" class="px-1 py-1">
             <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
@@ -87,10 +83,10 @@ const menuGroups: MenuConfig[][] = [
                 :title="menu.label"
                 @click="menu.handler"
               >
-                <div class="w-full flex flex-row justify-between gap-2">
+                <div class="w-full flex flex-row justify-between items-center gap-2">
                   <iconpark-icon :name="menu.icon"></iconpark-icon>
                   <span class="flex-1 text-start">{{ menu.label }}</span>
-                  <span>{{ hotKey2String(menu.hotkey) }}</span>
+                  <span class="text-xs text-gray-700">{{ hotKey2String(menu.hotkey) }}</span>
                 </div>
               </Button>
             </MenuItem>

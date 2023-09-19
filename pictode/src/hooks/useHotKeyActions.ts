@@ -5,6 +5,7 @@ import { injectWithSelf, useCommandComponent, useHotKey } from '@pictode/vue-aid
 import MessageBox from '@/components/MessageBox.vue';
 import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
 import useReadFileContent from '@/hooks/useReadFileContent';
+import ExportImageDialog from '@/view/canvas/components/ExportImageDialog.vue';
 
 export const useHotKeyActions = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const existingHotKeyList = injectWithSelf(PictodeHotKeyActionsKey, null);
@@ -13,6 +14,7 @@ export const useHotKeyActions = (app: App, selected: Ref<Array<KonvaNode>>) => {
   }
 
   const messageBox = useCommandComponent(MessageBox);
+  const exportImageDialog = useCommandComponent(ExportImageDialog);
   const { execute: readFileContent } = useReadFileContent();
   const resolve = {
     open: useHotKey(
@@ -21,6 +23,12 @@ export const useHotKeyActions = (app: App, selected: Ref<Array<KonvaNode>>) => {
         result && app.fromJSON(result);
       },
       { key: 'o', directions: '打开', exact: true, ctrlKey: true }
+    ),
+    exportImg: useHotKey(
+      () => {
+        exportImageDialog({});
+      },
+      { key: 'e', directions: '导出图片', exact: true, ctrlKey: true, shiftKey: true }
     ),
     moveDown: useHotKey(
       () => {

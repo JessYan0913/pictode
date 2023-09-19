@@ -2,9 +2,9 @@ import { onMounted, onUnmounted, Ref } from 'vue';
 import { App, EventArgs, Konva, KonvaNode } from '@pictode/core';
 import { injectWithSelfStrict, useCommandComponent } from '@pictode/vue-aide';
 
-import ContextMenu from '@/components/ContextMenu.vue';
 import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
 import { hotKey2String } from '@/utils';
+import ContextMenu from '@/view/canvas/components/ContextMenu.vue';
 
 export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const contextMenu = useCommandComponent(ContextMenu);
