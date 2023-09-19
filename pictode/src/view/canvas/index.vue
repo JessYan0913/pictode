@@ -51,9 +51,21 @@ onMounted(() => {
           class="pointer-events-auto w-full shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         ></Tools>
       </section>
-      <section class="row-start-1 col-start-3 justify-self-end flex flex-row gap-2">
+      <section class="row-start-1 col-start-3 justify-self-end">
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+        >
+          <Button class="p-1" title="帮助中心" icon="helpcenter" @click="hotKeyList({})"> </Button>
+        </div>
+      </section>
+      <section class="row-start-2 col-start-3 justify-self-end">
+        <PropertyPanel
+          class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow pointer-events-auto"
+        ></PropertyPanel>
+      </section>
+      <section class="row-start-3 col-start-1 justify-self-start flex flex-row gap-2">
+        <div
+          class="grid grid-flow-col gap-2 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button
             class="w-8 h-8 rounded-lg hover:bg-blue-100"
@@ -65,22 +77,10 @@ onMounted(() => {
           <Button class="w-8 h-8 rounded-lg hover:bg-blue-100" icon="plus" title="放大" @click="onClickZoomIn"></Button>
         </div>
         <div
-          class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
+          class="grid grid-flow-col gap-2 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button class="w-8 h-8 rounded-lg hover:bg-blue-100" icon="undo" title="撤销" @click="app.undo()"></Button>
           <Button class="w-8 h-8 rounded-lg hover:bg-blue-100" icon="redo" title="重做" @click="app.redo()"></Button>
-        </div>
-      </section>
-      <section class="row-start-2 col-start-3 justify-self-end">
-        <PropertyPanel
-          class="p-4 w-56 shadow-md rounded-lg ring-1 ring-black bg-white ring-opacity-5 transition-shadow pointer-events-auto"
-        ></PropertyPanel>
-      </section>
-      <section class="row-start-3 col-start-3 justify-self-end">
-        <div
-          class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto shadow-md rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
-        >
-          <Button class="p-1" title="帮助中心" icon="helpcenter" @click="hotKeyList({})"> </Button>
         </div>
       </section>
     </div>
