@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { injectStrict } from '@pictode/vue-aide';
+import { HotKeyFunction, injectStrict } from '@pictode/vue-aide';
 
 import Dialog from '@/components/Dialog.vue';
 import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
@@ -41,105 +41,33 @@ const {
 
 const hotKeyListMack: Array<{
   title: string;
-  hotKeyList: Array<{ title?: string; hotKey: (string | string[])[] | undefined }>;
+  hotKeyList: Array<HotKeyFunction>;
 }> = [
   {
     title: '编辑',
-    hotKeyList: [
-      {
-        title: undo.directions,
-        hotKey: undo.hotKey,
-      },
-      {
-        title: redo.directions,
-        hotKey: redo.hotKey,
-      },
-      {
-        title: selectAll.directions,
-        hotKey: selectAll.hotKey,
-      },
-      {
-        title: deleteNode.directions,
-        hotKey: deleteNode.hotKey,
-      },
-      {
-        title: resetStage.directions,
-        hotKey: resetStage.hotKey,
-      },
-    ],
+    hotKeyList: [undo, redo, selectAll, deleteNode, resetStage],
   },
   {
     title: '视图',
-    hotKeyList: [
-      {
-        title: stageDrag.directions,
-        hotKey: stageDrag.hotKey,
-      },
-      {
-        title: mouseWheel.directions,
-        hotKey: mouseWheel.hotKey,
-      },
-    ],
+    hotKeyList: [stageDrag, mouseWheel],
   },
   {
     title: '转换',
     hotKeyList: [
-      {
-        title: moveTop.directions,
-        hotKey: moveTop.hotKey,
-      },
-      {
-        title: moveUp.directions,
-        hotKey: moveUp.hotKey,
-      },
-      {
-        title: moveDown.directions,
-        hotKey: moveDown.hotKey,
-      },
-      {
-        title: moveBottom.directions,
-        hotKey: moveBottom.hotKey,
-      },
-      {
-        title: makeGroup.directions,
-        hotKey: makeGroup.hotKey,
-      },
-      {
-        title: decomposeGroup.directions,
-        hotKey: decomposeGroup.hotKey,
-      },
-      {
-        title: alignLeft.directions,
-        hotKey: alignLeft.hotKey,
-      },
-      {
-        title: alignCenterX.directions,
-        hotKey: alignCenterX.hotKey,
-      },
-      {
-        title: alignRight.directions,
-        hotKey: alignRight.hotKey,
-      },
-      {
-        title: alignTop.directions,
-        hotKey: alignTop.hotKey,
-      },
-      {
-        title: alignCenterY.directions,
-        hotKey: alignCenterY.hotKey,
-      },
-      {
-        title: alignBottom.directions,
-        hotKey: alignBottom.hotKey,
-      },
-      {
-        title: distributeX.directions,
-        hotKey: distributeX.hotKey,
-      },
-      {
-        title: distributeY.directions,
-        hotKey: distributeY.hotKey,
-      },
+      moveTop,
+      moveUp,
+      moveDown,
+      moveBottom,
+      makeGroup,
+      decomposeGroup,
+      alignLeft,
+      alignCenterX,
+      alignRight,
+      alignTop,
+      alignCenterY,
+      alignBottom,
+      distributeX,
+      distributeY,
     ],
   },
 ];
@@ -177,14 +105,14 @@ const closeModal = () => {
           <h3 class="font-bold text-base">{{ title }}</h3>
           <div class="border rounded-lg divide-y mt-2 text-xs">
             <div
-              v-for="({ title, hotKey }, index) in hotKeyList"
+              v-for="(hotkeyFunction, index) in hotKeyList"
               :key="index"
               class="w-full p-4 flex flex-row justify-between items-center"
             >
-              <div>{{ title }}</div>
+              <div>{{ hotkeyFunction.directions }}</div>
               <div class="justify-self-end flex flex-row gap-1">
                 <i
-                  v-for="(key, index) in hotKey2Array(hotKey)"
+                  v-for="(key, index) in hotKey2Array(hotkeyFunction.hotKey)"
                   :key="index"
                   class="p-2 min-w-fit bg-blue-100 rounded-lg"
                 >
