@@ -18,6 +18,26 @@ const emits = defineEmits<{
 const app = injectStrict(PictodeAppKey);
 const selected = injectStrict(PictodeSelectedKey);
 
+const hotKeyFactory = (keys: (string | string[])[] = []): (string | undefined)[] => {
+  function capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function processItem(item: string | string[]) {
+    if (typeof item === 'string') {
+      return capitalize(item);
+    } else if (Array.isArray(item)) {
+      return item.map((subItem) => capitalize(subItem)).join(' / ');
+    }
+  }
+
+  if (Array.isArray(keys)) {
+    return keys.map((item) => processItem(item));
+  }
+
+  return [capitalize(keys)];
+};
+
 const {
   undo,
   redo,
@@ -41,26 +61,26 @@ const {
 
 const hotKeyListMack: Array<{
   title: string;
-  hotKeyList: Array<{ title?: string; hotKey: (string | string[])[] | undefined }>;
+  hotKeyList: Array<{ title?: string; hotKey: (string | undefined)[] }>;
 }> = [
   {
     title: '编辑',
     hotKeyList: [
       {
         title: undo.directions,
-        hotKey: undo.hotKey,
+        hotKey: hotKeyFactory(undo.hotKey),
       },
       {
         title: redo.directions,
-        hotKey: redo.hotKey,
+        hotKey: hotKeyFactory(redo.hotKey),
       },
       {
         title: selectAll.directions,
-        hotKey: selectAll.hotKey,
+        hotKey: hotKeyFactory(selectAll.hotKey),
       },
       {
         title: deleteNode.directions,
-        hotKey: deleteNode.hotKey,
+        hotKey: hotKeyFactory(deleteNode.hotKey),
       },
     ],
   },
@@ -69,59 +89,59 @@ const hotKeyListMack: Array<{
     hotKeyList: [
       {
         title: moveTop.directions,
-        hotKey: moveTop.hotKey,
+        hotKey: hotKeyFactory(moveTop.hotKey),
       },
       {
         title: moveUp.directions,
-        hotKey: moveUp.hotKey,
+        hotKey: hotKeyFactory(moveUp.hotKey),
       },
       {
         title: moveDown.directions,
-        hotKey: moveDown.hotKey,
+        hotKey: hotKeyFactory(moveDown.hotKey),
       },
       {
         title: moveBottom.directions,
-        hotKey: moveBottom.hotKey,
+        hotKey: hotKeyFactory(moveBottom.hotKey),
       },
       {
         title: makeGroup.directions,
-        hotKey: makeGroup.hotKey,
+        hotKey: hotKeyFactory(makeGroup.hotKey),
       },
       {
         title: decomposeGroup.directions,
-        hotKey: decomposeGroup.hotKey,
+        hotKey: hotKeyFactory(decomposeGroup.hotKey),
       },
       {
         title: alignLeft.directions,
-        hotKey: alignLeft.hotKey,
+        hotKey: hotKeyFactory(alignLeft.hotKey),
       },
       {
         title: alignCenterX.directions,
-        hotKey: alignCenterX.hotKey,
+        hotKey: hotKeyFactory(alignCenterX.hotKey),
       },
       {
         title: alignRight.directions,
-        hotKey: alignRight.hotKey,
+        hotKey: hotKeyFactory(alignRight.hotKey),
       },
       {
         title: alignTop.directions,
-        hotKey: alignTop.hotKey,
+        hotKey: hotKeyFactory(alignTop.hotKey),
       },
       {
         title: alignCenterY.directions,
-        hotKey: alignCenterY.hotKey,
+        hotKey: hotKeyFactory(alignCenterY.hotKey),
       },
       {
         title: alignBottom.directions,
-        hotKey: alignBottom.hotKey,
+        hotKey: hotKeyFactory(alignBottom.hotKey),
       },
       {
         title: distributeX.directions,
-        hotKey: distributeX.hotKey,
+        hotKey: hotKeyFactory(distributeX.hotKey),
       },
       {
         title: distributeY.directions,
-        hotKey: distributeY.hotKey,
+        hotKey: hotKeyFactory(distributeY.hotKey),
       },
     ],
   },
