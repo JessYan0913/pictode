@@ -184,7 +184,7 @@ const closeModal = () => {
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title> 帮助中心 </template>
     <div
-      class="w-full min-w-fit md:min-w-[60rem] h-[40rem] p-2 overflow-auto scrollbar scrollbar-thumb-gray-200 scrollbar-track-gray-100"
+      class="w-full min-w-fit md:min-w-[60rem] h-[40rem] p-2 overflow-auto scrollbar scrollbar-w-2 scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-thumb-rounded-lg scrollbar-track-rounded-lg"
     >
       <h3 class="my-4 text-xl font-bold">快捷键列表</h3>
       <div class="columns-2 gap-8">
@@ -194,11 +194,11 @@ const closeModal = () => {
           class="w-full break-inside-avoid-column pb-4"
         >
           <h3 class="font-bold text-base">{{ title }}</h3>
-          <div class="border rounded-lg divide-y mt-2">
+          <div class="border rounded-lg divide-y mt-2 text-xs">
             <div
               v-for="({ title, hotKey }, index) in hotKeyList"
               :key="index"
-              class="w-full p-4 flex flex-row justify-between items-center text-xs"
+              class="w-full p-4 flex flex-row justify-between items-center"
             >
               <div>{{ title }}</div>
               <div class="justify-self-end flex flex-row gap-1">
