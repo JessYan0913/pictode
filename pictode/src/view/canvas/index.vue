@@ -4,7 +4,7 @@ import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import useContextMenu from '@/hooks/useContextMenu';
-import useHotKeyList from '@/hooks/useHotKeyList';
+import useHotKeyActions from '@/hooks/useHotKeyActions';
 import usePictode from '@/hooks/usePictode';
 
 import HotKeyList from './components/HotKeyList.vue';
@@ -14,7 +14,7 @@ import Tools from './components/Tools.vue';
 
 const { app, selected, scale } = usePictode();
 
-useHotKeyList(app, selected);
+useHotKeyActions(app, selected);
 
 useContextMenu(app, selected);
 
@@ -90,3 +90,4 @@ onMounted(() => {
     <div ref="canvasRef" class="w-full h-full"></div>
   </div>
 </template>
+@/hooks/useHotKeyActions

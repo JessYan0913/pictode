@@ -18,7 +18,7 @@ export const PictodeSelectedKey: InjectionKey<Ref<Array<KonvaNode>>> = Symbol('P
 export const PictodePanelFormKey: InjectionKey<{ panelFormConfig: Ref<FormConfig>; panelFormModel: Ref<FormValue> }> =
   Symbol('PictodePanelFormKey');
 
-export const PictodeHotKeyListKey: InjectionKey<{
+export const PictodeHotKeyActionsKey: InjectionKey<{
   moveDown: HotKeyFunction;
   moveUp: HotKeyFunction;
   moveBottom: HotKeyFunction;

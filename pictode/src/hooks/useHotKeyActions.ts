@@ -3,10 +3,10 @@ import { App, Konva, KonvaNode } from '@pictode/core';
 import { injectWithSelf, useCommandComponent, useHotKey } from '@pictode/vue-aide';
 
 import MessageBox from '@/components/MessageBox.vue';
-import { PictodeHotKeyListKey } from '@/constants/inject-key';
+import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
 
-export const useHotKeyList = (app: App, selected: Ref<Array<KonvaNode>>) => {
-  const existingHotKeyList = injectWithSelf(PictodeHotKeyListKey, null);
+export const useHotKeyActions = (app: App, selected: Ref<Array<KonvaNode>>) => {
+  const existingHotKeyList = injectWithSelf(PictodeHotKeyActionsKey, null);
   if (existingHotKeyList) {
     return existingHotKeyList;
   }
@@ -187,9 +187,9 @@ export const useHotKeyList = (app: App, selected: Ref<Array<KonvaNode>>) => {
       { key: 'v', directions: '垂直分布', ctrlKey: true, shiftKey: true }
     ),
   };
-  provide(PictodeHotKeyListKey, resolve);
+  provide(PictodeHotKeyActionsKey, resolve);
 
   return resolve;
 };
 
-export default useHotKeyList;
+export default useHotKeyActions;

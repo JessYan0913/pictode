@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
 import Dialog from '@/components/Dialog.vue';
-import { PictodeHotKeyListKey } from '@/constants/inject-key';
+import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
 
 const props = defineProps<{
   visible: boolean;
@@ -36,7 +36,7 @@ const {
   alignTop,
   distributeX,
   distributeY,
-} = injectStrict(PictodeHotKeyListKey);
+} = injectStrict(PictodeHotKeyActionsKey);
 
 const hotKeyFactory = (keys: (string | string[])[] = []): (string | undefined)[] => {
   function capitalize(str: string): string {

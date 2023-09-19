@@ -3,7 +3,12 @@ import { computed } from 'vue';
 import { injectStrict } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
-import { PictodeAppKey, PictodeHotKeyListKey, PictodePanelFormKey, PictodeSelectedKey } from '@/constants/inject-key';
+import {
+  PictodeAppKey,
+  PictodeHotKeyActionsKey,
+  PictodePanelFormKey,
+  PictodeSelectedKey,
+} from '@/constants/inject-key';
 import { Form } from '@/form';
 
 const app = injectStrict(PictodeAppKey);
@@ -23,7 +28,7 @@ const {
   alignCenterY,
   distributeX,
   distributeY,
-} = injectStrict(PictodeHotKeyListKey);
+} = injectStrict(PictodeHotKeyActionsKey);
 
 const layerButtons = computed(() => [
   {
