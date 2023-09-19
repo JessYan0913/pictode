@@ -4,26 +4,7 @@ import { injectWithSelfStrict, useCommandComponent } from '@pictode/vue-aide';
 
 import ContextMenu from '@/components/ContextMenu.vue';
 import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
-
-const hotKeyFactory = (keys: (string | string[])[] = []): string => {
-  function capitalize(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  function processItem(item: string | string[]) {
-    if (typeof item === 'string') {
-      return capitalize(item);
-    } else if (Array.isArray(item)) {
-      return item.map((subItem) => capitalize(subItem)).join('/');
-    }
-  }
-
-  if (Array.isArray(keys)) {
-    return keys.map((item) => processItem(item)).join('+');
-  }
-
-  return capitalize(keys);
-};
+import { hotKey2String } from '@/utils';
 
 export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const contextMenu = useCommandComponent(ContextMenu);
@@ -58,25 +39,25 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               icon: 'sent-to-back',
               label: moveDown.directions,
-              hotKey: hotKeyFactory(moveDown.hotKey),
+              hotKey: hotKey2String(moveDown.hotKey),
               action: moveDown,
             },
             {
               icon: 'bring-to-front',
               label: moveUp.directions,
-              hotKey: hotKeyFactory(moveUp.hotKey),
+              hotKey: hotKey2String(moveUp.hotKey),
               action: moveUp,
             },
             {
               icon: 'bring-to-front-one',
               label: moveBottom.directions,
-              hotKey: hotKeyFactory(moveBottom.hotKey),
+              hotKey: hotKey2String(moveBottom.hotKey),
               action: moveBottom,
             },
             {
               icon: 'send-to-back',
               label: moveTop.directions,
-              hotKey: hotKeyFactory(moveTop.hotKey),
+              hotKey: hotKey2String(moveTop.hotKey),
               action: moveTop,
             },
           ]
@@ -87,7 +68,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               icon: 'group',
               label: makeGroup.directions,
-              hotKey: hotKeyFactory(makeGroup.hotKey),
+              hotKey: hotKey2String(makeGroup.hotKey),
               action: makeGroup,
             },
           ]
@@ -98,7 +79,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               icon: 'ungroup',
               label: decomposeGroup.directions,
-              hotKey: hotKeyFactory(decomposeGroup.hotKey),
+              hotKey: hotKey2String(decomposeGroup.hotKey),
               action: decomposeGroup,
             },
           ]
@@ -109,7 +90,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               icon: 'delete-one',
               label: deleteNode.directions,
-              hotKey: hotKeyFactory(deleteNode.hotKey),
+              hotKey: hotKey2String(deleteNode.hotKey),
               action: deleteNode,
             },
           ]
@@ -120,13 +101,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             {
               icon: 'full-selection',
               label: selectAll.directions,
-              hotKey: hotKeyFactory(selectAll.hotKey),
+              hotKey: hotKey2String(selectAll.hotKey),
               action: selectAll,
             },
             {
               icon: 'clear',
               label: resetStage.directions,
-              hotKey: hotKeyFactory(resetStage.hotKey),
+              hotKey: hotKey2String(resetStage.hotKey),
               action: resetStage,
             },
           ]
@@ -135,14 +116,14 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
       {
         icon: 'undo',
         label: undo.directions,
-        hotKey: hotKeyFactory(undo.hotKey),
+        hotKey: hotKey2String(undo.hotKey),
         disable: !app.canUndo(),
         action: undo,
       },
       {
         icon: 'redo',
         label: redo.directions,
-        hotKey: hotKeyFactory(redo.hotKey),
+        hotKey: hotKey2String(redo.hotKey),
         disable: !app.canRedo(),
         action: redo,
       },

@@ -4,6 +4,7 @@ import { injectStrict } from '@pictode/vue-aide';
 
 import Dialog from '@/components/Dialog.vue';
 import { PictodeHotKeyActionsKey } from '@/constants/inject-key';
+import { hotKey2Array } from '@/utils';
 
 const props = defineProps<{
   visible: boolean;
@@ -38,52 +39,32 @@ const {
   distributeY,
 } = injectStrict(PictodeHotKeyActionsKey);
 
-const hotKeyFactory = (keys: (string | string[])[] = []): (string | undefined)[] => {
-  function capitalize(str: string): string {
-    return str === ' ' ? 'Space' : str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  function processItem(item: string | string[]) {
-    if (typeof item === 'string') {
-      return capitalize(item);
-    } else if (Array.isArray(item)) {
-      return item.map((subItem) => capitalize(subItem)).join(' / ');
-    }
-  }
-
-  if (Array.isArray(keys)) {
-    return keys.map((item) => processItem(item));
-  }
-
-  return [capitalize(keys)];
-};
-
 const hotKeyListMack: Array<{
   title: string;
-  hotKeyList: Array<{ title?: string; hotKey: (string | undefined)[] }>;
+  hotKeyList: Array<{ title?: string; hotKey: (string | string[])[] | undefined }>;
 }> = [
   {
     title: '编辑',
     hotKeyList: [
       {
         title: undo.directions,
-        hotKey: hotKeyFactory(undo.hotKey),
+        hotKey: undo.hotKey,
       },
       {
         title: redo.directions,
-        hotKey: hotKeyFactory(redo.hotKey),
+        hotKey: redo.hotKey,
       },
       {
         title: selectAll.directions,
-        hotKey: hotKeyFactory(selectAll.hotKey),
+        hotKey: selectAll.hotKey,
       },
       {
         title: deleteNode.directions,
-        hotKey: hotKeyFactory(deleteNode.hotKey),
+        hotKey: deleteNode.hotKey,
       },
       {
         title: resetStage.directions,
-        hotKey: hotKeyFactory(resetStage.hotKey),
+        hotKey: resetStage.hotKey,
       },
     ],
   },
@@ -92,11 +73,11 @@ const hotKeyListMack: Array<{
     hotKeyList: [
       {
         title: stageDrag.directions,
-        hotKey: hotKeyFactory(stageDrag.hotKey),
+        hotKey: stageDrag.hotKey,
       },
       {
         title: mouseWheel.directions,
-        hotKey: hotKeyFactory(mouseWheel.hotKey),
+        hotKey: mouseWheel.hotKey,
       },
     ],
   },
@@ -105,59 +86,59 @@ const hotKeyListMack: Array<{
     hotKeyList: [
       {
         title: moveTop.directions,
-        hotKey: hotKeyFactory(moveTop.hotKey),
+        hotKey: moveTop.hotKey,
       },
       {
         title: moveUp.directions,
-        hotKey: hotKeyFactory(moveUp.hotKey),
+        hotKey: moveUp.hotKey,
       },
       {
         title: moveDown.directions,
-        hotKey: hotKeyFactory(moveDown.hotKey),
+        hotKey: moveDown.hotKey,
       },
       {
         title: moveBottom.directions,
-        hotKey: hotKeyFactory(moveBottom.hotKey),
+        hotKey: moveBottom.hotKey,
       },
       {
         title: makeGroup.directions,
-        hotKey: hotKeyFactory(makeGroup.hotKey),
+        hotKey: makeGroup.hotKey,
       },
       {
         title: decomposeGroup.directions,
-        hotKey: hotKeyFactory(decomposeGroup.hotKey),
+        hotKey: decomposeGroup.hotKey,
       },
       {
         title: alignLeft.directions,
-        hotKey: hotKeyFactory(alignLeft.hotKey),
+        hotKey: alignLeft.hotKey,
       },
       {
         title: alignCenterX.directions,
-        hotKey: hotKeyFactory(alignCenterX.hotKey),
+        hotKey: alignCenterX.hotKey,
       },
       {
         title: alignRight.directions,
-        hotKey: hotKeyFactory(alignRight.hotKey),
+        hotKey: alignRight.hotKey,
       },
       {
         title: alignTop.directions,
-        hotKey: hotKeyFactory(alignTop.hotKey),
+        hotKey: alignTop.hotKey,
       },
       {
         title: alignCenterY.directions,
-        hotKey: hotKeyFactory(alignCenterY.hotKey),
+        hotKey: alignCenterY.hotKey,
       },
       {
         title: alignBottom.directions,
-        hotKey: hotKeyFactory(alignBottom.hotKey),
+        hotKey: alignBottom.hotKey,
       },
       {
         title: distributeX.directions,
-        hotKey: hotKeyFactory(distributeX.hotKey),
+        hotKey: distributeX.hotKey,
       },
       {
         title: distributeY.directions,
-        hotKey: hotKeyFactory(distributeY.hotKey),
+        hotKey: distributeY.hotKey,
       },
     ],
   },
@@ -202,7 +183,11 @@ const closeModal = () => {
             >
               <div>{{ title }}</div>
               <div class="justify-self-end flex flex-row gap-1">
-                <i v-for="(key, index) in hotKey" :key="index" class="p-2 min-w-fit bg-blue-100 rounded-lg">
+                <i
+                  v-for="(key, index) in hotKey2Array(hotKey)"
+                  :key="index"
+                  class="p-2 min-w-fit bg-blue-100 rounded-lg"
+                >
                   {{ key }}
                 </i>
               </div>

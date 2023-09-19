@@ -6,13 +6,14 @@ import Button from '@/components/Button.vue';
 import { PictodeAppKey, PictodeHotKeyActionsKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
 import useExport from '@/hooks/useExport';
+import { hotKey2String } from '@/utils';
 
 import ExportImageDialog from './ExportImageDialog.vue';
 
 interface MenuConfig {
   icon: string;
   label: string;
-  hotkey?: string;
+  hotkey?: (string | string[])[];
   handler: () => void;
 }
 
@@ -32,7 +33,7 @@ const menuGroups: MenuConfig[][] = [
     {
       icon: 'folder-close',
       label: '打开',
-      hotkey: open.hotKey?.join('+'),
+      hotkey: open.hotKey,
       handler: open,
     },
     {
@@ -52,7 +53,7 @@ const menuGroups: MenuConfig[][] = [
     {
       icon: 'clear',
       label: '重置画布',
-      hotkey: resetStage.hotKey?.join('+'),
+      hotkey: resetStage.hotKey,
       handler: resetStage,
     },
   ],
@@ -89,7 +90,7 @@ const menuGroups: MenuConfig[][] = [
                 <div class="w-full flex flex-row justify-between gap-2">
                   <iconpark-icon :name="menu.icon"></iconpark-icon>
                   <span class="flex-1 text-start">{{ menu.label }}</span>
-                  <span>{{ menu.hotkey }}</span>
+                  <span>{{ hotKey2String(menu.hotkey) }}</span>
                 </div>
               </Button>
             </MenuItem>
