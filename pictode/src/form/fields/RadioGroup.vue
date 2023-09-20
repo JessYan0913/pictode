@@ -50,8 +50,21 @@ watch(
         :title="$t(option.title ?? '')"
         class="rounded-lg inline-flex items-center relative cursor-pointer select-none hover:bg-gray-200"
       >
-        <iconpark-icon v-if="config.optionType === 'icon'" :name="option.label" :stroke="strokeColor"></iconpark-icon>
-        <div v-else :class="option.class">{{ $t(option.label) }}</div>
+        <template #default="{ checked }">
+          <div
+            :class="[
+              'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
+              checked ? 'bg-blue-500' : 'hover:bg-gray-200',
+            ]"
+          >
+            <iconpark-icon
+              v-if="config.optionType === 'icon'"
+              :name="option.label"
+              :stroke="strokeColor"
+            ></iconpark-icon>
+            <div v-else :class="option.class">{{ $t(option.label) }}</div>
+          </div>
+        </template>
       </RadioGroupOption>
     </div>
   </RadioGroup>

@@ -8,13 +8,8 @@ defineProps<{
 
 <template>
   <RadioGroupOption v-slot="{ checked }" :value="value">
-    <div
-      :class="[
-        'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
-        checked ? 'bg-blue-500' : '',
-      ]"
-    >
-      <slot></slot>
+    <div>
+      <slot :checked="checked"></slot>
     </div>
   </RadioGroupOption>
 </template>
