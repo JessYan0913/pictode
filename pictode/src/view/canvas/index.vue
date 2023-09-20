@@ -62,7 +62,13 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Button class="p-1" :title="$t('帮助中心')" icon="helpcenter" @click="hotKeyList({})"> </Button>
+          <Button
+            class="p-1 rounded-lg hover:bg-slate-200 text-lg"
+            :title="$t('帮助中心')"
+            icon="helpcenter"
+            @click="hotKeyList({})"
+          >
+          </Button>
         </div>
       </section>
       <section class="row-start-2 col-start-3 justify-self-end">
@@ -75,14 +81,14 @@ onMounted(() => {
           class="grid grid-flow-col gap-2 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button
-            class="w-6 h-6 rounded-lg hover:bg-slate-200"
+            class="p-1 rounded-lg hover:bg-slate-200"
             icon="minus"
             :title="$t('缩小')"
             @click="onClickZoomOut"
           ></Button>
           <div class="flex text-center text-sm h-full items-center select-none">{{ displayScale }}</div>
           <Button
-            class="w-6 h-6 rounded-lg hover:bg-slate-200"
+            class="p-1 rounded-lg hover:bg-slate-200"
             icon="plus"
             :title="$t('放大')"
             @click="onClickZoomIn"
@@ -92,13 +98,13 @@ onMounted(() => {
           class="grid grid-flow-col gap-2 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
           <Button
-            class="w-6 h-6 rounded-lg hover:bg-slate-200"
+            class="p-1 rounded-lg hover:bg-slate-200"
             icon="undo"
             :title="$t('撤销')"
             @click="onClickUndo"
           ></Button>
           <Button
-            class="w-6 h-6 rounded-lg hover:bg-slate-200"
+            class="p-1 rounded-lg hover:bg-slate-200"
             icon="redo"
             :title="$t('重做')"
             @click="onClickRedo"
