@@ -103,7 +103,9 @@ const closeModal = () => {
           class="w-full break-inside-avoid-column pb-4"
         >
           <h3 class="font-bold text-base">{{ $t(title) }}</h3>
-          <div class="border rounded-lg divide-y mt-2 text-xs">
+          <div
+            class="rounded-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 divide-y divide-slate-950 dark:divide-navyBlue-100 mt-2 text-xs"
+          >
             <div
               v-for="(hotkeyFunction, index) in hotKeyList"
               :key="index"

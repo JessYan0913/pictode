@@ -71,7 +71,7 @@ const menuGroups: MenuConfig[][] = [
     >
       <div class="relative">
         <MenuItems
-          class="absolute mt-2 w-60 p-1 divide-y rounded-lg bg-white dark:bg-slate-800 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
+          class="absolute mt-2 w-60 p-1 divide-y rounded-lg bg-white dark:bg-navyBlue-200 shadow-md ring-1 ring-slate-950 dark:ring-navyBlue-100 focus:outline-none"
         >
           <div v-for="(menus, index) in menuGroups" :key="index" class="px-1 py-1">
             <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
