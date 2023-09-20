@@ -116,7 +116,7 @@ const closeModal = () => {
                 <i
                   v-for="(key, index) in hotKey2Array(hotkeyFunction.hotKey)"
                   :key="index"
-                  class="p-2 min-w-fit bg-blue-100 rounded-lg"
+                  class="p-2 min-w-fit bg-blue-100 rounded-lg dark:text-gray-600"
                 >
                   {{ key }}
                 </i>

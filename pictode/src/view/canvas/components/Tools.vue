@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, watchEffect } from 'vue';
+import { computed, nextTick, ref, watchEffect } from 'vue';
 import { Tool, util } from '@pictode/core';
 import {
   DiamondTool,
@@ -18,6 +18,7 @@ import round from '@/assets/images/round.svg';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import { PictodeAppKey } from '@/constants/inject-key';
+import useTheme from '@/hooks/useTheme';
 
 const app = injectStrict(PictodeAppKey);
 
@@ -209,6 +210,8 @@ const tools: ToolInfo[] = [
 ];
 
 const currentTool = ref<string>(tools[0].name);
+const { theme } = useTheme();
+const strokeColor = computed<string>(() => (theme.value === 'dark' ? '#d1d5db' : '#333333'));
 
 watchEffect(() => {
   let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
@@ -224,11 +227,7 @@ watchEffect(() => {
 <template>
   <RadioGroup v-model="currentTool">
     <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="$t(item.title)">
-      <iconpark-icon
-        :name="item.icon"
-        :stroke="currentTool === item.name ? 'rgb(143, 191, 255)' : '#333'"
-        :fill="currentTool === item.name ? 'rgb(143, 191, 255)' : 'none'"
-      ></iconpark-icon>
+      <iconpark-icon :name="item.icon" :stroke="strokeColor"></iconpark-icon>
     </RadioGroupOption>
   </RadioGroup>
 </template>

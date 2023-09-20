@@ -108,7 +108,7 @@ onMounted(() => {
           <label>{{ $t('缩放比') }}</label>
           <RadioGroup
             v-model="pixelRatio"
-            class="rounded ring-1 w-24 ring-black ring-opacity-5 p-0.5"
+            class="rounded ring-1 w-24 ring-slate-950 dark:ring-navyBlue-100 p-0.5"
             @change="updateImgSrc"
           >
             <RadioGroupOption :value="1" class="font-mono text-xs">{{ '1x' }}</RadioGroupOption>
@@ -121,7 +121,7 @@ onMounted(() => {
           <Select v-model="selectedFormatValue" class="w-24" @change="updateImgSrc">
             <template #listbox>
               <div
-                class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 py-2 pl-2 pr-6 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
+                class="relative w-full cursor-pointer rounded ring-1 ring-slate-950 dark:ring-navyBlue-100 py-2 pl-2 pr-6 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
               >
                 <span class="block truncate">{{
                   formats.find((item) => item.value === selectedFormatValue)?.label

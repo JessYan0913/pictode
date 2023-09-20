@@ -11,7 +11,12 @@ defineProps<{
 <template>
   <ListboxOption v-slot="{ active, selected }" :value="value">
     <slot :active="active" :selected="selected" :item="value">
-      <li :class="[active ? 'bg-blue-100' : 'text-gray-900', 'relative cursor-pointer select-none py-2 pl-10 pr-4']">
+      <li
+        :class="[
+          active ? 'bg-gray-200 dark:text-gray-600' : 'text-gray-900 dark:text-gray-300',
+          'relative cursor-pointer select-none py-2 pl-10 pr-4 ',
+        ]"
+      >
         <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ label }}</span>
         <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
           <CheckIcon class="h-5 w-5" aria-hidden="true" />

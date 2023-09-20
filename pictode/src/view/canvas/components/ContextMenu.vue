@@ -113,7 +113,7 @@ onUnmounted(() => {
             :class="[
               menu.disable
                 ? 'text-gray-300 dark:text-slate-500 cursor-default'
-                : 'text-gray-700 dark:text-white hover:bg-blue-200 cursor-pointer',
+                : 'text-gray-700 dark:text-gray-300 hover:bg-blue-200 cursor-pointer',
             ]"
             @click="onClickMenu(menu)"
           >

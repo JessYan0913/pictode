@@ -11,7 +11,7 @@ defineProps<{
     <div
       :class="[
         'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
-        checked ? 'bg-blue-100' : '',
+        checked ? 'bg-blue-500' : '',
       ]"
     >
       <slot></slot>

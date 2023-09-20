@@ -42,7 +42,7 @@ const onConfirmed = () => {
 <template>
   <Dialog :visible="dialogVisible" @close="closeModal">
     <template #title>
-      <div as="h3" class="text-lg font-medium leading-6 text-gray-900">{{ $t(title) }}</div>
+      <div as="h3" class="text-lg font-medium leading-6">{{ $t(title) }}</div>
     </template>
     <div class="flex flex-col">
       <div class="mt-3">

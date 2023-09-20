@@ -1,8 +1,9 @@
 <script setup lang="ts" generic="T extends string | number | boolean | Record<string|number, any> | undefined">
-import { ref, toRefs, watch } from 'vue';
+import { computed, ref, toRefs, watch } from 'vue';
 
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
+import useTheme from '@/hooks/useTheme';
 
 import { FormValue, RadioGroupConfig } from '../types';
 
@@ -23,6 +24,8 @@ const emits = defineEmits<{
 
 const { model, prop } = toRefs(props);
 const value = ref<T>(prop?.value && model?.value?.[prop?.value]);
+const { theme } = useTheme();
+const strokeColor = computed<string>(() => (theme.value === 'dark' ? '#d1d5db' : '#333333'));
 
 watch(
   () => value.value,
@@ -45,14 +48,9 @@ watch(
         :key="index"
         :value="option.value"
         :title="$t(option.title ?? '')"
-        class="border rounded-lg inline-flex items-center relative cursor-pointer select-none"
+        class="rounded-lg inline-flex items-center relative cursor-pointer select-none hover:bg-gray-200"
       >
-        <iconpark-icon
-          v-if="config.optionType === 'icon'"
-          :name="option.label"
-          :stroke="value === option.value ? 'rgb(143, 191, 255)' : '#333'"
-          :fill="value === option.value ? 'rgb(143, 191, 255)' : 'none'"
-        ></iconpark-icon>
+        <iconpark-icon v-if="config.optionType === 'icon'" :name="option.label" :stroke="strokeColor"></iconpark-icon>
         <div v-else :class="option.class">{{ $t(option.label) }}</div>
       </RadioGroupOption>
     </div>
