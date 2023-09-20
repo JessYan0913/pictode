@@ -66,4 +66,5 @@ export default {
   实线: 'Solid',
   虚线: 'Dashed',
   点虚线: 'Dotted Dashed',
+  语言: 'Language',
 };
