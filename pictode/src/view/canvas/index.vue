@@ -4,6 +4,7 @@ import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
+import SelectOption from '@/components/SelectOption.vue';
 import useContextMenu from '@/hooks/useContextMenu';
 import useHotKeyActions from '@/hooks/useHotKeyActions';
 import usePictode from '@/hooks/usePictode';
@@ -27,7 +28,7 @@ const languages = [
   { label: 'English', value: 'en' },
 ];
 
-const selectedLanguage = ref(languages[0]);
+const selectedLanguage = ref(languages[0].value);
 
 const displayScale = computed<string>(() => {
   return `${Math.ceil(scale.value * 100)}%`;
@@ -71,10 +72,20 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Select v-model="selectedLanguage" :options="languages">
+          <Select v-model="selectedLanguage">
             <template #listbox>
               <Button class="p-1 rounded-lg hover:bg-slate-200 text-lg" :title="$t('语言')" icon="translate"> </Button>
             </template>
+            <div
+              class="absolute mt-5 mr-10 max-h-60 left-[-30px] w-fit rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            >
+              <SelectOption
+                v-for="({ label, value }, index) in languages"
+                :key="index"
+                :value="value"
+                :label="label"
+              ></SelectOption>
+            </div>
           </Select>
           <Button
             class="p-1 rounded-lg hover:bg-slate-200 text-lg"

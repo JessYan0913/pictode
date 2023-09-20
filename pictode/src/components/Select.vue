@@ -1,21 +1,11 @@
-<script setup lang="ts" generic="T extends Record<string | symbol | number, any>">
+<script setup lang="ts" generic="T extends string | number | boolean | Record<string, any> | undefined">
 import { computed } from 'vue';
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid';
+import { Listbox, ListboxButton, ListboxOptions } from '@headlessui/vue';
+import { ChevronUpDownIcon } from '@heroicons/vue/24/solid';
 
-const props = withDefaults(
-  defineProps<{
-    modelValue: T;
-    options?: Array<T>;
-    value?: string;
-    label?: string;
-  }>(),
-  {
-    options: () => [],
-    value: () => 'value',
-    label: () => 'label',
-  }
-);
+const props = defineProps<{
+  modelValue: T;
+}>();
 
 const emits = defineEmits<{
   (event: 'update:modelValue', value: T): void;
@@ -27,7 +17,7 @@ const selected = computed<T>({
     return props.modelValue;
   },
   set(value: T) {
-    if (value[props.value] === props.modelValue[props.value]) {
+    if (value === props.modelValue) {
       return;
     }
     emits('update:modelValue', value);
@@ -39,12 +29,12 @@ const selected = computed<T>({
 <template>
   <Listbox v-model="selected">
     <div class="relative mt-1">
-      <ListboxButton>
+      <ListboxButton class="relative w-full">
         <slot name="listbox" :selected="selected">
           <div
             class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
           >
-            <span class="block truncate">{{ selected[label] }}</span>
+            <span class="block truncate">{{ selected }}</span>
             <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
             </span>
@@ -57,30 +47,8 @@ const selected = computed<T>({
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <ListboxOptions
-          class="absolute mt-5 mr-10 max-h-60 left-[-30px] w-fit rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-        >
-          <ListboxOption
-            v-slot="{ active, selected }"
-            v-for="option in options"
-            :key="option[value]"
-            :value="option"
-            as="template"
-          >
-            <slot :active="active" :selected="selected" :item="option">
-              <li
-                :class="[
-                  active ? 'bg-blue-100' : 'text-gray-900',
-                  'relative cursor-pointer select-none py-2 pl-10 pr-4',
-                ]"
-              >
-                <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ option[label] }}</span>
-                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-400">
-                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                </span>
-              </li>
-            </slot>
-          </ListboxOption>
+        <ListboxOptions>
+          <slot></slot>
         </ListboxOptions>
       </transition>
     </div>

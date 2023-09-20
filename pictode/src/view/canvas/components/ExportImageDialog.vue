@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
+import { ChevronUpDownIcon } from '@heroicons/vue/24/solid';
 import { injectStrict } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
@@ -7,6 +8,7 @@ import Dialog from '@/components/Dialog.vue';
 import RadioGroup from '@/components/RadioGroup.vue';
 import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import Select from '@/components/Select.vue';
+import SelectOption from '@/components/SelectOption.vue';
 import Switch from '@/components/Switch.vue';
 import { PictodeAppKey, PictodeSelectedKey } from '@/constants/inject-key';
 import { MimeType } from '@/constants/mime-type';
@@ -43,7 +45,7 @@ const formats = [
 
 const haveBackground = ref<boolean>(true);
 const pixelRatio = ref<number>(2);
-const selectedFormat = ref(formats[0]);
+const selectedFormatValue = ref(formats[0].value);
 
 const imgSrc = ref<string>('');
 
@@ -54,7 +56,7 @@ const closeModal = () => {
 const updateImgSrc = async () => {
   const { dataURL } = await app.toDataURL(selected.value, {
     pixelRatio: pixelRatio.value,
-    mimeType: selectedFormat.value.value,
+    mimeType: selectedFormatValue.value,
     haveBackground: haveBackground.value,
   });
   imgSrc.value = dataURL;
@@ -65,8 +67,8 @@ const onDownload = async () => {
     () => {
       return imgSrc.value;
     },
-    () => `Pictode-${new Date()}.${selectedFormat.value.format}`,
-    selectedFormat.value.value,
+    () => `Pictode-${new Date()}.${formats.find((item) => item.value === selectedFormatValue.value)?.format}`,
+    selectedFormatValue.value,
     'utf-8',
     true
   );
@@ -106,7 +108,7 @@ onMounted(() => {
           <label>{{ $t('缩放比') }}</label>
           <RadioGroup
             v-model="pixelRatio"
-            class="rounded ring-1 ring-black ring-opacity-5 p-0.5"
+            class="rounded ring-1 w-24 ring-black ring-opacity-5 p-0.5"
             @change="updateImgSrc"
           >
             <RadioGroupOption :value="1" class="font-mono text-xs">{{ '1x' }}</RadioGroupOption>
@@ -116,7 +118,30 @@ onMounted(() => {
         </div>
         <div class="flex flex-row justify-between items-center">
           <label>{{ $t('图片格式') }}</label>
-          <Select v-model="selectedFormat" :options="formats" class="w-24" @change="updateImgSrc"> </Select>
+          <Select v-model="selectedFormatValue" class="w-24" @change="updateImgSrc">
+            <template #listbox>
+              <div
+                class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 py-2 pl-2 pr-6 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
+              >
+                <span class="block truncate">{{
+                  formats.find((item) => item.value === selectedFormatValue)?.label
+                }}</span>
+                <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon class="h-3 w-3 text-gray-400" aria-hidden="true" />
+                </span>
+              </div>
+            </template>
+            <div
+              class="absolute mt-1 mr-10 max-h-60 w-fit rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            >
+              <SelectOption
+                v-for="({ label, value }, index) in formats"
+                :key="index"
+                :value="value"
+                :label="label"
+              ></SelectOption>
+            </div>
+          </Select>
         </div>
         <div class="grow flex flex-col justify-end">
           <Button
