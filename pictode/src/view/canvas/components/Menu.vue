@@ -71,14 +71,14 @@ const menuGroups: MenuConfig[][] = [
     >
       <div class="relative">
         <MenuItems
-          class="absolute mt-2 w-60 p-1 divide-y rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
+          class="absolute mt-2 w-60 p-1 divide-y rounded-lg bg-white dark:bg-slate-800 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <div v-for="(menus, index) in menuGroups" :key="index" class="px-1 py-1">
             <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
               <Button
                 :class="[
                   active ? 'bg-blue-100' : 'text-gray-900',
-                  'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  'group flex w-full items-center rounded-md px-2 py-2 text-sm dark:text-white',
                 ]"
                 :title="$t(menu.label)"
                 @click="menu.handler"
@@ -86,7 +86,7 @@ const menuGroups: MenuConfig[][] = [
                 <div class="w-full flex flex-row justify-between items-center gap-2">
                   <iconpark-icon :name="menu.icon"></iconpark-icon>
                   <span class="flex-1 text-start">{{ $t(menu.label) }}</span>
-                  <span class="text-xs text-gray-700">{{ hotKey2String(menu.hotkey) }}</span>
+                  <span class="text-xs text-gray-700 dark:text-slate-400">{{ hotKey2String(menu.hotkey) }}</span>
                 </div>
               </Button>
             </MenuItem>

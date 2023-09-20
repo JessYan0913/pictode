@@ -103,14 +103,18 @@ onUnmounted(() => {
     <div v-if="popoverVisible" :style="popoverStyle" class="absolute w-screen max-w-sm transform">
       <div
         ref="popoverRef"
-        class="absolute w-fit py-1 divide-y rounded-sm bg-gray-50 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
+        class="absolute w-fit py-1 divide-y rounded-sm bg-gray-50 dark:bg-slate-800 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
       >
         <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
             v-for="(menu, index) in menus"
             :key="index"
             class="flex items-center py-2 px-4 transition duration-150 ease-in-out"
-            :class="[menu.disable ? 'text-gray-300 cursor-default' : 'text-gray-700 hover:bg-blue-200 cursor-pointer']"
+            :class="[
+              menu.disable
+                ? 'text-gray-300 dark:text-slate-500 cursor-default'
+                : 'text-gray-700 dark:text-white hover:bg-blue-200 cursor-pointer',
+            ]"
             @click="onClickMenu(menu)"
           >
             <div class="w-full grid grid-cols-[1rem_1fr_1.5fr] gap-2 text-sm font-medium select-none">
@@ -118,7 +122,9 @@ onUnmounted(() => {
               <p>
                 {{ $t(menu.label) }}
               </p>
-              <p :class="[menu.disable ? '' : 'text-gray-400', 'text-end text-xs']">{{ menu.hotKey }}</p>
+              <p :class="[menu.disable ? '' : 'text-gray-400 dark:text-slate-400', 'text-end text-xs']">
+                {{ menu.hotKey }}
+              </p>
             </div>
           </div>
         </div>
