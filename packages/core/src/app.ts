@@ -65,6 +65,7 @@ export class App extends BaseService<EventArgs> {
 
   public mount(element: HTMLElement) {
     element.appendChild(this.containerElement);
+    element.classList.forEach((className) => this.containerElement.classList.add(className));
     this.resizeObserver.observe(this.containerElement);
   }
 
