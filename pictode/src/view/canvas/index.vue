@@ -8,6 +8,7 @@ import SelectOption from '@/components/SelectOption.vue';
 import useContextMenu from '@/hooks/useContextMenu';
 import useHotKeyActions from '@/hooks/useHotKeyActions';
 import usePictode from '@/hooks/usePictode';
+import { languages } from '@/locales';
 
 import HotKeyList from './components/HotKeyList.vue';
 import Menu from './components/Menu.vue';
@@ -21,14 +22,6 @@ const { undo, redo } = useHotKeyActions(app, selected);
 useContextMenu(app, selected);
 
 const canvasRef = ref<HTMLDivElement>();
-
-const languages = [
-  { label: '简体中文', value: 'zh-CN' },
-  { label: '繁体中文', value: 'zh-TW' },
-  { label: 'English', value: 'en' },
-];
-
-const selectedLanguage = ref(languages[0].value);
 
 const displayScale = computed<string>(() => {
   return `${Math.ceil(scale.value * 100)}%`;
@@ -72,7 +65,7 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
-          <Select v-model="selectedLanguage">
+          <Select v-model="$i18n.locale">
             <template #listbox>
               <Button class="p-1 rounded-lg hover:bg-slate-200 text-lg" :title="$t('语言')" icon="translate"> </Button>
             </template>
