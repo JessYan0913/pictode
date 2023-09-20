@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
+import Select from '@/components/Select.vue';
 import useContextMenu from '@/hooks/useContextMenu';
 import useHotKeyActions from '@/hooks/useHotKeyActions';
 import usePictode from '@/hooks/usePictode';
@@ -19,6 +20,14 @@ const { undo, redo } = useHotKeyActions(app, selected);
 useContextMenu(app, selected);
 
 const canvasRef = ref<HTMLDivElement>();
+
+const languages = [
+  { label: '简体中文', value: 'zh-CN' },
+  { label: '繁体中文', value: 'zh-TW' },
+  { label: 'English', value: 'en' },
+];
+
+const selectedLanguage = ref(languages[0]);
 
 const displayScale = computed<string>(() => {
   return `${Math.ceil(scale.value * 100)}%`;
@@ -62,6 +71,11 @@ onMounted(() => {
         <div
           class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-black bg-white ring-opacity-5 transition-shadow"
         >
+          <Select v-model="selectedLanguage" :options="languages">
+            <template #listbox>
+              <Button class="p-1 rounded-lg hover:bg-slate-200 text-lg" :title="$t('语言')" icon="translate"> </Button>
+            </template>
+          </Select>
           <Button
             class="p-1 rounded-lg hover:bg-slate-200 text-lg"
             :title="$t('帮助中心')"

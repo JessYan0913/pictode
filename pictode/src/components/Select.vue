@@ -39,16 +39,18 @@ const selected = computed<T>({
 <template>
   <Listbox v-model="selected">
     <div class="relative mt-1">
-      <slot name="listbox" :selected="selected">
-        <ListboxButton
-          class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
-        >
-          <span class="block truncate">{{ selected[label] }}</span>
-          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-          </span>
-        </ListboxButton>
-      </slot>
+      <ListboxButton>
+        <slot name="listbox" :selected="selected">
+          <div
+            class="relative w-full cursor-pointer rounded ring-1 ring-black ring-opacity-5 p-0.5 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
+          >
+            <span class="block truncate">{{ selected[label] }}</span>
+            <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+            </span>
+          </div>
+        </slot>
+      </ListboxButton>
 
       <transition
         leave-active-class="transition duration-100 ease-in"
@@ -56,7 +58,7 @@ const selected = computed<T>({
         leave-to-class="opacity-0"
       >
         <ListboxOptions
-          class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          class="absolute mt-5 mr-10 max-h-60 left-[-30px] w-fit rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <ListboxOption
             v-slot="{ active, selected }"
