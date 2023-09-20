@@ -61,7 +61,7 @@ export default {
   透明度: 'Opacité',
   边角: 'Coins',
   直角: 'Droit',
-  圆润: 'Arrondi',
+  圆角: 'Arrondi',
   边框样式: 'Style de bordure',
   实线: 'Solide',
   虚线: 'Pointillé',

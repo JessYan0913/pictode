@@ -61,7 +61,7 @@ export default {
   透明度: 'Opacity',
   边角: 'Corner',
   直角: 'Sharp',
-  圆润: 'Round',
+  圆角: 'Round',
   边框样式: 'Border Style',
   实线: 'Solid',
   虚线: 'Dashed',
