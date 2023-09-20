@@ -112,12 +112,12 @@ const handleFormChange = (value: any) => {
   <div v-if="panelFormConfig.length">
     <Form :model="panelFormModel" :config="panelFormConfig" @change="handleFormChange"></Form>
     <div v-if="showAlignButtons" class="flex flex-col content-start gap-1 px-1 py-2 select-none">
-      <label class="text-start text-sm text-gray-600">{{ $t('对齐') }}</label>
+      <label class="text-start text-sm text-gray-600 dark:text-slate-400">{{ $t('对齐') }}</label>
       <div class="flex flex-row justify-start flex-wrap gap-2">
         <div v-for="(button, index) in alignButtons" :key="index">
           <Button
             v-if="button.visible"
-            class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200"
+            class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200 dark:text-white"
             :title="$t(button.action.directions ?? '')"
             :icon="button.icon"
             @click="button.action"
@@ -130,12 +130,12 @@ const handleFormChange = (value: any) => {
       </div>
     </div>
     <div class="flex flex-col content-start gap-1 px-1 py-2 select-none">
-      <label class="text-start text-sm text-gray-600">{{ $t('层级') }}</label>
+      <label class="text-start text-sm text-gray-600 dark:text-slate-400">{{ $t('层级') }}</label>
       <div class="flex flex-row justify-start flex-wrap gap-2">
         <Button
           v-for="(button, index) in layerButtons"
           :key="index"
-          class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200"
+          class="border rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-slate-200 dark:text-white"
           :title="$t(button.action.directions ?? '')"
           :icon="button.icon"
           @click="button.action"

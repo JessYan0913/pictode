@@ -11,7 +11,6 @@ import { DEFAULT_APP_CONFIG, guid, Point } from './utils';
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public mainLayer: Konva.Layer;
-  public containerElement: HTMLDivElement;
   public config: AppConfig;
 
   private mouse: Mouse;
@@ -22,16 +21,9 @@ export class App extends BaseService<EventArgs> {
   constructor(config?: Partial<AppConfig>) {
     super();
     this.config = { ...DEFAULT_APP_CONFIG, ...config };
-    this.containerElement = document.createElement('div');
-    this.containerElement.setAttribute(
-      'style',
-      `
-      width: 100%;
-      height: 100%;
-    `
-    );
+
     this.stage = new Konva.Stage({
-      container: this.containerElement,
+      container: document.createElement('div'),
       width: 500,
       height: 500,
     });
@@ -63,10 +55,13 @@ export class App extends BaseService<EventArgs> {
     return this.tooler.currentTool;
   }
 
-  public mount(element: HTMLElement) {
-    element.appendChild(this.containerElement);
-    element.classList.forEach((className) => this.containerElement.classList.add(className));
-    this.resizeObserver.observe(this.containerElement);
+  public get containerElement(): HTMLDivElement {
+    return this.stage.container();
+  }
+
+  public mount(element: HTMLDivElement) {
+    this.stage.container(element);
+    this.resizeObserver.observe(this.stage.container());
   }
 
   public async setTool(curTool: Tool): Promise<void> {
