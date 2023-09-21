@@ -14,7 +14,7 @@ defineProps<{
       <li
         :class="[
           active ? 'bg-gray-200 dark:bg-navyBlue-100' : '',
-          'relative cursor-pointer select-none py-2 pl-10 pr-4 text-gray-900 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-navyBlue-100',
+          'relative rounded-lg cursor-pointer select-none p-2 pl-10 text-gray-900 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-navyBlue-100',
         ]"
       >
         <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{ label }}</span>

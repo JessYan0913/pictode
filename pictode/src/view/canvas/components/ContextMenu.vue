@@ -103,7 +103,7 @@ onUnmounted(() => {
     <div v-if="popoverVisible" :style="popoverStyle" class="absolute w-screen max-w-sm transform">
       <div
         ref="popoverRef"
-        class="absolute w-fit py-1 divide-y rounded-sm bg-gray-50 dark:bg-navyBlue-200 shadow-md ring-1 ring-gray-600 ring-opacity-5 focus:outline-none"
+        class="absolute w-fit py-1 divide-y rounded-sm bg-gray-50 dark:bg-navyBlue-200 shadow-md ring-1 ring-gray-600 dark:ring-navyBlue-100 ring-opacity-5 focus:outline-none"
       >
         <div v-for="(menus, index) in popoverMenuGroups" :key="index" class="py-1">
           <div
@@ -113,7 +113,7 @@ onUnmounted(() => {
             :class="[
               menu.disable
                 ? 'text-gray-300 dark:text-slate-500 cursor-default'
-                : 'text-gray-700 dark:text-gray-300 hover:bg-blue-200 cursor-pointer',
+                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-navyBlue-100 cursor-pointer',
             ]"
             @click="onClickMenu(menu)"
           >

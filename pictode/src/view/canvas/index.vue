@@ -93,6 +93,7 @@ onMounted(() => {
                 :key="index"
                 :value="value"
                 :label="label"
+                class="p-1"
               ></SelectOption>
             </div>
           </Select>

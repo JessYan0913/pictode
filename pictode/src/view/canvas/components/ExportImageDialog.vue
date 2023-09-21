@@ -38,14 +38,15 @@ const dialogVisible = computed<boolean>({
   },
 });
 
-const formats = [
+const formatOptions = [
   { label: 'PNG', value: MimeType.PNG, format: 'png' },
   { label: 'JPEG', value: MimeType.JPEG, format: 'jpeg' },
 ];
+const pixelRatioOptions = [1, 2, 3];
 
 const haveBackground = ref<boolean>(true);
 const pixelRatio = ref<number>(2);
-const selectedFormatValue = ref(formats[0].value);
+const selectedFormatValue = ref(formatOptions[0].value);
 
 const imgSrc = ref<string>('');
 
@@ -67,7 +68,7 @@ const onDownload = async () => {
     () => {
       return imgSrc.value;
     },
-    () => `Pictode-${new Date()}.${formats.find((item) => item.value === selectedFormatValue.value)?.format}`,
+    () => `Pictode-${new Date()}.${formatOptions.find((item) => item.value === selectedFormatValue.value)?.format}`,
     selectedFormatValue.value,
     'utf-8',
     true
@@ -108,12 +109,26 @@ onMounted(() => {
           <label>{{ $t('缩放比') }}</label>
           <RadioGroup
             v-model="pixelRatio"
-            class="rounded ring-1 w-24 ring-slate-950 dark:ring-navyBlue-100 p-0.5"
+            class="rounded-lg ring-1 w-24 ring-slate-950 dark:ring-navyBlue-100 p-0.5"
             @change="updateImgSrc"
           >
-            <RadioGroupOption :value="1" class="font-mono text-xs">{{ '1x' }}</RadioGroupOption>
-            <RadioGroupOption :value="2" class="font-mono text-xs">{{ '2x' }}</RadioGroupOption>
-            <RadioGroupOption :value="3" class="font-mono text-xs">{{ '3x' }}</RadioGroupOption>
+            <RadioGroupOption
+              v-for="(pixel, index) in pixelRatioOptions"
+              :key="index"
+              :value="pixel"
+              class="font-mono text-xs"
+            >
+              <template #default="{ checked }">
+                <div
+                  :class="[
+                    'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
+                    checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
+                  ]"
+                >
+                  {{ `${pixel}x` }}
+                </div>
+              </template>
+            </RadioGroupOption>
           </RadioGroup>
         </div>
         <div class="flex flex-row justify-between items-center">
@@ -121,10 +136,10 @@ onMounted(() => {
           <Select v-model="selectedFormatValue" class="w-24" @change="updateImgSrc">
             <template #listbox>
               <div
-                class="relative w-full cursor-pointer rounded ring-1 ring-slate-950 dark:ring-navyBlue-100 py-2 pl-2 pr-6 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
+                class="relative w-full cursor-pointer rounded-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 py-2 pl-2 pr-6 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm"
               >
                 <span class="block truncate">{{
-                  formats.find((item) => item.value === selectedFormatValue)?.label
+                  formatOptions.find((item) => item.value === selectedFormatValue)?.label
                 }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon class="h-3 w-3 text-gray-400" aria-hidden="true" />
@@ -132,13 +147,14 @@ onMounted(() => {
               </div>
             </template>
             <div
-              class="absolute mt-1 mr-10 max-h-60 w-fit rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              class="absolute mt-3 max-h-60 w-fit rounded-lg bg-white dark:bg-navyBlue-200 py-1 text-base shadow-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 focus:outline-none sm:text-sm"
             >
               <SelectOption
-                v-for="({ label, value }, index) in formats"
+                v-for="({ label, value }, index) in formatOptions"
                 :key="index"
                 :value="value"
                 :label="label"
+                class="p-1 w-24"
               ></SelectOption>
             </div>
           </Select>
