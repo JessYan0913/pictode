@@ -14,6 +14,11 @@ export const routes: RouteRecordRaw[] = [
     name: 'Canvas',
     component: () => import('../view/canvas/index.vue'),
   },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../view/about/index.vue'),
+  },
 ];
 
 const router = createRouter({
