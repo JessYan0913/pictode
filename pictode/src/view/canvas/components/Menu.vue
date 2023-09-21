@@ -74,10 +74,15 @@ const menuGroups: MenuConfig[][] = [
           class="absolute mt-2 w-60 p-1 divide-y rounded-lg bg-white dark:bg-navyBlue-200 shadow-md ring-1 ring-slate-950 dark:ring-navyBlue-100 focus:outline-none"
         >
           <div v-for="(menus, index) in menuGroups" :key="index" class="px-1 py-1">
-            <MenuItem v-slot="{ active }" v-for="(menu, index) in menus" :key="index">
+            <MenuItem
+              v-slot="{ active }"
+              v-for="(menu, index) in menus"
+              :key="index"
+              class="hover:bg-gray-200 dark:hover:bg-navyBlue-100"
+            >
               <Button
                 :class="[
-                  active ? 'bg-blue-100' : 'text-gray-900',
+                  active ? 'bg-blue-100' : 'text-gray-900 ',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm dark:text-gray-300',
                 ]"
                 :title="$t(menu.label)"
