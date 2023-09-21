@@ -53,7 +53,7 @@ watch(
         <template #default="{ checked }">
           <div
             :class="[
-              'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
+              'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 text-slate-900 dark:text-gray-300',
               checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
             ]"
           >

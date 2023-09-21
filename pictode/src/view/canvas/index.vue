@@ -86,7 +86,7 @@ onMounted(() => {
               </Button>
             </template>
             <div
-              class="absolute mt-3 mr-10 max-h-60 left-[-30px] w-fit rounded-lg bg-white dark:bg-navyBlue-200 py-1 text-base shadow-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 focus:outline-none sm:text-sm"
+              class="absolute z-50 mt-3 mr-10 max-h-60 left-[-30px] w-fit rounded-lg bg-white dark:bg-navyBlue-200 py-1 text-base shadow-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 focus:outline-none sm:text-sm"
             >
               <SelectOption
                 v-for="({ label, value }, index) in languages"
