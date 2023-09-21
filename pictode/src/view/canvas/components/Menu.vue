@@ -59,7 +59,10 @@ const menuGroups: MenuConfig[][] = [
 <template>
   <Menu as="div">
     <MenuButton class="outline-none flex justify-start">
-      <iconpark-icon name="logo" width="3rem" height="3rem"></iconpark-icon>
+      <iconpark-icon
+        name="hamburger"
+        class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 text-lg dark:text-gray-300"
+      ></iconpark-icon>
     </MenuButton>
     <transition
       enter-active-class="transition duration-100 ease-out"
