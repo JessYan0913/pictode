@@ -71,7 +71,7 @@ onMounted(() => {
           class="grid grid-flow-col gap-1 items-center w-full pointer-events-auto rounded-lg p-1 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
         >
           <Button
-            class="p-2 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 text-lg dark:text-gray-300"
             icon="sun"
             @click="onTriggerTheme"
           >
@@ -79,7 +79,7 @@ onMounted(() => {
           <Select v-model="$i18n.locale">
             <template #listbox>
               <Button
-                class="p-2 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
+                class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 text-lg dark:text-gray-300"
                 :title="$t('语言')"
                 icon="translate"
               >
@@ -97,7 +97,7 @@ onMounted(() => {
             </div>
           </Select>
           <Button
-            class="p-2 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 text-lg dark:text-gray-300"
             :title="$t('帮助中心')"
             icon="helpcenter"
             @click="hotKeyList({})"
@@ -115,7 +115,7 @@ onMounted(() => {
           class="grid grid-flow-col gap-1 items-center w-full pointer-events-auto rounded-lg p-1 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
         >
           <Button
-            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
             icon="minus"
             :title="$t('缩小')"
             @click="onClickZoomOut"
@@ -124,7 +124,7 @@ onMounted(() => {
             {{ displayScale }}
           </div>
           <Button
-            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
             icon="plus"
             :title="$t('放大')"
             @click="onClickZoomIn"
@@ -134,13 +134,13 @@ onMounted(() => {
           class="grid grid-flow-col gap-1 items-center w-full pointer-events-auto rounded-lg p-1 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
         >
           <Button
-            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
             icon="undo"
             :title="$t('撤销')"
             @click="onClickUndo"
           ></Button>
           <Button
-            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
             icon="redo"
             :title="$t('重做')"
             @click="onClickRedo"

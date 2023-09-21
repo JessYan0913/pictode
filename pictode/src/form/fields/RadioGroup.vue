@@ -48,13 +48,13 @@ watch(
         :key="index"
         :value="option.value"
         :title="$t(option.title ?? '')"
-        class="rounded-lg inline-flex items-center relative cursor-pointer select-none hover:bg-gray-200"
+        class="rounded-lg inline-flex items-center relative cursor-pointer select-none"
       >
         <template #default="{ checked }">
           <div
             :class="[
               'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
-              checked ? 'bg-blue-500' : 'hover:bg-gray-200',
+              checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
             ]"
           >
             <iconpark-icon

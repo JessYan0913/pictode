@@ -117,7 +117,7 @@ const handleFormChange = (value: any) => {
         <div v-for="(button, index) in alignButtons" :key="index">
           <Button
             v-if="button.visible"
-            class="rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-gray-200 dark:text-gray-300"
+            class="rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
             :title="$t(button.action.directions ?? '')"
             :icon="button.icon"
             @click="button.action"
@@ -135,7 +135,7 @@ const handleFormChange = (value: any) => {
         <Button
           v-for="(button, index) in layerButtons"
           :key="index"
-          class="rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-gray-200 dark:text-gray-300"
+          class="rounded-lg inline-flex items-center relative cursor-pointer select-none p-2 hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
           :title="$t(button.action.directions ?? '')"
           :icon="button.icon"
           @click="button.action"

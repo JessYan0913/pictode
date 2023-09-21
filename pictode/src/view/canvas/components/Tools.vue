@@ -231,7 +231,7 @@ watchEffect(() => {
         <div
           :class="[
             'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
-            checked ? 'bg-blue-500' : 'hover:bg-gray-200',
+            checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
           ]"
         >
           <iconpark-icon :name="item.icon" :stroke="strokeColor"></iconpark-icon>
