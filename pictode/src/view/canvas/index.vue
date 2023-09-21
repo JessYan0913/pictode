@@ -16,7 +16,7 @@ import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
-const { triggerTheme } = useTheme();
+const { triggerTheme, theme } = useTheme();
 
 const { app, selected, scale } = usePictode();
 
@@ -72,7 +72,7 @@ onMounted(() => {
         >
           <Button
             class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 text-lg dark:text-gray-300"
-            icon="sun"
+            :icon="theme === 'dark' ? 'sun' : 'moon'"
             @click="onTriggerTheme"
           >
           </Button>
