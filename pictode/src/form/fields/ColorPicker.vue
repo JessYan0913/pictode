@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue';
-import { ElColorPicker } from 'element-plus';
 
 import { ColorPickerConfig, FormValue } from '../types';
 
@@ -37,7 +36,7 @@ watch(
 
 <template>
   <div class="w-7 h-7">
-    <ElColorPicker
+    <input
       v-model="colors"
       show-alpha
       color-format="hex"
