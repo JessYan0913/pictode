@@ -11,6 +11,10 @@
       "require": "./dist/pictode-core.umd.js"
     }
   },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
   "scripts": {
     "build": "npm run build:type && vite build",
     "build:type": "npm run clear:type && tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
