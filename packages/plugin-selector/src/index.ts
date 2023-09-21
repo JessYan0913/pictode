@@ -11,24 +11,24 @@ const DEFAULT_OPTIONS: Options = {
   transformer: {
     padding: 6,
     ignoreStroke: true,
-    borderStroke: 'rgb(143, 191, 255)',
+    borderStroke: '#4e86e3',
     borderStrokeWidth: 1,
     borderDash: [3, 3],
     anchorSize: 8,
-    anchorStroke: 'rgb(143, 191, 255)',
+    anchorStroke: '#4e86e3',
     anchorCornerRadius: 3,
     anchorStrokeWidth: 1,
     rotateAnchorOffset: 20,
   },
   hightLight: {
     padding: 3,
-    stroke: 'rgb(143, 191, 255)',
+    stroke: '#4e86e3',
     strokeWidth: 1,
   },
   rubber: {
-    stroke: 'rgb(143, 191, 255)',
+    stroke: '#4e86e3',
     strokeWidth: 1,
-    fill: 'rgba(143, 191, 255, 0.5)',
+    fill: '#4e86e350',
   },
 };
 
