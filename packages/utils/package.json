@@ -1,7 +1,7 @@
 {
   "name": "@pictode/utils",
   "private": false,
-  "version": "0.0.1-beta01",
+  "version": "0.0.1-beta02",
   "main": "dist/pictode-utils.umd.js",
   "module": "dist/pictode-utils.mjs",
   "types": "types/index.d.ts",
@@ -12,7 +12,8 @@
     }
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "types/**/*"
   ],
   "scripts": {
     "build": "npm run build:type && vite build",
