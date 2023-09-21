@@ -68,10 +68,10 @@ onMounted(() => {
       </section>
       <section class="row-start-1 col-start-3 justify-self-end">
         <div
-          class="grid grid-flow-col gap-4 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
+          class="grid grid-flow-col gap-1 items-center w-full pointer-events-auto rounded-lg p-1 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
         >
           <Button
-            class="p-1 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
             icon="sun"
             @click="onTriggerTheme"
           >
@@ -79,7 +79,7 @@ onMounted(() => {
           <Select v-model="$i18n.locale">
             <template #listbox>
               <Button
-                class="p-1 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
+                class="p-2 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
                 :title="$t('语言')"
                 icon="translate"
               >
@@ -97,7 +97,7 @@ onMounted(() => {
             </div>
           </Select>
           <Button
-            class="p-1 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 text-lg dark:text-gray-300"
             :title="$t('帮助中心')"
             icon="helpcenter"
             @click="hotKeyList({})"
@@ -112,10 +112,10 @@ onMounted(() => {
       </section>
       <section class="row-start-3 col-start-1 justify-self-start flex flex-row gap-2">
         <div
-          class="grid grid-flow-col gap-2 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
+          class="grid grid-flow-col gap-1 items-center w-full pointer-events-auto rounded-lg p-1 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
         >
           <Button
-            class="p-1 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
             icon="minus"
             :title="$t('缩小')"
             @click="onClickZoomOut"
@@ -124,23 +124,23 @@ onMounted(() => {
             {{ displayScale }}
           </div>
           <Button
-            class="p-1 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
             icon="plus"
             :title="$t('放大')"
             @click="onClickZoomIn"
           ></Button>
         </div>
         <div
-          class="grid grid-flow-col gap-2 items-center w-full pointer-events-auto rounded-lg p-2 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
+          class="grid grid-flow-col gap-1 items-center w-full pointer-events-auto rounded-lg p-1 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
         >
           <Button
-            class="p-1 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
             icon="undo"
             :title="$t('撤销')"
             @click="onClickUndo"
           ></Button>
           <Button
-            class="p-1 rounded-lg hover:bg-gray-200 dark:text-gray-300"
+            class="p-2 rounded-lg hover:bg-gray-200 dark:text-gray-300"
             icon="redo"
             :title="$t('重做')"
             @click="onClickRedo"
