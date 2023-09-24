@@ -226,17 +226,19 @@ watchEffect(() => {
 
 <template>
   <RadioGroup v-model="currentTool">
-    <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="$t(item.title)">
-      <template #default="{ checked }">
-        <div
-          :class="[
-            'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
-            checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
-          ]"
-        >
-          <iconpark-icon :name="item.icon" :stroke="strokeColor"></iconpark-icon>
-        </div>
-      </template>
-    </RadioGroupOption>
+    <div class="flex flex-grow justify-around flex-wrap">
+      <RadioGroupOption v-for="(item, index) in tools" :key="index" :value="item.name" :title="$t(item.title)">
+        <template #default="{ checked }">
+          <div
+            :class="[
+              'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
+              checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
+            ]"
+          >
+            <iconpark-icon :name="item.icon" :stroke="strokeColor"></iconpark-icon>
+          </div>
+        </template>
+      </RadioGroupOption>
+    </div>
   </RadioGroup>
 </template>

@@ -58,7 +58,7 @@ const menuGroups: MenuConfig[][] = [
 
 <template>
   <Menu as="div">
-    <MenuButton class="outline-none flex justify-start">
+    <MenuButton class="outline-none flex justify-start dark:bg-navyBlue-200 rounded-lg">
       <iconpark-icon
         name="hamburger"
         class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 text-lg dark:text-gray-300"
