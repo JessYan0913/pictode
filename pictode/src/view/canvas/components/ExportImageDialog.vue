@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 import { ChevronUpDownIcon } from '@heroicons/vue/24/solid';
 import { injectStrict } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
 import Dialog from '@/components/Dialog.vue';
-import RadioGroup from '@/components/RadioGroup.vue';
-import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import Select from '@/components/Select.vue';
 import SelectOption from '@/components/SelectOption.vue';
 import Switch from '@/components/Switch.vue';
@@ -112,23 +111,25 @@ onMounted(() => {
             class="rounded-lg ring-1 w-24 ring-slate-950 dark:ring-navyBlue-100 p-0.5"
             @change="updateImgSrc"
           >
-            <RadioGroupOption
-              v-for="(pixel, index) in pixelRatioOptions"
-              :key="index"
-              :value="pixel"
-              class="font-mono text-xs"
-            >
-              <template #default="{ checked }">
-                <div
-                  :class="[
-                    'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
-                    checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
-                  ]"
-                >
-                  {{ `${pixel}x` }}
-                </div>
-              </template>
-            </RadioGroupOption>
+            <div class="flex flex-grow justify-around flex-wrap">
+              <RadioGroupOption
+                v-for="(pixel, index) in pixelRatioOptions"
+                :key="index"
+                :value="pixel"
+                class="font-mono text-xs"
+              >
+                <template #default="{ checked }">
+                  <div
+                    :class="[
+                      'rounded-lg inline-flex items-center relative cursor-pointer select-none p-2',
+                      checked ? 'bg-blue-500' : 'hover:bg-gray-200 dark:hover:bg-navyBlue-100',
+                    ]"
+                  >
+                    {{ `${pixel}x` }}
+                  </div>
+                </template>
+              </RadioGroupOption>
+            </div>
           </RadioGroup>
         </div>
         <div class="flex flex-row justify-between items-center">

@@ -1,8 +1,7 @@
 <script setup lang="ts" generic="T extends string | number | boolean | Record<string|number, any> | undefined">
 import { computed, ref, toRefs, watch } from 'vue';
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 
-import RadioGroup from '@/components/RadioGroup.vue';
-import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import useTheme from '@/hooks/useTheme';
 
 import { FormValue, RadioGroupConfig } from '../types';

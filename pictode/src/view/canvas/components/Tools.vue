@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watchEffect } from 'vue';
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 import { Tool, util } from '@pictode/core';
 import {
   DiamondTool,
@@ -15,8 +16,6 @@ import {
 import { injectStrict } from '@pictode/vue-aide';
 
 import round from '@/assets/images/round.svg';
-import RadioGroup from '@/components/RadioGroup.vue';
-import RadioGroupOption from '@/components/RadioGroupOption.vue';
 import { PictodeAppKey } from '@/constants/inject-key';
 import useTheme from '@/hooks/useTheme';
 
