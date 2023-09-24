@@ -7,12 +7,12 @@ export const rectPanelConfig: PanelConfig = {
     {
       name: 'stroke',
       label: '描边',
-      type: 'ColorPicker',
+      type: 'Color',
     },
     {
       name: 'fill',
       label: '填充',
-      type: 'ColorPicker',
+      type: 'Color',
     },
     {
       name: 'strokeWidth',

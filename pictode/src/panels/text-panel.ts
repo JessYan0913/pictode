@@ -7,7 +7,7 @@ export const textPanelConfig: PanelConfig = {
     {
       name: 'fill',
       label: '填充',
-      type: 'ColorPicker',
+      type: 'Color',
     },
     {
       name: 'fontSize',
@@ -44,7 +44,7 @@ export const textPanelConfig: PanelConfig = {
     {
       name: 'stroke',
       label: '描边',
-      type: 'ColorPicker',
+      type: 'Color',
     },
     {
       name: 'strokeWidth',

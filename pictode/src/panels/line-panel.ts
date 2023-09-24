@@ -7,7 +7,7 @@ export const linePanelConfig: PanelConfig = {
     {
       name: 'stroke',
       label: '描边',
-      type: 'ColorPicker',
+      type: 'Color',
     },
     {
       name: 'strokeWidth',
