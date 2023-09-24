@@ -251,6 +251,7 @@ importers:
       tailwind-scrollbar: ^3.0.5
       tailwindcss: ^3.3.3
       typescript: ^4.9.3
+      vanilla-colorful: ^0.7.2
       vite: ^4.0.0
       vite-plugin-glsl: ^1.1.2
       vite-plugin-vue-setup-extend: ^0.4.0
@@ -274,6 +275,7 @@ importers:
       hls.js: 1.4.11
       pinia: 2.1.6_typescript@4.9.5+vue@3.3.4
       pinia-plugin-persistedstate: 3.2.0_pinia@2.1.6
+      vanilla-colorful: 0.7.2
       vue: 3.3.4
       vue-i18n: 9.4.1_vue@3.3.4
       vue-router: 4.2.4_vue@3.3.4
@@ -1405,7 +1407,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.8_@types+node@18.17.3
+      vite: 4.4.8_sass@1.66.1
       vue: 3.3.4
     dev: true
 
@@ -6652,6 +6654,10 @@ packages:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
     dev: true
+
+  /vanilla-colorful/0.7.2:
+    resolution: {integrity: sha512-z2YZusTFC6KnLERx1cgoIRX2CjPRP0W75N+3CC6gbvdX5Ch47rZkEMGO2Xnf+IEmi3RiFLxS18gayMA27iU7Kg==}
+    dev: false
 
   /vite-node/0.26.3_@types+node@18.17.3:
     resolution: {integrity: sha512-Te2bq0Bfvq6XiO718I+1EinMjpNYKws6SNHKOmVbILAQimKoZKDd+IZLlkaYcBXPpK3HFe2U80k8Zw+m3w/a2w==}

@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
         template: {
           compilerOptions: {
             isCustomElement: (tag) => {
-              return tag.includes('iconpark-icon');
+              return tag.includes('iconpark-icon') || tag.includes('-color-picker');
             },
           },
         },

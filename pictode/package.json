@@ -26,6 +26,7 @@
     "hls.js": "^1.4.4",
     "pinia": "^2.0.28",
     "pinia-plugin-persistedstate": "^3.0.2",
+    "vanilla-colorful": "^0.7.2",
     "vue": "^3.3.4",
     "vue-i18n": "^9.4.1",
     "vue-router": "^4.1.6"
