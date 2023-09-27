@@ -1,0 +1,34 @@
+{
+  "name": "@pictode/plugin-alignment",
+  "private": false,
+  "version": "0.0.1-beta02",
+  "main": "dist/pictode-plugin-alignment.umd.js",
+  "module": "dist/pictode-plugin-alignment.mjs",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/pictode-plugin-alignment.mjs",
+      "require": "./dist/pictode-plugin-alignment.umd.js"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
+  "scripts": {
+    "build": "npm run build:type && vite build",
+    "build:type": "npm run clear:type && tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
+    "clear:type": "rimraf ./types"
+  },
+  "dependencies": {
+    "@pictode/core": "^0.0.1-beta02",
+    "@pictode/utils": "^0.0.1-beta02",
+    "dot": "2.0.0-beta.1",
+    "rimraf": "^3.0.2",
+    "roughjs": "^4.5.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}

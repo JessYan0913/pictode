@@ -1,13 +1,15 @@
-import { KonvaMouseEvent, KonvaNode } from '@pictode/core';
+import { Konva, KonvaMouseEvent, KonvaNode } from '@pictode/core';
 
 import { SelectorPlugin } from './index';
 
 declare module '@pictode/core' {
   export interface App {
-    select(...nodes: KonvaNode[]): void;
-    cancelSelect(...nodes: KonvaNode[]): void;
-    selectByEvent(event: KonvaMouseEvent): void;
-    selectAll(): void;
+    select(...nodes: KonvaNode[]): App;
+    cancelSelect(...nodes: KonvaNode[]): App;
+    selectByEvent(event: KonvaMouseEvent): App;
+    selectAll(): App;
+    triggerSelector(enabled?: boolean): App;
+    isSelected(node: KonvaNode): boolean;
   }
 
   export interface EventArgs {
@@ -23,7 +25,30 @@ declare module '@pictode/core' {
   }
 }
 
+export type HightLightConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'dash'> & {
+  padding?: number;
+};
+
+export type TransformerConfig = Pick<
+  Konva.TransformerConfig,
+  | 'padding'
+  | 'ignoreStroke'
+  | 'borderStroke'
+  | 'borderStrokeWidth'
+  | 'borderDash'
+  | 'anchorSize'
+  | 'anchorStroke'
+  | 'anchorCornerRadius'
+  | 'anchorStrokeWidth'
+  | 'rotateAnchorOffset'
+>;
+
+export type RubberConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'fill'>;
+
 export interface Options {
-  enable?: boolean;
-  multipleSelect?: boolean;
+  enabled: boolean;
+  multipleSelect: boolean;
+  transformer: TransformerConfig;
+  hightLight: HightLightConfig;
+  rubber: RubberConfig;
 }

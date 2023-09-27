@@ -2,20 +2,32 @@ import { App, EventArgs, KonvaNode, Plugin } from '@pictode/core';
 
 import './methods';
 
-import { AddObjectCmd, ModifiedObjectCmd, MoveZIndexObjectCmd, RemoveObjectCmd } from './commands';
+import {
+  AddObjectCmd,
+  DecomposeGroupCmd,
+  MakeGroupCmd,
+  ModifiedObjectCmd,
+  MoveZIndexObjectCmd,
+  RemoveObjectCmd,
+} from './commands';
 import { History } from './history';
 import { Options } from './types';
+
+const DEFAULT_OPTIONS: Options = {
+  enabled: true,
+  stackSize: 100,
+};
 
 export class HistoryPlugin implements Plugin {
   public name: string = 'historyPlugin';
   public history?: History;
   public app?: App;
-  public options?: Options;
+  public options: Options;
 
   private oldNodes: KonvaNode[] = [];
 
-  constructor(options?: Options) {
-    this.options = options;
+  constructor(options?: Partial<Options>) {
+    this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
   public install(app: App) {
@@ -26,6 +38,8 @@ export class HistoryPlugin implements Plugin {
     this.app.on('node:removed', this.onNodeRemove);
     this.app.on('node:update:before', this.onNodeUpdateBefore);
     this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
+    this.app.on('node:group:make', this.onMakeGroup);
+    this.app.on('node:group:decompose', this.onDecomposeGroup);
     this.app.on('node:updated', this.onNodeUpdated);
   }
 
@@ -35,6 +49,8 @@ export class HistoryPlugin implements Plugin {
     this.app?.off('node:removed', this.onNodeRemove);
     this.app?.off('node:update:before', this.onNodeUpdateBefore);
     this.app?.off('node:updated', this.onNodeUpdated);
+    this.app?.off('node:group:make', this.onMakeGroup);
+    this.app?.off('node:group:decompose', this.onDecomposeGroup);
     this.app?.emit('history:destroy', {
       history: this,
     });
@@ -44,18 +60,20 @@ export class HistoryPlugin implements Plugin {
     if (!this.history) {
       return;
     }
-    this.history.enable = true;
+    this.options.enabled = true;
+    this.history.enabled = true;
   }
 
   public disable(): void {
     if (!this.history) {
       return;
     }
-    this.history.enable = false;
+    this.options.enabled = false;
+    this.history.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return this.history?.enable ?? false;
+    return this.options.enabled && (this.history?.enabled ?? false);
   }
 
   private onNodeAdded = ({ nodes }: EventArgs['node:added']) => {
@@ -93,6 +111,20 @@ export class HistoryPlugin implements Plugin {
       return;
     }
     this.history.execute(new MoveZIndexObjectCmd(this.app, { nodes }));
+  };
+
+  private onMakeGroup = ({ nodes, group }: EventArgs['node:group:make']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(new MakeGroupCmd(this.app, { nodes, group }));
+  };
+
+  private onDecomposeGroup = ({ nodes, group }: EventArgs['node:group:decompose']) => {
+    if (!this.app || !this.history) {
+      return;
+    }
+    this.history.execute(new DecomposeGroupCmd(this.app, { nodes, group }));
   };
 }
 

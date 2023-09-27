@@ -1,7 +1,7 @@
 {
   "name": "@pictode/core",
   "private": false,
-  "version": "0.0.1-beta01",
+  "version": "0.0.1-beta02",
   "main": "dist/pictode-core.umd.js",
   "module": "dist/pictode-core.mjs",
   "types": "types/index.d.ts",
@@ -11,13 +11,17 @@
       "require": "./dist/pictode-core.umd.js"
     }
   },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
   "scripts": {
     "build": "npm run build:type && vite build",
     "build:type": "npm run clear:type && tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
     "clear:type": "rimraf ./types"
   },
   "dependencies": {
-    "@pictode/utils": "^0.0.1-beta01",
+    "@pictode/utils": "^0.0.1-beta02",
     "dot": "2.0.0-beta.1",
     "konva": "^9.2.0",
     "rimraf": "^3.0.2",

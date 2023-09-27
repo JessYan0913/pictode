@@ -89,3 +89,11 @@ export const pointInConvexPolygon = (point: Point, area: Point[]): boolean => {
 
   return inInside;
 };
+
+export const getMiddleValue = (array: number[]): number => {
+  array.sort(function (a, b) {
+    return a - b;
+  });
+  let middle = Math.floor(array.length / 2);
+  return array[middle];
+};

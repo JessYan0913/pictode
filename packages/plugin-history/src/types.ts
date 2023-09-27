@@ -1,4 +1,4 @@
-import { KonvaNode } from '@pictode/core';
+import { Konva, KonvaNode } from '@pictode/core';
 
 import { HistoryPlugin } from './index';
 
@@ -55,11 +55,16 @@ export namespace Cmd {
       newZIndex: number;
     }[];
   }
-}
 
-export interface Options {
-  enable?: boolean;
-  stackSize?: number;
+  export interface MakeGroupOptions {
+    group: Konva.Group;
+    nodes: KonvaNode[];
+  }
+
+  export interface DecomposeGroupOptions {
+    group: Konva.Group;
+    nodes: KonvaNode[];
+  }
 }
 
 export interface Command<T extends Cmd.Options = Cmd.Options> {
@@ -73,4 +78,9 @@ export interface Command<T extends Cmd.Options = Cmd.Options> {
 export interface CmdStack {
   undoStack: Command[];
   redoStack: Command[];
+}
+
+export interface Options {
+  enabled: boolean;
+  stackSize: number;
 }

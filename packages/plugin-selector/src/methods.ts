@@ -37,3 +37,19 @@ App.prototype.selectAll = function (): App {
   }
   return this;
 };
+
+App.prototype.triggerSelector = function (enabled?: boolean): App {
+  const selectorPlugin = this.getPlugin('selectorPlugin') as SelectorPlugin;
+  if (selectorPlugin) {
+    selectorPlugin.selector?.triggerSelector(enabled);
+  }
+  return this;
+};
+
+App.prototype.isSelected = function (node: KonvaNode): boolean {
+  const selectorPlugin = this.getPlugin('selectorPlugin') as SelectorPlugin;
+  if (selectorPlugin) {
+    return selectorPlugin.selector?.isSelected(node) ?? false;
+  }
+  return false;
+};

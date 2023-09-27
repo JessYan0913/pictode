@@ -1,47 +1,56 @@
 import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 
-import { Options } from './types';
+import { HightLightConfig, Options, RubberConfig, TransformerConfig } from './types';
+
+interface HightLightRect {
+  rect: Konva.Rect;
+  transformHandler: (...args: any) => any;
+}
 
 export class Selector {
   public app: App;
   public selected: Map<number | string, KonvaNode>;
   public optionLayer: Konva.Layer;
-  public enable: boolean;
+  public enabled: boolean;
   public multipleSelect: boolean;
+  public hightLightConfig: HightLightConfig;
+  public transformerConfig: TransformerConfig;
+  public rubberConfig: RubberConfig;
 
   private transformer: Konva.Transformer;
   private rubberRect: Konva.Rect;
   private rubberStartPoint: util.Point = new util.Point(0, 0);
   private rubberEnable: boolean = false;
+  private hightLightRects: Map<string, HightLightRect>;
 
-  constructor(app: App, options?: Options) {
-    const { enable = true, multipleSelect = false } = options ?? {};
+  constructor(app: App, options: Options) {
+    const { enabled, multipleSelect, transformer, hightLight, rubber } = options;
     this.app = app;
     this.selected = new Map();
-    this.enable = enable;
+    this.hightLightRects = new Map();
+    this.enabled = enabled;
     this.multipleSelect = multipleSelect;
+    this.transformerConfig = transformer;
+    this.hightLightConfig = hightLight;
+    this.rubberConfig = rubber;
 
     this.optionLayer = new Konva.Layer();
     this.optionLayer.name('pictode:option:layer');
     this.app.stage.add(this.optionLayer);
 
     this.transformer = new Konva.Transformer({
-      padding: 3,
-      ignoreStroke: true,
-      borderStroke: 'rgb(157, 157, 231)',
-      borderStrokeWidth: 1,
-      anchorSize: 8,
-      anchorStroke: 'rgb(157, 157, 231)',
-      anchorCornerRadius: 3,
-      anchorStrokeWidth: 1,
-      rotateAnchorOffset: 20,
+      ...this.transformerConfig,
+      shouldOverdrawWholeArea: false, // 空白区域是否支持鼠标事件
+      flipEnabled: false,
     });
     this.transformer.anchorStyleFunc((anchor) => {
       if (
         ['middle-left', 'middle-right', 'top-center', 'bottom-center'].some((anchorName) =>
           anchor.hasName(anchorName)
         ) &&
-        ([...this.selected.values()]?.[0] instanceof Konva.Text || this.selected.size > 1)
+        ([...this.selected.values()]?.[0] instanceof Konva.Text ||
+          [...this.selected.values()]?.[0] instanceof Konva.Group ||
+          this.selected.size > 1)
       ) {
         anchor.visible(false);
       }
@@ -53,20 +62,20 @@ export class Selector {
         anchorStage.content.style.cursor = cursor;
       };
       anchor.on('mousedown', () => {
-        this.enable = false;
+        this.enabled = false;
       });
       anchor.on('mouseup', () => {
-        this.enable = true;
+        this.enabled = true;
       });
       anchor.on('mouseenter', () => {
-        this.enable = false;
+        this.enabled = false;
         if (!anchor.hasName('rotater')) {
           return;
         }
         setAnchorCursor('grabbing');
       });
       anchor.on('mouseout', () => {
-        this.enable = true;
+        this.enabled = true;
         if (!anchor.hasName('rotater')) {
           return;
         }
@@ -77,9 +86,9 @@ export class Selector {
     this.optionLayer.add(this.transformer);
 
     this.rubberRect = new Konva.Rect({
-      stroke: 'rgb(157, 157, 231)',
-      fill: 'rgba(157, 157, 231, 0.5)',
-      strokeWidth: 2,
+      stroke: this.rubberConfig.stroke,
+      fill: this.rubberConfig.fill,
+      strokeWidth: this.rubberConfig.strokeWidth,
       strokeScaleEnabled: false,
     });
     this.optionLayer.add(this.rubberRect);
@@ -96,26 +105,28 @@ export class Selector {
     this.app.on('mouse:out', this.onMouseOut);
   }
 
+  private handleNodeRemoved = ({ target }: any): void => {
+    this.cancelSelect(target);
+    target.off('removed', this.handleNodeRemoved);
+  };
+
   public select(...nodes: KonvaNode[]): void {
-    if (!this.enable) {
+    if (!this.enabled) {
       return;
     }
     if (util.shapeArrayEqual(nodes, [...this.selected.values()])) {
       return;
     }
     this.cancelSelect();
-    const handleNodeRemoved = (node: KonvaNode) => {
-      this.cancelSelect(node);
-      node.off('removed');
-    };
     this.transformer.nodes(
       nodes.filter((node) => {
         node.draggable(true);
+        node.on<'removed'>('removed', this.handleNodeRemoved);
         this.selected.set(node.id(), node);
-        node.on<'removed'>('removed', () => handleNodeRemoved(node));
         return node !== this.rubberRect;
       })
     );
+    this.setHightRect(...nodes);
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -127,11 +138,12 @@ export class Selector {
     if (nodes.length === 0) {
       nodes = [...this.selected.values()];
     }
-    const removed = nodes.map((node) => {
+    nodes.forEach((node) => {
       node.draggable(false);
-      return node.id();
+      node.off('removed', this.handleNodeRemoved);
+      this.selected.delete(node.id());
     });
-    removed.forEach((id) => this.selected.delete(id));
+    this.removeHightRect(...nodes);
     this.transformer.nodes([...this.selected.values()]);
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -142,11 +154,11 @@ export class Selector {
 
   public triggerSelector(enable?: boolean): void {
     if (enable === void 0) {
-      this.enable = !this.enable;
+      this.enabled = !this.enabled;
     } else {
-      this.enable = enable;
+      this.enabled = enable;
     }
-    if (!this.enable) {
+    if (!this.enabled) {
       this.rubberEnable = false;
     }
   }
@@ -162,6 +174,108 @@ export class Selector {
     y: number;
   } {
     return this.transformer.getClientRect();
+  }
+
+  private setHightRect(...nodes: KonvaNode[]) {
+    this.hightLightRects = nodes.reduce((hightRects, node) => {
+      const rect = new Konva.Rect({
+        stroke: this.hightLightConfig.stroke,
+        strokeWidth: this.hightLightConfig.strokeWidth,
+        dash: this.hightLightConfig.dash,
+        fillEnabled: false,
+        strokeScaleEnabled: false,
+      });
+      this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
+      this.optionLayer.add(rect);
+
+      const transformHandler = () =>
+        requestAnimationFrame(() => this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
+
+      node.on('dragmove transform xChange yChange', transformHandler);
+
+      hightRects.set(node.id(), {
+        rect,
+        transformHandler,
+      });
+      return hightRects;
+    }, new Map<string, HightLightRect>());
+  }
+
+  private removeHightRect(...nodes: KonvaNode[]) {
+    nodes.forEach((node) => {
+      const hightLight = this.hightLightRects.get(node.id());
+      if (!hightLight) {
+        return;
+      }
+      node.off('dragmove transform xChange yChange', hightLight.transformHandler);
+      hightLight.rect.remove();
+      this.hightLightRects.delete(node.id());
+    });
+  }
+
+  private calculateNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
+    if (node instanceof Konva.Group) {
+      const box = node.getClientRect();
+      rect.position({ x: box.x - padding, y: box.y - padding });
+      rect.width(box.width + padding * 2);
+      rect.height(box.height + padding * 2);
+    } else {
+      const position = this.getNodeRectPosition(node, padding);
+      const size = {
+        width: node.width() * node.scaleX(),
+        height: node.height() * node.scaleY(),
+      };
+      const canvasScaleX = this.app.stage.scaleX();
+      const canvasScaleY = this.app.stage.scaleY();
+      const canvasOffsetX = this.app.stage.x();
+      const canvasOffsetY = this.app.stage.y();
+      rect.position({
+        x: (position.x - canvasOffsetX) / canvasScaleX,
+        y: (position.y - canvasOffsetY) / canvasScaleY,
+      });
+      rect.width(size.width + padding * 2);
+      rect.height(size.height + padding * 2);
+      rect.rotation(node.rotation());
+    }
+  }
+
+  private getNodeRectPosition(node: KonvaNode, padding: number = 0): util.Point {
+    const getAngle = (angle: number): number => {
+      return Konva.angleDeg ? (angle * Math.PI) / 180 : angle;
+    };
+    const totalPoints: Array<util.Point> = [];
+    const box = node.getClientRect({
+      skipTransform: true,
+      skipShadow: true,
+      skipStroke: this.transformer.ignoreStroke(),
+    });
+    let points = [
+      { x: box.x, y: box.y },
+      { x: box.x + box.width, y: box.y },
+      { x: box.x + box.width, y: box.y + box.height },
+      { x: box.x, y: box.y + box.height },
+    ];
+    let trans = node.getAbsoluteTransform();
+    points.forEach(function (point) {
+      let transformed = trans.point(point);
+      totalPoints.push(new util.Point(transformed.x, transformed.y));
+    });
+    const tr = new Konva.Transform();
+    tr.rotate(-getAngle(node.rotation()));
+    let x: number | undefined;
+    let y: number | undefined;
+    totalPoints.forEach(function (point) {
+      let transformed = tr.point(point);
+      if (x === undefined || y === undefined) {
+        x = transformed.x;
+        y = transformed.y;
+      }
+      x = Math.min(x, transformed.x);
+      y = Math.min(y, transformed.y);
+    });
+    tr.invert();
+    const p = tr.point({ x: (x ?? 0) - padding, y: (y ?? 0) - padding });
+    return new util.Point(p.x, p.y);
   }
 
   private onTransformStart = (): void => {
@@ -185,7 +299,7 @@ export class Selector {
   };
 
   private onMouseDown = ({ event }: EventArgs['mouse:down']): void => {
-    if (!this.enable || event.evt.button !== 0) {
+    if (!this.enabled || event.evt.button !== 0) {
       return;
     }
     if (event.target instanceof Konva.Stage) {
@@ -200,18 +314,9 @@ export class Selector {
   };
 
   private onMouseMove = (): void => {
-    if (!this.enable) {
+    if (!this.enabled) {
       return;
     }
-    // 判断鼠标坐标是否在transformer内，如果在光标为move，否则为默认
-    const { x, y, width, height } = this.transformer.getClientRect();
-    const inTransformer = util.pointInConvexPolygon(this.app.pointer, [
-      new util.Point(x, y),
-      new util.Point(x + width, y),
-      new util.Point(x + width, y + height),
-      new util.Point(x, y + height),
-    ]);
-    this.app.stage.container().style.cursor = inTransformer ? 'move' : 'default';
     if (!this.rubberEnable) {
       return;
     }
@@ -227,7 +332,7 @@ export class Selector {
   };
 
   private onMouseUp = ({ event }: EventArgs['mouse:up']): void => {
-    if (!this.enable || event.evt.button !== 0) {
+    if (!this.enabled || event.evt.button !== 0) {
       return; // 未启用时直接返回
     }
 
@@ -241,7 +346,7 @@ export class Selector {
   };
 
   private onMouseClick = ({ event }: EventArgs['mouse:click']): void => {
-    if (!this.enable || event.evt.button !== 0) {
+    if (!this.enabled || event.evt.button !== 0) {
       return; // 未启用时直接返回
     }
 
@@ -257,7 +362,12 @@ export class Selector {
         this.select(...this.selected.values(), event.target);
       }
     } else {
-      this.select(event.target);
+      const topGroup = this.app.findTopGroup(event.target);
+      if (topGroup) {
+        this.select(topGroup);
+      } else {
+        this.select(event.target);
+      }
     }
   };
 
@@ -278,7 +388,7 @@ export class Selector {
     this.app.off('mouse:click', this.onMouseClick);
     this.app.off('mouse:out', this.onMouseOut);
     this.selected.clear();
-    this.enable = false;
+    this.enabled = false;
     this.transformer.remove();
     this.optionLayer.remove();
   }

@@ -1,7 +1,7 @@
 {
   "name": "@pictode/vue-aide",
   "private": false,
-  "version": "0.0.1-beta01",
+  "version": "0.0.1-beta02",
   "sideEffects": [
     "dist/*",
     "src/theme/*"
@@ -21,6 +21,10 @@
     },
     "./*": "./*"
   },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
   "scripts": {
     "build": "npm run build:type && vite build",
     "build:type": "npm run clear:type && vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",

@@ -5,14 +5,41 @@ import './methods';
 import Selector from './selector';
 import { Options } from './types';
 
+const DEFAULT_OPTIONS: Options = {
+  enabled: true,
+  multipleSelect: true,
+  transformer: {
+    padding: 6,
+    ignoreStroke: true,
+    borderStroke: '#4e86e3',
+    borderStrokeWidth: 1,
+    borderDash: [3, 3],
+    anchorSize: 8,
+    anchorStroke: '#4e86e3',
+    anchorCornerRadius: 3,
+    anchorStrokeWidth: 1,
+    rotateAnchorOffset: 20,
+  },
+  hightLight: {
+    padding: 3,
+    stroke: '#4e86e3',
+    strokeWidth: 1,
+  },
+  rubber: {
+    stroke: '#4e86e3',
+    strokeWidth: 1,
+    fill: '#4e86e350',
+  },
+};
+
 export class SelectorPlugin implements Plugin {
   public name: string = 'selectorPlugin';
   public selector?: Selector;
   public app?: App;
-  public options?: Options;
+  public options: Options;
 
-  constructor(options?: Options) {
-    this.options = options;
+  constructor(options?: Partial<Options>) {
+    this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
   public install(app: App) {
@@ -33,6 +60,7 @@ export class SelectorPlugin implements Plugin {
       return;
     }
     this.selector.triggerSelector(true);
+    this.options.enabled = true;
   }
 
   public disable(): void {
@@ -41,10 +69,11 @@ export class SelectorPlugin implements Plugin {
     }
     this.selector.cancelSelect();
     this.selector.triggerSelector(false);
+    this.options.enabled = false;
   }
 
   public isEnabled(): boolean {
-    return this.selector?.enable ?? false;
+    return this.options.enabled && (this.selector?.enabled ?? false);
   }
 
   private onCanvasCleared = (): void => {

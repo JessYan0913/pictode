@@ -1,7 +1,7 @@
 {
   "name": "@pictode/utils",
   "private": false,
-  "version": "0.0.1-beta01",
+  "version": "0.0.1-beta02",
   "main": "dist/pictode-utils.umd.js",
   "module": "dist/pictode-utils.mjs",
   "types": "types/index.d.ts",
@@ -11,6 +11,10 @@
       "require": "./dist/pictode-utils.umd.js"
     }
   },
+  "files": [
+    "dist/**/*",
+    "types/**/*"
+  ],
   "scripts": {
     "build": "npm run build:type && vite build",
     "build:type": "npm run clear:type && tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",

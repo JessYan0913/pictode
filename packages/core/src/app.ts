@@ -11,7 +11,6 @@ import { DEFAULT_APP_CONFIG, guid, Point } from './utils';
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public mainLayer: Konva.Layer;
-  public containerElement: HTMLDivElement;
   public config: AppConfig;
 
   private mouse: Mouse;
@@ -22,16 +21,9 @@ export class App extends BaseService<EventArgs> {
   constructor(config?: Partial<AppConfig>) {
     super();
     this.config = { ...DEFAULT_APP_CONFIG, ...config };
-    this.containerElement = document.createElement('div');
-    this.containerElement.setAttribute(
-      'style',
-      `
-      width: 100%;
-      height: 100%;
-    `
-    );
+
     this.stage = new Konva.Stage({
-      container: this.containerElement,
+      container: document.createElement('div'),
       width: 500,
       height: 500,
     });
@@ -63,16 +55,20 @@ export class App extends BaseService<EventArgs> {
     return this.tooler.currentTool;
   }
 
-  public mount(element: HTMLElement) {
-    element.appendChild(this.containerElement);
-    this.resizeObserver.observe(this.containerElement);
+  public get containerElement(): HTMLDivElement {
+    return this.stage.container();
+  }
+
+  public mount(element: HTMLDivElement) {
+    this.stage.container(element);
+    this.resizeObserver.observe(this.stage.container());
   }
 
   public async setTool(curTool: Tool): Promise<void> {
     await this.tooler.setTool(curTool);
   }
 
-  public triggerPanning(enabled?: boolean): void {
+  public triggerPanning(enabled?: boolean): App {
     if (enabled === void 0) {
       this.stage.draggable(this.stage.draggable());
     } else {
@@ -83,26 +79,30 @@ export class App extends BaseService<EventArgs> {
     } else {
       this.stage.container().style.cursor = 'default';
     }
+    return this;
   }
 
-  public triggerMouseWheel(enabled?: boolean): void {
+  public triggerMouseWheel(enabled?: boolean): App {
     if (enabled === void 0) {
       this.config.mousewheel.enabled = !this.config.mousewheel.enabled;
     } else {
       this.config.mousewheel.enabled = enabled;
     }
+    return this;
   }
 
-  public triggerTool(enabled?: boolean): void {
+  public triggerTool(enabled?: boolean): App {
     this.tooler.trigger(enabled);
+    return this;
   }
 
-  public add(...nodes: Array<KonvaNode>): void {
+  public add(...nodes: Array<KonvaNode>): App {
     this._add(...nodes);
     this.emit('node:added', { nodes: nodes });
+    return this;
   }
 
-  public _add(...nodes: Array<KonvaNode>): void {
+  public _add(...nodes: Array<KonvaNode>): App {
     this.mainLayer.add(
       ...nodes.map((node) => {
         if (!node.attrs.id) {
@@ -112,21 +112,24 @@ export class App extends BaseService<EventArgs> {
       })
     );
     this.render();
+    return this;
   }
 
-  public remove(...nodes: Array<KonvaNode>): void {
+  public remove(...nodes: Array<KonvaNode>): App {
     this._remove(...nodes);
     this.emit('node:removed', { nodes: nodes });
+    return this;
   }
 
-  public _remove(...nodes: Array<KonvaNode>): void {
+  public _remove(...nodes: Array<KonvaNode>): App {
     nodes.forEach((node) => {
       node.remove();
     });
     this.render();
+    return this;
   }
 
-  public update(...nodes: Array<KonvaNode>): void {
+  public update(...nodes: Array<KonvaNode>): App {
     const getNodes = (nodes: Array<KonvaNode>): KonvaNode[] =>
       nodes.reduce<Array<KonvaNode>>((result, node) => {
         const originNode = this.getNodeById(node.attrs.id);
@@ -138,31 +141,99 @@ export class App extends BaseService<EventArgs> {
     this.emit('node:update:before', { nodes: getNodes(nodes) });
     this._update(...nodes);
     this.emit('node:updated', { nodes: getNodes(nodes) });
+    return this;
   }
 
-  public _update(...nodes: Array<KonvaNode>): void {
+  public _update(...nodes: Array<KonvaNode>): App {
     nodes.forEach((node) => {
       const originNode = this.getNodeById(node.attrs.id);
       originNode?.setAttrs(node.attrs);
     });
     this.render();
+    return this;
   }
 
-  public moveUp(...nodes: Array<KonvaNode>): void {
+  public makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+    const resolve = this._makeGroup(nodes);
+    if (resolve instanceof Konva.Group) {
+      this.emit('node:group:make', {
+        group: resolve,
+        nodes,
+      });
+    }
+    return resolve;
+  }
+
+  public _makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+    if (nodes.length < 2) {
+      return nodes;
+    }
+    const group = new Konva.Group({ draggable: true });
+    group.add(
+      ...nodes.map((node) => {
+        node.draggable(false);
+        return node;
+      })
+    );
+    this._add(group);
+    return group;
+  }
+
+  public decomposeGroup(group: Konva.Group): KonvaNode[] {
+    const resolve = this._decomposeGroup(group);
+    this.emit('node:group:decompose', {
+      group,
+      nodes: resolve,
+    });
+    return resolve;
+  }
+
+  public _decomposeGroup(group: Konva.Group): KonvaNode[] {
+    const parent = group.getParent() ?? this.mainLayer;
+    const resolve = [...group.getChildren()].map((child) => {
+      const transform = child.getAbsoluteTransform();
+      child.moveTo(parent);
+      child.x(transform.decompose().x);
+      child.y(transform.decompose().y);
+      child.scaleX(transform.decompose().scaleX);
+      child.scaleY(transform.decompose().scaleY);
+      child.skewX(transform.decompose().skewX);
+      child.skewY(transform.decompose().skewY);
+      child.rotation(transform.decompose().rotation);
+      return child;
+    });
+    this._remove(group);
+    return resolve;
+  }
+
+  public findTopGroup(target: Konva.Node): Konva.Group | null {
+    if (target.parent instanceof Konva.Group && target.parent.parent instanceof Konva.Group) {
+      // 继续向上查找最顶层的组
+      return this.findTopGroup(target.parent);
+    }
+    // 如果已经不再有父组，返回当前目标
+    return target.parent instanceof Konva.Group ? target.parent : null;
+  }
+
+  public moveUp(...nodes: Array<KonvaNode>): App {
     this.moveZIndexNodes(nodes, (node) => node.moveUp());
+    return this;
   }
 
-  public moveDown(...nodes: Array<KonvaNode>): void {
+  public moveDown(...nodes: Array<KonvaNode>): App {
     this.moveZIndexNodes(nodes, (node) => node.moveDown());
+    return this;
   }
 
-  public moveTop(...nodes: Array<KonvaNode>): void {
+  public moveTop(...nodes: Array<KonvaNode>): App {
     this.moveZIndexNodes(nodes, (node) => node.moveToTop());
+    return this;
   }
 
-  public moveBottom(...nodes: Array<KonvaNode>): void {
+  public moveBottom(...nodes: Array<KonvaNode>): App {
     nodes.forEach((node) => node.moveToBottom());
     this.moveZIndexNodes(nodes, (node) => node.moveToBottom());
+    return this;
   }
 
   private moveZIndexNodes(nodes: Array<KonvaNode>, handler: (node: KonvaNode) => void): void {
@@ -194,9 +265,9 @@ export class App extends BaseService<EventArgs> {
     return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
   }
 
-  public getShapesInArea(shape: Konva.Shape): (Konva.Shape | Konva.Group)[] {
+  public getShapesInArea(shape: Konva.Shape): KonvaNode[] {
     return this.mainLayer.getChildren(
-      (node) => node instanceof Konva.Shape && node.visible() && node !== shape && this.haveIntersection(shape, node)
+      (node) => node.visible() && node !== shape && this.haveIntersection(shape, node as Konva.Shape)
     );
   }
 
@@ -231,7 +302,7 @@ export class App extends BaseService<EventArgs> {
     return this.stage.scaleX();
   }
 
-  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): void {
+  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): App {
     const oldScale = this.scale();
     this.emit('canvas:zoom:start', { scale: oldScale });
     const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
@@ -242,6 +313,7 @@ export class App extends BaseService<EventArgs> {
       y: pointer.y - mousePointTo.y * newScale,
     });
     this.emit('canvas:zoom:end', { scale: this.scale() });
+    return this;
   }
 
   public clear(): void {
@@ -280,6 +352,10 @@ export class App extends BaseService<EventArgs> {
     transformer.nodes(newNodes);
 
     const clientRect = transformer.getClientRect();
+    const canvasScaleX = this.stage.scaleX();
+    const canvasScaleY = this.stage.scaleY();
+    const canvasOffsetX = this.stage.x();
+    const canvasOffsetY = this.stage.y();
     const width = clientRect.width + padding * 2;
     const height = clientRect.height + padding * 2;
     const x = clientRect.x - padding;
@@ -288,8 +364,8 @@ export class App extends BaseService<EventArgs> {
     const background = new Konva.Rect({
       width,
       height,
-      x,
-      y,
+      x: (x - canvasOffsetX) / canvasScaleX,
+      y: (y - canvasOffsetY) / canvasScaleY,
       fill: this.stage.container().style.backgroundColor,
     });
 
@@ -327,13 +403,14 @@ export class App extends BaseService<EventArgs> {
     return JSON.stringify(this.mainLayer.toObject());
   }
 
-  public fromJSON(json: string): void {
+  public fromJSON(json: string): App {
     this.clear();
     this.mainLayer.remove();
     const layer = Konva.Node.create(json, 'layer');
     this.mainLayer = layer;
     this.stage.add(this.mainLayer);
     this.render();
+    return this;
   }
 
   public use(plugin: Plugin, ...options: any[]): App {

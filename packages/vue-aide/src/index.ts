@@ -15,6 +15,14 @@ export const injectWithSelf = <T>(key: InjectionKey<T>, fallback?: T): T | undef
   return vm?.provides[key as any] || inject(key, fallback);
 };
 
+export const injectWithSelfStrict = <T>(key: InjectionKey<T>, fallback?: T): T => {
+  const resolved = injectWithSelf(key, fallback);
+  if (!resolved) {
+    throw new Error(`Could not resolve ${key.description}`);
+  }
+  return resolved;
+};
+
 export const unravel = <T>(value: MaybeRefOrGetter<T>): T => {
   if (typeof value === 'function') {
     return (value as Function)();
