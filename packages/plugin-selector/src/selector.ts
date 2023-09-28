@@ -225,45 +225,6 @@ export class Selector {
     rect.rotation(node.rotation());
   }
 
-  private getNodeRectPosition(node: KonvaNode, padding: number = 0): util.Point {
-    const getAngle = (angle: number): number => {
-      return Konva.angleDeg ? (angle * Math.PI) / 180 : angle;
-    };
-    const totalPoints: Array<util.Point> = [];
-    const box = node.getClientRect({
-      skipTransform: true,
-      skipShadow: true,
-      skipStroke: this.transformer.ignoreStroke(),
-    });
-    let points = [
-      { x: box.x, y: box.y },
-      { x: box.x + box.width, y: box.y },
-      { x: box.x + box.width, y: box.y + box.height },
-      { x: box.x, y: box.y + box.height },
-    ];
-    let trans = node.getAbsoluteTransform();
-    points.forEach(function (point) {
-      let transformed = trans.point(point);
-      totalPoints.push(new util.Point(transformed.x, transformed.y));
-    });
-    const tr = new Konva.Transform();
-    tr.rotate(-getAngle(node.rotation()));
-    let x: number | undefined;
-    let y: number | undefined;
-    totalPoints.forEach(function (point) {
-      let transformed = tr.point(point);
-      if (x === undefined || y === undefined) {
-        x = transformed.x;
-        y = transformed.y;
-      }
-      x = Math.min(x, transformed.x);
-      y = Math.min(y, transformed.y);
-    });
-    tr.invert();
-    const p = tr.point({ x: (x ?? 0) - padding, y: (y ?? 0) - padding });
-    return new util.Point(p.x, p.y);
-  }
-
   private getNodeRect(
     node: KonvaNode,
     padding: number = 0
