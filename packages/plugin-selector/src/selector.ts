@@ -365,20 +365,17 @@ export class Selector {
       return; // 如果是舞台或者没有ID属性，直接返回
     }
 
+    const topGroup = this.app.findTopGroup(event.target);
+    const target = topGroup ?? event.target;
     // 如果同时按下了shift键则认为是多选模式
     if (event.evt.shiftKey && this.multipleSelect) {
-      if (this.selected.has(event.target.attrs.id)) {
-        this.cancelSelect(event.target);
+      if (this.selected.has(target.attrs.id)) {
+        this.cancelSelect(target);
       } else {
-        this.select(...this.selected.values(), event.target);
+        this.select(...this.selected.values(), target);
       }
     } else {
-      const topGroup = this.app.findTopGroup(event.target);
-      if (topGroup) {
-        this.select(topGroup);
-      } else {
-        this.select(event.target);
-      }
+      this.select(target);
     }
   };
 
