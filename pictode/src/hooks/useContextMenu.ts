@@ -24,10 +24,10 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
   const onContextmenu = ({ event }: EventArgs['mouse:contextmenu']) => {
     event.evt.preventDefault();
     let targetIsStage = false;
+    const topGroup = app.findTopGroup(event.target);
     if (event.target instanceof Konva.Stage) {
       targetIsStage = true;
-    } else if (!selected.value.find((node) => node.id() === event.target.id())) {
-      const topGroup = app.findTopGroup(event.target);
+    } else if (!selected.value.find((node) => node.id() === event.target.id() || node.id() === topGroup?.id())) {
       const target = topGroup ?? event.target;
       app.select(target);
     }
