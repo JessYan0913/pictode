@@ -27,12 +27,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     if (event.target instanceof Konva.Stage) {
       targetIsStage = true;
     } else if (!selected.value.find((node) => node.id() === event.target.id())) {
-      if (event.target.parent instanceof Konva.Group) {
-        app.select(event.target.parent);
-      } else {
-        app.select(event.target);
-      }
+      const topGroup = app.findTopGroup(event.target);
+      const target = topGroup ?? event.target;
+      app.select(target);
     }
+    /**
+     * 图形层级菜单
+     */
     const shapeLayerMenus =
       selected.value.length && !targetIsStage
         ? [
@@ -62,6 +63,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             },
           ]
         : [];
+    /**
+     * 成组相关菜单
+     */
     const groupMenus =
       selected.value.length > 1 && !targetIsStage
         ? [
@@ -73,6 +77,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             },
           ]
         : [];
+    /**
+     * 解除组相关菜单
+     */
     const removeGroupMenus =
       selected.value.length === 1 && selected.value[0] instanceof Konva.Group
         ? [
@@ -84,6 +91,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             },
           ]
         : [];
+    /**
+     * 删除图形相关菜单
+     */
     const shapeDeleteMenus =
       selected.value.length && !targetIsStage
         ? [
@@ -95,6 +105,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             },
           ]
         : [];
+    /**
+     * 画布相关菜单
+     */
     const stageMenus =
       targetIsStage || selected.value.length === 0
         ? [
@@ -112,6 +125,9 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
             },
           ]
         : [];
+    /**
+     * 历史记录相关菜单
+     */
     const historyMenus = [
       {
         icon: 'undo',
