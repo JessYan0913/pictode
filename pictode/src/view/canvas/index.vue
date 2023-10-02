@@ -121,9 +121,11 @@ onMounted(() => {
             :title="$t('缩小')"
             @click="onClickZoomOut"
           ></Button>
-          <div class="flex text-center text-sm text-slate-900 dark:text-gray-300 h-full items-center select-none">
+          <span
+            class="flex text-center text-sm text-slate-900 dark:text-gray-300 h-full w-8 justify-center items-center select-none"
+          >
             {{ displayScale }}
-          </div>
+          </span>
           <Button
             class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-navyBlue-100 dark:text-gray-300"
             icon="plus"
