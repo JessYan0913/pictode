@@ -215,13 +215,12 @@ export class Selector {
 
   private calculateNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
     const { x, y, width, height } = this.getNodeRect(node, padding);
-    const canvasScaleX = this.app.stage.scaleX();
-    const canvasScaleY = this.app.stage.scaleY();
-    const canvasOffsetX = this.app.stage.x();
-    const canvasOffsetY = this.app.stage.y();
-    rect.position({ x: (x - canvasOffsetX) / canvasScaleX, y: (y - canvasOffsetY) / canvasScaleY });
-    rect.width(width);
-    rect.height(height);
+    rect.position({
+      x: (x - this.app.stage.x()) / this.app.stage.scaleX(),
+      y: (y - this.app.stage.y()) / this.app.stage.scaleY(),
+    });
+    rect.width(width / this.app.stage.scaleX());
+    rect.height(height / this.app.stage.scaleY());
     rect.rotation(node.rotation());
   }
 
