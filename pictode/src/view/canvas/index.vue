@@ -16,15 +16,15 @@ import Menu from './components/Menu.vue';
 import PropertyPanel from './components/PropertyPanel.vue';
 import Tools from './components/Tools.vue';
 
+const canvasRef = ref<HTMLDivElement | null>(null);
+
 const { triggerTheme, theme } = useTheme();
 
 const { app, selected, scale } = usePictode();
 
-const { undo, redo } = useHotKeyActions(app, selected);
+const { undo, redo } = useHotKeyActions(canvasRef, app, selected);
 
 useContextMenu(app, selected);
-
-const canvasRef = ref<HTMLDivElement>();
 
 const displayScale = computed<string>(() => {
   return `${Math.ceil(scale.value * 100)}%`;
@@ -49,6 +49,7 @@ const onTriggerTheme = () => triggerTheme();
 onMounted(() => {
   if (canvasRef.value) {
     app.mount(canvasRef.value);
+    canvasRef.value.tabIndex = 0;
   }
 });
 </script>
@@ -151,6 +152,6 @@ onMounted(() => {
         </div>
       </section>
     </div>
-    <div ref="canvasRef" class="w-full h-full dark:bg-navyBlue-300"></div>
+    <div ref="canvasRef" class="w-full h-full dark:bg-navyBlue-300 focus:border-none"></div>
   </div>
 </template>
