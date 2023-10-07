@@ -97,3 +97,57 @@ export const getMiddleValue = (array: number[]): number => {
   let middle = Math.floor(array.length / 2);
   return array[middle];
 };
+
+export const qrDecompose = (
+  a: number[]
+): {
+  rotation: number;
+  scaleX: number;
+  scaleY: number;
+  x: number;
+  y: number;
+} => {
+  let angle = Math.atan2(a[1], a[0]),
+    denom = Math.pow(a[0], 2) + Math.pow(a[1], 2),
+    scaleX = Math.sqrt(denom),
+    scaleY = (a[0] * a[3] - a[2] * a[1]) / scaleX;
+
+  return {
+    rotation: angle / (Math.PI / 180),
+    scaleX: scaleX,
+    scaleY: scaleY,
+    x: a[4],
+    y: a[5],
+  };
+};
+
+export const getGroupCoords = (node: Konva.Node, group: Konva.Group) => {
+  let mB = node.getTransform().getMatrix();
+  let mX = group.getTransform().getMatrix();
+
+  //possible to replace with mB * mX.invert()
+  let M = mB[0],
+    N = mB[1],
+    O = mB[2],
+    P = mB[3],
+    R = mB[4],
+    S = mB[5],
+    A = mX[0],
+    B = mX[1],
+    C = mX[2],
+    D = mX[3],
+    E = mX[4],
+    F = mX[5],
+    AD = A * D,
+    BC = B * C,
+    G = (C * N - M * D) / (BC - AD),
+    H = (A * N - M * B) / (AD - BC),
+    I = (C * P - O * D) / (BC - AD),
+    J = (A * P - O * B) / (AD - BC),
+    K = (C * (S - F) + D * (E - R)) / (BC - AD),
+    L = (A * (S - F) + B * (E - R)) / (AD - BC);
+  let matrix = [G, H, I, J, K, L],
+    options = qrDecompose(matrix);
+
+  return options;
+};
