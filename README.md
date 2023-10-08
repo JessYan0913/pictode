@@ -1,5 +1,7 @@
 # Pictode 🎨
 
+[![npm](https://img.shields.io/npm/v/@pictode/core.svg?style=flat-square)](https://www.npmjs.com/package/@pictode/core)
+
 欢迎来到 **Pictode** - 你的创意自由发挥的画板！🚀
 
 [立即体验](https://pictode.com)
