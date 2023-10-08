@@ -127,7 +127,7 @@ app.use(alignmentPlugin);
 
 QQ 群：
 
-![QQ群](https://cdn.staticaly.com/gh/JessYan0913/picx-images-hosting@master/image.6shwsm8qlm00.webp)
+![QQ群](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9001fc5a676e43a4b996cce33f273b94~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=750&h=1344&s=364721&e=png&b=2575ff)
 
 ## 📝 许可
 
