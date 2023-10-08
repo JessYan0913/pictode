@@ -214,68 +214,78 @@ export class Selector {
   }
 
   private calculateNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
-    if (node instanceof Konva.Group) {
-      const box = node.getClientRect();
-      rect.position({ x: box.x - padding, y: box.y - padding });
-      rect.width(box.width + padding * 2);
-      rect.height(box.height + padding * 2);
-    } else {
-      const position = this.getNodeRectPosition(node, padding);
-      const size = {
-        width: node.width() * node.scaleX(),
-        height: node.height() * node.scaleY(),
-      };
-      const canvasScaleX = this.app.stage.scaleX();
-      const canvasScaleY = this.app.stage.scaleY();
-      const canvasOffsetX = this.app.stage.x();
-      const canvasOffsetY = this.app.stage.y();
-      rect.position({
-        x: (position.x - canvasOffsetX) / canvasScaleX,
-        y: (position.y - canvasOffsetY) / canvasScaleY,
-      });
-      rect.width(size.width + padding * 2);
-      rect.height(size.height + padding * 2);
-      rect.rotation(node.rotation());
-    }
+    const { x, y, width, height } = this.getNodeRect(node, padding);
+    rect.position({
+      x: (x - this.app.stage.x()) / this.app.stage.scaleX(),
+      y: (y - this.app.stage.y()) / this.app.stage.scaleY(),
+    });
+    rect.width(width / this.app.stage.scaleX());
+    rect.height(height / this.app.stage.scaleY());
+    rect.rotation(node.rotation());
   }
 
-  private getNodeRectPosition(node: KonvaNode, padding: number = 0): util.Point {
+  private getNodeRect(
+    node: KonvaNode,
+    padding: number = 0
+  ): {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } {
     const getAngle = (angle: number): number => {
       return Konva.angleDeg ? (angle * Math.PI) / 180 : angle;
     };
     const totalPoints: Array<util.Point> = [];
-    const box = node.getClientRect({
-      skipTransform: true,
-      skipShadow: true,
-      skipStroke: this.transformer.ignoreStroke(),
-    });
-    let points = [
-      { x: box.x, y: box.y },
-      { x: box.x + box.width, y: box.y },
-      { x: box.x + box.width, y: box.y + box.height },
-      { x: box.x, y: box.y + box.height },
-    ];
-    let trans = node.getAbsoluteTransform();
-    points.forEach(function (point) {
-      let transformed = trans.point(point);
-      totalPoints.push(new util.Point(transformed.x, transformed.y));
+    let nodes: KonvaNode[] = [];
+    if (node instanceof Konva.Group) {
+      nodes = node.getChildren();
+    } else {
+      nodes = [node];
+    }
+    nodes.map((node) => {
+      const box = node.getClientRect({
+        skipTransform: true,
+        skipShadow: true,
+        skipStroke: this.transformer.ignoreStroke(),
+      });
+      let points = [
+        { x: box.x, y: box.y },
+        { x: box.x + box.width, y: box.y },
+        { x: box.x + box.width, y: box.y + box.height },
+        { x: box.x, y: box.y + box.height },
+      ];
+      let trans = node.getAbsoluteTransform();
+      points.forEach(function (point) {
+        let transformed = trans.point(point);
+        totalPoints.push(new util.Point(transformed.x, transformed.y));
+      });
     });
     const tr = new Konva.Transform();
     tr.rotate(-getAngle(node.rotation()));
-    let x: number | undefined;
-    let y: number | undefined;
+    let minX: number | undefined;
+    let minY: number | undefined;
+    let maxX: number | undefined;
+    let maxY: number | undefined;
     totalPoints.forEach(function (point) {
       let transformed = tr.point(point);
-      if (x === undefined || y === undefined) {
-        x = transformed.x;
-        y = transformed.y;
+      if (minX === undefined || minY === undefined || maxX === undefined || maxY === undefined) {
+        minX = maxX = transformed.x;
+        minY = maxY = transformed.y;
       }
-      x = Math.min(x, transformed.x);
-      y = Math.min(y, transformed.y);
+      minX = Math.min(minX, transformed.x);
+      minY = Math.min(minY, transformed.y);
+      maxX = Math.max(maxX, transformed.x);
+      maxY = Math.max(maxY, transformed.y);
     });
     tr.invert();
-    const p = tr.point({ x: (x ?? 0) - padding, y: (y ?? 0) - padding });
-    return new util.Point(p.x, p.y);
+    const p = tr.point({ x: (minX ?? 0) - padding, y: (minY ?? 0) - padding });
+    return {
+      x: p.x,
+      y: p.y,
+      width: (maxX ?? 0) - (minX ?? 0) + padding * 2,
+      height: (maxY ?? 0) - (minY ?? 0) + padding * 2,
+    };
   }
 
   private onTransformStart = (): void => {
@@ -354,20 +364,17 @@ export class Selector {
       return; // 如果是舞台或者没有ID属性，直接返回
     }
 
+    const topGroup = this.app.findTopGroup(event.target);
+    const target = topGroup ?? event.target;
     // 如果同时按下了shift键则认为是多选模式
     if (event.evt.shiftKey && this.multipleSelect) {
-      if (this.selected.has(event.target.attrs.id)) {
-        this.cancelSelect(event.target);
+      if (this.selected.has(target.attrs.id)) {
+        this.cancelSelect(target);
       } else {
-        this.select(...this.selected.values(), event.target);
+        this.select(...this.selected.values(), target);
       }
     } else {
-      const topGroup = this.app.findTopGroup(event.target);
-      if (topGroup) {
-        this.select(topGroup);
-      } else {
-        this.select(event.target);
-      }
+      this.select(target);
     }
   };
 

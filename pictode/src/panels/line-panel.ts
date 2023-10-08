@@ -46,7 +46,7 @@ export const linePanelConfig: PanelConfig = {
         {
           label: 'node-round',
           value: 0.4,
-          title: '圆润',
+          title: '圆角',
         },
       ],
     },

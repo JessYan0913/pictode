@@ -38,6 +38,29 @@ export const ellipsePanelConfig: PanelConfig = {
       ],
     },
     {
+      name: 'dash',
+      label: '边框样式',
+      type: 'RadioGroup',
+      optionType: 'icon',
+      options: [
+        {
+          label: 'line-1',
+          value: [],
+          title: '实线',
+        },
+        {
+          label: 'dotted-line-2',
+          value: [12, 8],
+          title: '虚线',
+        },
+        {
+          label: 'dotted-line-1',
+          value: [6, 4],
+          title: '点虚线',
+        },
+      ],
+    },
+    {
       name: 'opacity',
       label: '透明度',
       type: 'Slider',
@@ -47,6 +70,7 @@ export const ellipsePanelConfig: PanelConfig = {
     stroke: '#000',
     fill: '#ffffff',
     strokeWidth: 2,
+    dash: [],
     opacity: 1,
   },
 };

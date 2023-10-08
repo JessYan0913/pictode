@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue';
 
+import ColorPicker from '@/components/ColorPicker.vue';
+
 import { ColorPickerConfig, FormValue } from '../types';
 
 const props = withDefaults(
@@ -35,13 +37,7 @@ watch(
 </script>
 
 <template>
-  <div class="w-7 h-7">
-    <input
-      v-model="colors"
-      show-alpha
-      color-format="hex"
-      class="inline-block w-full h-full cursor-pointer"
-      type="color"
-    />
+  <div class="w-fit h-7">
+    <ColorPicker v-model="colors" class="border rounded-lg" />
   </div>
 </template>
