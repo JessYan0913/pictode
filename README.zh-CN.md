@@ -28,6 +28,8 @@
 
 **Pictode** 还支持各种插件，以满足不同的需求。
 
+[![Edit pictode](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/pictode-playground-7rm8zq?file=%2Fsrc%2FApp.vue%3A1%2C1)
+
 ### 🕒 操作记录
 
 1. 安装 `@pictode/plugin-history` 依赖包。

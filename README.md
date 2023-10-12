@@ -28,6 +28,8 @@ Share your artistic creations with the world! **Pictode** supports various impor
 
 **Pictode** offers various plugins to cater to diverse needs.
 
+[![Edit pictode](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/pictode-playground-7rm8zq?file=%2Fsrc%2FApp.vue%3A1%2C1)
+
 ### 🕒 History Plugin
 
 1. Install the `@pictode/plugin-history` dependency.
