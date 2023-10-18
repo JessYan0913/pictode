@@ -2,6 +2,8 @@
 
 Welcome to **Pictode** - your canvas for unlimited creativity! 🚀
 
+![banner](https://github.com/JessYan0913/picx-images-hosting/blob/master/Kapture%202023-10-18%20at%2022.26.09.gif)
+
 [Experience it now](https://pictode.com)
 
 [简体中文](README.zh-CN.md) | English
