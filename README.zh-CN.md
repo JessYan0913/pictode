@@ -2,6 +2,8 @@
 
 欢迎来到 **Pictode** - 你的创意自由发挥的画板！🚀
 
+![banner](https://github.com/JessYan0913/picx-images-hosting/blob/master/Kapture%202023-10-18%20at%2022.26.09.gif)
+
 [立即体验](https://pictode.com)
 
 简体中文 | [English](README.md)
