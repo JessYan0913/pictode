@@ -1,14 +1,15 @@
 {
   "name": "@pictode/tools",
   "private": false,
-  "version": "0.0.1-beta02",
+  "version": "0.0.1-beta03",
   "main": "dist/pictode-tools.umd.js",
   "module": "dist/pictode-tools.mjs",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/pictode-tools.mjs",
-      "require": "./dist/pictode-tools.umd.js"
+      "require": "./dist/pictode-tools.umd.js",
+      "types": "./types/index.d.ts"
     }
   },
   "files": [

@@ -1,7 +1,7 @@
 {
   "name": "@pictode/vue-aide",
   "private": false,
-  "version": "0.0.1-beta02",
+  "version": "0.0.1-beta03",
   "sideEffects": [
     "dist/*",
     "src/theme/*"
@@ -13,7 +13,8 @@
   "exports": {
     ".": {
       "import": "./dist/pictode-form.mjs",
-      "require": "./dist/pictode-form.umd.js"
+      "require": "./dist/pictode-form.umd.js",
+      "types": "./types/index.d.ts"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
