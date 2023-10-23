@@ -302,7 +302,7 @@ export class App extends BaseService<EventArgs> {
     return this.stage.scaleX();
   }
 
-  public scaleTo(scale: number, pointer: Point = new Point(0, 0)): App {
+  public scaleTo(scale: number, pointer: Point = new Point(this.stage.width() / 2, this.stage.height() / 2)): App {
     const oldScale = this.scale();
     this.emit('canvas:zoom:start', { scale: oldScale });
     const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
