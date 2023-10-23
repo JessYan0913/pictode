@@ -1,14 +1,15 @@
 {
   "name": "@pictode/plugin-selector",
   "private": false,
-  "version": "0.0.1-beta05",
+  "version": "0.0.1-beta06",
   "main": "dist/pictode-plugin-selector.umd.js",
   "module": "dist/pictode-plugin-selector.mjs",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/pictode-plugin-selector.mjs",
-      "require": "./dist/pictode-plugin-selector.umd.js"
+      "require": "./dist/pictode-plugin-selector.umd.js",
+      "types": "./types/index.d.ts"
     }
   },
   "files": [

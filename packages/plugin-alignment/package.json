@@ -1,14 +1,15 @@
 {
   "name": "@pictode/plugin-alignment",
   "private": false,
-  "version": "0.0.1-beta02",
+  "version": "0.0.1-beta03",
   "main": "dist/pictode-plugin-alignment.umd.js",
   "module": "dist/pictode-plugin-alignment.mjs",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/pictode-plugin-alignment.mjs",
-      "require": "./dist/pictode-plugin-alignment.umd.js"
+      "require": "./dist/pictode-plugin-alignment.umd.js",
+      "types": "./types/index.d.ts"
     }
   },
   "files": [
