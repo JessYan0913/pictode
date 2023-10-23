@@ -1,7 +1,7 @@
 {
   "name": "pictode",
   "private": false,
-  "version": "0.0.1-beta01",
+  "version": "0.0.1-beta02",
   "type": "module",
   "scripts": {
     "dev": "vite",
