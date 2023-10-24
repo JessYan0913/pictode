@@ -129,6 +129,12 @@ app.use(alignmentPlugin);
 
 **Pictode** 是一个开源项目，我们欢迎各种形式的贡献。如果你有任何建议、问题或想要贡献代码，不要犹豫，立即加入我们的社区！
 
+感谢以下开发者对该项目做出的贡献：
+
+<a href="https://github.com/JessYan0913/pictode/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JessYan0913/pictode" />
+</a>
+
 QQ 群：
 
 ![QQ群](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9001fc5a676e43a4b996cce33f273b94~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=750&h=1344&s=364721&e=png&b=2575ff)
