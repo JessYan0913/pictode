@@ -1,19 +1,20 @@
 {
   "name": "@pictode/vue-aide",
   "private": false,
-  "version": "0.0.1-beta02",
+  "version": "0.0.1-beta04",
   "sideEffects": [
     "dist/*",
     "src/theme/*"
   ],
-  "main": "dist/pictode-form.umd.js",
-  "module": "dist/pictode-form.mjs",
+  "main": "dist/pictode-vue-aide.umd.js",
+  "module": "dist/pictode-vue-aide.mjs",
   "style": "dist/style.css",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/pictode-form.mjs",
-      "require": "./dist/pictode-form.umd.js"
+      "import": "./dist/pictode-vue-aide.mjs",
+      "require": "./dist/pictode-vue-aide.umd.js",
+      "types": "./types/index.d.ts"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",

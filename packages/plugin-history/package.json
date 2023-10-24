@@ -1,14 +1,15 @@
 {
   "name": "@pictode/plugin-history",
   "private": false,
-  "version": "0.0.1-beta02",
+  "version": "0.0.1-beta03",
   "main": "dist/pictode-plugin-history.umd.js",
   "module": "dist/pictode-plugin-history.mjs",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/pictode-plugin-history.mjs",
-      "require": "./dist/pictode-plugin-history.umd.js"
+      "require": "./dist/pictode-plugin-history.umd.js",
+      "types": "./types/index.d.ts"
     }
   },
   "files": [
