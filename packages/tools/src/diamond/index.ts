@@ -8,7 +8,7 @@ interface DiamondToolOptions {
 }
 
 export class DiamondTool implements Tool<DiamondToolConfig> {
-  public name: string = 'diamondTool';
+  public name = 'diamondTool';
   public hooks?: ToolHooks;
   public config?: DiamondToolConfig;
   private diamond: Konva.RegularPolygon | null = null;

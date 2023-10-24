@@ -8,7 +8,7 @@ interface LineToolOptions {
 }
 
 export class LineTool implements Tool<LineToolConfig> {
-  public name: string = 'lineTool';
+  public name = 'lineTool';
   public config?: LineToolConfig;
   public hooks?: ToolHooks;
   private points: util.Point[] = [];
@@ -32,7 +32,7 @@ export class LineTool implements Tool<LineToolConfig> {
       this.hooks?.onStartDrawing?.(app, this.line);
     }
     const lastPoint = this.points.at(-1);
-    if (!lastPoint || !lastPoint.eq(app.pointer)) {
+    if (!lastPoint?.eq(app.pointer)) {
       this.points.push(app.pointer);
     }
     this.line.points(util.flatPoints(this.points));

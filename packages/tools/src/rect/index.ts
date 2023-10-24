@@ -8,7 +8,7 @@ interface RectToolOptions {
 }
 
 export class RectTool implements Tool<RectToolConfig> {
-  public name: string = 'rectTool';
+  public name = 'rectTool';
   public config?: RectToolConfig;
   public hooks?: ToolHooks;
   private startPointer: util.Point = new util.Point(0, 0);

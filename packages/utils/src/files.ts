@@ -13,7 +13,7 @@ export const getFileExtension = (file: File | string): string => {
   } else {
     fileName = file;
   }
-  return fileName.match(/\.([0-9a-z]+)(?:[\\?#]|$)/i)![1] ?? '';
+  return RegExp(/\.([0-9a-z]+)(?:[\\?#]|$)/i).exec(fileName)![1] ?? '';
 };
 
 /**
@@ -69,15 +69,15 @@ export const selectFile = (accepts: string[] = ['*'], multiple?: boolean): Promi
 };
 
 export const isImage = (file: File): boolean => {
-  return /^image\//.test(file.type);
+  return file.type.startsWith('image/');
 };
 
 export const isVideo = (file: File): boolean => {
-  return /^video\//.test(file.type);
+  return file.type.startsWith('video/');
 };
 
 export const isAudio = (file: File): boolean => {
-  return /^audio\//.test(file.type);
+  return file.type.startsWith('audio/');
 };
 
 export const isWordDocument = (file: File): boolean => {
