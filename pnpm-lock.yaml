@@ -82,7 +82,7 @@ importers:
 
   packages/core:
     specifiers:
-      '@pictode/utils': ^0.0.1-beta02
+      '@pictode/utils': workspace:^
       dot: 2.0.0-beta.1
       konva: ^9.2.0
       rimraf: ^3.0.2
@@ -101,8 +101,8 @@ importers:
 
   packages/plugin-alignment:
     specifiers:
-      '@pictode/core': ^0.0.1-beta02
-      '@pictode/utils': ^0.0.1-beta02
+      '@pictode/core': workspace:^
+      '@pictode/utils': workspace:^
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -120,8 +120,8 @@ importers:
 
   packages/plugin-history:
     specifiers:
-      '@pictode/core': ^0.0.1-beta02
-      '@pictode/utils': ^0.0.1-beta02
+      '@pictode/core': workspace:^
+      '@pictode/utils': workspace:^
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -139,8 +139,8 @@ importers:
 
   packages/plugin-selector:
     specifiers:
-      '@pictode/core': ^0.0.1-beta02
-      '@pictode/utils': ^0.0.1-beta02
+      '@pictode/core': workspace:^
+      '@pictode/utils': workspace:^
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -158,8 +158,8 @@ importers:
 
   packages/tools:
     specifiers:
-      '@pictode/core': ^0.0.1-beta02
-      '@pictode/utils': ^0.0.1-beta02
+      '@pictode/core': workspace:^
+      '@pictode/utils': workspace:^
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -261,13 +261,13 @@ importers:
     dependencies:
       '@headlessui/vue': 1.7.16_vue@3.3.4
       '@heroicons/vue': 2.0.18_vue@3.3.4
-      '@pictode/core': link:../packages/core
+      '@pictode/core': 0.0.1-beta03
       '@pictode/plugin-alignment': link:../packages/plugin-alignment
-      '@pictode/plugin-history': link:../packages/plugin-history
-      '@pictode/plugin-selector': link:../packages/plugin-selector
-      '@pictode/tools': link:../packages/tools
-      '@pictode/utils': link:../packages/utils
-      '@pictode/vue-aide': link:../packages/vue-aide
+      '@pictode/plugin-history': 0.0.1-beta03
+      '@pictode/plugin-selector': 0.0.1-beta06
+      '@pictode/tools': 0.0.1-beta03
+      '@pictode/utils': 0.0.1-beta03
+      '@pictode/vue-aide': 0.0.1-beta03
       build: 0.1.4
       crypto-js: 4.1.1
       cssnano: 6.0.1_postcss@8.4.27
@@ -1120,6 +1120,71 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
     dev: true
+
+  /@pictode/core/0.0.1-beta03:
+    resolution: {integrity: sha512-Spkoc8g8BOuvrmDTSRuOzdLYrb94UBrtdtQnNQCh/ZNw7KqNjH3Obvcm7D1lnHfNHJOqr4lnG3OOuGMQ1Dofdg==}
+    dependencies:
+      '@pictode/utils': 0.0.1-beta03
+      dot: 2.0.0-beta.1
+      konva: 9.2.0
+      rimraf: 3.0.2
+      roughjs: 4.5.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pictode/plugin-history/0.0.1-beta03:
+    resolution: {integrity: sha512-w0i4WmSQnVXBhdVg85nhtbtJtVAQTqJbqT6Qyg0LGQyBwma2AfWvGljIIJpSNQPEivUyz3lr7xgO3ciDj/hQ8w==}
+    dependencies:
+      '@pictode/core': 0.0.1-beta03
+      '@pictode/utils': 0.0.1-beta03
+      dot: 2.0.0-beta.1
+      rimraf: 3.0.2
+      roughjs: 4.5.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pictode/plugin-selector/0.0.1-beta06:
+    resolution: {integrity: sha512-Jh6TS59/NQ7i9cQ3Pd03T7fBbWTiVgKRgTFxwoJwFuu+1yAzCJrn8P3hYhguI3bpGJMTl9r2Lb1gsVW9WrR5SQ==}
+    dependencies:
+      '@pictode/core': 0.0.1-beta03
+      '@pictode/utils': 0.0.1-beta03
+      dot: 2.0.0-beta.1
+      rimraf: 3.0.2
+      roughjs: 4.5.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pictode/tools/0.0.1-beta03:
+    resolution: {integrity: sha512-h7fJllFysF3hMC3jbeJroRsKTF0FSjVxfrI42BWJ7UoWAivDH0Z1PI1C/MbnarLNl2mhp+oSVfnqn81i8cc6Sg==}
+    dependencies:
+      '@pictode/core': 0.0.1-beta03
+      '@pictode/utils': 0.0.1-beta03
+      dot: 2.0.0-beta.1
+      rimraf: 3.0.2
+      roughjs: 4.5.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pictode/utils/0.0.1-beta03:
+    resolution: {integrity: sha512-yFhhGwvCgVaqpXFdri8OfD2kZsbcHrsEu7j9quZ7ohE9ohBWu6PGtXHdo+swoWVWQW1/NeQEdvvTTE9WNxtREA==}
+    dependencies:
+      axios: 1.4.0
+      events: 3.3.0
+      moment: 2.29.4
+      rimraf: 3.0.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pictode/vue-aide/0.0.1-beta03:
+    resolution: {integrity: sha512-TzwR3LUcyQ1OPd8IZwr+KlLeOKag0G+INNRaTwN/WpYddwZQSucQQLh6NsyqI1QijLG2dcB+gJWxvw44reELbw==}
+    dependencies:
+      vue: 3.3.4
+    dev: false
 
   /@rollup/plugin-typescript/11.1.3_typescript@4.9.5:
     resolution: {integrity: sha512-8o6cNgN44kQBcpsUJTbTXMTtb87oR1O0zgP3Dxm71hrNgparap3VujgofEilTYJo+ivf2ke6uy3/E5QEaiRlDA==}

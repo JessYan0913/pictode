@@ -8,9 +8,9 @@ interface ImageToolOptions {
 }
 
 export class ImageTool implements Tool<ImageToolConfig> {
-  public name: string = 'imageTool';
-  public config?: ImageToolConfig | undefined;
-  public hooks?: ToolHooks | undefined;
+  public name = 'imageTool';
+  public config?: ImageToolConfig;
+  public hooks?: ToolHooks;
   private image: Konva.Image | null = null;
   private isAdded: boolean = false;
   public imageElement: HTMLImageElement = new Image();

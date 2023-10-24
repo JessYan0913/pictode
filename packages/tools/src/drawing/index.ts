@@ -8,7 +8,7 @@ interface DrawingToolOptions {
 }
 
 export class DrawingTool implements Tool<DrawingToolConfig> {
-  public name: string = 'drawingTool';
+  public name = 'drawingTool';
   public config?: DrawingToolConfig;
   public hooks?: ToolHooks;
   private line: Konva.Line | null = null;
@@ -21,7 +21,7 @@ export class DrawingTool implements Tool<DrawingToolConfig> {
 
   public mousedown({ app }: ToolEvent) {
     const lastPoint = this.points.at(-1);
-    if (!lastPoint || !lastPoint.eq(app.pointer)) {
+    if (!lastPoint?.eq(app.pointer)) {
       this.points.push(app.pointer);
     }
     if (this.line) {

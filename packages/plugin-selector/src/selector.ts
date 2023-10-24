@@ -56,7 +56,7 @@ export class Selector {
       }
       const setAnchorCursor = (cursor: string = '') => {
         const anchorStage = anchor.getStage();
-        if (!anchorStage || !anchorStage.content) {
+        if (!anchorStage?.content) {
           return;
         }
         anchorStage.content.style.cursor = cursor;
@@ -243,7 +243,7 @@ export class Selector {
     } else {
       nodes = [node];
     }
-    nodes.map((node) => {
+    nodes.forEach((node) => {
       const box = node.getClientRect({
         skipTransform: true,
         skipShadow: true,

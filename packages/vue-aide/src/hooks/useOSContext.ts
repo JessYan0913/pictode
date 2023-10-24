@@ -26,26 +26,26 @@ const getOperatingSystem = (): OperatingSystem => {
 };
 
 const getOperatingSystemVersion = (): string => {
-  const userAgent: string = navigator.userAgent;
-  let osVersion: string = 'Unknown';
+  const userAgent = navigator.userAgent;
+  let osVersion = 'Unknown';
 
   if (/Windows NT/.test(userAgent)) {
-    const match = userAgent.match(/Windows NT (\d+\.\d+)/);
+    const match = RegExp(/Windows NT (\d+\.\d+)/).exec(userAgent);
     if (match) {
       osVersion = match[1];
     }
   } else if (/Mac OS X/.test(userAgent)) {
-    const match = userAgent.match(/Mac OS X (\d+_\d+)/);
+    const match = RegExp(/Mac OS X (\d+_\d+)/).exec(userAgent);
     if (match) {
       osVersion = match[1].replace('_', '.');
     }
   } else if (/Android/.test(userAgent)) {
-    const match = userAgent.match(/Android (\d+\.\d+)/);
+    const match = RegExp(/Android (\d+\.\d+)/).exec(userAgent);
     if (match) {
       osVersion = match[1];
     }
   } else if (/iPhone|iPad|iPod/.test(userAgent)) {
-    const match = userAgent.match(/OS (\d+_\d+)/);
+    const match = RegExp(/OS (\d+_\d+)/).exec(userAgent);
     if (match) {
       osVersion = match[1].replace('_', '.');
     }
@@ -73,31 +73,31 @@ const getBrowserInfo = (): BrowserInfo => {
 };
 
 const getBrowserVersion = (): string => {
-  const userAgent: string = navigator.userAgent;
-  let browserVersion: string = 'Unknown';
+  const userAgent = navigator.userAgent;
+  let browserVersion = 'Unknown';
 
   if (/Chrome/.test(userAgent)) {
-    const match = userAgent.match(/Chrome\/(\d+\.\d+)/);
+    const match = RegExp(/Chrome\/(\d+\.\d+)/).exec(userAgent);
     if (match) {
       browserVersion = match[1];
     }
   } else if (/Firefox/.test(userAgent)) {
-    const match = userAgent.match(/Firefox\/(\d+\.\d+)/);
+    const match = RegExp(/Firefox\/(\d+\.\d+)/).exec(userAgent);
     if (match) {
       browserVersion = match[1];
     }
   } else if (/Safari/.test(userAgent)) {
-    const match = userAgent.match(/Version\/(\d+\.\d+)/);
+    const match = RegExp(/Version\/(\d+\.\d+)/).exec(userAgent);
     if (match) {
       browserVersion = match[1];
     }
   } else if (/Edge/.test(userAgent)) {
-    const match = userAgent.match(/Edge\/(\d+\.\d+)/);
+    const match = RegExp(/Edge\/(\d+\.\d+)/).exec(userAgent);
     if (match) {
       browserVersion = match[1];
     }
   } else if (/MSIE|Trident/.test(userAgent)) {
-    const match = userAgent.match(/(?:MSIE|rv:)(\d+\.\d+)/);
+    const match = RegExp(/(?:MSIE|rv:)(\d+\.\d+)/).exec(userAgent);
     if (match) {
       browserVersion = match[1];
     }
@@ -121,7 +121,7 @@ const getUserGeolocation = (): Promise<Geolocation> => {
       );
     });
   } else {
-    return Promise.reject('Geolocation is not available.');
+    return Promise.reject(new Error('Geolocation is not available.'));
   }
 };
 

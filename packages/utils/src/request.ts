@@ -79,7 +79,7 @@ export class Request {
       async (err: RequestError) => {
         const { code = '', config } = err;
         // 配置中未开启重试，或异常状态不在重试状态中则无需重试
-        if (!config || !config.retry || !config.retryStatus?.includes(code)) {
+        if (!config?.retry || !config.retryStatus?.includes(code)) {
           return Promise.reject(err);
         }
         config.retryCounted = config.retryCounted ?? 0;
