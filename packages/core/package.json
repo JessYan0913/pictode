@@ -21,7 +21,7 @@
     "clear:type": "rimraf ./types"
   },
   "dependencies": {
-    "@pictode/utils": "^0.0.1-beta02",
+    "@pictode/utils": "workspace:^",
     "dot": "2.0.0-beta.1",
     "konva": "^9.2.0",
     "rimraf": "^3.0.2",
