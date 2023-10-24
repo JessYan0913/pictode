@@ -93,7 +93,8 @@ export class Mouse extends Service {
       (pointer.y - this.app.stage.y()) / oldScale
     );
 
-    const direction = (event.evt.shiftKey && !event.evt.ctrlKey ? event.evt.deltaX : event.evt.deltaY) > 0 ? 1 : -1;
+    const { shiftKey, ctrlKey, deltaX, deltaY } = event.evt;
+    const direction = Math.sign(shiftKey && !ctrlKey ? deltaX : deltaY);
     let newScale = oldScale;
     if (direction > 0) {
       newScale += this.app.config.mousewheel.factor;
