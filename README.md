@@ -130,6 +130,12 @@ Now you can dive into **Pictode**, let your creativity flow, and create unique m
 
 **Pictode** is an open-source project, and we welcome contributions in all forms. If you have suggestions, questions, or want to contribute code, don't hesitate to join our community!
 
+Thanks to the following developers for their contributions to this project:
+
+<a href="https://github.com/JessYan0913/pictode/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JessYan0913/pictode" />
+</a>
+
 ## 📝 License
 
 **Pictode** is released under the MIT License. Check out the LICENSE for more information.
