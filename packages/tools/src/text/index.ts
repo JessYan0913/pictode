@@ -3,9 +3,10 @@ import { App, Konva, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => void) => {
   textNode.hide();
   let textPosition = textNode.absolutePosition();
+  const { left, top } = app.stage.container().getBoundingClientRect();
   let areaPosition = {
-    x: app.stage.container().offsetLeft + textPosition.x,
-    y: app.stage.container().offsetTop + textPosition.y,
+    x: left + textPosition.x,
+    y: top + textPosition.y,
   };
   let textarea = document.createElement('textarea');
   document.body.appendChild(textarea);
@@ -23,6 +24,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   textarea.style.background = 'none';
   textarea.style.outline = 'none';
   textarea.style.resize = 'none';
+  textarea.style.zIndex = '99999';
   textarea.style.lineHeight = textNode.lineHeight().toString();
   textarea.style.fontFamily = textNode.fontFamily();
   textarea.style.transformOrigin = 'left top';
@@ -54,6 +56,8 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
 
   function setTextareaWidth(newWidth: number) {
     newWidth = Math.max(textarea.value.length * textNode.fontSize(), newWidth);
+
+    //TODO: The platform detection should be a generic function.
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     if (isSafari || isFirefox) {
