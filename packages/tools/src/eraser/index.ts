@@ -2,7 +2,7 @@ import { Konva, KonvaNode, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 
 export class EraserTool implements Tool {
   public name: string = 'eraserTool';
-  public hooks?: ToolHooks | undefined;
+  public hooks?: ToolHooks;
   private targetMap: Map<
     string,
     {

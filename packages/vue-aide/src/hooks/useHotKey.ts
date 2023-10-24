@@ -27,7 +27,7 @@ export const useHotKey = (hotKeyFunction: HotKeyFunction, opts?: Partial<HotKeyO
   let key = opts?.key;
 
   const getHotKey = (): (string | string[])[] => {
-    const options = opts || {};
+    const options = opts ?? {};
     const keyCombination = [];
     if (options.ctrlKey) keyCombination.push(isMacOS ? 'Cmd' : 'Ctrl');
     if (options.shiftKey) keyCombination.push(isMacOS ? 'Option' : 'Shift');
@@ -40,7 +40,7 @@ export const useHotKey = (hotKeyFunction: HotKeyFunction, opts?: Partial<HotKeyO
 
   const handleKeydownEvent = (event: KeyboardEvent) => {
     event.stopPropagation();
-    const options = opts || {};
+    const options = opts ?? {};
     if (paused || !key) {
       return;
     }

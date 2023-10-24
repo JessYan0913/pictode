@@ -8,7 +8,7 @@ interface EllipseToolOptions {
 }
 
 export class EllipseTool implements Tool<EllipseToolConfig> {
-  public name: string = 'ellipseTool';
+  public name = 'ellipseTool';
   public config?: EllipseToolConfig;
   public hooks?: ToolHooks;
   private ellipse: Konva.Ellipse | null = null;

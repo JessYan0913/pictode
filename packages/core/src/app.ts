@@ -68,7 +68,7 @@ export class App extends BaseService<EventArgs> {
     await this.tooler.setTool(curTool);
   }
 
-  public triggerPanning(enabled?: boolean): App {
+  public triggerPanning(enabled?: boolean): this {
     if (enabled === void 0) {
       this.stage.draggable(this.stage.draggable());
     } else {
@@ -82,7 +82,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public triggerMouseWheel(enabled?: boolean): App {
+  public triggerMouseWheel(enabled?: boolean): this {
     if (enabled === void 0) {
       this.config.mousewheel.enabled = !this.config.mousewheel.enabled;
     } else {
@@ -91,18 +91,18 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public triggerTool(enabled?: boolean): App {
+  public triggerTool(enabled?: boolean): this {
     this.tooler.trigger(enabled);
     return this;
   }
 
-  public add(...nodes: Array<KonvaNode>): App {
+  public add(...nodes: Array<KonvaNode>): this {
     this._add(...nodes);
     this.emit('node:added', { nodes: nodes });
     return this;
   }
 
-  public _add(...nodes: Array<KonvaNode>): App {
+  public _add(...nodes: Array<KonvaNode>): this {
     this.mainLayer.add(
       ...nodes.map((node) => {
         if (!node.attrs.id) {
@@ -115,13 +115,13 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public remove(...nodes: Array<KonvaNode>): App {
+  public remove(...nodes: Array<KonvaNode>): this {
     this._remove(...nodes);
     this.emit('node:removed', { nodes: nodes });
     return this;
   }
 
-  public _remove(...nodes: Array<KonvaNode>): App {
+  public _remove(...nodes: Array<KonvaNode>): this {
     nodes.forEach((node) => {
       node.remove();
     });
@@ -129,7 +129,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public update(...nodes: Array<KonvaNode>): App {
+  public update(...nodes: Array<KonvaNode>): this {
     const getNodes = (nodes: Array<KonvaNode>): KonvaNode[] =>
       nodes.reduce<Array<KonvaNode>>((result, node) => {
         const originNode = this.getNodeById(node.attrs.id);
@@ -144,7 +144,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public _update(...nodes: Array<KonvaNode>): App {
+  public _update(...nodes: Array<KonvaNode>): this {
     nodes.forEach((node) => {
       const originNode = this.getNodeById(node.attrs.id);
       originNode?.setAttrs(node.attrs);
@@ -215,22 +215,22 @@ export class App extends BaseService<EventArgs> {
     return target.parent instanceof Konva.Group ? target.parent : null;
   }
 
-  public moveUp(...nodes: Array<KonvaNode>): App {
+  public moveUp(...nodes: Array<KonvaNode>): this {
     this.moveZIndexNodes(nodes, (node) => node.moveUp());
     return this;
   }
 
-  public moveDown(...nodes: Array<KonvaNode>): App {
+  public moveDown(...nodes: Array<KonvaNode>): this {
     this.moveZIndexNodes(nodes, (node) => node.moveDown());
     return this;
   }
 
-  public moveTop(...nodes: Array<KonvaNode>): App {
+  public moveTop(...nodes: Array<KonvaNode>): this {
     this.moveZIndexNodes(nodes, (node) => node.moveToTop());
     return this;
   }
 
-  public moveBottom(...nodes: Array<KonvaNode>): App {
+  public moveBottom(...nodes: Array<KonvaNode>): this {
     nodes.forEach((node) => node.moveToBottom());
     this.moveZIndexNodes(nodes, (node) => node.moveToBottom());
     return this;
@@ -302,7 +302,7 @@ export class App extends BaseService<EventArgs> {
     return this.stage.scaleX();
   }
 
-  public scaleTo(scale: number, pointer: Point = new Point(this.stage.width() / 2, this.stage.height() / 2)): App {
+  public scaleTo(scale: number, pointer: Point = new Point(this.stage.width() / 2, this.stage.height() / 2)): this {
     const oldScale = this.scale();
     this.emit('canvas:zoom:start', { scale: oldScale });
     const newScale = Math.min(Math.max(scale, this.config.scale.min), this.config.scale.max);
@@ -403,7 +403,7 @@ export class App extends BaseService<EventArgs> {
     return JSON.stringify(this.mainLayer.toObject());
   }
 
-  public fromJSON(json: string): App {
+  public fromJSON(json: string): this {
     this.clear();
     this.mainLayer.remove();
     const layer = Konva.Node.create(json, 'layer');
@@ -413,7 +413,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public use(plugin: Plugin, ...options: any[]): App {
+  public use(plugin: Plugin, ...options: any[]): this {
     if (!this.installedPlugins.has(plugin.name)) {
       this.installedPlugins.set(plugin.name, plugin);
       plugin.install(this, ...options);
@@ -429,7 +429,7 @@ export class App extends BaseService<EventArgs> {
     return pluginNames.map((pluginName) => this.getPlugin(pluginName)) as T;
   }
 
-  public enablePlugin(plugins: string | string[]): App {
+  public enablePlugin(plugins: string | string[]): this {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
@@ -438,7 +438,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public disablePlugin(plugins: string | string[]): App {
+  public disablePlugin(plugins: string | string[]): this {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
@@ -451,7 +451,7 @@ export class App extends BaseService<EventArgs> {
     return this.getPlugin(pluginName)?.isEnabled?.() ?? false;
   }
 
-  public destroyPlugins(plugins: string | string[]): App {
+  public destroyPlugins(plugins: string | string[]): this {
     if (!Array.isArray(plugins)) {
       plugins = [plugins];
     }
