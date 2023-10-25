@@ -51,11 +51,8 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
     transformOrigin: 'left top',
     transform: transform,
   });
-  console.log('width', textarea.style.width);
-
   textarea.value = textNode.text();
   textarea.style.height = textarea.scrollHeight + 3 + 'px';
-
   textarea.focus();
 
   function removeTextarea() {
