@@ -10,29 +10,9 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   };
   let textarea = document.createElement('textarea');
   document.body.appendChild(textarea);
-  textarea.value = textNode.text();
-  textarea.style.position = 'absolute';
-  textarea.style.top = areaPosition.y + 'px';
-  textarea.style.left = areaPosition.x + 'px';
-  textarea.style.width = textNode.width() * textNode.scaleX() - textNode.padding() * 2 + 'px';
-  textarea.style.height = textNode.height() * textNode.scaleX() - textNode.padding() * 2 + 5 + 'px';
-  textarea.style.fontSize = textNode.fontSize() * textNode.scaleX() + 'px';
-  textarea.style.border = 'none';
-  textarea.style.padding = '0px';
-  textarea.style.margin = '0px';
-  textarea.style.overflow = 'hidden';
-  textarea.style.background = 'none';
-  textarea.style.outline = 'none';
-  textarea.style.resize = 'none';
-  textarea.style.zIndex = '99999';
-  textarea.style.lineHeight = textNode.lineHeight().toString();
-  textarea.style.fontFamily = textNode.fontFamily();
-  textarea.style.transformOrigin = 'left top';
-  textarea.style.textAlign = textNode.align();
-  textarea.style.color = textNode.stroke();
-  textarea.style.caretColor = textNode.stroke();
-  const rotation = textNode.rotation();
+
   let transform = '';
+  const rotation = textNode.rotation();
   if (rotation) {
     transform += 'rotateZ(' + rotation + 'deg)';
   }
@@ -43,7 +23,37 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   }
   transform += 'translateY(-' + px + 'px)';
 
-  textarea.style.transform = transform;
+  Object.assign(textarea.style, {
+    position: 'absolute',
+    display: 'inline-block',
+    minHeight: '1em',
+    backfaceVisibility: 'hidden',
+    resize: 'none',
+    background: 'transparent',
+    overflow: 'hidden',
+    overflowWrap: 'break-word',
+    boxSizing: 'content-box',
+    top: areaPosition.y + 'px',
+    left: areaPosition.x + 'px',
+    width: textNode.width() * textNode.scaleX() - textNode.padding() * 2 + 10 + 'px',
+    height: textNode.height() * textNode.scaleX() - textNode.padding() * 2 + 5 + 'px',
+    fontSize: textNode.fontSize() * textNode.scaleX() + 'px',
+    border: 0,
+    padding: 0,
+    margin: 0,
+    outline: 0,
+    lineHeight: textNode.lineHeight().toString(),
+    fontFamily: textNode.fontFamily(),
+    textAlign: textNode.align(),
+    color: textNode.stroke(),
+    caretColor: textNode.stroke(),
+    zIndex: '99999',
+    transformOrigin: 'left top',
+    transform: transform,
+  });
+  console.log('width', textarea.style.width);
+
+  textarea.value = textNode.text();
   textarea.style.height = textarea.scrollHeight + 3 + 'px';
 
   textarea.focus();
@@ -74,7 +84,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   textarea.addEventListener('keydown', function (e: KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey) {
       if (textarea.value.trim().length >= 1) {
-        textNode.text(textarea.value.startsWith(' ') ? textarea.value.substring(1) : textarea.value);
+        textNode.text(textarea.value);
       } else {
         app.remove(textNode);
       }
@@ -88,7 +98,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
 
   textarea.addEventListener('keydown', function () {
     const scale = textNode.getAbsoluteScale().x;
-    setTextareaWidth(textNode.width() * scale);
+    setTextareaWidth(textNode.width() * scale - textNode.padding() * 2 + 10);
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + textNode.fontSize() + 'px';
   });
@@ -125,7 +135,7 @@ export class TextTool implements Tool<TextToolConfig> {
   public doubleClick({ app, pointer }: ToolEvent) {
     this.textNode = new Konva.Text({
       ...this.config,
-      text: ' ',
+      text: '',
       x: pointer.x,
       y: pointer.y,
       fontFamily: 'JiaYouYa',
