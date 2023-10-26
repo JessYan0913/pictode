@@ -111,16 +111,14 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   });
 };
 
-type TextToolConfig = Pick<Konva.TextConfig, 'stroke' | 'strokeWidth' | 'fill' | 'fontSize' | 'opacity'>;
-
 interface TextToolOptions {
-  config?: TextToolConfig;
+  config?: Konva.TextConfig;
   hooks?: ToolHooks;
 }
 
-export class TextTool implements Tool<TextToolConfig> {
+export class TextTool implements Tool<Konva.TextConfig> {
   public name: string = 'textTool';
-  public config?: TextToolConfig;
+  public config?: Konva.TextConfig;
   public hooks?: ToolHooks;
   private textNode: Konva.Text | null = null;
 

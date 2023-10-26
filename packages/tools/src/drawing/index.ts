@@ -1,15 +1,13 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type DrawingToolConfig = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
-
 interface DrawingToolOptions {
   config?: Konva.LineConfig;
   hooks?: ToolHooks;
 }
 
-export class DrawingTool implements Tool<DrawingToolConfig> {
+export class DrawingTool implements Tool<Konva.LineConfig> {
   public name = 'drawingTool';
-  public config?: DrawingToolConfig;
+  public config?: Konva.LineConfig;
   public hooks?: ToolHooks;
   private line: Konva.Line | null = null;
   private points: util.Point[] = [];

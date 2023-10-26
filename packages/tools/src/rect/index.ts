@@ -1,15 +1,13 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type RectToolConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'fill' | 'cornerRadius' | 'opacity'>;
-
 interface RectToolOptions {
-  config?: RectToolConfig;
+  config?: Konva.RectConfig;
   hooks?: ToolHooks;
 }
 
-export class RectTool implements Tool<RectToolConfig> {
+export class RectTool implements Tool<Konva.RectConfig> {
   public name = 'rectTool';
-  public config?: RectToolConfig;
+  public config?: Konva.RectConfig;
   public hooks?: ToolHooks;
   private startPointer: util.Point = new util.Point(0, 0);
   private rectangle: Konva.Rect | null = null;
