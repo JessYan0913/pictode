@@ -21,9 +21,9 @@ export class Tooler extends Service {
     return this.currentTool !== null && this.enable && !this.app.stage.draggable();
   }
 
-  public async setTool(curTool: Tool): Promise<void> {
+  public async setTool(curTool: Tool | null): Promise<void> {
     const oldTool = this.currentTool;
-    if (oldTool?.name === curTool.name) {
+    if (oldTool?.name === curTool?.name) {
       return;
     }
     if (oldTool?.hooks && isFunction(oldTool?.hooks?.onInactive)) {

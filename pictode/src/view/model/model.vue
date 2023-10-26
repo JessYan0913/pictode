@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineExpose, onMounted, ref } from 'vue';
-import { App } from '@pictode/core';
+import { App, util } from '@pictode/core';
 import { AlignmentPlugin } from '@pictode/plugin-alignment';
 import { HistoryPlugin } from '@pictode/plugin-history';
 import { SelectorPlugin } from '@pictode/plugin-selector';
-import { SelectTool, TextTool } from '@pictode/tools';
+import { ImageTool, SelectTool, TextTool } from '@pictode/tools';
 import { Modal as AModal } from 'ant-design-vue';
 
 const canvasRef = ref<HTMLDivElement>();
@@ -67,6 +67,19 @@ function openModal() {
   open.value = true;
 }
 
+const onClickImage = async () => {
+  const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
+  const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+  const imageTool = new ImageTool({
+    config: {
+      image: new Image(),
+    },
+  });
+  imageTool.imageElement.src = imgSrc;
+  app.setTool(null);
+  app.setTool(imageTool);
+};
+
 defineExpose({
   openModal,
 });
@@ -79,6 +92,7 @@ defineExpose({
       <div class="tools">
         <button @click="app.setTool(selectTool)">选择</button>
         <button @click="app.setTool(textTool)">文本</button>
+        <button @click="onClickImage">Image</button>
       </div>
       <div class="actions">
         <button @click="app.undo()">撤销</button>
@@ -97,14 +111,17 @@ defineExpose({
   align-items: center;
   background: gray;
 }
+
 .canvas {
   width: 400px;
   height: 400px;
   background: white;
 }
+
 .tools {
   display: flex;
 }
+
 .actions {
   display: flex;
 }
