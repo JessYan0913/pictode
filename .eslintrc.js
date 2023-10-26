@@ -51,6 +51,7 @@ module.exports = defineConfig({
     'vue/multi-word-component-names': ['off'],
     'vue/padding-line-between-blocks': ['error'],
     'vue/require-component-is': ['error'],
+    'vue/require-toggle-inside-transition': ['off'],
     'vue/component-definition-name-casing': ['error', 'PascalCase'],
     'vue/component-name-in-template-casing': ['error', 'PascalCase'],
     'vue/component-options-name-casing': ['error', 'PascalCase'],
