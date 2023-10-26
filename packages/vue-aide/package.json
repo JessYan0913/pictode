@@ -31,6 +31,21 @@
     "build:type": "npm run clear:type && vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
     "clear:type": "rimraf ./types"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JessYan0913/pictode.git",
+    "directory": "packages/vue-aide"
+  },
+  "keywords": [
+    "pictode",
+    "vue"
+  ],
+  "author": "JessYan0913",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JessYan0913/pictode/issues"
+  },
+  "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
     "vue": "^3.3.4"
   },

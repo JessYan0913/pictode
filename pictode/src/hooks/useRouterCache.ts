@@ -1,6 +1,5 @@
 import { computed, ref } from 'vue';
 import { RouteLocationNormalized } from 'vue-router';
-import { defineStore } from 'pinia';
 
 const cacheComps = ref<Set<string>>(new Set());
 
@@ -20,7 +19,5 @@ export const useRouterCache = () => {
   };
   return { keepAliveComps, cacheRouter };
 };
-
-export const useRouterCacheStore = defineStore('routerCache', useRouterCache);
 
 export default useRouterCache;
