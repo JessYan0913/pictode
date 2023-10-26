@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watchEffect } from 'vue';
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 import { Tool, util } from '@pictode/core';
 import {
+  ArrowTool,
   DiamondTool,
   DrawingTool,
   EllipseTool,
@@ -136,6 +137,23 @@ const tools: ToolInfo[] = [
     title: '自由书写',
     tool: () =>
       new DrawingTool({
+        hooks: {
+          onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
+            app.cancelSelect();
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
+        },
+      }),
+  },
+  {
+    icon: 'line-2',
+    name: 'arrowTool',
+    title: '箭头',
+    tool: () =>
+      new ArrowTool({
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
