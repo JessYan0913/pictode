@@ -21,7 +21,7 @@
     "@pictode/utils": "workspace:^",
     "@pictode/vue-aide": "workspace:^",
     "build": "^0.1.4",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "cssnano": "^6.0.1",
     "hls.js": "^1.4.4",
     "pinia": "^2.0.28",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^1.2.0",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@types/crypto-js": "^4.1.1",
+    "@types/crypto-js": "^4.2.0",
     "@types/three": "^0.150.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.14",

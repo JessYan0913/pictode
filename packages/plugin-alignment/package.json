@@ -21,12 +21,31 @@
     "build:type": "npm run clear:type && tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
     "clear:type": "rimraf ./types"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JessYan0913/pictode.git",
+    "directory": "packages/plugin-alignment"
+  },
+  "keywords": [
+    "pictode",
+    "konva.js",
+    "canvas"
+  ],
+  "author": "JessYan0913",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JessYan0913/pictode/issues"
+  },
+  "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
-    "@pictode/core": "workspace:^",
-    "@pictode/utils": "workspace:^",
+    "@pictode/core": "0.0.1-beta05",
+    "@pictode/utils": "0.0.1-beta03",
     "dot": "2.0.0-beta.1",
     "rimraf": "^3.0.2",
     "roughjs": "^4.5.2"
+  },
+  "peerDependencies": {
+    "@pictode/core": "0.0.1-beta05"
   },
   "devDependencies": {
     "typescript": "^4.9.3",
