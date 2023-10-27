@@ -3,13 +3,12 @@ import { App, Konva, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => void) => {
   textNode.hide();
   let textPosition = textNode.absolutePosition();
-  const { left, top } = app.stage.container().getBoundingClientRect();
   let areaPosition = {
-    x: left + textPosition.x,
-    y: top + textPosition.y,
+    x: app.stage.container().offsetLeft + textPosition.x,
+    y: app.stage.container().offsetTop + textPosition.y,
   };
   let textarea = document.createElement('textarea');
-  document.body.appendChild(textarea);
+  app.stage.container().appendChild(textarea);
 
   let transform = '';
   const rotation = textNode.rotation();
