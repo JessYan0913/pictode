@@ -1,13 +1,13 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
 interface ImageToolOptions {
-  config?: Konva.ImageConfig;
+  config?: Partial<Konva.ImageConfig>;
   hooks?: ToolHooks;
 }
 
-export class ImageTool implements Tool<Konva.ImageConfig> {
+export class ImageTool implements Tool<Partial<Konva.ImageConfig>> {
   public name = 'imageTool';
-  public config?: Konva.ImageConfig;
+  public config?: Partial<Konva.ImageConfig>;
   public hooks?: ToolHooks;
   private image: Konva.Image | null = null;
   private isAdded: boolean = false;

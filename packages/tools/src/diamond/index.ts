@@ -1,14 +1,14 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
 interface DiamondToolOptions {
-  config?: Konva.RegularPolygonConfig;
+  config?: Partial<Konva.RegularPolygonConfig>;
   hooks?: ToolHooks;
 }
 
-export class DiamondTool implements Tool<Konva.RegularPolygonConfig> {
+export class DiamondTool implements Tool<Partial<Konva.RegularPolygonConfig>> {
   public name = 'diamondTool';
   public hooks?: ToolHooks;
-  public config?: Konva.RegularPolygonConfig;
+  public config?: Partial<Konva.RegularPolygonConfig>;
   private diamond: Konva.RegularPolygon | null = null;
   private startPointer: util.Point = new util.Point(0, 0);
 

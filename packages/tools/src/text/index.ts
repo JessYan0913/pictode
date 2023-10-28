@@ -112,13 +112,13 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
 };
 
 interface TextToolOptions {
-  config?: Konva.TextConfig;
+  config?: Partial<Konva.TextConfig>;
   hooks?: ToolHooks;
 }
 
-export class TextTool implements Tool<Konva.TextConfig> {
+export class TextTool implements Tool<Partial<Konva.TextConfig>> {
   public name: string = 'textTool';
-  public config?: Konva.TextConfig;
+  public config?: Partial<Konva.TextConfig>;
   public hooks?: ToolHooks;
   private textNode: Konva.Text | null = null;
 
