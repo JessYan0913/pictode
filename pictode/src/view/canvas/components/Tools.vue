@@ -3,13 +3,13 @@ import { computed, nextTick, ref, watchEffect } from 'vue';
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 import { Tool, util } from '@pictode/core';
 import {
-  DiamondTool,
   DrawingTool,
   EllipseTool,
   EraserTool,
   ImageTool,
   LineTool,
   RectTool,
+  RegularPolygonTool,
   SelectTool,
   TextTool,
 } from '@pictode/tools';
@@ -93,7 +93,7 @@ const tools: ToolInfo[] = [
     name: 'diamondTool',
     title: '菱形',
     tool: () =>
-      new DiamondTool({
+      new RegularPolygonTool({
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
