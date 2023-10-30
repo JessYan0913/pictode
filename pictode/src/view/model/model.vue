@@ -70,13 +70,13 @@ function openModal() {
 const onClickImage = async () => {
   const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
   const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+  const imgElement = new Image();
+  imgElement.src = imgSrc;
   const imageTool = new ImageTool({
     config: {
-      image: new Image(),
+      image: imgElement,
     },
   });
-  imageTool.imageElement.src = imgSrc;
-  app.setTool(null);
   app.setTool(imageTool);
 };
 
