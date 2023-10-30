@@ -1,6 +1,6 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-interface LineToolOptions {
+export interface LineToolOptions {
   config?: Partial<Konva.LineConfig>;
   hooks?: ToolHooks;
 }

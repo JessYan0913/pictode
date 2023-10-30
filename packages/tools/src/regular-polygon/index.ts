@@ -1,6 +1,6 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-interface RegularPolygonToolOptions {
+export interface RegularPolygonToolOptions {
   config?: Partial<Konva.RegularPolygonConfig>;
   hooks?: ToolHooks;
 }

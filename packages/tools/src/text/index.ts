@@ -111,7 +111,7 @@ const handleTextDoubleClick = (app: App, textNode: Konva.Text, onUpdated: () => 
   });
 };
 
-interface TextToolOptions {
+export interface TextToolOptions {
   config?: Partial<Konva.TextConfig>;
   hooks?: ToolHooks;
 }

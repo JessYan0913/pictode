@@ -2,7 +2,7 @@ import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
 type ImageConfig = Partial<Konva.ImageConfig> & { image: HTMLImageElement };
 
-interface ImageToolOptions {
+export interface ImageToolOptions {
   config: ImageConfig;
   hooks?: ToolHooks;
 }

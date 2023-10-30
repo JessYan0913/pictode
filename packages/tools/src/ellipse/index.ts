@@ -1,6 +1,6 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-interface EllipseToolOptions {
+export interface EllipseToolOptions {
   config?: Partial<Konva.EllipseConfig>;
   hooks?: ToolHooks;
 }
