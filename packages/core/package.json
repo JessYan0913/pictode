@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
-    "@pictode/utils": "workspace:^",
+    "@pictode/utils": "0.0.1-beta03",
     "dot": "2.0.0-beta.1",
     "konva": "^9.2.0",
     "rimraf": "^3.0.2",

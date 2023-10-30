@@ -38,8 +38,8 @@
   },
   "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
-    "@pictode/core": "workspace:^",
-    "@pictode/utils": "workspace:^",
+    "@pictode/core": "0.0.1-beta05",
+    "@pictode/utils": "0.0.1-beta03",
     "dot": "2.0.0-beta.1",
     "rimraf": "^3.0.2",
     "roughjs": "^4.5.2"

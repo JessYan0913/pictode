@@ -82,7 +82,7 @@ importers:
 
   packages/core:
     specifiers:
-      '@pictode/utils': workspace:^
+      '@pictode/utils': 0.0.1-beta03
       dot: 2.0.0-beta.1
       konva: ^9.2.0
       rimraf: ^3.0.2
@@ -101,8 +101,8 @@ importers:
 
   packages/plugin-alignment:
     specifiers:
-      '@pictode/core': workspace:^
-      '@pictode/utils': workspace:^
+      '@pictode/core': 0.0.1-beta05
+      '@pictode/utils': 0.0.1-beta03
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -120,8 +120,8 @@ importers:
 
   packages/plugin-history:
     specifiers:
-      '@pictode/core': workspace:^
-      '@pictode/utils': workspace:^
+      '@pictode/core': 0.0.1-beta05
+      '@pictode/utils': 0.0.1-beta03
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -139,8 +139,8 @@ importers:
 
   packages/plugin-selector:
     specifiers:
-      '@pictode/core': workspace:^
-      '@pictode/utils': workspace:^
+      '@pictode/core': 0.0.1-beta05
+      '@pictode/utils': 0.0.1-beta03
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
@@ -158,8 +158,8 @@ importers:
 
   packages/tools:
     specifiers:
-      '@pictode/core': workspace:^
-      '@pictode/utils': workspace:^
+      '@pictode/core': 0.0.1-beta05
+      '@pictode/utils': 0.0.1-beta03
       dot: 2.0.0-beta.1
       rimraf: ^3.0.2
       roughjs: ^4.5.2
