@@ -1,14 +1,14 @@
 import { PanelConfig } from '@/panels/types';
 
-import { diamondPanelConfig } from './diamond-panel';
 import { ellipsePanelConfig } from './ellipse-panel';
 import { imagePanelConfig } from './image-panel';
 import { linePanelConfig } from './line-panel';
 import { rectPanelConfig } from './rect-panel';
+import { regularPolygonPanelConfig } from './regular-polygon-panel';
 import { textPanelConfig } from './text-panel';
 
 const panelConfigs = [
-  diamondPanelConfig,
+  regularPolygonPanelConfig,
   ellipsePanelConfig,
   imagePanelConfig,
   linePanelConfig,

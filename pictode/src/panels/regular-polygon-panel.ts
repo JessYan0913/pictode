@@ -1,7 +1,7 @@
 import { PanelConfig } from '@/panels/types';
 
-export const diamondPanelConfig: PanelConfig = {
-  bindTool: ['diamondTool'],
+export const regularPolygonPanelConfig: PanelConfig = {
+  bindTool: ['regularPolygonTool'],
   bindShape: ['RegularPolygon'],
   formConfig: [
     {
@@ -75,4 +75,4 @@ export const diamondPanelConfig: PanelConfig = {
   },
 };
 
-export default diamondPanelConfig;
+export default regularPolygonPanelConfig;

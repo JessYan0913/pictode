@@ -64,7 +64,7 @@ export class App extends BaseService<EventArgs> {
     this.resizeObserver.observe(this.stage.container());
   }
 
-  public async setTool(curTool: Tool): Promise<void> {
+  public async setTool(curTool: Tool | null): Promise<void> {
     await this.tooler.setTool(curTool);
   }
 

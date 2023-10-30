@@ -1,8 +1,8 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type EllipseToolConfig = Pick<Konva.EllipseConfig, 'stroke' | 'fill' | 'strokeWidth' | 'opacity'>;
+export type EllipseToolConfig = Partial<Konva.EllipseConfig>;
 
-interface EllipseToolOptions {
+export interface EllipseToolOptions {
   config?: EllipseToolConfig;
   hooks?: ToolHooks;
 }

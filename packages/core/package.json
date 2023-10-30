@@ -1,7 +1,7 @@
 {
   "name": "@pictode/core",
   "private": false,
-  "version": "0.0.1-beta05",
+  "version": "0.0.1-beta06",
   "main": "dist/pictode-core.umd.js",
   "module": "dist/pictode-core.mjs",
   "types": "types/index.d.ts",
@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
-    "@pictode/utils": "0.0.1-beta03",
+    "@pictode/utils": "workspace:^",
     "dot": "2.0.0-beta.1",
     "konva": "^9.2.0",
     "rimraf": "^3.0.2",

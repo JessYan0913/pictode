@@ -54,13 +54,16 @@ export const usePictode = () => {
   };
 
   const onToolChanged = ({ curTool }: EventArgs['tool:changed']) => {
+    if (!curTool) {
+      return;
+    }
     const newPanelConfig = getPanelConfigByTool(curTool.name);
     if (!newPanelConfig) {
       return;
     }
     panelFormConfig.value = newPanelConfig.formConfig;
     panelFormModel.value = newPanelConfig.model;
-    curTool.config = panelFormModel.value;
+    curTool.config = { ...curTool.config, ...panelFormModel.value };
   };
 
   const onZoomEnd = ({ scale: newScale }: EventArgs['canvas:zoom:end']) => {
