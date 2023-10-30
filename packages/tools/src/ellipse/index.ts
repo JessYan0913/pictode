@@ -1,13 +1,15 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
+export type EllipseToolConfig = Partial<Konva.EllipseConfig>;
+
 export interface EllipseToolOptions {
-  config?: Partial<Konva.EllipseConfig>;
+  config?: EllipseToolConfig;
   hooks?: ToolHooks;
 }
 
-export class EllipseTool implements Tool<Partial<Konva.EllipseConfig>> {
+export class EllipseTool implements Tool<EllipseToolConfig> {
   public name = 'ellipseTool';
-  public config?: Partial<Konva.EllipseConfig>;
+  public config?: EllipseToolConfig;
   public hooks?: ToolHooks;
   private ellipse: Konva.Ellipse | null = null;
   private startPointer: util.Point = new util.Point(0, 0);

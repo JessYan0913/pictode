@@ -1,13 +1,15 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
+export type LineToolConfig = Partial<Konva.LineConfig>;
+
 export interface LineToolOptions {
-  config?: Partial<Konva.LineConfig>;
+  config?: LineToolConfig;
   hooks?: ToolHooks;
 }
 
-export class LineTool implements Tool<Partial<Konva.LineConfig>> {
+export class LineTool implements Tool<LineToolConfig> {
   public name = 'lineTool';
-  public config?: Partial<Konva.LineConfig>;
+  public config?: LineToolConfig;
   public hooks?: ToolHooks;
   private points: util.Point[] = [];
   private line: Konva.Line | null = null;

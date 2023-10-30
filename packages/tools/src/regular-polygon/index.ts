@@ -1,14 +1,16 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
+export type RegularPolygonToolConfig = Partial<Konva.RegularPolygonConfig>;
+
 export interface RegularPolygonToolOptions {
-  config?: Partial<Konva.RegularPolygonConfig>;
+  config?: RegularPolygonToolConfig;
   hooks?: ToolHooks;
 }
 
-export class RegularPolygonTool implements Tool<Partial<Konva.RegularPolygonConfig>> {
+export class RegularPolygonTool implements Tool<RegularPolygonToolConfig> {
   public name = 'regularPolygonTool';
   public hooks?: ToolHooks;
-  public config?: Partial<Konva.RegularPolygonConfig>;
+  public config?: RegularPolygonToolConfig;
   private regularPolygon: Konva.RegularPolygon | null = null;
   private startPointer: util.Point = new util.Point(0, 0);
 
@@ -28,7 +30,6 @@ export class RegularPolygonTool implements Tool<Partial<Konva.RegularPolygonConf
       strokeScaleEnabled: false,
       ...this.config,
     });
-    console.log('====>', this.config);
 
     this.regularPolygon.setPosition(this.startPointer);
     app.add(this.regularPolygon);

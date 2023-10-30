@@ -7,7 +7,7 @@ export interface ImageToolOptions {
   hooks?: ToolHooks;
 }
 
-export class ImageTool implements Tool<Partial<ImageConfig>> {
+export class ImageTool implements Tool<ImageConfig> {
   public name = 'imageTool';
   public config: ImageConfig;
   public hooks?: ToolHooks;
