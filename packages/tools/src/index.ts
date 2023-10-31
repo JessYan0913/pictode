@@ -1,4 +1,4 @@
-export * from './diamond';
+export * from './regular-polygon';
 export * from './drawing';
 export * from './ellipse';
 export * from './image';

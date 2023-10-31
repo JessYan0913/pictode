@@ -1,7 +1,7 @@
 {
   "name": "@pictode/vue-aide",
   "private": false,
-  "version": "0.0.1-beta04",
+  "version": "1.0.0",
   "sideEffects": [
     "dist/*",
     "src/theme/*"
@@ -47,6 +47,9 @@
   },
   "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
+    "vue": "^3.3.4"
+  },
+  "peerDependencies": {
     "vue": "^3.3.4"
   },
   "devDependencies": {

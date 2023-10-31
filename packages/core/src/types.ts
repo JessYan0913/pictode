@@ -78,7 +78,7 @@ export abstract class Service {
 export interface EventArgs {
   'tool:changed': {
     oldTool: Tool | null;
-    curTool: Tool;
+    curTool: Tool | null;
   };
   'canvas:rendered': {
     time: number;

@@ -1,5 +1,9 @@
 import { Konva, KonvaNode, Tool, ToolEvent, ToolHooks } from '@pictode/core';
 
+export interface EraserToolOptions {
+  hooks?: ToolHooks;
+}
+
 export class EraserTool implements Tool {
   public name: string = 'eraserTool';
   public hooks?: ToolHooks;
@@ -12,7 +16,7 @@ export class EraserTool implements Tool {
   > = new Map();
   private isEraser: boolean = false;
 
-  constructor(options: { hooks?: ToolHooks }) {
+  constructor(options: EraserToolOptions) {
     this.hooks = options.hooks;
   }
 

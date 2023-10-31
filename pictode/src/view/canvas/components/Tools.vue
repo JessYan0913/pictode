@@ -4,13 +4,15 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 import { Tool, util } from '@pictode/core';
 import {
   ArrowTool,
-  DiamondTool,
+  DiamondTool, 
+  main
   DrawingTool,
   EllipseTool,
   EraserTool,
   ImageTool,
   LineTool,
   RectTool,
+  RegularPolygonTool,
   SelectTool,
   TextTool,
 } from '@pictode/tools';
@@ -26,7 +28,7 @@ interface ToolInfo {
   icon: string;
   name: string;
   title: string;
-  tool: Tool | (() => Tool);
+  tool: Tool | (() => Tool | Promise<Tool>);
 }
 
 const selectTool = new SelectTool({
@@ -94,7 +96,7 @@ const tools: ToolInfo[] = [
     name: 'diamondTool',
     title: '菱形',
     tool: () =>
-      new DiamondTool({
+      new RegularPolygonTool({
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -169,14 +171,18 @@ const tools: ToolInfo[] = [
     icon: 'picture',
     name: 'imageTool',
     title: '图片',
-    tool: () =>
-      new ImageTool({
+    tool: async () => {
+      const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
+      const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
+      const image = new Image();
+      image.src = imgSrc;
+      return new ImageTool({
+        config: {
+          image,
+        },
         hooks: {
-          async onActive(app, tool) {
+          onActive(app) {
             app.cancelSelect();
-            const files = await util.selectFile(['.jpg', '.png', '.jpge', '.PNG', '.JPG', '.JPGE', '.svg'], false);
-            const imgSrc = await util.readeFile<string>((reader) => reader.readAsDataURL(files[0]));
-            (tool as ImageTool).imageElement.src = imgSrc;
           },
           onInactive(app) {
             app.containerElement.style.cursor = `default`;
@@ -186,7 +192,8 @@ const tools: ToolInfo[] = [
             nextTick(() => app.select(node));
           },
         },
-      }),
+      });
+    },
   },
   {
     icon: 'text',
@@ -230,10 +237,10 @@ const currentTool = ref<string>(tools[0].name);
 const { theme } = useTheme();
 const strokeColor = computed<string>(() => (theme.value === 'dark' ? '#d1d5db' : '#333333'));
 
-watchEffect(() => {
+watchEffect(async () => {
   let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
   if (typeof tool === 'function') {
-    tool = tool();
+    tool = await tool();
   }
   if (tool) {
     app.setTool(tool);

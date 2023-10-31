@@ -1,8 +1,8 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type RectToolConfig = Pick<Konva.RectConfig, 'stroke' | 'strokeWidth' | 'fill' | 'cornerRadius' | 'opacity'>;
+export type RectToolConfig = Partial<Konva.RectConfig>;
 
-interface RectToolOptions {
+export interface RectToolOptions {
   config?: RectToolConfig;
   hooks?: ToolHooks;
 }

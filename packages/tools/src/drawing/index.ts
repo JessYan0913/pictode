@@ -1,9 +1,9 @@
 import { Konva, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-type DrawingToolConfig = Pick<Konva.LineConfig, 'stroke' | 'strokeWidth' | 'opacity'>;
+export type DrawingToolConfig = Partial<Konva.LineConfig>;
 
-interface DrawingToolOptions {
-  config?: Konva.LineConfig;
+export interface DrawingToolOptions {
+  config?: DrawingToolConfig;
   hooks?: ToolHooks;
 }
 
