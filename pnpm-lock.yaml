@@ -11,7 +11,6 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.48.0
       '@typescript-eslint/parser': ^5.48.0
       '@typescript-eslint/typescript-estree': ^5.48.0
-      '@vitejs/plugin-vue': ^4.0.0
       '@vitest/coverage-c8': ^0.26.3
       c8: ^7.12.0
       chalk: ^5.2.0
@@ -40,7 +39,6 @@ importers:
       typescript: ^4.9.3
       vite: ^4.0.0
       vitest: ^0.26.3
-      vue: ^3.3.4
     devDependencies:
       '@babel/core': 7.22.9
       '@commitlint/cli': 17.6.7
@@ -49,7 +47,6 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.62.0_g5aut6oqgie5ldisuxhbcgvxiy
       '@typescript-eslint/parser': 5.62.0_a3vhf2jlnnjnbmpqqovi7mhg4a
       '@typescript-eslint/typescript-estree': 5.62.0_typescript@4.9.5
-      '@vitejs/plugin-vue': 4.2.3_vite@4.4.8+vue@3.3.4
       '@vitest/coverage-c8': 0.26.3_jsdom@21.1.2
       c8: 7.14.0
       chalk: 5.3.0
@@ -78,7 +75,6 @@ importers:
       typescript: 4.9.5
       vite: 4.4.8_@types+node@18.17.3
       vitest: 0.26.3_jsdom@21.1.2
-      vue: 3.3.4
 
   packages/core:
     specifiers:
