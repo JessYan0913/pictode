@@ -10,6 +10,32 @@ Welcome to **Pictode** - your canvas for unlimited creativity! 🚀
 
 **Pictode** is a canvas project built on cutting-edge technologies like Vue 3, TypeScript, Konva, HeadlessUI, and Tailwind CSS. It empowers you to draw, create, and express your creativity freely. ✨
 
+## Local Setup
+
+- Clone the repository locally
+
+```shell
+git clone https://github.com/JessYan0913/pictode.git
+```
+
+- Install dependencies
+
+```shell
+cd pictode
+
+npm i -g pnpm
+
+pnpm bootstrap
+```
+
+- 启动项目
+
+```shell
+pnpm pictode
+```
+
+- 访问项目`http://localhost:8800`
+
 ## 🖌️ Drawing Tools
 
 **Pictode** offers a range of drawing tools, from simple rectangles to intricate lines, allowing you to craft your unique artworks. 🎨
