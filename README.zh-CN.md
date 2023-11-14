@@ -10,6 +10,32 @@
 
 **Pictode** 是一个基于 Vue 3、TypeScript、Konva、HeadlessUI 和 Tailwind CSS 等酷炫技术构建的画板项目，它让你可以随心所欲地绘制、创作和表达自己的创意。✨
 
+## 本地运行
+
+- 克隆仓库到本地
+
+```shell
+git clone https://github.com/JessYan0913/pictode.git
+```
+
+- 安装依赖项
+
+```shell
+cd pictode
+
+npm i -g pnpm
+
+pnpm bootstrap
+```
+
+- 启动项目
+
+```shell
+pnpm pictode
+```
+
+- 访问项目`http://localhost:8800`
+
 ## 🖌️ 绘图工具
 
 **Pictode** 提供了一系列的绘制工具，从简单的矩形到复杂的连线，你可以尽情选择并创造属于你自己的艺术作品。🎨
