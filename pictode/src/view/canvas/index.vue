@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { HtmlContainer } from '@pictode/tools';
 import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
@@ -31,6 +32,17 @@ const displayScale = computed<string>(() => {
 });
 
 const hotKeyList = useCommandComponent(HotKeyList);
+
+const htmlContainer = new HtmlContainer({
+  x: 10,
+  y: 20,
+  width: 80,
+  height: 80,
+  stroke: 'red',
+  strokeWidth: 2,
+});
+
+app._add(htmlContainer);
 
 const onClickZoomIn = () => {
   app.scaleTo(scale.value + app.config.mousewheel.factor);
