@@ -24,6 +24,41 @@ export class Html extends Konva.Shape {
     }
   }
 
+  _sceneFunc(context: Konva.Context) {
+    const width = this.width();
+    const height = this.height();
+
+    context.beginPath();
+    context.rect(0, 0, width, height);
+    context.closePath();
+    context.fillStrokeShape(this);
+    this.addHtmlToStage();
+  }
+
+  private addHtmlToStage() {
+    const stage = this.getStage();
+    const parent = stage?.container();
+
+    if (!parent) {
+      return;
+    }
+
+    parent.appendChild(this.htmlDiv);
+
+    if (this.attrs.shouldTransform && needForceStyle(parent)) {
+      parent.style.position = 'relative';
+    }
+
+    this.on('absoluteTransformChange', this.handleTransform);
+    this.on('dblclick', this.handleDblclick);
+    this.handleTransform();
+  }
+
+  private handleDblclick() {
+    this.htmlDiv.style.pointerEvents = 'auto';
+    this.off('dblclick', this.handleDblclick);
+  }
+
   private handleTransform() {
     const shouldTransform = this.attrs.shouldTransform ?? true;
 
@@ -52,35 +87,7 @@ export class Html extends Konva.Shape {
     const { style, ...restProps } = this.attrs.divProps || {};
     Object.assign(this.htmlDiv.style, style);
     Object.assign(this.htmlDiv, restProps);
-  }
-
-  _sceneFunc(context: Konva.Context) {
-    const width = this.width();
-    const height = this.height();
-
-    context.beginPath();
-    context.rect(0, 0, width, height);
-    context.closePath();
-    context.fillStrokeShape(this);
-    this.addHtmlToStage();
-  }
-
-  private addHtmlToStage() {
-    const stage = this.getStage();
-    const parent = stage?.container();
-
-    if (!parent) {
-      return;
-    }
-
-    parent.appendChild(this.htmlDiv);
-
-    if (this.attrs.shouldTransform && needForceStyle(parent)) {
-      parent.style.position = 'relative';
-    }
-
-    this.on('absoluteTransformChange', this.handleTransform);
-    this.handleTransform();
+    this.off('absoluteTransformChange', this.handleTransform);
   }
 
   public removeHtmlFromStage() {
