@@ -4,6 +4,12 @@ export interface HtmlConfig extends Konva.ShapeConfig {
   content?: HTMLElement;
 }
 
+const needForceStyle = (el: HTMLElement): boolean => {
+  const pos = window.getComputedStyle(el).position;
+  const ok = pos === 'absolute' || pos === 'relative';
+  return !ok;
+};
+
 export class Html extends Konva.Shape {
   public className: string = 'Html';
   public htmlDiv: HTMLDivElement = document.createElement('div');
@@ -18,7 +24,7 @@ export class Html extends Konva.Shape {
     }
   }
 
-  handleTransform() {
+  private handleTransform() {
     const shouldTransform = this.attrs.shouldTransform ?? true;
 
     if (shouldTransform) {
@@ -29,9 +35,9 @@ export class Html extends Konva.Shape {
       this.htmlDiv.style.zIndex = '10';
       this.htmlDiv.style.top = '0px';
       this.htmlDiv.style.left = '0px';
-      this.htmlDiv.style.width = `${this.width()}px`;
-      this.htmlDiv.style.height = `${this.height()}px`;
-      this.htmlDiv.style.transform = `translate(${attrs.x}px, ${attrs.y}px) rotate(${attrs.rotation}deg) scaleX(${attrs.scaleX}) scaleY(${attrs.scaleY})`;
+      this.htmlDiv.style.width = `${this.width() * attrs.scaleX}px`;
+      this.htmlDiv.style.height = `${this.height() * attrs.scaleY}px`;
+      this.htmlDiv.style.transform = `translate(${attrs.x}px, ${attrs.y}px) rotate(${attrs.rotation}deg)`;
       this.htmlDiv.style.transformOrigin = 'top left';
       this.htmlDiv.style.pointerEvents = 'none';
     } else {
@@ -59,7 +65,7 @@ export class Html extends Konva.Shape {
     this.addHtmlToStage();
   }
 
-  addHtmlToStage() {
+  private addHtmlToStage() {
     const stage = this.getStage();
     const parent = stage?.container();
 
@@ -69,7 +75,7 @@ export class Html extends Konva.Shape {
 
     parent.appendChild(this.htmlDiv);
 
-    if (this.attrs.shouldTransform && this.needForceStyle(parent)) {
+    if (this.attrs.shouldTransform && needForceStyle(parent)) {
       parent.style.position = 'relative';
     }
 
@@ -77,16 +83,10 @@ export class Html extends Konva.Shape {
     this.handleTransform();
   }
 
-  removeHtmlFromStage() {
+  public removeHtmlFromStage() {
     const parent = this.getStage()?.container();
     parent?.removeChild(this.htmlDiv);
     parent?.removeEventListener('absoluteTransformChange', this.handleTransform);
-  }
-
-  needForceStyle(el: HTMLElement) {
-    const pos = window.getComputedStyle(el).position;
-    const ok = pos === 'absolute' || pos === 'relative';
-    return !ok;
   }
 }
 

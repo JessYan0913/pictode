@@ -33,13 +33,12 @@ const displayScale = computed<string>(() => {
 
 const hotKeyList = useCommandComponent(HotKeyList);
 
-const testElement = document.createElement('div');
-testElement.innerHTML = 'Hello, Konva!';
+const testElement = document.createElement('iframe');
+testElement.src = 'https://www.python100.com/html/83349.html';
 
 // 添加一些样式以进行可视化测试
 testElement.style.width = '100%';
 testElement.style.height = '100%';
-testElement.style.backgroundColor = 'lightblue';
 testElement.style.padding = '10px';
 testElement.style.boxSizing = 'border-box';
 
