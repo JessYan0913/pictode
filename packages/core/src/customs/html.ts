@@ -60,29 +60,18 @@ export class Html extends Konva.Shape {
   }
 
   private handleTransform() {
-    const shouldTransform = this.attrs.shouldTransform ?? true;
+    const tr = this.getAbsoluteTransform();
+    const attrs = tr.decompose();
 
-    if (shouldTransform) {
-      const tr = this.getAbsoluteTransform();
-      const attrs = tr.decompose();
-
-      this.htmlDiv.style.position = 'absolute';
-      this.htmlDiv.style.zIndex = '10';
-      this.htmlDiv.style.top = '0px';
-      this.htmlDiv.style.left = '0px';
-      this.htmlDiv.style.width = `${this.width() * attrs.scaleX}px`;
-      this.htmlDiv.style.height = `${this.height() * attrs.scaleY}px`;
-      this.htmlDiv.style.transform = `translate(${attrs.x}px, ${attrs.y}px) rotate(${attrs.rotation}deg)`;
-      this.htmlDiv.style.transformOrigin = 'top left';
-      this.htmlDiv.style.pointerEvents = 'none';
-    } else {
-      this.htmlDiv.style.position = '';
-      this.htmlDiv.style.zIndex = '';
-      this.htmlDiv.style.top = '';
-      this.htmlDiv.style.left = '';
-      this.htmlDiv.style.transform = '';
-      this.htmlDiv.style.transformOrigin = '';
-    }
+    this.htmlDiv.style.position = 'absolute';
+    this.htmlDiv.style.zIndex = '10';
+    this.htmlDiv.style.top = '0px';
+    this.htmlDiv.style.left = '0px';
+    this.htmlDiv.style.width = `${this.width() * attrs.scaleX}px`;
+    this.htmlDiv.style.height = `${this.height() * attrs.scaleY}px`;
+    this.htmlDiv.style.transform = `translate(${attrs.x}px, ${attrs.y}px) rotate(${attrs.rotation}deg)`;
+    this.htmlDiv.style.transformOrigin = 'top left';
+    this.htmlDiv.style.pointerEvents = 'none';
 
     const { style, ...restProps } = this.attrs.divProps || {};
     Object.assign(this.htmlDiv.style, style);
