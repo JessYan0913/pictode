@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { HtmlContainer } from '@pictode/tools';
+import { Html } from '@pictode/core';
 import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
@@ -33,13 +33,22 @@ const displayScale = computed<string>(() => {
 
 const hotKeyList = useCommandComponent(HotKeyList);
 
-const htmlContainer = new HtmlContainer({
+const testElement = document.createElement('div');
+testElement.innerHTML = 'Hello, Konva!';
+
+// 添加一些样式以进行可视化测试
+testElement.style.width = '100%';
+testElement.style.height = '100%';
+testElement.style.backgroundColor = 'lightblue';
+testElement.style.padding = '10px';
+testElement.style.boxSizing = 'border-box';
+
+const htmlContainer = new Html({
   x: 10,
   y: 20,
-  width: 80,
-  height: 80,
-  stroke: 'red',
-  strokeWidth: 2,
+  width: 500,
+  height: 500,
+  content: testElement,
 });
 
 app._add(htmlContainer);
@@ -69,7 +78,7 @@ onMounted(() => {
 <template>
   <div class="w-full h-full">
     <div
-      class="absolute left-0 top-0 right-0 bottom-0 p-8 z-10 pointer-events-none grid grid-cols-3 grid-rows-[auto_1fr_50px] gap-12"
+      class="absolute left-0 top-0 right-0 bottom-0 p-8 z-50 pointer-events-none grid grid-cols-3 grid-rows-[auto_1fr_50px] gap-12"
     >
       <section class="row-start-1 col-start-1 justify-self-start">
         <Menu class="pointer-events-auto rounded-lg ring-1 ring-slate-950 dark:ring-navyBlue-100"></Menu>
@@ -164,6 +173,6 @@ onMounted(() => {
         </div>
       </section>
     </div>
-    <div ref="canvasRef" class="w-full h-full dark:bg-navyBlue-300 focus:border-none"></div>
+    <div ref="canvasRef" class="w-full h-full absolute overflow-clip dark:bg-navyBlue-300 focus:border-none"></div>
   </div>
 </template>
