@@ -45,7 +45,7 @@ export class Html extends Konva.Shape {
 
     parent.appendChild(this.htmlDiv);
 
-    if (this.attrs.shouldTransform && needForceStyle(parent)) {
+    if (needForceStyle(parent)) {
       parent.style.position = 'relative';
     }
 
