@@ -33,13 +33,14 @@ export class Html extends Konva.Shape {
     context.closePath();
     context.fillStrokeShape(this);
     this.addHtmlToStage();
+    this.handleTransform();
   }
 
   private addHtmlToStage() {
     const stage = this.getStage();
     const parent = stage?.container();
 
-    if (!parent) {
+    if (!parent || parent === this.htmlDiv.parentElement) {
       return;
     }
 
@@ -51,7 +52,6 @@ export class Html extends Konva.Shape {
 
     this.on('absoluteTransformChange', this.handleTransform);
     this.on('dblclick', this.handleDblclick);
-    this.handleTransform();
   }
 
   private handleDblclick() {
