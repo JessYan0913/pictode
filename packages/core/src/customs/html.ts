@@ -56,7 +56,6 @@ export class Html extends Konva.Shape {
 
   private handleDblclick() {
     this.htmlDiv.style.pointerEvents = 'auto';
-    this.off('dblclick', this.handleDblclick);
   }
 
   private handleTransform() {
@@ -76,13 +75,14 @@ export class Html extends Konva.Shape {
     const { style, ...restProps } = this.attrs.divProps || {};
     Object.assign(this.htmlDiv.style, style);
     Object.assign(this.htmlDiv, restProps);
-    this.off('absoluteTransformChange', this.handleTransform);
   }
 
-  public removeHtmlFromStage() {
+  _remove(): void {
+    super._remove();
     const parent = this.getStage()?.container();
     parent?.removeChild(this.htmlDiv);
-    parent?.removeEventListener('absoluteTransformChange', this.handleTransform);
+    this.off('absoluteTransformChange', this.handleTransform);
+    this.off('dblclick', this.handleDblclick);
   }
 }
 
