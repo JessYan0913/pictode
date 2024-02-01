@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Html } from '@pictode/core';
 import { useCommandComponent } from '@pictode/vue-aide';
 
 import Button from '@/components/Button.vue';
@@ -32,24 +31,6 @@ const displayScale = computed<string>(() => {
 });
 
 const hotKeyList = useCommandComponent(HotKeyList);
-
-const testElement = document.createElement('iframe');
-testElement.src = 'https://www.python100.com/html/83349.html';
-
-// 添加一些样式以进行可视化测试
-testElement.style.width = '100%';
-testElement.style.height = '100%';
-testElement.style.boxSizing = 'border-box';
-
-const htmlContainer = new Html({
-  x: 10,
-  y: 20,
-  width: 500,
-  height: 500,
-  content: testElement,
-});
-
-app._add(htmlContainer);
 
 const onClickZoomIn = () => {
   app.scaleTo(scale.value + app.config.mousewheel.factor);
@@ -84,7 +65,8 @@ onMounted(() => {
       <section class="row-start-1 col-start-2 justify-self-stretch">
         <Tools
           class="pointer-events-auto w-full rounded-lg p-2 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
-        ></Tools>
+        >
+        </Tools>
       </section>
       <section class="row-start-1 col-start-3 justify-self-end">
         <div
@@ -129,7 +111,8 @@ onMounted(() => {
       <section class="row-start-2 col-start-3 justify-self-end">
         <PropertyPanel
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200 pointer-events-auto"
-        ></PropertyPanel>
+        >
+        </PropertyPanel>
       </section>
       <section class="row-start-3 col-start-1 justify-self-start flex flex-row gap-2">
         <div

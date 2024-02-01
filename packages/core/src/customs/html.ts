@@ -63,7 +63,6 @@ export class Html extends Konva.Shape {
     const attrs = tr.decompose();
 
     this.htmlDiv.style.position = 'absolute';
-    this.htmlDiv.style.zIndex = '10';
     this.htmlDiv.style.top = '0px';
     this.htmlDiv.style.left = '0px';
     this.htmlDiv.style.width = `${this.width() * attrs.scaleX}px`;
