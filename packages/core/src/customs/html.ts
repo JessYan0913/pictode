@@ -78,8 +78,7 @@ export class Html extends Konva.Shape {
 
   _remove(): void {
     super._remove();
-    const parent = this.getStage()?.container();
-    parent?.removeChild(this.htmlDiv);
+    this.htmlDiv.parentElement?.removeChild(this.htmlDiv);
     this.off('absoluteTransformChange', this.handleTransform);
     this.off('dblclick', this.handleDblclick);
   }
