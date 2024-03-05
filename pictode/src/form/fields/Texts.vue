@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue';
 
-import ColorPicker from '@/components/ColorPicker.vue';
-
-import { ColorPickerConfig, FormValue } from '../types';
+import { FormValue, TextsConfig } from '../types';
 
 const props = withDefaults(
   defineProps<{
-    config: ColorPickerConfig;
+    config: TextsConfig;
     prop: string;
     model?: FormValue;
   }>(),
@@ -19,23 +17,23 @@ const props = withDefaults(
 const emits = defineEmits<(event: 'change', props: string, value: string) => void>();
 
 const { model, prop } = toRefs(props);
-const colors = ref<string>(prop?.value && model?.value?.[prop?.value]);
+const value = ref<string>(prop?.value && model?.value?.[prop?.value]);
 
 watch(
-  () => colors.value,
+  () => value.value,
   (v) => emits('change', prop.value, v)
 );
 
 watch(
   () => model.value,
   () => {
-    colors.value = model?.value?.[prop?.value];
+    value.value = model?.value?.[prop?.value];
   }
 );
 </script>
 
 <template>
   <div class="w-fit h-7">
-    <ColorPicker v-model="colors" class="border rounded-lg" />
+    <input v-model="value" class="border rounded-lg" />
   </div>
 </template>

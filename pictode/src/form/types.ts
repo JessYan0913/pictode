@@ -67,11 +67,10 @@ export interface SliderConfig extends FormItem {
   step?: number;
 }
 
-export interface CodeEditorConfig extends FormItem {
-  type: 'CodeEditor';
-  content?: string;
+export interface TextsConfig extends FormItem {
+  type: 'Texts';
 }
 
-export type ChildConfig = FormItem | RadioGroupConfig | ColorPickerConfig | SliderConfig | CodeEditorConfig;
+export type ChildConfig = FormItem | RadioGroupConfig | ColorPickerConfig | SliderConfig | TextsConfig;
 
 export type FormConfig = ChildConfig[];

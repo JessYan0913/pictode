@@ -6,7 +6,7 @@ import {
   DrawingTool,
   EllipseTool,
   EraserTool,
-  HtmlTool,
+  IframeTool,
   ImageTool,
   LineTool,
   RectTool,
@@ -28,17 +28,6 @@ interface ToolInfo {
   title: string;
   tool: Tool | (() => Tool | Promise<Tool>);
 }
-
-const getTestElement = (): HTMLElement => {
-  const testElement = document.createElement('iframe');
-  testElement.src = 'https://www.python100.com/html/83349.html';
-
-  // 添加一些样式以进行可视化测试
-  testElement.style.width = '100%';
-  testElement.style.height = '100%';
-  testElement.style.boxSizing = 'border-box';
-  return testElement;
-};
 
 const selectTool = new SelectTool({
   hooks: {
@@ -64,30 +53,6 @@ const tools: ToolInfo[] = [
     title: '矩形',
     tool: () =>
       new RectTool({
-        hooks: {
-          onActive(app) {
-            app.containerElement.style.cursor = 'crosshair';
-            app.cancelSelect();
-          },
-          onInactive(app) {
-            app.containerElement.style.cursor = `default`;
-          },
-          onCompleteDrawing(app, node) {
-            currentTool.value = selectTool.name;
-            nextTick(() => app.select(node));
-          },
-        },
-      }),
-  },
-  {
-    icon: 'html',
-    name: 'htmlTool',
-    title: 'html',
-    tool: () =>
-      new HtmlTool({
-        config: {
-          content: getTestElement(),
-        },
         hooks: {
           onActive(app) {
             app.containerElement.style.cursor = 'crosshair';
@@ -243,6 +208,27 @@ const tools: ToolInfo[] = [
           },
           onInactive(app) {
             app.containerElement.style.cursor = `default`;
+          },
+        },
+      }),
+  },
+  {
+    icon: 'web',
+    name: 'iframeTool',
+    title: '网页',
+    tool: () =>
+      new IframeTool({
+        hooks: {
+          onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
+            app.cancelSelect();
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = selectTool.name;
+            nextTick(() => app.select(node));
           },
         },
       }),
