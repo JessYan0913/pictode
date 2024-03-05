@@ -27,7 +27,6 @@ export class IframeTool implements Tool {
     if (this.html) {
       return;
     }
-    console.log('=====>', this.config);
 
     this.startPointer.clone(app.pointer);
     this.html = new Html({
