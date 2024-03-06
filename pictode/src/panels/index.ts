@@ -1,6 +1,7 @@
 import { PanelConfig } from '@/panels/types';
 
 import { ellipsePanelConfig } from './ellipse-panel';
+import { iframePanelConfig } from './iframe-panel';
 import { imagePanelConfig } from './image-panel';
 import { linePanelConfig } from './line-panel';
 import { rectPanelConfig } from './rect-panel';
@@ -14,6 +15,7 @@ const panelConfigs = [
   linePanelConfig,
   rectPanelConfig,
   textPanelConfig,
+  iframePanelConfig,
 ];
 
 export * from './types';

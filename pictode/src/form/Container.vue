@@ -20,15 +20,13 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits<{
-  (event: 'change', model: FormValue): void;
-}>();
+const emits = defineEmits<(event: 'change', model: FormValue) => void>();
 
 const formState = injectStrict(FormStateKey);
 
 const { config, prop, model } = toRefs(props);
 
-const name = computed<string | number>(() => config.value.name || '');
+const name = computed<string | number>(() => config.value.name ?? '');
 
 const itemProp = computed<string>(() => {
   let result: string | number = '';
