@@ -1,7 +1,7 @@
 import Html, { HtmlConfig } from './html';
 
 export type IframeConfig = Omit<Partial<HtmlConfig>, 'content'> & {
-  url?: string;
+  src?: string;
 };
 
 export class Iframe extends Html {
@@ -11,7 +11,7 @@ export class Iframe extends Html {
   constructor(config: IframeConfig) {
     super(config);
 
-    this.iframeElement.src = config.url ?? '';
+    this.iframeElement.src = config.src ?? '';
     this.iframeElement.style.border = 'none';
     this.iframeElement.style.width = '100%';
     this.iframeElement.style.height = '100%';
@@ -23,7 +23,7 @@ export class Iframe extends Html {
   }
 
   public _setAttr(key: any, val: any): void {
-    if (key === 'url' && this.iframeElement) {
+    if (key === 'src' && this.iframeElement) {
       this.iframeElement.src = val;
       this.iframeElement.contentWindow?.location.reload();
     } else {

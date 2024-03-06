@@ -5,7 +5,7 @@ export const iframePanelConfig: PanelConfig = {
   bindShape: ['Iframe'],
   formConfig: [
     {
-      name: 'url',
+      name: 'src',
       label: '网址',
       type: 'Texts',
     },
@@ -90,7 +90,7 @@ export const iframePanelConfig: PanelConfig = {
     },
   ],
   model: {
-    url: 'https://eslint.vuejs.org/rules/no-reserved-component-names',
+    src: 'https://eslint.vuejs.org/rules/no-reserved-component-names',
     stroke: '#000000',
     fill: '#ffffff',
     strokeWidth: 2,
