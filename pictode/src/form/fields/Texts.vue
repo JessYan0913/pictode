@@ -33,7 +33,7 @@ watch(
 </script>
 
 <template>
-  <div class="w-fit h-7">
-    <input v-model="value" class="border rounded-lg" />
+  <div class="h-7 px-1 border rounded">
+    <input v-model="value" class="w-full outline-none" />
   </div>
 </template>
