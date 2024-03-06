@@ -2,22 +2,9 @@ import Konva from 'konva';
 
 // 重写toObject方法
 const originToObject = Konva.Node.prototype.toObject;
-const newToObject = function (this: Konva.Node): any {
-  const object = originToObject.call(this);
-  return {
-    ...object,
-    attrs: {
-      ...object.attrs,
-      x: this.getAbsolutePosition().x,
-      y: this.getAbsolutePosition().y,
-      scaleX: this.getAbsoluteScale().x,
-      scaleY: this.getAbsoluteScale().y,
-      rotation: this.getAbsoluteRotation(),
-      opacity: this.getAbsoluteOpacity(),
-    },
-  };
+Konva.Node.prototype.toObject = function (this: Konva.Node): any {
+  return originToObject.call(this);
 };
-Konva.Node.prototype.toObject = newToObject;
 
 // 重写remove方法
 const originRemove = Konva.Node.prototype.remove;
