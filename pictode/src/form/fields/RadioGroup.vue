@@ -17,9 +17,7 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits<{
-  (event: 'change', prop: string, value: T): void;
-}>();
+const emits = defineEmits<(event: 'change', prop: string, value: T) => void>();
 
 const { model, prop } = toRefs(props);
 const value = ref<T>(prop?.value && model?.value?.[prop?.value]);

@@ -50,9 +50,7 @@ const handleSubmit = async (): Promise<FormValue> => {
     await formRef.value?.validate();
     return toRaw(formModel.value);
   } catch (invalidFields: any) {
-    const error: string[] = [];
-    Object;
-    throw new Error(error.join('<br>'));
+    throw new Error();
   }
 };
 

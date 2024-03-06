@@ -6,6 +6,7 @@ import {
   DrawingTool,
   EllipseTool,
   EraserTool,
+  IframeTool,
   ImageTool,
   LineTool,
   RectTool,
@@ -207,6 +208,27 @@ const tools: ToolInfo[] = [
           },
           onInactive(app) {
             app.containerElement.style.cursor = `default`;
+          },
+        },
+      }),
+  },
+  {
+    icon: 'web',
+    name: 'iframeTool',
+    title: '网页',
+    tool: () =>
+      new IframeTool({
+        hooks: {
+          onActive(app) {
+            app.containerElement.style.cursor = 'crosshair';
+            app.cancelSelect();
+          },
+          onInactive(app) {
+            app.containerElement.style.cursor = `default`;
+          },
+          onCompleteDrawing(app, node) {
+            currentTool.value = selectTool.name;
+            nextTick(() => app.select(node));
           },
         },
       }),
