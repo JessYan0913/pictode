@@ -20,9 +20,7 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits<{
-  (event: 'change', model: FormValue): void;
-}>();
+const emits = defineEmits<(event: 'change', model: FormValue) => void>();
 
 const formState = injectStrict(FormStateKey);
 
