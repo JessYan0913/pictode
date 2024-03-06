@@ -2,7 +2,7 @@ import { PanelConfig } from '@/panels/types';
 
 export const iframePanelConfig: PanelConfig = {
   bindTool: ['iframeTool'],
-  bindShape: ['Html'],
+  bindShape: ['Iframe'],
   formConfig: [
     {
       name: 'url',

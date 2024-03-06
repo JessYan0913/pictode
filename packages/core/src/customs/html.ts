@@ -24,7 +24,21 @@ export class Html extends Konva.Shape {
     }
   }
 
-  _sceneFunc(context: Konva.Context) {
+  public _setAttr(key: any, val: any): void {
+    if (key === 'content') {
+      this.setContent(val);
+    } else {
+      super._setAttr(key, val);
+    }
+  }
+
+  public setContent(content: HTMLElement) {
+    this.content = content;
+    this.htmlDiv.innerHTML = '';
+    this.htmlDiv.appendChild(this.content);
+  }
+
+  public _sceneFunc(context: Konva.Context) {
     const width = this.width();
     const height = this.height();
 

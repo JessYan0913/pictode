@@ -1,10 +1,6 @@
-import { Html, HtmlConfig, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
+import { Iframe, IframeConfig, Tool, ToolEvent, ToolHooks, util } from '@pictode/core';
 
-import { getIframeElement } from './utils';
-
-export type IframeToolConfig = Omit<Partial<HtmlConfig>, 'content'> & {
-  url?: string;
-};
+export type IframeToolConfig = Partial<IframeConfig>;
 
 export interface IframeToolOptions {
   config?: IframeToolConfig;
@@ -15,7 +11,7 @@ export class IframeTool implements Tool {
   public name: string = 'iframeTool';
   public config?: IframeToolConfig;
   public hooks?: ToolHooks;
-  private html: Html | null = null;
+  private iframe: Iframe | null = null;
   private startPointer: util.Point = new util.Point(0, 0);
 
   constructor({ config, hooks }: IframeToolOptions) {
@@ -24,46 +20,45 @@ export class IframeTool implements Tool {
   }
 
   public mousedown({ app }: ToolEvent) {
-    if (this.html) {
+    if (this.iframe) {
       return;
     }
 
     this.startPointer.clone(app.pointer);
-    this.html = new Html({
+    this.iframe = new Iframe({
       strokeScaleEnabled: false,
-      content: getIframeElement(this.config?.url ?? ''),
       ...this.config,
     });
-    this.html.setPosition(this.startPointer);
-    this.html.width(0);
-    this.html.height(0);
-    app.add(this.html);
-    this.hooks?.onStartDrawing?.(app, this.html);
+    this.iframe.setPosition(this.startPointer);
+    this.iframe.width(0);
+    this.iframe.height(0);
+    app.add(this.iframe);
+    this.hooks?.onStartDrawing?.(app, this.iframe);
   }
 
   public mousemove({ app }: ToolEvent) {
-    if (!this.html) {
+    if (!this.iframe) {
       return;
     }
-    this.html.setPosition(
+    this.iframe.setPosition(
       new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y))
     );
-    this.html.width(Math.abs(app.pointer.x - this.startPointer.x));
-    this.html.height(Math.abs(app.pointer.y - this.startPointer.y));
+    this.iframe.width(Math.abs(app.pointer.x - this.startPointer.x));
+    this.iframe.height(Math.abs(app.pointer.y - this.startPointer.y));
     app.render();
   }
 
   public mouseup({ app, pointer }: ToolEvent) {
-    if (!this.html) {
+    if (!this.iframe) {
       return;
     }
     if (this.startPointer.eq(pointer)) {
-      this.html?.destroy();
-      this.html = null;
+      this.iframe?.destroy();
+      this.iframe = null;
       return;
     }
-    this.hooks?.onCompleteDrawing?.(app, this.html);
-    this.html = null;
+    this.hooks?.onCompleteDrawing?.(app, this.iframe);
+    this.iframe = null;
     this.startPointer.setXY(0, 0);
   }
 }
