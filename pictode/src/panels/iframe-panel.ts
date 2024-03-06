@@ -15,11 +15,6 @@ export const iframePanelConfig: PanelConfig = {
       type: 'Color',
     },
     {
-      name: 'fill',
-      label: '填充',
-      type: 'Color',
-    },
-    {
       name: 'strokeWidth',
       label: '描边宽度',
       type: 'RadioGroup',
@@ -39,24 +34,6 @@ export const iframePanelConfig: PanelConfig = {
           label: 'line-3',
           value: 8,
           title: '特粗',
-        },
-      ],
-    },
-    {
-      name: 'cornerRadius',
-      label: '边角',
-      type: 'RadioGroup',
-      optionType: 'icon',
-      options: [
-        {
-          label: 'node-flat',
-          value: 0,
-          title: '直角',
-        },
-        {
-          label: 'node-round',
-          value: 20,
-          title: '圆角',
         },
       ],
     },
@@ -92,9 +69,7 @@ export const iframePanelConfig: PanelConfig = {
   model: {
     src: 'https://eslint.vuejs.org/rules/no-reserved-component-names',
     stroke: '#000000',
-    fill: '#ffffff',
     strokeWidth: 2,
-    cornerRadius: 20,
     dash: [],
     opacity: 1,
   },

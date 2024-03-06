@@ -25,7 +25,6 @@ export class Iframe extends Html {
   public _setAttr(key: any, val: any): void {
     if (key === 'src' && this.iframeElement) {
       this.iframeElement.src = val;
-      this.iframeElement.contentWindow?.location.reload();
     } else {
       super._setAttr(key, val);
     }

@@ -84,6 +84,7 @@ export class Html extends Konva.Shape {
     this.htmlDiv.style.transform = `translate(${attrs.x}px, ${attrs.y}px) rotate(${attrs.rotation}deg)`;
     this.htmlDiv.style.transformOrigin = 'top left';
     this.htmlDiv.style.pointerEvents = 'none';
+    this.htmlDiv.style.opacity = `${this.opacity()}`;
 
     const { style, ...restProps } = this.attrs.divProps || {};
     Object.assign(this.htmlDiv.style, style);
