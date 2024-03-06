@@ -67,7 +67,7 @@ export const iframePanelConfig: PanelConfig = {
     },
   ],
   model: {
-    src: 'https://eslint.vuejs.org/rules/no-reserved-component-names',
+    src: 'https://cn.vuejs.org/',
     stroke: '#000000',
     strokeWidth: 2,
     dash: [],
