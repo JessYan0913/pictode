@@ -8,3 +8,5 @@ export * from './select';
 export * from './text';
 export * from './eraser';
 export * from './arrow';
+export * from './html';
+export * from './iframe';

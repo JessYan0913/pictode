@@ -8,12 +8,12 @@ const newToObject = function (this: Konva.Node): any {
     ...object,
     attrs: {
       ...object.attrs,
-      x: this.getAbsolutePosition().x,
-      y: this.getAbsolutePosition().y,
-      scaleX: this.getAbsoluteScale().x,
-      scaleY: this.getAbsoluteScale().y,
-      rotation: this.getAbsoluteRotation(),
-      opacity: this.getAbsoluteOpacity(),
+      x: this.x(),
+      y: this.y(),
+      scaleX: this.scaleX(),
+      scaleY: this.scaleY(),
+      rotation: this.rotation(),
+      opacity: this.opacity(),
     },
   };
 };

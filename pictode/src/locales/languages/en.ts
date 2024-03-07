@@ -52,6 +52,7 @@ export default {
   图片: 'Image',
   文本: 'Text',
   橡皮擦: 'Eraser',
+  网页: 'Web Page',
   描边: 'Stroke',
   填充: 'Fill',
   描边宽度: 'Stroke Width',

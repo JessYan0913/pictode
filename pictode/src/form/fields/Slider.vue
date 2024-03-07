@@ -14,15 +14,13 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits<{
-  (event: 'change', prop: string, value: number): void;
-}>();
+const emits = defineEmits<(event: 'change', prop: string, value: number) => void>();
 
 const { model, prop, config } = toRefs(props);
 const value = ref<number>(prop?.value && model?.value?.[prop?.value]);
-const min = computed<number>(() => config.value.min || 0);
-const max = computed<number>(() => config.value.max || 1);
-const step = computed<number>(() => config.value.step || 0.01);
+const min = computed<number>(() => config.value.min ?? 0);
+const max = computed<number>(() => config.value.max ?? 1);
+const step = computed<number>(() => config.value.step ?? 0.01);
 
 watch(
   () => value.value,

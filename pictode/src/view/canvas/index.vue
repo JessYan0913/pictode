@@ -57,7 +57,7 @@ onMounted(() => {
 <template>
   <div class="w-full h-full">
     <div
-      class="absolute left-0 top-0 right-0 bottom-0 p-8 z-10 pointer-events-none grid grid-cols-3 grid-rows-[auto_1fr_50px] gap-12"
+      class="absolute left-0 top-0 right-0 bottom-0 p-8 z-50 pointer-events-none grid grid-cols-3 grid-rows-[auto_1fr_50px] gap-12"
     >
       <section class="row-start-1 col-start-1 justify-self-start">
         <Menu class="pointer-events-auto rounded-lg ring-1 ring-slate-950 dark:ring-navyBlue-100"></Menu>
@@ -65,7 +65,8 @@ onMounted(() => {
       <section class="row-start-1 col-start-2 justify-self-stretch">
         <Tools
           class="pointer-events-auto w-full rounded-lg p-2 ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200"
-        ></Tools>
+        >
+        </Tools>
       </section>
       <section class="row-start-1 col-start-3 justify-self-end">
         <div
@@ -110,7 +111,8 @@ onMounted(() => {
       <section class="row-start-2 col-start-3 justify-self-end">
         <PropertyPanel
           class="p-4 w-56 shadow-md rounded-lg ring-1 ring-slate-950 dark:ring-navyBlue-100 bg-white dark:bg-navyBlue-200 pointer-events-auto"
-        ></PropertyPanel>
+        >
+        </PropertyPanel>
       </section>
       <section class="row-start-3 col-start-1 justify-self-start flex flex-row gap-2">
         <div
@@ -152,6 +154,6 @@ onMounted(() => {
         </div>
       </section>
     </div>
-    <div ref="canvasRef" class="w-full h-full dark:bg-navyBlue-300 focus:border-none"></div>
+    <div ref="canvasRef" class="w-full h-full absolute overflow-clip dark:bg-navyBlue-300 focus:border-none"></div>
   </div>
 </template>

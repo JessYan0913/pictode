@@ -78,6 +78,7 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
   }
 
   textarea.addEventListener('keydown', function (e: KeyboardEvent) {
+    e.stopPropagation();
     if (e.key === 'Enter' && !e.shiftKey) {
       if (textarea.value.trim().length >= 1) {
         textNode.text(textarea.value);
@@ -90,9 +91,6 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
     if (e.key === 'Escape') {
       removeTextarea();
     }
-  });
-
-  textarea.addEventListener('keydown', function () {
     const scale = textNode.getAbsoluteScale().x;
     setTextareaWidth(textNode.width() * scale - textNode.padding() * 2 + 20);
     textarea.style.height = 'auto';
