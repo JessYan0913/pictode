@@ -4,8 +4,6 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue';
 import { Tool, util } from '@pictode/core';
 import {
   ArrowTool,
-  DiamondTool, 
-  main
   DrawingTool,
   EllipseTool,
   EraserTool,
@@ -152,7 +150,7 @@ const tools: ToolInfo[] = [
       }),
   },
   {
-    icon: 'line-2',
+    icon: 'arrow',
     name: 'arrowTool',
     title: '箭头',
     tool: () =>
