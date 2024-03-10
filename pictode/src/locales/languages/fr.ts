@@ -52,6 +52,8 @@ export default {
   图片: 'Image',
   文本: 'Texte',
   橡皮擦: 'Gomme',
+  网页: 'Web Page',
+  箭头: 'Flèche',
   网址: 'URL',
   描边: 'Contour',
   填充: 'Remplissage',
