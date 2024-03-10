@@ -153,7 +153,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+  public makeGroup(nodes: Array<KonvaNode>): Konva.Group {
     const resolve = this._makeGroup(nodes);
     if (resolve instanceof Konva.Group) {
       this.emit('node:group:make', {
@@ -164,9 +164,9 @@ export class App extends BaseService<EventArgs> {
     return resolve;
   }
 
-  public _makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+  public _makeGroup(nodes: Array<KonvaNode>): Konva.Group {
     if (nodes.length < 2) {
-      return nodes;
+      throw new Error(`A group can only be created if there are more than two graphics.`);
     }
     const group = new Konva.Group({ draggable: true });
     group.add(
