@@ -41,6 +41,7 @@ export class HistoryPlugin implements Plugin {
     this.app.on('node:zindex:changed', this.onNodeZIndexChanged);
     this.app.on('node:group:make', this.onMakeGroup);
     this.app.on('node:group:decompose', this.onDecomposeGroup);
+    this.app.emit('history:installed', { history: this });
   }
 
   public destroy(): void {
@@ -49,6 +50,7 @@ export class HistoryPlugin implements Plugin {
     this.app?.off('node:removed', this.onNodeRemove);
     this.app?.off('node:update:before', this.onNodeUpdateBefore);
     this.app?.off('node:updated', this.onNodeUpdated);
+    this.app?.off('node:zindex:changed', this.onNodeZIndexChanged);
     this.app?.off('node:group:make', this.onMakeGroup);
     this.app?.off('node:group:decompose', this.onDecomposeGroup);
     this.app?.emit('history:destroy', { history: this });
