@@ -351,7 +351,6 @@ export class Selector {
       this.select(...shapesInRubberRect);
       this.rubberRect.visible(false);
       this.rubberEnable = false;
-      return; // 橡皮擦模式处理后直接返回
     }
   };
 

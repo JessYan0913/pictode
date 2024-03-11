@@ -153,7 +153,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+  public makeGroup(nodes: Array<KonvaNode>): Konva.Group {
     const resolve = this._makeGroup(nodes);
     if (resolve instanceof Konva.Group) {
       this.emit('node:group:make', {
@@ -164,9 +164,9 @@ export class App extends BaseService<EventArgs> {
     return resolve;
   }
 
-  public _makeGroup(nodes: Array<KonvaNode>): Konva.Group | KonvaNode[] {
+  public _makeGroup(nodes: Array<KonvaNode>): Konva.Group {
     if (nodes.length < 2) {
-      return nodes;
+      throw new Error(`A group can only be created if there are more than two graphics.`);
     }
     const group = new Konva.Group({ draggable: true });
     group.add(
@@ -191,14 +191,10 @@ export class App extends BaseService<EventArgs> {
   public _decomposeGroup(group: Konva.Group): KonvaNode[] {
     const parent = group.getParent() ?? this.mainLayer;
     const resolve = [...group.getChildren()].map((child) => {
-      const { x, y, scaleX, scaleY, skewX, skewY, rotation } = child.getTransform().decompose();
+      const { x, y, scaleX, scaleY, rotation } = child.getAbsoluteTransform(parent).copy().decompose();
       child.moveTo(parent);
-      child.x(x);
-      child.y(y);
-      child.scaleX(scaleX);
-      child.scaleY(scaleY);
-      child.skewX(skewX);
-      child.skewY(skewY);
+      child.position({ x, y });
+      child.scale({ x: scaleX, y: scaleY });
       child.rotation(rotation);
       return child;
     });
