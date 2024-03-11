@@ -10,7 +10,8 @@ export class MakeGroupCmd extends BaseCmd<Cmd.MakeGroupOptions> {
   }
 
   public execute(): void {
-    this.app._makeGroup(this.options.nodes);
+    const group = this.app._makeGroup(this.options.nodes);
+    this.options.group = group;
   }
 
   public undo(): void {
