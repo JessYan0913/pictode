@@ -37,10 +37,7 @@ export class History {
     command.executed = true;
     command.executeTime = new Date().getTime();
     this.redoStack = [];
-    this.app.emit('stack:changed', {
-      undoStack: this.undoStack,
-      redoStack: this.redoStack,
-    });
+    this.app.emit('stack:changed', { undoStack: this.undoStack, redoStack: this.redoStack });
   }
 
   public undo(step: number = 1): BaseCmd | undefined {
@@ -56,18 +53,12 @@ export class History {
         if (command) {
           command.undo();
           this.redoStack.push(command);
-          this.app.emit('stack:changed', {
-            undoStack: this.undoStack,
-            redoStack: this.redoStack,
-          });
+          this.app.emit('stack:changed', { undoStack: this.undoStack, redoStack: this.redoStack });
         }
       }
       --step;
     }
-    this.app.emit('history:undo', {
-      step,
-      command: command?.toJSON(),
-    });
+    this.app.emit('history:undo', { step, command: command?.toJSON() });
     return command;
   }
 
@@ -82,18 +73,12 @@ export class History {
         if (command) {
           command.execute();
           this.undoStack.push(command);
-          this.app.emit('stack:changed', {
-            undoStack: this.undoStack,
-            redoStack: this.redoStack,
-          });
+          this.app.emit('stack:changed', { undoStack: this.undoStack, redoStack: this.redoStack });
         }
       }
       --step;
     }
-    this.app.emit('history:redo', {
-      command: command?.toJSON(),
-      step,
-    });
+    this.app.emit('history:redo', { step, command: command?.toJSON() });
     return command;
   }
 
@@ -131,19 +116,13 @@ export class History {
       }
     }
 
-    this.app.emit('stack:changed', {
-      undoStack: this.undoStack,
-      redoStack: this.redoStack,
-    });
+    this.app.emit('stack:changed', { undoStack: this.undoStack, redoStack: this.redoStack });
   }
 
   public destroy(): void {
     this.undoStack = [];
     this.redoStack = [];
-    this.app.emit('stack:changed', {
-      undoStack: this.undoStack,
-      redoStack: this.redoStack,
-    });
+    this.app.emit('stack:changed', { undoStack: this.undoStack, redoStack: this.redoStack });
   }
 }
 
