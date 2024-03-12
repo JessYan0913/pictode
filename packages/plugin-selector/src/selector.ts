@@ -383,6 +383,12 @@ export class Selector {
     }
   };
 
+  public resetLayer(): void {
+    this.optionLayer.remove();
+    this.app.stage.add(this.optionLayer);
+    this.app.render();
+  }
+
   public destroy(): void {
     this.transformer.off('transformstart', this.onTransformStart);
     this.transformer.off('transformend', this.onTransformEnd);
