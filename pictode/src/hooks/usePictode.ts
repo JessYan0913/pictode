@@ -29,17 +29,6 @@ export const usePictode = () => {
   app.use(selectorPlugin);
   app.use(alignmentPlugin);
 
-  app.on('mouse:down', ({ event }) => {
-    if (event.evt.button === 1) {
-      app.triggerPanning(true);
-    }
-  });
-  app.on('mouse:up', ({ event }) => {
-    if (event.evt.button === 1) {
-      app.triggerPanning(false);
-    }
-  });
-
   const selected: Ref<Array<KonvaNode>> = ref([]);
   const panelFormConfig = ref<FormConfig>([]);
   const panelFormModel = ref<FormValue>({});
@@ -81,16 +70,32 @@ export const usePictode = () => {
     scale.value = newScale;
   };
 
+  const onMouseDown = ({ event }: EventArgs['mouse:down']) => {
+    if (event.evt.button === 1) {
+      app.triggerPanning(true);
+    }
+  };
+
+  const onMouseUp = ({ event }: EventArgs['mouse:up']) => {
+    if (event.evt.button === 1) {
+      app.triggerPanning(false);
+    }
+  };
+
   onMounted(() => {
     app.on('selected:changed', onSelectedChanged);
     app.on('tool:changed', onToolChanged);
     app.on('canvas:zoom:end', onZoomEnd);
+    app.on('mouse:down', onMouseDown);
+    app.on('mouse:up', onMouseUp);
   });
 
   onUnmounted(() => {
     app.off('selected:changed', onSelectedChanged);
     app.off('tool:changed', onToolChanged);
     app.off('canvas:zoom:end', onZoomEnd);
+    app.off('mouse:down', onMouseDown);
+    app.off('mouse:up', onMouseUp);
   });
 
   provide(PictodeAppKey, app);
