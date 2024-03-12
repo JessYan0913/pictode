@@ -1,7 +1,7 @@
 {
   "name": "@pictode/core",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/pictode-core.umd.js",
   "module": "dist/pictode-core.mjs",
   "types": "types/index.d.ts",

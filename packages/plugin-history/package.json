@@ -1,7 +1,7 @@
 {
   "name": "@pictode/plugin-history",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/pictode-plugin-history.umd.js",
   "module": "dist/pictode-plugin-history.mjs",
   "types": "types/index.d.ts",
