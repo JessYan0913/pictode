@@ -1,5 +1,4 @@
 import { App, Konva } from '@pictode/core';
-import { getBrowserInfo } from '@pictode/utils';
 
 export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => void) => {
   textNode.hide();
@@ -61,21 +60,31 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
     textNode.show();
   }
 
-  function setTextareaWidth(newWidth: number) {
-    newWidth = Math.max(textarea.value.length * textNode.fontSize(), newWidth);
-    const browser = getBrowserInfo();
-    if (browser === 'Safari' || browser === 'Firefox') {
-      newWidth = Math.ceil(newWidth);
-    }
-    if (browser === 'Edge') {
-      newWidth += 1;
-    }
-    textarea.style.width = newWidth + 'px';
-  }
-
   textarea.addEventListener('keydown', function (e: KeyboardEvent) {
     e.stopPropagation();
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Escape') {
+      removeTextarea();
+    }
+  });
+
+  textarea.addEventListener('input', () => {
+    let text = textarea.value.replace(/\n/g, '<br/>'); // 将换行符替换为<br/>标签，以便正确测量宽度
+    let tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text;
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.visibility = 'hidden';
+    tempDiv.style.whiteSpace = 'pre-wrap'; // 保持文本的换行
+    document.body.appendChild(tempDiv);
+    const newWidth = tempDiv.offsetWidth + 10;
+    textarea.style.width = newWidth + 'px'; // 设置宽度为文本实际宽度
+    document.body.removeChild(tempDiv);
+    textarea.style.height = textarea.scrollHeight + 'px';
+    textNode.width(newWidth);
+    textNode.height(textarea.scrollHeight);
+  });
+
+  function handleOutsideClick(e: MouseEvent) {
+    if (e.target !== textarea) {
       if (textarea.value.trim().length >= 1) {
         textNode.text(textarea.value);
       } else {
@@ -83,20 +92,6 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
       }
       removeTextarea();
       onUpdated();
-    }
-    if (e.key === 'Escape') {
-      removeTextarea();
-    }
-    const scale = textNode.getAbsoluteScale().x;
-    setTextareaWidth(textNode.width() * scale - textNode.padding() * 2 + 20);
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + textNode.fontSize() + 'px';
-  });
-
-  function handleOutsideClick(e: MouseEvent) {
-    if (e.target !== textarea) {
-      textNode.text(textarea.value);
-      removeTextarea();
     }
   }
   setTimeout(() => {
