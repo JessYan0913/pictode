@@ -1,4 +1,5 @@
 import { App, Konva } from '@pictode/core';
+import { getBrowserInfo } from '@pictode/utils';
 
 export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => void) => {
   textNode.hide();
@@ -62,16 +63,11 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
 
   function setTextareaWidth(newWidth: number) {
     newWidth = Math.max(textarea.value.length * textNode.fontSize(), newWidth);
-
-    //TODO: The platform detection should be a generic function.
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    if (isSafari || isFirefox) {
+    const browser = getBrowserInfo();
+    if (browser === 'Safari' || browser === 'Firefox') {
       newWidth = Math.ceil(newWidth);
     }
-
-    const isEdge = document.DOCUMENT_NODE || /Edge/.test(navigator.userAgent);
-    if (isEdge) {
+    if (browser === 'Edge') {
       newWidth += 1;
     }
     textarea.style.width = newWidth + 'px';

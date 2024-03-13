@@ -47,17 +47,18 @@
   },
   "homepage": "https://github.com/JessYan0913/pictode#readme",
   "dependencies": {
+    "@pictode/utils": "workspace:^",
     "vue": "^3.3.4"
   },
   "peerDependencies": {
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.2.3",
     "@babel/core": "^7.18.0",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^15.12.4",
     "@types/sortablejs": "^1.10.7",
+    "@vitejs/plugin-vue": "^4.2.3",
     "@vue/compiler-sfc": "^3.2.37",
     "rimraf": "^3.0.2",
     "typescript": "^5.0.2",
