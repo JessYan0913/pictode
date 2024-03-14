@@ -60,26 +60,36 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
     textNode.show();
   }
 
-  function setTextareaWidth(newWidth: number) {
-    newWidth = Math.max(textarea.value.length * textNode.fontSize(), newWidth);
-
-    //TODO: The platform detection should be a generic function.
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    if (isSafari || isFirefox) {
-      newWidth = Math.ceil(newWidth);
-    }
-
-    const isEdge = document.DOCUMENT_NODE || /Edge/.test(navigator.userAgent);
-    if (isEdge) {
-      newWidth += 1;
-    }
-    textarea.style.width = newWidth + 'px';
-  }
-
   textarea.addEventListener('keydown', function (e: KeyboardEvent) {
     e.stopPropagation();
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Escape') {
+      removeTextarea();
+    }
+  });
+
+  textarea.addEventListener('input', () => {
+    let text = textarea.value.replace(/\n/g, '<br/>'); // 将换行符替换为<br/>标签，以便正确测量宽度
+    let tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text;
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.visibility = 'hidden';
+    tempDiv.style.whiteSpace = 'pre-wrap'; // 保持文本的换行
+    document.body.appendChild(tempDiv);
+    const newWidth = tempDiv.offsetWidth + 10;
+    textarea.style.width = newWidth * textNode.scaleX() + 'px'; // 设置宽度为文本实际宽度
+    document.body.removeChild(tempDiv);
+
+    let lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
+    let rows = textarea.value.split('\n').length;
+    textarea.style.height = 'auto'; // 重置高度以便重新计算
+    const newHeight = lineHeight * rows;
+    textarea.style.height = newHeight + 'px';
+    textNode.width(newWidth);
+    textNode.height(newHeight / textNode.scaleY());
+  });
+
+  function handleOutsideClick(e: MouseEvent) {
+    if (e.target !== textarea) {
       if (textarea.value.trim().length >= 1) {
         textNode.text(textarea.value);
       } else {
@@ -87,20 +97,6 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
       }
       removeTextarea();
       onUpdated();
-    }
-    if (e.key === 'Escape') {
-      removeTextarea();
-    }
-    const scale = textNode.getAbsoluteScale().x;
-    setTextareaWidth(textNode.width() * scale - textNode.padding() * 2 + 20);
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + textNode.fontSize() + 'px';
-  });
-
-  function handleOutsideClick(e: MouseEvent) {
-    if (e.target !== textarea) {
-      textNode.text(textarea.value);
-      removeTextarea();
     }
   }
   setTimeout(() => {

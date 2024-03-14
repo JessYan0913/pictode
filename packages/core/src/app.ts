@@ -396,13 +396,28 @@ export class App extends BaseService<EventArgs> {
   }
 
   public toJSON(): string {
-    return JSON.stringify(this.mainLayer.toObject());
+    const result = this?.mainLayer?.toObject() || {};
+    result.children.forEach((child: KonvaNode) => {
+      if (child.className === 'Image') {
+        child.attrs.image = child?.attrs?.image?.currentSrc;
+      }
+    });
+    return JSON.stringify(result);
   }
 
   public fromJSON(json: string): this {
+    const data = JSON.parse(json);
+    data.children.forEach((child: KonvaNode) => {
+      if (child.className === 'Image') {
+        const image = new Image();
+        image.src = child?.attrs?.image;
+        child.attrs.image = image;
+      }
+    });
+
     this.clear();
     this.mainLayer.remove();
-    const layer = Konva.Node.create(json, 'layer');
+    const layer = Konva.Node.create(data, 'layer');
     this.mainLayer = layer;
     this.stage.add(this.mainLayer);
     this.resetPluginsLayer([...this.installedPlugins.keys()]);
