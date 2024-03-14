@@ -7,6 +7,20 @@ interface HightLightRect {
   transformHandler: (...args: any) => any;
 }
 
+let TRANSFORM_CHANGE_STR = [
+  'widthChange',
+  'heightChange',
+  'scaleXChange',
+  'scaleYChange',
+  'skewXChange',
+  'skewYChange',
+  'rotationChange',
+  'offsetXChange',
+  'offsetYChange',
+  'transformsEnabledChange',
+  'strokeWidthChange',
+];
+
 export class Selector {
   public app: App;
   public selected: Map<number | string, KonvaNode>;
@@ -179,6 +193,7 @@ export class Selector {
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
       const rect = new Konva.Rect({
+        name: `${node._id}_height_rect`,
         stroke: this.hightLightConfig.stroke,
         strokeWidth: this.hightLightConfig.strokeWidth,
         dash: this.hightLightConfig.dash,
@@ -191,7 +206,9 @@ export class Selector {
       const transformHandler = () =>
         requestAnimationFrame(() => this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
 
-      node.on('dragmove transform xChange yChange', transformHandler);
+      node.on('absoluteTransformChange', transformHandler);
+
+      node.on(TRANSFORM_CHANGE_STR.join(' '), transformHandler);
 
       hightRects.set(node.id(), {
         rect,

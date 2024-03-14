@@ -106,9 +106,7 @@ export const isXmlDocument = (file: File): boolean => {
   return /^(?:application|text)\/(?:xml|xhtml\+xml)$/.test(file.type);
 };
 
-export interface FileHandler {
-  (fileRender: FileReader): void;
-}
+export type FileHandler = (fileRender: FileReader) => void;
 
 export const readeFile = <T extends string | ArrayBuffer | null>(fileHandler: FileHandler): Promise<T> => {
   const reader = new FileReader();
