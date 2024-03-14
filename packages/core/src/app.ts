@@ -472,15 +472,6 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public resetPluginsLayer(plugins: string | string[]): this {
-    if (!Array.isArray(plugins)) {
-      plugins = [plugins];
-    }
-    const aboutToChangePlugins = this.getPlugins(plugins);
-    aboutToChangePlugins?.forEach((plugin) => plugin?.resetLayer?.());
-    return this;
-  }
-
   public destroy(): void {
     this.resizeObserver.disconnect();
     this.destroyPlugins(Array.from(this.installedPlugins.keys()));
