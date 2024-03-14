@@ -76,7 +76,7 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
     tempDiv.style.whiteSpace = 'pre-wrap'; // 保持文本的换行
     document.body.appendChild(tempDiv);
     const newWidth = tempDiv.offsetWidth + 10;
-    textarea.style.width = newWidth + 'px'; // 设置宽度为文本实际宽度
+    textarea.style.width = newWidth * textNode.scaleX() + 'px'; // 设置宽度为文本实际宽度
     document.body.removeChild(tempDiv);
 
     let lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
@@ -85,7 +85,7 @@ export const createTextarea = (app: App, textNode: Konva.Text, onUpdated: () => 
     const newHeight = lineHeight * rows;
     textarea.style.height = newHeight + 'px';
     textNode.width(newWidth);
-    textNode.height(newHeight);
+    textNode.height(newHeight / textNode.scaleY());
   });
 
   function handleOutsideClick(e: MouseEvent) {
