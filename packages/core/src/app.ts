@@ -3,6 +3,7 @@ import Konva from 'konva';
 
 import './polyfill';
 
+import { Background } from './services/backgorund';
 import { Mouse } from './services/mouse';
 import { Tooler } from './services/tooler';
 import { AppConfig, EventArgs, KonvaNode, Plugin, Tool } from './types';
@@ -37,12 +38,14 @@ export class App extends BaseService<EventArgs> {
     this.resizeObserver = new ResizeObserver(this.onContainerResize);
     this.triggerPanning(this.config.panning.enabled);
     this.triggerMouseWheel(this.config.mousewheel.enabled);
+    new Background(this);
   }
 
   private onContainerResize = (e: ResizeObserverEntry[]) => {
     const { width, height } = e[0].contentRect;
     this.stage.width(width);
     this.stage.height(height);
+    this.emit('canvas:resized', { width, height });
     this.render();
   };
 

@@ -2,6 +2,7 @@ import Konva from 'konva';
 
 import App from '../app';
 import { Service } from '../types';
+import { generateSVG } from '../utils';
 
 export class Background extends Service {
   private backgroundLayer: Konva.Layer;
@@ -24,8 +25,16 @@ export class Background extends Service {
     });
     this.backgroundLayer.add(this.background);
     this.app.stage.add(this.backgroundLayer);
+    this.backgroundLayer.moveToBottom();
 
+    const image = new window.Image();
+    image.onload = () => {
+      this.background.fillPatternImage(image);
+    };
+    image.src = generateSVG('circle', 20, 1, '#100100');
+    this.app.on('canvas:resized', this.setBackground);
     this.app.on('canvas:drag:move', this.setBackground);
+    this.app.on('canvas:zoom:end', this.setBackground);
   }
 
   private setBackground = (): void => {
@@ -38,14 +47,11 @@ export class Background extends Service {
       height: this.app.stage.height() / this.app.stage.scaleY(),
     });
 
-    // Calculate the amount the stage is moved - including the effect of scaling
-    const stagePos = {
+    // Apply that movement to the fill pattern
+    this.background.fillPatternOffset({
       x: -this.app.stage.x() / this.app.stage.scaleX(),
       y: -this.app.stage.y() / this.app.stage.scaleY(),
-    };
-
-    // Apply that movement to the fill pattern
-    this.background.fillPatternOffset(stagePos);
+    });
   };
 
   public destroy(): void {

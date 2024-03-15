@@ -4,13 +4,15 @@ export * from './math';
 
 export * from './event';
 
+export * from './svg';
+
 export { guid, readeFile, selectFile } from '@pictode/utils';
 
 export const DEFAULT_APP_CONFIG: AppConfig = {
-  backgroundColor: '#ffffff',
+  backgroundColor: '#000',
   scale: {
-    min: 0.05,
-    max: 5,
+    min: 0.5,
+    max: 4,
   },
   panning: {
     enabled: false,

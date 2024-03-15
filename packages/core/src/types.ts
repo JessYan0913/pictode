@@ -84,6 +84,10 @@ export interface EventArgs {
   'canvas:rendered': {
     time: number;
   };
+  'canvas:resized': {
+    width: number;
+    height: number;
+  };
   'canvas:cleared': {};
   'canvas:zoom:start': {
     scale: number;
