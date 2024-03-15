@@ -8,6 +8,7 @@ export class Mouse extends Service {
 
     this.bindMouseEvent();
     this.app.stage.on<'dragstart'>('dragstart', this.onDragStart);
+    this.app.stage.on<'dragmove'>('dragmove', this.onDragMove);
     this.app.stage.on<'dragend'>('dragend', this.onDragEnd);
     this.app.stage.on<'wheel'>('wheel', this.onWheel);
   }
@@ -35,13 +36,19 @@ export class Mouse extends Service {
     this.app.stage.off('contextmenu', this.onMouseContextmenu);
   }
 
-  private onDragStart = (): void => {
+  private onDragStart = (event: KonvaMouseEvent): void => {
     this.unbindMouseEvent();
+    this.app.emit('canvas:drag:start', { event });
+  };
+
+  private onDragMove = (event: KonvaMouseEvent): void => {
+    this.app.emit('canvas:drag:move', { event });
   };
 
   private onDragEnd = (event: KonvaMouseEvent): void => {
     this.bindMouseEvent();
     this.app.emit('mouse:up', { event });
+    this.app.emit('canvas:drag:end', { event });
   };
 
   private onMouseDown = (event: KonvaMouseEvent): void => {
@@ -119,6 +126,7 @@ export class Mouse extends Service {
   public destroy(): void {
     this.unbindMouseEvent();
     this.app.stage.off('dragstart', this.onDragStart);
+    this.app.stage.off('dragmove', this.onDragMove);
     this.app.stage.off('dragend', this.onDragEnd);
     this.app.stage.off('wheel', this.onWheel);
   }
