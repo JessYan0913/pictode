@@ -1,16 +1,17 @@
 import { App, Plugin } from '@pictode/core';
 
+import { Ruler } from './ruler';
 import { Options } from './types';
 
 const DEFAULT_OPTIONS: Options = {
   enabled: true,
-  stackSize: 100,
 };
 
 export class RulerPlugin implements Plugin {
   public name: string = 'rulerPlugin';
   public app?: App;
   public options: Options;
+  public ruler?: Ruler;
 
   constructor(options?: Partial<Options>) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
@@ -18,13 +19,25 @@ export class RulerPlugin implements Plugin {
 
   public install(app: App) {
     this.app = app;
+    this.ruler = new Ruler(this.app.stage, this.app.mainLayer, this.app.stage.width(), this.app.stage.height(), 'x');
+    this.ruler.update();
   }
 
-  public destroy(): void {}
+  public destroy(): void {
+    this.ruler = undefined;
+  }
 
-  public enable(): void {}
+  public enable(): void {
+    if (!this.ruler) {
+      return;
+    }
+  }
 
-  public disable(): void {}
+  public disable(): void {
+    if (!this.ruler) {
+      return;
+    }
+  }
 
   public isEnabled(): boolean {
     return false;

@@ -8,5 +8,4 @@ export type RulerAxis = 'x' | 'y';
 
 export interface Options {
   enabled: boolean;
-  stackSize: number;
 }

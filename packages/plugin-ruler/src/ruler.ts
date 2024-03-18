@@ -79,10 +79,6 @@ export class Ruler {
     this.ruler.add(this.rulerFill, this.tickMarkGroup);
   }
 
-  public get rulerShape() {
-    return this.ruler;
-  }
-
   public update() {
     this.ruler.scale({
       x: 1 / this.stage.scaleX(),

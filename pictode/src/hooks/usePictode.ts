@@ -2,6 +2,7 @@ import { onMounted, onUnmounted, provide, Ref, ref } from 'vue';
 import { App, EventArgs, KonvaNode } from '@pictode/core';
 import AlignmentPlugin from '@pictode/plugin-alignment';
 import HistoryPlugin from '@pictode/plugin-history';
+import RulerPlugin from '@pictode/plugin-ruler';
 import SelectorPlugin from '@pictode/plugin-selector';
 
 import { PictodeAppKey, PictodePanelFormKey, PictodePluginsKey, PictodeSelectedKey } from '@/constants/inject-key';
@@ -25,6 +26,11 @@ export const usePictode = () => {
     enabled: true,
   });
 
+  const rulerPlugin = new RulerPlugin({
+    enabled: true,
+  });
+
+  app.use(rulerPlugin);
   app.use(historyPlugin);
   app.use(selectorPlugin);
   app.use(alignmentPlugin);
