@@ -31,7 +31,10 @@ export class Background extends Service {
     image.onload = () => {
       this.background.fillPatternImage(image);
     };
-    image.src = generateSVG('circle', 20, 1, '#100100');
+    const backgroundSvg = generateSVG('circle', 40, 2.5, '#100100');
+    if (backgroundSvg) {
+      image.src = backgroundSvg;
+    }
     this.app.on('canvas:resized', this.setBackground);
     this.app.on('canvas:drag:move', this.setBackground);
     this.app.on('canvas:zoom:end', this.setBackground);
