@@ -37,7 +37,7 @@ export class Ruler {
 
     this.ruler = new Konva.Group({
       x: axis === 'x' ? this.stage.x() : 0,
-      y: axis === 'y' ? 0 : this.stage.y(),
+      y: axis === 'x' ? 0 : this.stage.y(),
       clip: {
         x: 0,
         y: 0,
@@ -50,13 +50,13 @@ export class Ruler {
       x: 0,
       y: 0,
       width: this.axis === 'x' ? width : thickness,
-      height: this.axis === 'y' ? thickness : height,
+      height: this.axis === 'x' ? thickness : height,
       fill,
     });
 
     const clip = {
       x: axis === 'x' ? thickness - 5 : 0,
-      y: axis === 'y' ? 0 : thickness - 5,
+      y: axis === 'x' ? 0 : thickness - 5,
     };
     this.tickMarkGroup = new Konva.Group({
       clip: {
@@ -77,6 +77,10 @@ export class Ruler {
 
     this.tickMarkGroup.add(this.ticks);
     this.ruler.add(this.rulerFill, this.tickMarkGroup);
+  }
+
+  public get rulerShape() {
+    return this.ruler;
   }
 
   public update() {

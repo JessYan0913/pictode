@@ -44,6 +44,7 @@ export class App extends BaseService<EventArgs> {
     this.stage.width(width);
     this.stage.height(height);
     this.render();
+    this.emit('canvas:resized', { width, height });
   };
 
   public get pointer(): Point {
