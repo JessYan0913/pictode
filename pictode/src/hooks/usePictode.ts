@@ -35,17 +35,6 @@ export const usePictode = () => {
   app.use(selectorPlugin);
   app.use(alignmentPlugin);
 
-  app.on('mouse:down', ({ event }) => {
-    if (event.evt.button === 1) {
-      app.triggerPanning(true);
-    }
-  });
-  app.on('mouse:up', ({ event }) => {
-    if (event.evt.button === 1) {
-      app.triggerPanning(false);
-    }
-  });
-
   const selected: Ref<Array<KonvaNode>> = ref([]);
   const panelFormConfig = ref<FormConfig>([]);
   const panelFormModel = ref<FormValue>({});
