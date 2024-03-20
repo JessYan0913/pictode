@@ -22,8 +22,8 @@ export class RulerPlugin implements Plugin {
     this.ruler = new Ruler(this.app.stage, this.app.mainLayer, this.app.stage.width(), this.app.stage.height(), 'x');
     this.app.add(this.ruler.rulerShape);
     this.ruler.update();
-    this.app.on('canvas:resized', () => {
-      this.ruler?.updateSize();
+    this.app.on('canvas:resized', ({ width, height }) => {
+      this.ruler?.updateSize(width, height);
     });
   }
 
