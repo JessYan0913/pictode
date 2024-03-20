@@ -7,7 +7,7 @@ export class Ruler {
   private rulerFill: Konva.Rect; // Changed to a class property
   private tickMarkGroup: Konva.Group;
   private ticks: Konva.Path;
-  private tickText?: Konva.Text;
+  private tickText: Konva.Text;
   private tickTexts: Konva.Text[] = [];
   private width: number; // 声明 width 属性
   private height: number; // 声明 height 属性
@@ -100,40 +100,70 @@ export class Ruler {
   }
 
   private updateTicks(): void {
-    const rulerZero = this.axis === 'x' ? this.app.stage.x() : this.app.stage.y();
+    const stage = this.app.stage;
+    // Calculate the zero point on the ruler
+    const rulerZero = this.axis === 'x' ? stage.x() : stage.y();
+
+    // get the ruler length
     const rulerLength = this.axis === 'x' ? this.width : this.height;
-    const axisScale = this.axis === 'x' ? this.app.stage.scaleX() : this.app.stage.scaleY();
-    const displayStep = 40 / axisScale;
+
+    // Note the scale in force
+    const axisScale = this.axis === 'x' ? stage.scaleX() : stage.scaleY();
+
+    // displayStep is the jumps in the number displayed on the tick marks
+    let displayStep = 40 / axisScale;
+
+    // rulerStep is the gap between ruler tick marks we will draw, and
+    // the position of the text.
     const rulerStep = displayStep * axisScale;
+
+    // how many ticks from zero pt back to start and end of ruler?
     const ticksBackward = -Math.ceil(rulerZero / rulerStep);
     const ticksForward = Math.ceil((rulerLength - rulerZero) / rulerStep);
+
+    // Which makes the positions in px
     const tickPosStart = rulerZero + ticksBackward * rulerStep;
     const tickPosEnd = rulerZero + ticksForward * rulerStep;
 
-    const dataSteps = [];
-    let tickCnt = 0;
-    let tickTag = Math.floor((ticksBackward * displayStep) / 10) * 10; // 设置刻度数字的标记间隔
+    // used to create path output
+    let dataSteps = [];
 
+    //
+    let tickCnt = 0; // used to count ticks
+
+    // Set up the text for the first ruler marker
+    let tickTag = ticksBackward * displayStep;
+
+    const tickLength = 5;
+
+    // Loop for each ruler mark
     for (let i = tickPosStart; i < tickPosEnd; i = i + rulerStep) {
-      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${5}` : `M${i},${5} L${5},{i}`);
+      // Construct the path command for the tick mark
+      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${tickLength}` : `M${i},${tickLength} L$${tickLength},{i}`);
+
+      // Manage the tick mark text
       if (this.tickTexts.length < tickCnt + 1) {
-        const tick = this.tickText?.clone({ text: tickTag, width: 100 });
+        const tick = this.tickText.clone({ text: tickTag, width: 100 });
         tick.align(this.axis === 'x' ? 'center' : 'left');
         tick.name('tickText' + this.axis);
         this.tickTexts[tickCnt] = tick;
         this.tickMarkGroup.add(tick);
       }
 
+      // Update the tick number
       this.tickTexts[tickCnt].setAttrs({
         x: this.axis === 'x' ? i - this.tickTexts[tickCnt].width() / 2 : 10,
         y: this.axis === 'x' ? 10 : i - this.tickTexts[tickCnt].height() / 2,
         text: Math.floor(tickTag),
         visible: true,
       });
+
       tickCnt = tickCnt + 1;
+
       tickTag = tickTag + displayStep;
     }
 
+    // Apply that path data that we constructed.
     this.ticks.data(dataSteps.join(' '));
   }
 }
