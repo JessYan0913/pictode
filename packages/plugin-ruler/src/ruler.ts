@@ -1,27 +1,26 @@
-import { Konva } from '@pictode/core';
+import { App, Konva } from '@pictode/core';
 
 import { RulerAxis } from './types';
 
 export class Ruler {
-  private stage: Konva.Stage;
   private layer: Konva.Layer;
   private ruler: Konva.Group;
   private rulerFill: Konva.Rect; // Changed to a class property
   private tickMarkGroup: Konva.Group;
   private ticks: Konva.Line[] = [];
   private tickTexts: Konva.Text[] = [];
+  private width: number; // 声明 width 属性
+  private height: number; // 声明 height 属性
 
   constructor(
-    stage: Konva.Stage,
-    layer: Konva.Layer,
-    private width: number,
-    private height: number,
+    app: App,
     private axis: RulerAxis = 'x',
-    fill: string = 'red',
-    thickness: number = 40
+    private fill: string = 'red',
+    private thickness: number = 40
   ) {
-    this.stage = stage;
-    this.layer = layer;
+    this.layer = app.mainLayer;
+    this.width = app.stage.width();
+    this.height = app.stage.height();
 
     // Initialize the ruler group
     this.ruler = new Konva.Group({
@@ -34,9 +33,9 @@ export class Ruler {
     this.rulerFill = new Konva.Rect({
       x: 0,
       y: 0,
-      width: this.axis === 'x' ? this.width : thickness,
-      height: this.axis === 'x' ? thickness : this.height,
-      fill: fill,
+      width: this.axis === 'x' ? this.width : this.thickness,
+      height: this.axis === 'x' ? this.thickness : this.height,
+      fill: this.fill,
     });
     this.ruler.add(this.rulerFill);
 
