@@ -77,26 +77,32 @@ export class Ruler {
   }
 
   private drawTicks(): void {
-    const numTicks = this.axis === 'x' ? Math.floor(this.width / 100) : Math.floor(this.height / 100);
+    const minTick = 10; // 设置最小刻度
+    const interval = 10; // 设置显示刻度数字的间隔
+    const tickLength = 10; // 设置刻度线长度
+    const numTicks = this.axis === 'x' ? Math.floor(this.width / minTick) : Math.floor(this.height / minTick);
+
     for (let i = 0; i <= numTicks; i++) {
-      const position = i * 100;
+      const position = i * minTick;
       const tick = new Konva.Line({
-        points: this.axis === 'x' ? [position, 0, position, 10] : [0, position, 10, position],
+        points: this.axis === 'x' ? [position, 0, position, tickLength] : [0, position, tickLength, position],
         stroke: 'black',
       });
       this.tickMarkGroup.add(tick);
       this.ticks.push(tick);
 
-      const text = new Konva.Text({
-        x: this.axis === 'x' ? position - 5 : 15,
-        y: this.axis === 'x' ? 15 : position - 5,
-        text: String(i * 100),
-        fontSize: 12,
-        fontFamily: 'Arial',
-        fill: 'black',
-      });
-      this.tickMarkGroup.add(text);
-      this.tickTexts.push(text);
+      if (i % interval === 0) {
+        const text = new Konva.Text({
+          x: this.axis === 'x' ? position - 5 : 20,
+          y: this.axis === 'x' ? 20 : position - 5,
+          text: String(position),
+          fontSize: 12,
+          fontFamily: 'Arial',
+          fill: 'black',
+        });
+        this.tickMarkGroup.add(text);
+        this.tickTexts.push(text);
+      }
     }
   }
 }

@@ -19,7 +19,7 @@ export class RulerPlugin implements Plugin {
 
   public install(app: App) {
     this.app = app;
-    this.ruler = new Ruler(this.app, 'x', 'red', 40);
+    this.ruler = new Ruler(this.app, 'x', '#fff', 40);
     this.app.on('canvas:resized', this.onCanvasResized);
     this.app.emit('ruler:installed', { ruler: this });
   }
