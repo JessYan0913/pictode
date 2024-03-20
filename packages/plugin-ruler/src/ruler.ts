@@ -46,6 +46,7 @@ export class Ruler {
       data: '',
       stroke: 'black',
     });
+    this.ruler.add(this.ticks);
 
     this.tickText = new Konva.Text({
       fill: 'black',
@@ -111,8 +112,6 @@ export class Ruler {
 
     const tickPosStart = rulerZero + ticksBackward * rulerStep;
     const tickPosEnd = rulerZero + ticksForward * rulerStep;
-
-    // const totalDist = tickPosEnd - tickPosStart;
 
     let dataSteps = [];
 
