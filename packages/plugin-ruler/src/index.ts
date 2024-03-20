@@ -23,10 +23,12 @@ export class RulerPlugin implements Plugin {
     this.app.on('canvas:resized', ({ width, height }) => {
       this.ruler?.updateSize(width, height);
     });
+    this.app.emit('ruler:installed', { ruler: this });
   }
 
   public destroy(): void {
     this.ruler = undefined;
+    this.app?.emit('ruler:destroy', { ruler: this });
   }
 
   public enable(): void {

@@ -3,7 +3,6 @@ import { App, Konva } from '@pictode/core';
 import { RulerAxis } from './types';
 
 export class Ruler {
-  private layer: Konva.Layer;
   private ruler: Konva.Group;
   private rulerFill: Konva.Rect; // Changed to a class property
   private tickMarkGroup: Konva.Group;
@@ -13,12 +12,11 @@ export class Ruler {
   private height: number; // 声明 height 属性
 
   constructor(
-    app: App,
+    private app: App,
     private axis: RulerAxis = 'x',
     private fill: string = 'red',
     private thickness: number = 40
   ) {
-    this.layer = app.mainLayer;
     this.width = app.stage.width();
     this.height = app.stage.height();
 
@@ -44,7 +42,7 @@ export class Ruler {
     this.ruler.add(this.tickMarkGroup);
 
     // Add the ruler to the layer
-    this.layer.add(this.ruler);
+    this.app.add(this.ruler);
 
     // Initial update to draw ticks
     this.update();
