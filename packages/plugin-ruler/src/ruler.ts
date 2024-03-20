@@ -81,49 +81,42 @@ export class Ruler {
   }
 
   public update(): void {
-    this.ruler.scale({
-      x: 1 / this.app.stage.scaleX(),
-      y: 1 / this.app.stage.scaleY(),
-    });
+    this.updateScale();
+    this.updatePosition();
+    this.updateTicks();
+  }
+
+  private updateScale(): void {
+    const scaleX = 1 / this.app.stage.scaleX();
+    const scaleY = 1 / this.app.stage.scaleY();
+    this.ruler.scale({ x: scaleX, y: scaleY });
+  }
+
+  private updatePosition(): void {
     const stagePos = {
       x: -this.app.stage.x() / this.app.stage.scaleX(),
       y: -this.app.stage.y() / this.app.stage.scaleY(),
     };
-
-    const list = this.app.stage.find('.tickText' + this.axis);
-    for (const tick of list) {
-      tick.setAttr('visible', false);
-    }
-
     this.ruler.position(stagePos);
+  }
 
+  private updateTicks(): void {
     const rulerZero = this.axis === 'x' ? this.app.stage.x() : this.app.stage.y();
-
     const rulerLength = this.axis === 'x' ? this.width : this.height;
-
     const axisScale = this.axis === 'x' ? this.app.stage.scaleX() : this.app.stage.scaleY();
-
-    let displayStep = 40 / axisScale;
-
+    const displayStep = 40 / axisScale;
     const rulerStep = displayStep * axisScale;
-
     const ticksBackward = -Math.ceil(rulerZero / rulerStep);
     const ticksForward = Math.ceil((rulerLength - rulerZero) / rulerStep);
-
     const tickPosStart = rulerZero + ticksBackward * rulerStep;
     const tickPosEnd = rulerZero + ticksForward * rulerStep;
 
-    let dataSteps = [];
-
+    const dataSteps = [];
     let tickCnt = 0;
-
-    let tickTag = ticksBackward * displayStep;
+    let tickTag = Math.floor((ticksBackward * displayStep) / 10) * 10; // 设置刻度数字的标记间隔
 
     for (let i = tickPosStart; i < tickPosEnd; i = i + rulerStep) {
-      // Construct the path command for the tick mark
-      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${5}` : `M${i},${5} L$${5},{i}`);
-
-      // Manage the tick mark text
+      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${5}` : `M${i},${5} L${5},{i}`);
       if (this.tickTexts.length < tickCnt + 1) {
         const tick = this.tickText?.clone({ text: tickTag, width: 100 });
         tick.align(this.axis === 'x' ? 'center' : 'left');
@@ -131,21 +124,16 @@ export class Ruler {
         this.tickTexts[tickCnt] = tick;
         this.tickMarkGroup.add(tick);
       }
-
-      // Update the tick number
       this.tickTexts[tickCnt].setAttrs({
         x: this.axis === 'x' ? i - this.tickTexts[tickCnt].width() / 2 : 10,
         y: this.axis === 'x' ? 10 : i - this.tickTexts[tickCnt].height() / 2,
         text: tickTag,
         visible: true,
       });
-
       tickCnt = tickCnt + 1;
-
       tickTag = tickTag + displayStep;
     }
 
-    // Apply that path data that we constructed.
     this.ticks.data(dataSteps.join(' '));
   }
 }
