@@ -22,15 +22,14 @@ export class RulerPlugin implements Plugin {
     this.ruler = new Ruler(this.app, 'x', '#fff', 40);
     this.app.on('canvas:resized', this.onUpdate);
     this.app.on('canvas:drag:move', this.onUpdate);
-    this.app.stage.on('scaleChange', () => {
-      this.ruler?.update();
-    });
+    this.app.on('canvas:zoom:end', this.onUpdate);
     this.app.emit('ruler:installed', { ruler: this });
   }
 
   public destroy(): void {
     this.app?.off('canvas:resized', this.onUpdate);
     this.app?.off('canvas:drag:move', this.onUpdate);
+    this.app?.off('canvas:zoom:end', this.onUpdate);
     this.app?.emit('ruler:destroy', { ruler: this });
   }
 

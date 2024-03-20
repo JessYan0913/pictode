@@ -123,10 +123,11 @@ export class Ruler {
         this.tickTexts[tickCnt] = tick;
         this.tickMarkGroup.add(tick);
       }
+
       this.tickTexts[tickCnt].setAttrs({
         x: this.axis === 'x' ? i - this.tickTexts[tickCnt].width() / 2 : 10,
         y: this.axis === 'x' ? 10 : i - this.tickTexts[tickCnt].height() / 2,
-        text: tickTag,
+        text: Math.floor(tickTag),
         visible: true,
       });
       tickCnt = tickCnt + 1;
