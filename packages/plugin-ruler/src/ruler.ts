@@ -6,7 +6,7 @@ export class Ruler {
   private ruler: Konva.Group;
   private rulerFill: Konva.Rect; // Changed to a class property
   private tickMarkGroup: Konva.Group;
-  private ticks: Konva.Line[] = [];
+  private ticks: Konva.Path;
   private tickTexts: Konva.Text[] = [];
   private width: number; // 声明 width 属性
   private height: number; // 声明 height 属性
@@ -41,6 +41,11 @@ export class Ruler {
     this.tickMarkGroup = new Konva.Group();
     this.ruler.add(this.tickMarkGroup);
 
+    this.ticks = new Konva.Path({
+      data: '',
+      stroke: 'black',
+    });
+
     // Add the ruler to the layer
     this.app.add(this.ruler);
 
@@ -67,9 +72,9 @@ export class Ruler {
 
   public update(): void {
     // Clear existing ticks and texts
-    this.ticks.forEach((tick) => tick.destroy());
+    this.ticks.destroy();
     this.tickTexts.forEach((text) => text.destroy());
-    this.ticks = [];
+    this.ticks.data('');
     this.tickTexts = [];
 
     // Recalculate and redraw ticks and texts
@@ -82,16 +87,20 @@ export class Ruler {
     const tickLength = 10; // 设置刻度线长度
     const numTicks = this.axis === 'x' ? Math.floor(this.width / minTick) : Math.floor(this.height / minTick);
 
-    for (let i = 0; i <= numTicks; i++) {
+    const ticksPath = Array.from({ length: numTicks + 1 }, (_, i) => {
       const position = i * minTick;
-      const tick = new Konva.Line({
-        points: this.axis === 'x' ? [position, 0, position, tickLength] : [0, position, tickLength, position],
-        stroke: 'black',
-      });
-      this.tickMarkGroup.add(tick);
-      this.ticks.push(tick);
+      return `M${this.axis === 'x' ? position : 0} ${this.axis === 'x' ? 0 : position} L${
+        this.axis === 'x' ? position : tickLength
+      } ${this.axis === 'x' ? tickLength : position}`;
+    }).join(' ');
 
+    this.ticks.data(ticksPath);
+
+    this.tickMarkGroup.add(this.ticks);
+
+    for (let i = 0; i <= numTicks; i++) {
       if (i % interval === 0) {
+        const position = i * minTick;
         const text = new Konva.Text({
           x: this.axis === 'x' ? position - 5 : 20,
           y: this.axis === 'x' ? 20 : position - 5,
@@ -101,7 +110,6 @@ export class Ruler {
           fill: 'black',
         });
         this.tickMarkGroup.add(text);
-        this.tickTexts.push(text);
       }
     }
   }
