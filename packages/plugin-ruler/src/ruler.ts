@@ -48,10 +48,6 @@ export class Ruler {
     this.update();
   }
 
-  public get rulerShape(): Konva.Group {
-    return this.ruler;
-  }
-
   public updateSize(newWidth: number, newHeight: number): void {
     this.width = newWidth;
     this.height = newHeight;
