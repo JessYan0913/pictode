@@ -63,27 +63,26 @@ export class Ruler {
     this.update();
   }
 
-  public updateSize(newWidth: number, newHeight: number): void {
-    this.width = newWidth;
-    this.height = newHeight;
-    this.ruler.clip({ x: 0, y: 0, width: newWidth, height: newHeight });
-
-    // Directly update rulerFill size
-    if (this.axis === 'x') {
-      this.rulerFill.width(newWidth);
-      this.ruler.width(newWidth);
-    } else {
-      this.rulerFill.height(newHeight);
-      this.ruler.height(newHeight);
-    }
-
-    this.update();
-  }
-
   public update(): void {
+    this.updateSize();
     this.updateScale();
     this.updatePosition();
     this.updateTicks();
+  }
+
+  private updateSize(): void {
+    this.width = this.app.stage.width();
+    this.height = this.app.stage.height();
+    this.ruler.clip({ x: 0, y: 0, width: this.width, height: this.height });
+
+    // Directly update rulerFill size
+    if (this.axis === 'x') {
+      this.rulerFill.width(this.width);
+      this.ruler.width(this.width);
+    } else {
+      this.rulerFill.height(this.height);
+      this.ruler.height(this.height);
+    }
   }
 
   private updateScale(): void {

@@ -1,4 +1,4 @@
-import { App, EventArgs, Plugin } from '@pictode/core';
+import { App, Plugin } from '@pictode/core';
 
 import { Ruler } from './ruler';
 import { Options } from './types';
@@ -20,15 +20,17 @@ export class RulerPlugin implements Plugin {
   public install(app: App) {
     this.app = app;
     this.ruler = new Ruler(this.app, 'x', '#fff', 40);
-    this.app.on('canvas:resized', this.onCanvasResized);
-    this.app.on('canvas:drag:move', () => {
+    this.app.on('canvas:resized', this.onUpdate);
+    this.app.on('canvas:drag:move', this.onUpdate);
+    this.app.stage.on('scaleChange', () => {
       this.ruler?.update();
     });
     this.app.emit('ruler:installed', { ruler: this });
   }
 
   public destroy(): void {
-    this.app?.off('canvas:resized', this.onCanvasResized);
+    this.app?.off('canvas:resized', this.onUpdate);
+    this.app?.off('canvas:drag:move', this.onUpdate);
     this.app?.emit('ruler:destroy', { ruler: this });
   }
 
@@ -48,8 +50,8 @@ export class RulerPlugin implements Plugin {
     return false;
   }
 
-  private onCanvasResized = ({ width, height }: EventArgs['canvas:resized']) => {
-    this.ruler?.updateSize(width, height);
+  private onUpdate = () => {
+    this.ruler?.update();
   };
 }
 
