@@ -21,6 +21,9 @@ export class RulerPlugin implements Plugin {
     this.app = app;
     this.ruler = new Ruler(this.app, 'x', '#fff', 40);
     this.app.on('canvas:resized', this.onCanvasResized);
+    this.app.on('canvas:drag:move', () => {
+      this.ruler?.update();
+    });
     this.app.emit('ruler:installed', { ruler: this });
   }
 

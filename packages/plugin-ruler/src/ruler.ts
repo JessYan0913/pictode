@@ -7,6 +7,7 @@ export class Ruler {
   private rulerFill: Konva.Rect; // Changed to a class property
   private tickMarkGroup: Konva.Group;
   private ticks: Konva.Path;
+  private tickText?: Konva.Text;
   private tickTexts: Konva.Text[] = [];
   private width: number; // 声明 width 属性
   private height: number; // 声明 height 属性
@@ -46,6 +47,14 @@ export class Ruler {
       stroke: 'black',
     });
 
+    this.tickText = new Konva.Text({
+      fill: 'black',
+      fontSize: 10,
+      fontFamily: 'Calibri',
+      text: '',
+      align: 'center',
+    });
+
     // Add the ruler to the layer
     this.app.add(this.ruler);
 
@@ -71,47 +80,73 @@ export class Ruler {
   }
 
   public update(): void {
-    // Clear existing ticks and texts
-    this.ticks.destroy();
-    this.tickTexts.forEach((text) => text.destroy());
-    this.ticks.data('');
-    this.tickTexts = [];
+    this.ruler.scale({
+      x: 1 / this.app.stage.scaleX(),
+      y: 1 / this.app.stage.scaleY(),
+    });
+    const stagePos = {
+      x: -this.app.stage.x() / this.app.stage.scaleX(),
+      y: -this.app.stage.y() / this.app.stage.scaleY(),
+    };
 
-    // Recalculate and redraw ticks and texts
-    this.drawTicks();
-  }
-
-  private drawTicks(): void {
-    const minTick = 10; // 设置最小刻度
-    const interval = 10; // 设置显示刻度数字的间隔
-    const tickLength = 10; // 设置刻度线长度
-    const numTicks = this.axis === 'x' ? Math.floor(this.width / minTick) : Math.floor(this.height / minTick);
-
-    const ticksPath = Array.from({ length: numTicks + 1 }, (_, i) => {
-      const position = i * minTick;
-      const length = i % interval === 0 ? tickLength + 5 : tickLength; // 设置不同位置的刻度线长度
-      return `M${this.axis === 'x' ? position : 0} ${this.axis === 'x' ? 0 : position} L${
-        this.axis === 'x' ? position : length
-      } ${this.axis === 'x' ? length : position}`;
-    }).join(' ');
-
-    this.ticks.data(ticksPath);
-
-    this.tickMarkGroup.add(this.ticks);
-
-    for (let i = 0; i <= numTicks; i++) {
-      if (i % interval === 0) {
-        const position = i * minTick;
-        const text = new Konva.Text({
-          x: this.axis === 'x' ? position - 5 : 20,
-          y: this.axis === 'x' ? 20 : position - 5,
-          text: String(position),
-          fontSize: 12,
-          fontFamily: 'Arial',
-          fill: 'black',
-        });
-        this.tickMarkGroup.add(text);
-      }
+    const list = this.app.stage.find('.tickText' + this.axis);
+    for (const tick of list) {
+      tick.setAttr('visible', false);
     }
+
+    this.ruler.position(stagePos);
+
+    const rulerZero = this.axis === 'x' ? this.app.stage.x() : this.app.stage.y();
+
+    const rulerLength = this.axis === 'x' ? this.width : this.height;
+
+    const axisScale = this.axis === 'x' ? this.app.stage.scaleX() : this.app.stage.scaleY();
+
+    let displayStep = 40 / axisScale;
+
+    const rulerStep = displayStep * axisScale;
+
+    const ticksBackward = -Math.ceil(rulerZero / rulerStep);
+    const ticksForward = Math.ceil((rulerLength - rulerZero) / rulerStep);
+
+    const tickPosStart = rulerZero + ticksBackward * rulerStep;
+    const tickPosEnd = rulerZero + ticksForward * rulerStep;
+
+    // const totalDist = tickPosEnd - tickPosStart;
+
+    let dataSteps = [];
+
+    let tickCnt = 0;
+
+    let tickTag = ticksBackward * displayStep;
+
+    for (let i = tickPosStart; i < tickPosEnd; i = i + rulerStep) {
+      // Construct the path command for the tick mark
+      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${5}` : `M${i},${5} L$${5},{i}`);
+
+      // Manage the tick mark text
+      if (this.tickTexts.length < tickCnt + 1) {
+        const tick = this.tickText?.clone({ text: tickTag, width: 100 });
+        tick.align(this.axis === 'x' ? 'center' : 'left');
+        tick.name('tickText' + this.axis);
+        this.tickTexts[tickCnt] = tick;
+        this.tickMarkGroup.add(tick);
+      }
+
+      // Update the tick number
+      this.tickTexts[tickCnt].setAttrs({
+        x: this.axis === 'x' ? i - this.tickTexts[tickCnt].width() / 2 : 10,
+        y: this.axis === 'x' ? 10 : i - this.tickTexts[tickCnt].height() / 2,
+        text: tickTag,
+        visible: true,
+      });
+
+      tickCnt = tickCnt + 1;
+
+      tickTag = tickTag + displayStep;
+    }
+
+    // Apply that path data that we constructed.
+    this.ticks.data(dataSteps.join(' '));
   }
 }
