@@ -89,9 +89,10 @@ export class Ruler {
 
     const ticksPath = Array.from({ length: numTicks + 1 }, (_, i) => {
       const position = i * minTick;
+      const length = i % interval === 0 ? tickLength + 5 : tickLength; // 设置不同位置的刻度线长度
       return `M${this.axis === 'x' ? position : 0} ${this.axis === 'x' ? 0 : position} L${
-        this.axis === 'x' ? position : tickLength
-      } ${this.axis === 'x' ? tickLength : position}`;
+        this.axis === 'x' ? position : length
+      } ${this.axis === 'x' ? length : position}`;
     }).join(' ');
 
     this.ticks.data(ticksPath);
