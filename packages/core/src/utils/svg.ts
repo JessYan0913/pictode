@@ -1,4 +1,4 @@
-export function generateSVG(shape: string, padding: number, size: number, color: string) {
+export function generateSVG(shape: 'circle' | 'triangle' | 'diamond', padding: number, size: number, color: string) {
   const svgNS = 'http://www.w3.org/2000/svg';
 
   // 创建 SVG 元素
@@ -45,7 +45,6 @@ export function generateSVG(shape: string, padding: number, size: number, color:
 
   // 将 SVG 元素转换为字符串
   const svgString = new XMLSerializer().serializeToString(svgElement);
-  console.log(svgString);
 
   // 将 SVG 字符串转换为 Base64 格式
   return 'data:image/svg+xml;base64,' + btoa(svgString);

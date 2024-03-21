@@ -9,7 +9,12 @@ export * from './svg';
 export { guid, readeFile, selectFile } from '@pictode/utils';
 
 export const DEFAULT_APP_CONFIG: AppConfig = {
-  backgroundColor: '#000',
+  background: {
+    shape: 'circle',
+    color: '#000',
+    size: 2,
+    padding: 40,
+  },
   scale: {
     min: 0.5,
     max: 4,

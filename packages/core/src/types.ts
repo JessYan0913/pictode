@@ -13,7 +13,7 @@ export interface Modifier {
 export type BackgroundConfig =
   | HTMLImageElement
   | {
-      shape: string;
+      shape: 'circle' | 'triangle' | 'diamond';
       color: string;
       size: number;
       padding: number;

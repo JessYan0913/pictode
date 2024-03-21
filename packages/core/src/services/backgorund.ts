@@ -7,7 +7,7 @@ import { generateSVG } from '../utils';
 export class Background extends Service {
   private backgroundLayer: Konva.Layer;
   private background: Konva.Rect;
-  private image: HTMLImageElement;
+  private image?: HTMLImageElement;
 
   constructor(app: App, config?: BackgroundConfig) {
     super(app);
@@ -30,14 +30,15 @@ export class Background extends Service {
 
     if (config instanceof HTMLImageElement) {
       this.image = config;
-    } else {
+      this.background.fillPatternImage(this.image);
+    } else if (config) {
       this.image = new window.Image();
-      const backgroundSvg = generateSVG('circle', 50, 2, '#100100');
+      const backgroundSvg = generateSVG(config.shape, config.padding, config.size, config.color);
       if (backgroundSvg) {
         this.image.src = backgroundSvg;
       }
+      this.background.fillPatternImage(this.image);
     }
-    this.background.fillPatternImage(this.image);
     this.app.on('canvas:resized', this.setBackground);
     this.app.on('canvas:drag:move', this.setBackground);
     this.app.on('canvas:zoom:end', this.setBackground);
