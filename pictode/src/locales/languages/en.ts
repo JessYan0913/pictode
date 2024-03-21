@@ -22,6 +22,7 @@ export default {
   清除画布: 'Clear Canvas',
   '将会清空画布内容，是否继续？': 'This will clear the canvas content. Continue?',
   重置画布: 'Reset Canvas',
+  标尺: 'Ruler',
   撤销: 'Undo',
   重做: 'Redo',
   移动画布: 'Pan Canvas',

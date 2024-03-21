@@ -2,6 +2,7 @@ import { onMounted, onUnmounted, provide, Ref, ref } from 'vue';
 import { App, EventArgs, KonvaNode } from '@pictode/core';
 import AlignmentPlugin from '@pictode/plugin-alignment';
 import HistoryPlugin from '@pictode/plugin-history';
+import RulerPlugin from '@pictode/plugin-ruler';
 import SelectorPlugin from '@pictode/plugin-selector';
 
 import { PictodeAppKey, PictodePanelFormKey, PictodePluginsKey, PictodeSelectedKey } from '@/constants/inject-key';
@@ -25,20 +26,15 @@ export const usePictode = () => {
     enabled: true,
   });
 
+  const rulerPlugin = new RulerPlugin({
+    enabled: false,
+    axis: ['x', 'y'],
+  });
+
+  app.use(rulerPlugin);
   app.use(historyPlugin);
   app.use(selectorPlugin);
   app.use(alignmentPlugin);
-
-  app.on('mouse:down', ({ event }) => {
-    if (event.evt.button === 1) {
-      app.triggerPanning(true);
-    }
-  });
-  app.on('mouse:up', ({ event }) => {
-    if (event.evt.button === 1) {
-      app.triggerPanning(false);
-    }
-  });
 
   const selected: Ref<Array<KonvaNode>> = ref([]);
   const panelFormConfig = ref<FormConfig>([]);

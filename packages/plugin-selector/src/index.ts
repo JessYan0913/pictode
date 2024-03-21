@@ -79,10 +79,6 @@ export class SelectorPlugin implements Plugin {
   private onCanvasCleared = (): void => {
     this.selector?.cancelSelect();
   };
-
-  public resetLayer() {
-    this.selector?.resetLayer();
-  }
 }
 
 export default SelectorPlugin;

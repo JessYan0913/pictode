@@ -37,6 +37,7 @@ const {
   alignTop,
   distributeX,
   distributeY,
+  rulerVisible,
 } = injectStrict(PictodeHotKeyActionsKey);
 
 const hotKeyListMack: Array<{
@@ -45,7 +46,7 @@ const hotKeyListMack: Array<{
 }> = [
   {
     title: '编辑',
-    hotKeyList: [undo, redo, selectAll, deleteNode, resetStage],
+    hotKeyList: [undo, redo, selectAll, deleteNode, resetStage, rulerVisible],
   },
   {
     title: '视图',
