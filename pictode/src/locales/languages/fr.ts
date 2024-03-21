@@ -22,6 +22,7 @@ export default {
   清除画布: 'Effacer le canevas',
   '将会清空画布内容，是否继续？': 'Le contenu du canevas sera effacé, continuer ?',
   重置画布: 'Réinitialiser le canevas',
+  标尺: 'Règle',
   撤销: 'Annuler',
   重做: 'Refaire',
   移动画布: 'Déplacer le canevas',

@@ -88,7 +88,6 @@ export class Ruler {
 
   public update = (): void => {
     if (!this.enabled) {
-      this.ruler.visible(false);
       return;
     }
     this.updateSize();
@@ -96,6 +95,11 @@ export class Ruler {
     this.updatePosition();
     this.updateTicks();
   };
+
+  public triggerVisible(enabled: boolean): void {
+    this.enabled = enabled;
+    this.ruler.visible(enabled);
+  }
 
   private updateSize(): void {
     this.width = this.app.stage.width();

@@ -1,7 +1,10 @@
 import { RulerPlugin } from './index';
 
 declare module '@pictode/core' {
-  export interface App {}
+  export interface App {
+    triggerRulerVisible(visible?: boolean): void;
+    rulerUpdate(): void;
+  }
 
   export interface EventArgs {
     'ruler:installed': {

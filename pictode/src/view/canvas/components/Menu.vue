@@ -52,6 +52,13 @@ const menuGroups: MenuConfig[][] = [
       hotkey: resetStage.hotKey,
       handler: resetStage,
     },
+    {
+      icon: 'ruler',
+      label: '标尺',
+      handler: () => {
+        app.triggerRulerVisible();
+      },
+    },
   ],
 ];
 </script>

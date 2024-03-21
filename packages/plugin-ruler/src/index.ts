@@ -1,5 +1,7 @@
 import { App, Plugin } from '@pictode/core';
 
+import './method';
+
 import { Ruler } from './ruler';
 import { Options, RulerAxis } from './types';
 
@@ -44,15 +46,23 @@ export class RulerPlugin implements Plugin {
   }
 
   public enable(): void {
-    this.rulers.forEach((ruler) => (ruler.enabled = true));
+    this.rulers.forEach((ruler) => ruler.triggerVisible(true));
   }
 
   public disable(): void {
-    this.rulers.forEach((ruler) => (ruler.enabled = false));
+    this.rulers.forEach((ruler) => ruler.triggerVisible(false));
   }
 
   public isEnabled(): boolean {
     return this.rulers.some((ruler) => ruler.enabled);
+  }
+
+  public triggerVisible(visible?: boolean): void {
+    this.rulers.forEach((ruler) => ruler.triggerVisible(visible || !this.isEnabled()));
+  }
+
+  public update(): void {
+    this.rulers.forEach((ruler) => ruler.update());
   }
 }
 
