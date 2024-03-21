@@ -99,6 +99,7 @@ export class Ruler {
   public triggerVisible(enabled: boolean): void {
     this.enabled = enabled;
     this.ruler.visible(enabled);
+    this.update();
   }
 
   private updateSize(): void {

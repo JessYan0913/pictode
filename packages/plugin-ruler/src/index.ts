@@ -58,7 +58,8 @@ export class RulerPlugin implements Plugin {
   }
 
   public triggerVisible(visible?: boolean): void {
-    this.rulers.forEach((ruler) => ruler.triggerVisible(visible || !this.isEnabled()));
+    const rulerVisible = visible || !this.isEnabled();
+    this.rulers.forEach((ruler) => ruler.triggerVisible(rulerVisible));
   }
 
   public update(): void {
