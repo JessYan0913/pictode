@@ -471,7 +471,7 @@ export class App extends BaseService<EventArgs> {
     const layer = Konva.Node.create(data, 'layer');
     this.mainLayer = layer;
     this.stage.add(this.mainLayer);
-    this.resetPluginsLayer([...this.installedPlugins.keys()]);
+    this.mainLayer.moveToBottom();
     this.render();
     return this;
   }
@@ -520,15 +520,6 @@ export class App extends BaseService<EventArgs> {
     }
     const aboutToChangePlugins = this.getPlugins(plugins);
     aboutToChangePlugins?.forEach((plugin) => plugin?.destroy());
-    return this;
-  }
-
-  public resetPluginsLayer(plugins: string | string[]): this {
-    if (!Array.isArray(plugins)) {
-      plugins = [plugins];
-    }
-    const aboutToChangePlugins = this.getPlugins(plugins);
-    aboutToChangePlugins?.forEach((plugin) => plugin?.resetLayer?.());
     return this;
   }
 

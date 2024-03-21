@@ -53,7 +53,6 @@ export interface Plugin {
   enable?(): void;
   disable?(): void;
   isEnabled?(): boolean;
-  resetLayer?(): void;
 }
 
 export interface ToolEvent {
