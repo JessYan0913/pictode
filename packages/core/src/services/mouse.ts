@@ -60,6 +60,9 @@ export class Mouse extends Service {
   };
 
   private onMouseMove = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
     this.app.emit('mouse:move', { event });
   };
 
