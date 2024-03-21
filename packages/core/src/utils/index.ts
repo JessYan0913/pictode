@@ -1,4 +1,6 @@
-import { AppConfig, KonvaNode } from '../types';
+import { AppConfig, BackgroundConfig, KonvaNode } from '../types';
+
+import { generateSVG } from './svg';
 
 export * from './math';
 
@@ -52,4 +54,17 @@ export const shapeArrayEqual = (nodes1: KonvaNode[], nodes2: KonvaNode[]): boole
 
 const isShapeEqual = (node1: KonvaNode, node2: KonvaNode): boolean => {
   return node1.attrs.id === node2.attrs.id && node1._id === node2._id;
+};
+
+export const getBackgroundImage = (config: BackgroundConfig): HTMLImageElement => {
+  let image = new Image();
+  if (config instanceof HTMLImageElement) {
+    image = config;
+  } else if (config) {
+    const backgroundSvg = generateSVG(config.shape, config.padding, config.size, config.color);
+    if (backgroundSvg) {
+      image.src = backgroundSvg;
+    }
+  }
+  return image;
 };
