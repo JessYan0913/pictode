@@ -165,7 +165,7 @@ export class Ruler {
     // Loop for each ruler mark
     for (let i = tickPosStart; i < tickPosEnd; i = i + rulerStep) {
       // Construct the path command for the tick mark
-      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${tickLength}` : `M${i},${tickLength} L$${tickLength},{i}`);
+      dataSteps.push(this.axis === 'x' ? `M${i},0 L${i},${tickLength}` : `M0,${i} L$${tickLength},${i}`);
 
       // Manage the tick mark text
       if (this.tickTexts.length < tickCnt + 1) {
