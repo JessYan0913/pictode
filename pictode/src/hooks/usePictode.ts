@@ -27,7 +27,7 @@ export const usePictode = () => {
   });
 
   const rulerPlugin = new RulerPlugin({
-    enabled: true,
+    enabled: false,
     axis: ['x', 'y'],
   });
 
