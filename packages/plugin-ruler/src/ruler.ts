@@ -23,7 +23,6 @@ export class Ruler {
     options: Omit<Options, 'axis'>
   ) {
     this.axis = axis;
-    this.enabled = options.enabled;
     this.jump = options.jump;
     this.fill = options.fill;
     this.thickness = options.thickness;
@@ -41,6 +40,7 @@ export class Ruler {
 
     // Create and add the ruler fill
     this.rulerFill = new Konva.Rect({
+      name: `pictode:ruler:${axis}:fill`,
       x: 0,
       y: 0,
       width: this.axis === 'x' ? this.width : this.thickness,
@@ -54,6 +54,7 @@ export class Ruler {
     this.ruler.add(this.tickMarkGroup);
 
     this.ticks = new Konva.Path({
+      name: `pictode:ruler:${axis}:path`,
       data: '',
       stroke: 'black',
     });
@@ -76,6 +77,7 @@ export class Ruler {
 
     // Initial update to draw ticks
     this.update();
+    this.triggerVisible(options.enabled);
   }
 
   public destroy(): void {

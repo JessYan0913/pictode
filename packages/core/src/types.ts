@@ -10,8 +10,23 @@ export interface Modifier {
   exact: boolean;
 }
 
+export interface ElementBackground {
+  enabled: boolean;
+  element: HTMLImageElement;
+}
+
+export interface SvgBackground {
+  enabled: boolean;
+  shape: 'circle' | 'triangle' | 'diamond';
+  color: string;
+  size: number;
+  padding: number;
+}
+
+export type BackgroundConfig = ElementBackground | SvgBackground;
+
 export interface AppConfig {
-  backgroundColor: string;
+  background: BackgroundConfig;
   panning: {
     enabled: boolean;
     cursor?: string;
