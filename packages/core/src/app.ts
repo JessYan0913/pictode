@@ -137,6 +137,7 @@ export class App extends BaseService<EventArgs> {
 
   public triggerTool(enabled?: boolean): this {
     this.tooler.trigger(enabled);
+    this.updateBackground();
     return this;
   }
 

@@ -10,14 +10,20 @@ export interface Modifier {
   exact: boolean;
 }
 
-export type BackgroundConfig =
-  | HTMLImageElement
-  | {
-      shape: 'circle' | 'triangle' | 'diamond';
-      color: string;
-      size: number;
-      padding: number;
-    };
+export interface ElementBackground {
+  enabled: boolean;
+  element: HTMLImageElement;
+}
+
+export interface SvgBackground {
+  enabled: boolean;
+  shape: 'circle' | 'triangle' | 'diamond';
+  color: string;
+  size: number;
+  padding: number;
+}
+
+export type BackgroundConfig = ElementBackground | SvgBackground;
 
 export interface AppConfig {
   background: BackgroundConfig;

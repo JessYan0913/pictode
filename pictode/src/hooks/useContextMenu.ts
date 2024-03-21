@@ -130,6 +130,13 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
               hotKey: hotKey2String(rulerVisible.hotKey),
               action: rulerVisible,
             },
+            {
+              icon: 'lattice-pattern',
+              label: '背景',
+              action: () => {
+                app.triggerBackgroundVisible();
+              },
+            },
           ]
         : [];
     /**

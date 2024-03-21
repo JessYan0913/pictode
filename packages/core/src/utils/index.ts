@@ -1,4 +1,4 @@
-import { AppConfig, BackgroundConfig, KonvaNode } from '../types';
+import { AppConfig, BackgroundConfig, ElementBackground, KonvaNode, SvgBackground } from '../types';
 
 import { generateSVG } from './svg';
 
@@ -12,6 +12,7 @@ export { guid, readeFile, selectFile } from '@pictode/utils';
 
 export const DEFAULT_APP_CONFIG: AppConfig = {
   background: {
+    enabled: false,
     shape: 'circle',
     color: '#000',
     size: 2,
@@ -58,9 +59,10 @@ const isShapeEqual = (node1: KonvaNode, node2: KonvaNode): boolean => {
 
 export const getBackgroundImage = (config: BackgroundConfig): HTMLImageElement => {
   let image = new Image();
-  if (config instanceof HTMLImageElement) {
-    image = config;
+  if (Object.hasOwn(config, 'element')) {
+    image = (config as ElementBackground).element;
   } else if (config) {
+    config = config as SvgBackground;
     const backgroundSvg = generateSVG(config.shape, config.padding, config.size, config.color);
     if (backgroundSvg) {
       image.src = backgroundSvg;
