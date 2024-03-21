@@ -51,7 +51,6 @@ export class App extends BaseService<EventArgs> {
     const { width, height } = e[0].contentRect;
     this.stage.width(width);
     this.stage.height(height);
-    this.emit('canvas:resized', { width, height });
     this.render();
     this.emit('canvas:resized', { width, height });
   };
