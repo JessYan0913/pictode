@@ -20,16 +20,11 @@ export class RulerPlugin implements Plugin {
   public install(app: App) {
     this.app = app;
     this.ruler = new Ruler(this.app, 'x', 50, '#fff', 40);
-    this.app.on('canvas:resized', this.onUpdate);
-    this.app.on('canvas:drag:move', this.onUpdate);
-    this.app.on('canvas:zoom:end', this.onUpdate);
     this.app.emit('ruler:installed', { ruler: this });
   }
 
   public destroy(): void {
-    this.app?.off('canvas:resized', this.onUpdate);
-    this.app?.off('canvas:drag:move', this.onUpdate);
-    this.app?.off('canvas:zoom:end', this.onUpdate);
+    this.ruler?.destroy();
     this.app?.emit('ruler:destroy', { ruler: this });
   }
 
@@ -48,10 +43,6 @@ export class RulerPlugin implements Plugin {
   public isEnabled(): boolean {
     return false;
   }
-
-  private onUpdate = () => {
-    this.ruler?.update();
-  };
 }
 
 export default RulerPlugin;

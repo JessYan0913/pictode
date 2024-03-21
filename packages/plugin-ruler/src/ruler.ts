@@ -58,18 +58,30 @@ export class Ruler {
     });
 
     // Add the ruler to the layer
-    this.app.add(this.ruler);
+    this.app._add(this.ruler);
+
+    this.app.on('canvas:resized', this.update);
+    this.app.on('canvas:drag:move', this.update);
+    this.app.on('canvas:zoom:end', this.update);
 
     // Initial update to draw ticks
     this.update();
   }
 
-  public update(): void {
+  public destroy(): void {
+    this.app.off('canvas:resized', this.update);
+    this.app.off('canvas:drag:move', this.update);
+    this.app.off('canvas:zoom:end', this.update);
+
+    this.app._remove(this.ruler);
+  }
+
+  public update = (): void => {
     this.updateSize();
     this.updateScale();
     this.updatePosition();
     this.updateTicks();
-  }
+  };
 
   private updateSize(): void {
     this.width = this.app.stage.width();
