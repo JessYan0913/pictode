@@ -1,6 +1,6 @@
 import { App, Konva } from '@pictode/core';
 
-import { RulerAxis } from './types';
+import { Options, RulerAxis } from './types';
 
 export class Ruler {
   private ruler: Konva.Group;
@@ -11,14 +11,23 @@ export class Ruler {
   private tickTexts: Konva.Text[] = [];
   private width: number; // 声明 width 属性
   private height: number; // 声明 height 属性
+  public axis: RulerAxis = 'x';
+  public jump: number = 50;
+  public fill: string = '#ffffff';
+  public thickness: number = 40;
+  public enabled: boolean = true;
 
   constructor(
     private app: App,
-    public axis: RulerAxis = 'x',
-    public jump: number = 50,
-    public fill: string = '#ffffff',
-    public thickness: number = 40
+    axis: RulerAxis,
+    options: Omit<Options, 'axis'>
   ) {
+    this.axis = axis;
+    this.enabled = options.enabled;
+    this.jump = options.jump;
+    this.fill = options.fill;
+    this.thickness = options.thickness;
+
     this.width = app.stage.width();
     this.height = app.stage.height();
 
@@ -77,6 +86,10 @@ export class Ruler {
   }
 
   public update = (): void => {
+    if (!this.enabled) {
+      this.ruler.visible(false);
+      return;
+    }
     this.updateSize();
     this.updateScale();
     this.updatePosition();

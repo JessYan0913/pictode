@@ -28,6 +28,7 @@ export const usePictode = () => {
 
   const rulerPlugin = new RulerPlugin({
     enabled: true,
+    axis: ['x', 'y'],
   });
 
   app.use(rulerPlugin);

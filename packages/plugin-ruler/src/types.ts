@@ -17,4 +17,8 @@ export type RulerAxis = 'x' | 'y';
 
 export interface Options {
   enabled: boolean;
+  axis: RulerAxis[] | RulerAxis;
+  jump: number;
+  fill: string;
+  thickness: number;
 }
