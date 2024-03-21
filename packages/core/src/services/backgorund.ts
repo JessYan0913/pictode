@@ -7,6 +7,7 @@ import { generateSVG } from '../utils';
 export class Background extends Service {
   private backgroundLayer: Konva.Layer;
   private background: Konva.Rect;
+  private image: HTMLImageElement;
 
   constructor(app: App) {
     super(app);
@@ -27,14 +28,12 @@ export class Background extends Service {
     this.app.stage.add(this.backgroundLayer);
     this.backgroundLayer.moveToBottom();
 
-    const image = new window.Image();
-    image.onload = () => {
-      this.background.fillPatternImage(image);
-    };
-    const backgroundSvg = generateSVG('circle', 40, 2.5, '#100100');
+    this.image = new window.Image();
+    const backgroundSvg = generateSVG('circle', 50, 2, '#100100');
     if (backgroundSvg) {
-      image.src = backgroundSvg;
+      this.image.src = backgroundSvg;
     }
+    this.background.fillPatternImage(this.image);
     this.app.on('canvas:resized', this.setBackground);
     this.app.on('canvas:drag:move', this.setBackground);
     this.app.on('canvas:zoom:end', this.setBackground);
@@ -58,6 +57,8 @@ export class Background extends Service {
   };
 
   public destroy(): void {
+    this.app.off('canvas:resized', this.setBackground);
     this.app.off('canvas:drag:move', this.setBackground);
+    this.app.off('canvas:zoom:end', this.setBackground);
   }
 }
