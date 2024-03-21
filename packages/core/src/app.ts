@@ -105,6 +105,11 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
+  public triggerBackgroundVisible(visible?: boolean): this {
+    this.background.triggerVisible(visible);
+    return this;
+  }
+
   public add(...nodes: Array<KonvaNode>): this {
     this._add(...nodes);
     this.emit('node:added', { nodes: nodes });

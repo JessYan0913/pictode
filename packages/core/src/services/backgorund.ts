@@ -44,6 +44,10 @@ export class Background extends Service {
     this.app.on('canvas:zoom:end', this.setBackground);
   }
 
+  public triggerVisible(visible?: boolean): void {
+    this.background.visible(visible || !this.background.visible());
+  }
+
   private setBackground = (): void => {
     // ensure background rect is in the top-left of the canvas
     this.background.absolutePosition({ x: 0, y: 0 });
