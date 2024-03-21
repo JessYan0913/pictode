@@ -82,6 +82,19 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
       },
       { key: 'r', directions: '重置画布', exact: true, ctrlKey: true, target }
     ),
+    rulerVisible: useHotKey(
+      () => {
+        app.triggerRulerVisible();
+      },
+      {
+        key: 'r',
+        directions: '标尺',
+        exact: true,
+        ctrlKey: true,
+        shiftKey: true,
+        target,
+      }
+    ),
     undo: useHotKey(
       () => {
         app.undo();

@@ -16,7 +16,7 @@ interface MenuConfig {
 }
 
 const app = injectStrict(PictodeAppKey);
-const { open, resetStage, exportImg } = injectStrict(PictodeHotKeyActionsKey);
+const { open, resetStage, exportImg, rulerVisible } = injectStrict(PictodeHotKeyActionsKey);
 
 const { execute: exportToFile } = useExport(
   () => app.toJSON(),
@@ -51,6 +51,12 @@ const menuGroups: MenuConfig[][] = [
       label: resetStage.directions ?? '',
       hotkey: resetStage.hotKey,
       handler: resetStage,
+    },
+    {
+      icon: 'ruler',
+      label: rulerVisible.directions ?? '',
+      hotkey: rulerVisible.hotKey,
+      handler: rulerVisible,
     },
   ],
 ];

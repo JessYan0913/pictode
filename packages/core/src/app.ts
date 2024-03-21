@@ -11,6 +11,7 @@ import { DEFAULT_APP_CONFIG, guid, Point } from './utils';
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
   public mainLayer: Konva.Layer;
+  public optionLayer: Konva.Layer;
   public config: AppConfig;
 
   private mouse: Mouse;
@@ -28,9 +29,13 @@ export class App extends BaseService<EventArgs> {
       height: 500,
     });
     this.stage.container().style.backgroundColor = '#fff';
-    this.mainLayer = new Konva.Layer();
-    this.mainLayer.name('pictode:main:layer');
-    this.stage.add(this.mainLayer);
+    this.mainLayer = new Konva.Layer({
+      name: 'pictode:main:layer',
+    });
+    this.optionLayer = new Konva.Layer({
+      name: 'pictode:option:layer',
+    });
+    this.stage.add(this.mainLayer, this.optionLayer);
 
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
@@ -44,6 +49,7 @@ export class App extends BaseService<EventArgs> {
     this.stage.width(width);
     this.stage.height(height);
     this.render();
+    this.emit('canvas:resized', { width, height });
   };
 
   public get pointer(): Point {
@@ -292,6 +298,7 @@ export class App extends BaseService<EventArgs> {
 
   public render(): void {
     this.mainLayer.draw();
+    this.optionLayer.draw();
   }
 
   public scale(): number {

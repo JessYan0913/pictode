@@ -189,6 +189,31 @@ importers:
         specifier: ^4.1.0
         version: 4.4.8(@types/node@18.17.3)(sass@1.66.1)
 
+  packages/plugin-ruler:
+    dependencies:
+      '@pictode/core':
+        specifier: workspace:^
+        version: link:../core
+      '@pictode/utils':
+        specifier: workspace:^
+        version: link:../utils
+      dot:
+        specifier: 2.0.0-beta.1
+        version: 2.0.0-beta.1
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      roughjs:
+        specifier: ^4.5.2
+        version: 4.5.2
+    devDependencies:
+      typescript:
+        specifier: ^4.9.3
+        version: 4.9.5
+      vite:
+        specifier: ^4.1.0
+        version: 4.4.8(@types/node@18.17.3)(sass@1.66.1)
+
   packages/plugin-selector:
     dependencies:
       '@pictode/core':
@@ -321,6 +346,9 @@ importers:
       '@pictode/plugin-history':
         specifier: workspace:^
         version: link:../packages/plugin-history
+      '@pictode/plugin-ruler':
+        specifier: workspace:^1.0.0
+        version: link:../packages/plugin-ruler
       '@pictode/plugin-selector':
         specifier: workspace:^
         version: link:../packages/plugin-selector
@@ -799,7 +827,7 @@ packages:
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1(@types/node@18.17.3)(typescript@4.9.5)
+      ts-node: 10.9.1(@types/node@18.17.3)(typescript@5.1.6)
       typescript: 5.1.6
     transitivePeerDependencies:
       - '@swc/core'
@@ -2791,7 +2819,7 @@ packages:
     dependencies:
       '@types/node': 18.17.3
       cosmiconfig: 8.2.0
-      ts-node: 10.9.1(@types/node@18.17.3)(typescript@4.9.5)
+      ts-node: 10.9.1(@types/node@18.17.3)(typescript@5.1.6)
       typescript: 5.1.6
     dev: true
 
@@ -6881,6 +6909,38 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.9.5
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
+  /ts-node@10.9.1(@types/node@18.17.3)(typescript@5.1.6):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.17.3
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.1.6
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true

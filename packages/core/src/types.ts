@@ -84,7 +84,20 @@ export interface EventArgs {
   'canvas:rendered': {
     time: number;
   };
+  'canvas:resized': {
+    width: number;
+    height: number;
+  };
   'canvas:cleared': {};
+  'canvas:drag:start': {
+    event: KonvaMouseEvent;
+  };
+  'canvas:drag:move': {
+    event: KonvaMouseEvent;
+  };
+  'canvas:drag:end': {
+    event: KonvaMouseEvent;
+  };
   'canvas:zoom:start': {
     scale: number;
   };

@@ -16,6 +16,7 @@
     "@pictode/core": "workspace:^",
     "@pictode/plugin-alignment": "workspace:^",
     "@pictode/plugin-history": "workspace:^",
+    "@pictode/plugin-ruler": "workspace:^1.0.0",
     "@pictode/plugin-selector": "workspace:^",
     "@pictode/tools": "workspace:^",
     "@pictode/utils": "workspace:^",
