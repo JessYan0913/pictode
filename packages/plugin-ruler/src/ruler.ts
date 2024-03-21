@@ -14,9 +14,10 @@ export class Ruler {
 
   constructor(
     private app: App,
-    private axis: RulerAxis = 'x',
-    private fill: string = 'red',
-    private thickness: number = 40
+    public axis: RulerAxis = 'x',
+    public jump: number = 50,
+    public fill: string = '#ffffff',
+    public thickness: number = 40
   ) {
     this.width = app.stage.width();
     this.height = app.stage.height();
@@ -111,7 +112,7 @@ export class Ruler {
     const axisScale = this.axis === 'x' ? stage.scaleX() : stage.scaleY();
 
     // displayStep is the jumps in the number displayed on the tick marks
-    let displayStep = 40 / axisScale;
+    let displayStep = this.jump / axisScale;
 
     // rulerStep is the gap between ruler tick marks we will draw, and
     // the position of the text.
