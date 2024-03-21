@@ -1,7 +1,7 @@
 import Konva from 'konva';
 
 import App from '../app';
-import { Service } from '../types';
+import { BackgroundConfig, Service } from '../types';
 import { generateSVG } from '../utils';
 
 export class Background extends Service {
@@ -9,7 +9,7 @@ export class Background extends Service {
   private background: Konva.Rect;
   private image: HTMLImageElement;
 
-  constructor(app: App) {
+  constructor(app: App, config?: BackgroundConfig) {
     super(app);
 
     this.backgroundLayer = new Konva.Layer({
@@ -28,10 +28,14 @@ export class Background extends Service {
     this.app.stage.add(this.backgroundLayer);
     this.backgroundLayer.moveToBottom();
 
-    this.image = new window.Image();
-    const backgroundSvg = generateSVG('circle', 50, 2, '#100100');
-    if (backgroundSvg) {
-      this.image.src = backgroundSvg;
+    if (config instanceof HTMLImageElement) {
+      this.image = config;
+    } else {
+      this.image = new window.Image();
+      const backgroundSvg = generateSVG('circle', 50, 2, '#100100');
+      if (backgroundSvg) {
+        this.image.src = backgroundSvg;
+      }
     }
     this.background.fillPatternImage(this.image);
     this.app.on('canvas:resized', this.setBackground);

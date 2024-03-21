@@ -17,6 +17,7 @@ export class App extends BaseService<EventArgs> {
 
   private mouse: Mouse;
   private tooler: Tooler;
+  private background: Background;
   private installedPlugins: Map<string, Plugin> = new Map();
   private resizeObserver: ResizeObserver;
 
@@ -43,7 +44,7 @@ export class App extends BaseService<EventArgs> {
     this.resizeObserver = new ResizeObserver(this.onContainerResize);
     this.triggerPanning(this.config.panning.enabled);
     this.triggerMouseWheel(this.config.mousewheel.enabled);
-    new Background(this);
+    this.background = new Background(this, config?.background);
   }
 
   private onContainerResize = (e: ResizeObserverEntry[]) => {
