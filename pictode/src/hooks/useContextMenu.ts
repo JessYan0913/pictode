@@ -16,6 +16,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
     deleteNode,
     selectAll,
     resetStage,
+    rulerVisible,
     undo,
     redo,
     makeGroup,
@@ -122,6 +123,19 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
               label: resetStage.directions,
               hotKey: hotKey2String(resetStage.hotKey),
               action: resetStage,
+            },
+            {
+              icon: 'ruler',
+              label: rulerVisible.directions,
+              hotKey: hotKey2String(rulerVisible.hotKey),
+              action: rulerVisible,
+            },
+            {
+              icon: 'lattice-pattern',
+              label: '背景',
+              action: () => {
+                app.triggerBackgroundVisible();
+              },
             },
           ]
         : [];

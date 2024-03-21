@@ -24,7 +24,6 @@ let TRANSFORM_CHANGE_STR = [
 export class Selector {
   public app: App;
   public selected: Map<number | string, KonvaNode>;
-  public optionLayer: Konva.Layer;
   public enabled: boolean;
   public multipleSelect: boolean;
   public hightLightConfig: HightLightConfig;
@@ -48,11 +47,8 @@ export class Selector {
     this.hightLightConfig = hightLight;
     this.rubberConfig = rubber;
 
-    this.optionLayer = new Konva.Layer();
-    this.optionLayer.name('pictode:option:layer');
-    this.app.stage.add(this.optionLayer);
-
     this.transformer = new Konva.Transformer({
+      name: 'pictode:transformer',
       ...this.transformerConfig,
       shouldOverdrawWholeArea: false, // 空白区域是否支持鼠标事件
       flipEnabled: false,
@@ -97,15 +93,16 @@ export class Selector {
       });
     });
 
-    this.optionLayer.add(this.transformer);
+    this.app.optionLayer.add(this.transformer);
 
     this.rubberRect = new Konva.Rect({
+      name: 'pictode:rubber:rect',
       stroke: this.rubberConfig.stroke,
       fill: this.rubberConfig.fill,
       strokeWidth: this.rubberConfig.strokeWidth,
       strokeScaleEnabled: false,
     });
-    this.optionLayer.add(this.rubberRect);
+    this.app.optionLayer.add(this.rubberRect);
 
     this.transformer.on<'transformstart'>('transformstart', this.onTransformStart);
     this.transformer.on<'transformend'>('transformend', this.onTransformEnd);
@@ -193,7 +190,7 @@ export class Selector {
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
       const rect = new Konva.Rect({
-        name: `${node._id}_height_rect`,
+        name: `pictode:${node._id}:height:rect`,
         stroke: this.hightLightConfig.stroke,
         strokeWidth: this.hightLightConfig.strokeWidth,
         dash: this.hightLightConfig.dash,
@@ -201,7 +198,7 @@ export class Selector {
         strokeScaleEnabled: false,
       });
       this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
-      this.optionLayer.add(rect);
+      this.app.optionLayer.add(rect);
 
       const transformHandler = () =>
         requestAnimationFrame(() => this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
@@ -413,7 +410,7 @@ export class Selector {
     this.selected.clear();
     this.enabled = false;
     this.transformer.remove();
-    this.optionLayer.remove();
+    this.rubberRect.remove();
   }
 }
 

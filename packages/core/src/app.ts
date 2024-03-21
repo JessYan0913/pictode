@@ -6,11 +6,14 @@ import './polyfill';
 import { Mouse } from './services/mouse';
 import { Tooler } from './services/tooler';
 import { AppConfig, EventArgs, KonvaNode, Plugin, Tool } from './types';
-import { DEFAULT_APP_CONFIG, guid, Point } from './utils';
+import { DEFAULT_APP_CONFIG, getBackgroundImage, guid, Point } from './utils';
 
 export class App extends BaseService<EventArgs> {
   public stage: Konva.Stage;
+  public backgroundLayer: Konva.Layer;
   public mainLayer: Konva.Layer;
+  public optionLayer: Konva.Layer;
+  public background: Konva.Rect;
   public config: AppConfig;
 
   private mouse: Mouse;
@@ -28,22 +31,63 @@ export class App extends BaseService<EventArgs> {
       height: 500,
     });
     this.stage.container().style.backgroundColor = '#fff';
-    this.mainLayer = new Konva.Layer();
-    this.mainLayer.name('pictode:main:layer');
-    this.stage.add(this.mainLayer);
+    this.backgroundLayer = new Konva.Layer({
+      name: 'pictode:background:layer',
+    });
+    this.background = new Konva.Rect({
+      name: 'pictode:background:rect',
+      x: this.stage.x(),
+      y: 0,
+      width: this.stage.width(),
+      height: this.stage.height(),
+      listening: false,
+      opacity: 0.2,
+    });
+    this.backgroundLayer.add(this.background);
+    this.mainLayer = new Konva.Layer({
+      name: 'pictode:main:layer',
+    });
+    this.optionLayer = new Konva.Layer({
+      name: 'pictode:option:layer',
+    });
+    this.stage.add(this.backgroundLayer, this.mainLayer, this.optionLayer);
+
+    this.background.fillPatternImage(getBackgroundImage(this.config.background));
 
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
     this.resizeObserver = new ResizeObserver(this.onContainerResize);
     this.triggerPanning(this.config.panning.enabled);
     this.triggerMouseWheel(this.config.mousewheel.enabled);
+
+    this.on('canvas:resized', this.updateBackground);
+    this.on('canvas:drag:move', this.updateBackground);
+    this.on('canvas:zoom:end', this.updateBackground);
   }
+
+  private updateBackground = (): void => {
+    // ensure background rect is in the top-left of the canvas
+    this.background.absolutePosition({ x: 0, y: 0 });
+
+    // set the dimensions of the background rect to match the canvas - not the stage!!!
+    this.background.size({
+      width: this.stage.width() / this.stage.scaleX(),
+      height: this.stage.height() / this.stage.scaleY(),
+    });
+
+    // Apply that movement to the fill pattern
+    this.background.fillPatternOffset({
+      x: -this.stage.x() / this.stage.scaleX(),
+      y: -this.stage.y() / this.stage.scaleY(),
+    });
+  };
 
   private onContainerResize = (e: ResizeObserverEntry[]) => {
     const { width, height } = e[0].contentRect;
     this.stage.width(width);
     this.stage.height(height);
     this.render();
+    this.emit('canvas:resized', { width, height });
   };
 
   public get pointer(): Point {
@@ -93,6 +137,12 @@ export class App extends BaseService<EventArgs> {
 
   public triggerTool(enabled?: boolean): this {
     this.tooler.trigger(enabled);
+    this.updateBackground();
+    return this;
+  }
+
+  public triggerBackgroundVisible(visible?: boolean): this {
+    this.background.visible(visible || !this.background.visible());
     return this;
   }
 
@@ -292,6 +342,7 @@ export class App extends BaseService<EventArgs> {
 
   public render(): void {
     this.mainLayer.draw();
+    this.optionLayer.draw();
   }
 
   public scale(): number {
@@ -473,6 +524,9 @@ export class App extends BaseService<EventArgs> {
   }
 
   public destroy(): void {
+    this.off('canvas:resized', this.updateBackground);
+    this.off('canvas:drag:move', this.updateBackground);
+    this.off('canvas:zoom:end', this.updateBackground);
     this.resizeObserver.disconnect();
     this.destroyPlugins(Array.from(this.installedPlugins.keys()));
     this.mouse.destroy();
