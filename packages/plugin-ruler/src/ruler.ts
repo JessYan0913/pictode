@@ -33,6 +33,7 @@ export class Ruler {
 
     // Initialize the ruler group
     this.ruler = new Konva.Group({
+      name: `pictode:ruler:${axis}`,
       x: 0,
       y: 0,
       clip: { x: 0, y: 0, width: this.width, height: this.height },
@@ -67,7 +68,7 @@ export class Ruler {
     });
 
     // Add the ruler to the layer
-    this.app._add(this.ruler);
+    this.app.optionLayer.add(this.ruler);
 
     this.app.on('canvas:resized', this.update);
     this.app.on('canvas:drag:move', this.update);
@@ -82,7 +83,7 @@ export class Ruler {
     this.app.off('canvas:drag:move', this.update);
     this.app.off('canvas:zoom:end', this.update);
 
-    this.app._remove(this.ruler);
+    this.ruler.remove();
   }
 
   public update = (): void => {
