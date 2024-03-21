@@ -137,15 +137,6 @@ export interface EventArgs {
       newZIndex: number;
     }[];
   };
-  'canvas:drag:start': {
-    event: KonvaMouseEvent;
-  };
-  'canvas:drag:move': {
-    event: KonvaMouseEvent;
-  };
-  'canvas:drag:end': {
-    event: KonvaMouseEvent;
-  };
   'mouse:down': {
     event: KonvaMouseEvent;
   };
