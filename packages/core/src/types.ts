@@ -10,8 +10,17 @@ export interface Modifier {
   exact: boolean;
 }
 
+export type BackgroundConfig =
+  | HTMLImageElement
+  | {
+      shape: string;
+      color: string;
+      size: number;
+      padding: number;
+    };
+
 export interface AppConfig {
-  backgroundColor: string;
+  background: BackgroundConfig;
   panning: {
     enabled: boolean;
     cursor?: string;
