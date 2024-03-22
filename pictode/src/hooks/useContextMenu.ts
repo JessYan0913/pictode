@@ -134,7 +134,7 @@ export const useContextMenu = (app: App, selected: Ref<Array<KonvaNode>>) => {
               icon: 'lattice-pattern',
               label: '背景',
               action: () => {
-                app.triggerBackgroundVisible();
+                app.triggerBackground();
               },
             },
           ]
