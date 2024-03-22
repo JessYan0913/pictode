@@ -53,6 +53,7 @@ export class App extends BaseService<EventArgs> {
     this.stage.add(this.backgroundLayer, this.mainLayer, this.optionLayer);
 
     this.background.fillPatternImage(getBackgroundImage(this.config.background));
+    this.triggerBackground(this.config.background.enabled);
 
     this.tooler = new Tooler(this);
     this.mouse = new Mouse(this);
@@ -141,7 +142,7 @@ export class App extends BaseService<EventArgs> {
     return this;
   }
 
-  public triggerBackgroundVisible(visible?: boolean): this {
+  public triggerBackground(visible?: boolean): this {
     this.background.visible(visible || !this.background.visible());
     return this;
   }
@@ -472,6 +473,7 @@ export class App extends BaseService<EventArgs> {
     this.mainLayer = layer;
     this.stage.add(this.mainLayer);
     this.mainLayer.moveToBottom();
+    this.backgroundLayer.moveToBottom();
     this.render();
     return this;
   }

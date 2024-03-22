@@ -10,7 +10,15 @@ import { FormConfig, FormValue } from '@/form';
 import { getPanelConfigByShape, getPanelConfigByTool } from '@/panels';
 
 export const usePictode = () => {
-  const app = new App();
+  const app = new App({
+    background: {
+      enabled: false,
+      shape: 'circle',
+      color: '#000',
+      padding: 40,
+      size: 2,
+    },
+  });
 
   const historyPlugin = new HistoryPlugin({
     enabled: true,
