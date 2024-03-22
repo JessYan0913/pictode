@@ -28,6 +28,7 @@ export const PictodeHotKeyActionsKey: InjectionKey<{
   deleteNode: HotKeyFunction;
   selectAll: HotKeyFunction;
   resetStage: HotKeyFunction;
+  rulerVisible: HotKeyFunction;
   undo: HotKeyFunction;
   redo: HotKeyFunction;
   stageDrag: HotKeyFunction;
