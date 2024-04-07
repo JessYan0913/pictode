@@ -79,17 +79,11 @@ export class Selector {
       });
       anchor.on('mouseenter', () => {
         this.enabled = false;
-        if (!anchor.hasName('rotater')) {
-          return;
+        if (anchor.hasName('rotater')) {
+          setAnchorCursor('grabbing');
+        } else if (anchor.hasName('point')) {
+          setAnchorCursor('pointer');
         }
-        setAnchorCursor('grabbing');
-      });
-      anchor.on('mouseout', () => {
-        this.enabled = true;
-        if (!anchor.hasName('rotater')) {
-          return;
-        }
-        setAnchorCursor();
       });
     });
 
