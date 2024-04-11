@@ -181,6 +181,40 @@ export class Selector {
     return this.transformer.getClientRect();
   }
 
+  private createPointAnchor() {
+    // let anchor = new Konva.Rect({
+    //   stroke: 'rgb(0, 161, 255)',
+    //   fill: 'white',
+    //   strokeWidth: 1,
+    //   name: 'point_anchor',
+    //   dragDistance: 0,
+    //   draggable: true,
+    //   hitStrokeWidth: 10,
+    // });
+    // let self = this;
+    // anchor.on('mousedown touchstart', (e) => {
+    //   self._handleMouseDown(e);
+    // });
+    // anchor.on('dragstart', (e) => {
+    //   anchor.stopDrag();
+    //   e.cancelBubble = true;
+    // });
+    // anchor.on('dragend', (e) => {
+    //   e.cancelBubble = true;
+    // });
+    // anchor.on('mouseenter', () => {
+    //   let rad = Global_1.Konva.getAngle(this.rotation());
+    //   let cursor = getCursor(name, rad);
+    //   anchor.getStage().content && (anchor.getStage().content.style.cursor = cursor);
+    //   this._cursorChange = true;
+    // });
+    // anchor.on('mouseout', () => {
+    //   anchor.getStage().content && (anchor.getStage().content.style.cursor = '');
+    //   this._cursorChange = false;
+    // });
+    // this.add(anchor);
+  }
+
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
       const rect = new Konva.Rect({
@@ -223,7 +257,7 @@ export class Selector {
   }
 
   private getAbsoluteNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
-    const { x, y, width, height } = this.getNodeClientRect(node, padding);
+    const { x, y, width, height } = this.getNodeRect(node, padding);
     rect.position({
       x: (x - this.app.stage.x()) / this.app.stage.scaleX(),
       y: (y - this.app.stage.y()) / this.app.stage.scaleY(),
@@ -233,7 +267,7 @@ export class Selector {
     rect.rotation(node.rotation());
   }
 
-  private getNodeClientRect(
+  private getNodeRect(
     node: KonvaNode,
     padding: number = 0
   ): {
