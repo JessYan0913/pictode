@@ -191,11 +191,11 @@ export class Selector {
         fillEnabled: false,
         strokeScaleEnabled: false,
       });
-      this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
+      this.getAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
       this.app.optionLayer.add(rect);
 
       const transformHandler = () =>
-        requestAnimationFrame(() => this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
+        requestAnimationFrame(() => this.getAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
 
       node.on('absoluteTransformChange', transformHandler);
 
@@ -222,8 +222,8 @@ export class Selector {
     });
   }
 
-  private calculateNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
-    const { x, y, width, height } = this.getNodeRect(node, padding);
+  private getAbsoluteNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
+    const { x, y, width, height } = this.getNodeClientRect(node, padding);
     rect.position({
       x: (x - this.app.stage.x()) / this.app.stage.scaleX(),
       y: (y - this.app.stage.y()) / this.app.stage.scaleY(),
@@ -233,7 +233,7 @@ export class Selector {
     rect.rotation(node.rotation());
   }
 
-  private getNodeRect(
+  private getNodeClientRect(
     node: KonvaNode,
     padding: number = 0
   ): {
