@@ -215,7 +215,8 @@ export class Selector {
       if (!hightLight) {
         return;
       }
-      node.off('dragmove transform xChange yChange', hightLight.transformHandler);
+      node.off('absoluteTransformChange', hightLight.transformHandler);
+      node.off(TRANSFORM_CHANGE_STR.join(' '), hightLight.transformHandler);
       hightLight.rect.remove();
       this.hightLightRects.delete(node.id());
     });
