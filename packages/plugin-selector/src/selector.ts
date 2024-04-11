@@ -181,38 +181,26 @@ export class Selector {
     return this.transformer.getClientRect();
   }
 
-  private createPointAnchor() {
-    // let anchor = new Konva.Rect({
-    //   stroke: 'rgb(0, 161, 255)',
-    //   fill: 'white',
-    //   strokeWidth: 1,
-    //   name: 'point_anchor',
-    //   dragDistance: 0,
-    //   draggable: true,
-    //   hitStrokeWidth: 10,
-    // });
-    // let self = this;
-    // anchor.on('mousedown touchstart', (e) => {
-    //   self._handleMouseDown(e);
-    // });
-    // anchor.on('dragstart', (e) => {
-    //   anchor.stopDrag();
-    //   e.cancelBubble = true;
-    // });
-    // anchor.on('dragend', (e) => {
-    //   e.cancelBubble = true;
-    // });
-    // anchor.on('mouseenter', () => {
-    //   let rad = Global_1.Konva.getAngle(this.rotation());
-    //   let cursor = getCursor(name, rad);
-    //   anchor.getStage().content && (anchor.getStage().content.style.cursor = cursor);
-    //   this._cursorChange = true;
-    // });
-    // anchor.on('mouseout', () => {
-    //   anchor.getStage().content && (anchor.getStage().content.style.cursor = '');
-    //   this._cursorChange = false;
-    // });
-    // this.add(anchor);
+  private createPointAnchor(point: util.Point) {
+    let anchor = new Konva.Rect({
+      stroke: 'rgb(0, 161, 255)',
+      fill: 'white',
+      strokeWidth: 1,
+      name: 'point_anchor',
+      dragDistance: 0,
+      draggable: true,
+      hitStrokeWidth: 10,
+      x: point.x,
+      y: point.y,
+    });
+    anchor.on('dragstart', (e) => {
+      anchor.stopDrag();
+      e.cancelBubble = true;
+    });
+    anchor.on('dragend', (e) => {
+      e.cancelBubble = true;
+    });
+    this.transformer.add(anchor);
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
