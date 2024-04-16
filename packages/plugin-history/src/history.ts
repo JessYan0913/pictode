@@ -1,4 +1,5 @@
 import { App } from '@pictode/core';
+import { EnabledCheck } from '@pictode/utils';
 
 import './methods';
 
@@ -22,6 +23,7 @@ export class History {
     this.stackSize = stackSize;
   }
 
+  @EnabledCheck
   public execute(command: BaseCmd, needExecute?: boolean): void {
     // 如果命令栈中的命令长度已经超出了最大栈长，则将最早的命令清除
     if (this.undoStack.length > this.stackSize) {
@@ -40,11 +42,8 @@ export class History {
     this.app.emit('stack:changed', { undoStack: this.undoStack, redoStack: this.redoStack });
   }
 
+  @EnabledCheck
   public undo(step: number = 1): BaseCmd | undefined {
-    if (!this.enabled) {
-      return;
-    }
-
     let command: BaseCmd | undefined;
     while (step) {
       if (this.undoStack.length > 0) {
@@ -62,10 +61,8 @@ export class History {
     return command;
   }
 
+  @EnabledCheck
   public redo(step: number = 1): BaseCmd | undefined {
-    if (!this.enabled) {
-      return;
-    }
     let command: BaseCmd | undefined;
     while (step) {
       if (this.redoStack.length > 0) {
@@ -82,19 +79,18 @@ export class History {
     return command;
   }
 
+  @EnabledCheck
   public canUndo(): boolean {
     return this.undoStack.length > 0;
   }
 
+  @EnabledCheck
   public canRedo(): boolean {
     return this.redoStack.length > 0;
   }
 
+  @EnabledCheck
   public jump(id: number): void {
-    if (!this.enabled) {
-      return;
-    }
-
     let command: BaseCmd | undefined =
       this.undoStack.length > 0 ? this.undoStack[this.undoStack.length - 1] : undefined;
 
