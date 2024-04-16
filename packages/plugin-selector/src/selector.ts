@@ -133,6 +133,14 @@ export class Selector {
       })
     );
     this.setHightRect(...nodes);
+    if (nodes.length === 1 && nodes[0].className === 'Line') {
+      const line = nodes[0] as Konva.Line;
+      // 遍历线条上的点
+      const points = line.points();
+      for (let index = 0; index < points.length; index += 2) {
+        this.createPointAnchor(new util.Point(points[index], points[index + 1]));
+      }
+    }
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -183,6 +191,9 @@ export class Selector {
   }
 
   private createPointAnchor(point: util.Point) {
+    // 这里的point需要转换为transformer坐标系下的坐标
+    const transformerTransform = this.transformer.getAbsoluteTransform().copy();
+    const { x, y } = transformerTransform.invert().point(point);
     let anchor = new Konva.Rect({
       stroke: 'rgb(0, 161, 255)',
       fill: 'white',
@@ -191,8 +202,10 @@ export class Selector {
       dragDistance: 0,
       draggable: true,
       hitStrokeWidth: 10,
-      x: point.x,
-      y: point.y,
+      x,
+      y,
+      width: 10,
+      height: 10,
     });
     anchor.on('dragstart', (e) => {
       anchor.stopDrag();
