@@ -1,4 +1,5 @@
 import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
+import { EnabledCheck } from '@pictode/utils';
 
 import { HightLightConfig, Options, RubberConfig, TransformerConfig } from './types';
 
@@ -121,10 +122,8 @@ export class Selector {
     target.off('removed', this.handleNodeRemoved);
   };
 
+  @EnabledCheck
   public select(...nodes: KonvaNode[]): void {
-    if (!this.enabled) {
-      return;
-    }
     if (util.shapeArrayEqual(nodes, [...this.selected.values()])) {
       return;
     }
@@ -142,6 +141,7 @@ export class Selector {
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
+  @EnabledCheck
   public cancelSelect(...nodes: KonvaNode[]): void {
     if (this.selected.size === 0) {
       return;
@@ -159,6 +159,7 @@ export class Selector {
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
 
+  @EnabledCheck
   public selectAll(): void {
     this.select(...this.app.mainLayer.getChildren());
   }
@@ -174,6 +175,7 @@ export class Selector {
     }
   }
 
+  @EnabledCheck
   public isSelected(node: KonvaNode): boolean {
     return this.selected.has(node.id());
   }
