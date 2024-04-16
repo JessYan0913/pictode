@@ -59,7 +59,7 @@ export class RulerPlugin implements Plugin {
   }
 
   public isEnabled(): boolean {
-    return this.rulers.some((ruler) => ruler.enabled);
+    return this.rulers.some((ruler) => ruler.visible);
   }
 
   public triggerVisible(visible?: boolean): void {
