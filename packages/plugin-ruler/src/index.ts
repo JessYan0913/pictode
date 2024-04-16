@@ -1,4 +1,5 @@
 import { App, Plugin } from '@pictode/core';
+import { EnabledCheck } from '@pictode/utils';
 
 import './method';
 
@@ -31,6 +32,10 @@ export class RulerPlugin implements Plugin {
     }
   }
 
+  public get enabled(): boolean {
+    return this.isEnabled();
+  }
+
   public install(app: App) {
     this.app = app;
     for (const axis of this.axis) {
@@ -54,7 +59,7 @@ export class RulerPlugin implements Plugin {
   }
 
   public isEnabled(): boolean {
-    return this.rulers.some((ruler) => ruler.enabled);
+    return this.rulers.some((ruler) => ruler.visible);
   }
 
   public triggerVisible(visible?: boolean): void {
@@ -62,6 +67,7 @@ export class RulerPlugin implements Plugin {
     this.rulers.forEach((ruler) => ruler.triggerVisible(rulerVisible));
   }
 
+  @EnabledCheck
   public update(): void {
     this.rulers.forEach((ruler) => ruler.update());
   }
