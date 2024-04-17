@@ -22,6 +22,8 @@ export * from './os';
 
 export * from './func';
 
+export * from './decorator';
+
 export const toLine = (name: string = '') => name.replace(/\B([A-Z])/g, '-$1').toLowerCase();
 
 export function replacePropertyWithValue(obj: Record<string | number | symbol, any>, value: any, newValue: any) {

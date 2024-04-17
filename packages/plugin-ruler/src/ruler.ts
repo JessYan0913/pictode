@@ -15,7 +15,6 @@ export class Ruler {
   public jump: number = 50;
   public fill: string = '#ffffff';
   public thickness: number = 40;
-  public enabled: boolean = true;
 
   constructor(
     private app: App,
@@ -88,19 +87,19 @@ export class Ruler {
     this.ruler.remove();
   }
 
+  public get visible(): boolean {
+    return this.ruler.visible();
+  }
+
   public update = (): void => {
-    if (!this.enabled) {
-      return;
-    }
     this.updateSize();
     this.updateScale();
     this.updatePosition();
     this.updateTicks();
   };
 
-  public triggerVisible(enabled: boolean): void {
-    this.enabled = enabled;
-    this.ruler.visible(enabled);
+  public triggerVisible(visible: boolean): void {
+    this.ruler.visible(visible);
     this.update();
   }
 
