@@ -18,6 +18,7 @@ import {
 import { injectStrict } from '@pictode/vue-aide';
 
 import round from '@/assets/images/round.svg';
+import roundLight from '@/assets/images/round-light.svg';
 import { PictodeAppKey } from '@/constants/inject-key';
 import useTheme from '@/hooks/useTheme';
 
@@ -222,7 +223,7 @@ const tools: ToolInfo[] = [
       new EraserTool({
         hooks: {
           onActive(app) {
-            app.containerElement.style.cursor = `url(${round}), auto`;
+            app.containerElement.style.cursor = eraserCursor.value;
           },
           onInactive(app) {
             app.containerElement.style.cursor = `default`;
@@ -256,6 +257,15 @@ const tools: ToolInfo[] = [
 const currentTool = ref<string>(tools[0].name);
 const { theme } = useTheme();
 const strokeColor = computed<string>(() => (theme.value === 'dark' ? '#d1d5db' : '#333333'));
+const eraserCursor = computed<string>(() =>
+  theme.value === 'dark' ? `url(${roundLight}), auto` : `url(${round}), auto`
+);
+
+watchEffect(() => {
+  if (currentTool.value === 'eraserTool') {
+    app.containerElement.style.cursor = eraserCursor.value;
+  }
+});
 
 watchEffect(async () => {
   let tool = tools.find(({ name }) => name === currentTool.value)?.tool;
