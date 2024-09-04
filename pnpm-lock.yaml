@@ -102,21 +102,21 @@ importers:
         specifier: 2.0.0-beta.1
         version: 2.0.0-beta.1
       konva:
-        specifier: ^9.2.0
-        version: 9.2.0
+        specifier: ^9.3.14
+        version: 9.3.14
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
       roughjs:
-        specifier: ^4.5.2
-        version: 4.5.2
+        specifier: ^4.6.6
+        version: 4.6.6
     devDependencies:
       typescript:
-        specifier: ^4.9.3
+        specifier: ^4.9.5
         version: 4.9.5
       vite:
-        specifier: ^4.1.0
-        version: 4.4.8(@types/node@20.5.1)(sass@1.66.1)
+        specifier: ^4.5.3
+        version: 4.5.3(@types/node@20.5.1)(sass@1.66.1)
 
   packages/plugin-alignment:
     dependencies:
@@ -2536,6 +2536,9 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
+  hachure-fill@0.5.2:
+    resolution: {integrity: sha512-3GKBOn+m2LX9iq+JC1064cSFprJY4jL1jCXTcpnfER5HYE2l/4EfWSGzkPa/ZDBmYI0ZOEj5VHV/eKnPGkHuOg==}
+
   handlebars@4.7.8:
     resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
     engines: {node: '>=0.4.7'}
@@ -2904,8 +2907,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  konva@9.2.0:
-    resolution: {integrity: sha512-+woI76Sk+VFVl9z7zPkuTnN2zFpEYg27YWz8BCdQXpt5IS3pdnSPAPQVPPMidcbDi9/G5b/IOIp35/KqMGiYPA==}
+  konva@9.3.14:
+    resolution: {integrity: sha512-Gmm5lyikGYJyogKQA7Fy6dKkfNh350V6DwfZkid0RVrGYP2cfCsxuMxgF5etKeCv7NjXYpJxKqi1dYkIkX/dcA==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -3767,6 +3770,9 @@ packages:
 
   roughjs@4.5.2:
     resolution: {integrity: sha512-2xSlLDKdsWyFxrveYWk9YQ/Y9UfK38EAMRNkYkMqYBJvPX8abCa9PN0x3w02H8Oa6/0bcZICJU+U95VumPqseg==}
+
+  roughjs@4.6.6:
+    resolution: {integrity: sha512-ZUz/69+SYpFN/g/lUlo2FXcIjRkSu3nDarreVdGGndHEBJ6cXPdKguS8JGxwj5HA5xIbVKSmLgr5b3AWxtRfvQ==}
 
   rrweb-cssom@0.6.0:
     resolution: {integrity: sha512-APM0Gt1KoXBz0iIkkdB/kfvGOwC4UuJFeG/c+yV7wSc7q96cG/kJ0HiYCnzivD9SB53cLV1MlHFNfOuPaadYSw==}
@@ -7089,6 +7095,8 @@ snapshots:
 
   graphemer@1.4.0: {}
 
+  hachure-fill@0.5.2: {}
+
   handlebars@4.7.8:
     dependencies:
       minimist: 1.2.8
@@ -7436,7 +7444,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  konva@9.2.0: {}
+  konva@9.3.14: {}
 
   levn@0.4.1:
     dependencies:
@@ -8269,6 +8277,13 @@ snapshots:
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
 
+  roughjs@4.6.6:
+    dependencies:
+      hachure-fill: 0.5.2
+      path-data-parser: 0.1.0
+      points-on-curve: 0.2.0
+      points-on-path: 0.2.1
+
   rrweb-cssom@0.6.0: {}
 
   run-async@2.4.1: {}
@@ -8865,6 +8880,16 @@ snapshots:
       rollup: 3.29.4
     optionalDependencies:
       '@types/node': 18.19.49
+      fsevents: 2.3.3
+      sass: 1.66.1
+
+  vite@4.5.3(@types/node@20.5.1)(sass@1.66.1):
+    dependencies:
+      esbuild: 0.18.20
+      postcss: 8.4.44
+      rollup: 3.29.4
+    optionalDependencies:
+      '@types/node': 20.5.1
       fsevents: 2.3.3
       sass: 1.66.1
 
