@@ -120,7 +120,7 @@ export class Alignment {
   @EnabledCheck
   public dispersionX(nodes: KonvaNode[]): void {
     const centerXValues = nodes.map((node) => node.getClientRect().x + node.getClientRect().width / 2);
-    const isCenterXConsistent = centerXValues.every((value, index, arr) => value === arr[0]);
+    const isCenterXConsistent = centerXValues.every((value, _index, arr) => value === arr[0]);
     if (isCenterXConsistent) {
       return;
     }
@@ -130,7 +130,7 @@ export class Alignment {
   @EnabledCheck
   public dispersionY(nodes: KonvaNode[]): void {
     const centerYValues = nodes.map((node) => node.getClientRect().y + node.getClientRect().height / 2);
-    const isCenterYConsistent = centerYValues.every((value, index, arr) => value === arr[0]);
+    const isCenterYConsistent = centerYValues.every((value, _index, arr) => value === arr[0]);
     if (isCenterYConsistent) {
       return;
     }

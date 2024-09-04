@@ -49,7 +49,7 @@ const handleSubmit = async (): Promise<FormValue> => {
   try {
     await formRef.value?.validate();
     return toRaw(formModel.value);
-  } catch (invalidFields: any) {
+  } catch (_) {
     throw new Error();
   }
 };
