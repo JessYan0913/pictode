@@ -24,6 +24,8 @@ export * from './func';
 
 export * from './decorator';
 
+export { default as logger } from './logger';
+
 export const toLine = (name: string = '') => name.replace(/\B([A-Z])/g, '-$1').toLowerCase();
 
 export function replacePropertyWithValue(obj: Record<string | number | symbol, any>, value: any, newValue: any) {

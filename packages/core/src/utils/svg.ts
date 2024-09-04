@@ -1,3 +1,5 @@
+import { logger } from '@pictode/utils';
+
 export function generateSVG(shape: 'circle' | 'triangle' | 'diamond', padding: number, size: number, color: string) {
   const svgNS = 'http://www.w3.org/2000/svg';
 
@@ -31,7 +33,7 @@ export function generateSVG(shape: 'circle' | 'triangle' | 'diamond', padding: n
                   Z`;
       break;
     default:
-      console.error('Unsupported shape');
+      logger.error('Unsupported shape');
       return;
   }
 

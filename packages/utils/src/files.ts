@@ -1,4 +1,5 @@
 import { EnvironmentError, FileSelectCancelError, IllegalFileError } from './error';
+import logger from './logger';
 
 /**
  * 获取文件后缀
@@ -115,7 +116,7 @@ export const readeFile = <T extends string | ArrayBuffer | null>(fileHandler: Fi
       const size = '(' + Math.floor(event.total / 1000) + ' KB)';
       const progress = Math.floor((event.loaded / event.total) * 100) + '%';
 
-      console.log(`Loading size: ${size} progress: ${progress}`);
+      logger.info(`Loading size: ${size} progress: ${progress}`);
     });
 
     reader.addEventListener('load', (event: FileReaderEventMap['load']) => {

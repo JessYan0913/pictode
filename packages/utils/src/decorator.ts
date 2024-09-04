@@ -1,3 +1,5 @@
+import logger from './logger';
+
 type EnabledTarget = { enabled: boolean };
 
 export function EnabledCheck<T extends EnabledTarget>(target: T, propertyKey: string, descriptor: PropertyDescriptor) {
@@ -7,7 +9,7 @@ export function EnabledCheck<T extends EnabledTarget>(target: T, propertyKey: st
     if (this.enabled) {
       return originalMethod.apply(this, args);
     } else {
-      console.warn(`Method ${propertyKey} is disabled.`);
+      logger.warning(`Method {{${propertyKey}}} is disabled.`);
       // 可以选择抛出错误或执行其他操作
     }
   };
