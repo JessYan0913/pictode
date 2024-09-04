@@ -14,7 +14,7 @@ const props = withDefaults(
     size: '1rem',
     color: 'currentColor',
     activeColor: 'currentColor',
-  }
+  },
 );
 
 const { color } = toRefs(props);

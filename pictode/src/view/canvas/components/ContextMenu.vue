@@ -21,7 +21,7 @@ const props = withDefaults(
   }>(),
   {
     menuGroups: () => [],
-  }
+  },
 );
 
 const popoverRef = ref<HTMLElement | null>(null);

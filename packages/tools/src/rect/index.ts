@@ -40,7 +40,7 @@ export class RectTool implements Tool<RectToolConfig> {
       return;
     }
     this.rectangle.setPosition(
-      new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y))
+      new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y)),
     );
     this.rectangle.width(Math.abs(app.pointer.x - this.startPointer.x));
     this.rectangle.height(Math.abs(app.pointer.y - this.startPointer.y));

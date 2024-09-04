@@ -100,7 +100,7 @@ export class HistoryPlugin implements Plugin {
       new ModifiedObjectCmd(this.app, {
         oldNodes: this.oldNodes,
         newNodes: nodes.map((node) => node.toObject()),
-      })
+      }),
     );
   };
 

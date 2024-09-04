@@ -14,7 +14,7 @@ export const useReadFileContent = () => {
     () => selectFileError.value,
     (e) => {
       error.value = e;
-    }
+    },
   );
 
   const execute = async (accepts: string[] = ['*']): Promise<string | undefined> => {

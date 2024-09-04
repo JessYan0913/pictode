@@ -16,7 +16,7 @@ export const useExport = <T = Record<string | number | symbol, any>>(
   fileName: FileName<T> = 'file',
   mimeType: MimeType = MimeType.TEXT,
   charset: string = 'utf-8',
-  isURL: boolean = false
+  isURL: boolean = false,
 ) => {
   const loading = ref<boolean>(false);
 

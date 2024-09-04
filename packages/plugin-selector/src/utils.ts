@@ -2,7 +2,7 @@ import { Konva, KonvaNode, util } from '@pictode/core';
 
 export const getNodeRect = (
   node: KonvaNode,
-  padding: number = 0
+  padding: number = 0,
 ): {
   x: number;
   y: number;

@@ -73,7 +73,7 @@ export const useHotKey = (hotKeyFunction: HotKeyFunction, opts?: Partial<HotKeyO
 
 const matchKeyScheme = (
   opts: Pick<Partial<HotKeyOptions>, 'shiftKey' | 'ctrlKey' | 'exact'>,
-  event: KeyboardEvent
+  event: KeyboardEvent,
 ): boolean => {
   const ctrlKey = opts.ctrlKey ?? false;
   const shiftKey = opts.shiftKey ?? false;

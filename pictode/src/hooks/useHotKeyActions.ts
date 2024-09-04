@@ -22,43 +22,43 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         const result = await readFileContent(['.pictode']);
         result && app.fromJSON(result);
       },
-      { key: 'o', directions: '打开', exact: true, ctrlKey: true, target }
+      { key: 'o', directions: '打开', exact: true, ctrlKey: true, target },
     ),
     exportImg: useHotKey(
       () => {
         exportImageDialog({});
       },
-      { key: 'e', directions: '导出图片', exact: true, ctrlKey: true, shiftKey: true, target }
+      { key: 'e', directions: '导出图片', exact: true, ctrlKey: true, shiftKey: true, target },
     ),
     moveDown: useHotKey(
       () => {
         app.moveDown(...selected.value);
       },
-      { key: '[', directions: '下移一层', exact: true, ctrlKey: true, target }
+      { key: '[', directions: '下移一层', exact: true, ctrlKey: true, target },
     ),
     moveUp: useHotKey(
       () => {
         app.moveUp(...selected.value);
       },
-      { key: ']', directions: '上移一层', exact: true, ctrlKey: true, target }
+      { key: ']', directions: '上移一层', exact: true, ctrlKey: true, target },
     ),
     moveBottom: useHotKey(
       () => {
         app.moveBottom(...selected.value);
       },
-      { key: '[', directions: '置于底层', exact: true, ctrlKey: true, shiftKey: true, target }
+      { key: '[', directions: '置于底层', exact: true, ctrlKey: true, shiftKey: true, target },
     ),
     moveTop: useHotKey(
       () => {
         app.moveTop(...selected.value);
       },
-      { key: ']', directions: '置于顶层', exact: true, ctrlKey: true, shiftKey: true, target }
+      { key: ']', directions: '置于顶层', exact: true, ctrlKey: true, shiftKey: true, target },
     ),
     deleteNode: useHotKey(
       () => {
         app.remove(...selected.value);
       },
-      { key: ['delete', 'backspace'], directions: '删除', target }
+      { key: ['delete', 'backspace'], directions: '删除', target },
     ),
     selectAll: useHotKey(
       () => {
@@ -67,7 +67,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         app.selectAll();
         app.triggerSelector(originEnabled);
       },
-      { key: 'a', directions: '全部选中', exact: true, ctrlKey: true, target }
+      { key: 'a', directions: '全部选中', exact: true, ctrlKey: true, target },
     ),
     resetStage: useHotKey(
       () => {
@@ -80,7 +80,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
           },
         });
       },
-      { key: 'r', directions: '重置画布', exact: true, ctrlKey: true, target }
+      { key: 'r', directions: '重置画布', exact: true, ctrlKey: true, target },
     ),
     rulerVisible: useHotKey(
       () => {
@@ -93,19 +93,19 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         ctrlKey: true,
         shiftKey: true,
         target,
-      }
+      },
     ),
     undo: useHotKey(
       () => {
         app.undo();
       },
-      { key: 'z', directions: '撤销', exact: true, ctrlKey: true, target }
+      { key: 'z', directions: '撤销', exact: true, ctrlKey: true, target },
     ),
     redo: useHotKey(
       () => {
         app.redo();
       },
-      { key: 'y', directions: '重做', exact: true, ctrlKey: true, target }
+      { key: 'y', directions: '重做', exact: true, ctrlKey: true, target },
     ),
     stageDrag: useHotKey(
       () => {
@@ -114,7 +114,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
           app.triggerPanning(false);
         };
       },
-      { key: ' ', directions: '移动画布', target }
+      { key: ' ', directions: '移动画布', target },
     ),
     mouseWheel: useHotKey(
       () => {
@@ -123,7 +123,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
           app.triggerMouseWheel(false);
         };
       },
-      { key: ['Control', 'Meta'], directions: '缩放画布', target }
+      { key: ['Control', 'Meta'], directions: '缩放画布', target },
     ),
     makeGroup: useHotKey(
       () => {
@@ -133,7 +133,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.select(group);
       },
-      { key: 'g', directions: '组合', ctrlKey: true, shiftKey: true, exact: true, target }
+      { key: 'g', directions: '组合', ctrlKey: true, shiftKey: true, exact: true, target },
     ),
     decomposeGroup: useHotKey(
       () => {
@@ -142,7 +142,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
           app.decomposeGroup(selectedNode);
         }
       },
-      { key: 'j', directions: '解除组合', ctrlKey: true, shiftKey: true, exact: true, target }
+      { key: 'j', directions: '解除组合', ctrlKey: true, shiftKey: true, exact: true, target },
     ),
     alignLeft: useHotKey(
       () => {
@@ -151,7 +151,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.alignLeft(selected.value);
       },
-      { key: 'a', directions: '左对齐', shiftKey: true, target }
+      { key: 'a', directions: '左对齐', shiftKey: true, target },
     ),
     alignCenterX: useHotKey(
       () => {
@@ -160,7 +160,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.alignCenterX(selected.value);
       },
-      { key: 'h', directions: '水平居中', shiftKey: true, target }
+      { key: 'h', directions: '水平居中', shiftKey: true, target },
     ),
     alignRight: useHotKey(
       () => {
@@ -169,7 +169,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.alignRight(selected.value);
       },
-      { key: 'd', directions: '右对齐', shiftKey: true, target }
+      { key: 'd', directions: '右对齐', shiftKey: true, target },
     ),
     alignTop: useHotKey(
       () => {
@@ -178,7 +178,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.alignTop(selected.value);
       },
-      { key: 'w', directions: '顶对齐', shiftKey: true, target }
+      { key: 'w', directions: '顶对齐', shiftKey: true, target },
     ),
     alignCenterY: useHotKey(
       () => {
@@ -187,7 +187,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.alignCenterY(selected.value);
       },
-      { key: 'v', directions: '垂直居中', shiftKey: true, target }
+      { key: 'v', directions: '垂直居中', shiftKey: true, target },
     ),
     alignBottom: useHotKey(
       () => {
@@ -196,7 +196,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.alignBottom(selected.value);
       },
-      { key: 's', directions: '底对齐', shiftKey: true, target }
+      { key: 's', directions: '底对齐', shiftKey: true, target },
     ),
     distributeX: useHotKey(
       () => {
@@ -205,7 +205,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.dispersionX(selected.value);
       },
-      { key: 'h', directions: '水平分布', ctrlKey: true, shiftKey: true, target }
+      { key: 'h', directions: '水平分布', ctrlKey: true, shiftKey: true, target },
     ),
     distributeY: useHotKey(
       () => {
@@ -214,7 +214,7 @@ export const useHotKeyActions = (target: Ref<EventTarget | null>, app: App, sele
         }
         app.dispersionY(selected.value);
       },
-      { key: 'v', directions: '垂直分布', ctrlKey: true, shiftKey: true, target }
+      { key: 'v', directions: '垂直分布', ctrlKey: true, shiftKey: true, target },
     ),
   };
   provide(PictodeHotKeyActionsKey, resolve);

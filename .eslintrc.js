@@ -135,7 +135,7 @@ module.exports = defineConfig({
       'error',
       {
         singleQuote: true,
-        trailingComma: 'es5',
+        trailingComma: 'all',
         semi: true,
         arrowParens: 'always',
         bracketSpacing: true,

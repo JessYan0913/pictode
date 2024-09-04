@@ -40,7 +40,7 @@ export class EraserTool implements Tool {
       ...[...this.targetMap.values()].map(({ node, opacity }) => {
         node.opacity(opacity);
         return node;
-      })
+      }),
     );
     this.targetMap.clear();
     this.isEraser = false;

@@ -58,7 +58,7 @@ export class Selector {
     this.transformer.anchorStyleFunc((anchor) => {
       if (
         ['middle-left', 'middle-right', 'top-center', 'bottom-center'].some((anchorName) =>
-          anchor.hasName(anchorName)
+          anchor.hasName(anchorName),
         ) &&
         ([...this.selected.values()]?.[0] instanceof Konva.Text ||
           [...this.selected.values()]?.[0] instanceof Konva.Group ||
@@ -129,7 +129,7 @@ export class Selector {
         node.on<'removed'>('removed', this.handleNodeRemoved);
         this.selected.set(node.id(), node);
         return node !== this.rubberRect;
-      })
+      }),
     );
     this.setHightRect(...nodes);
     if (nodes.length === 1 && nodes[0].className === 'Line') {
@@ -316,7 +316,7 @@ export class Selector {
     // 如果弹性框选可用，则改变弹性框的尺寸
     const position = new util.Point(
       Math.min(this.app.pointer.x, this.rubberStartPoint.x),
-      Math.min(this.app.pointer.y, this.rubberStartPoint.y)
+      Math.min(this.app.pointer.y, this.rubberStartPoint.y),
     );
     this.rubberRect.setPosition(position);
     this.rubberRect.width(Math.max(this.app.pointer.x, this.rubberStartPoint.x) - position.x);

@@ -258,7 +258,7 @@ const currentTool = ref<string>(tools[0].name);
 const { theme } = useTheme();
 const strokeColor = computed<string>(() => (theme.value === 'dark' ? '#d1d5db' : '#333333'));
 const eraserCursor = computed<string>(() =>
-  theme.value === 'dark' ? `url(${roundLight}), auto` : `url(${round}), auto`
+  theme.value === 'dark' ? `url(${roundLight}), auto` : `url(${round}), auto`,
 );
 
 watchEffect(() => {

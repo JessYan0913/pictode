@@ -26,7 +26,7 @@ export class Alignment {
           x: newNode.attrs.x - offsetX,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -43,7 +43,7 @@ export class Alignment {
           x: newNode.attrs.x + offsetX,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -60,7 +60,7 @@ export class Alignment {
           y: newNode.attrs.y - offsetY,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -77,7 +77,7 @@ export class Alignment {
           y: newNode.attrs.y + offsetY,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -95,7 +95,7 @@ export class Alignment {
           x: newNode.attrs.x + offsetX,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -113,7 +113,7 @@ export class Alignment {
           y: newNode.attrs.y + offsetY,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -152,7 +152,7 @@ export class Alignment {
     const middleNodes = nodes.slice(1, -1);
     const middleValue = middleNodes.reduce(
       (middleValue, node) => middleValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height),
-      0
+      0,
     );
     const gap = Math.max((space - middleValue) / (nodes.length - 1), 0);
 
@@ -168,7 +168,7 @@ export class Alignment {
         newNode.attrs[key] = newValue - node.getClientRect()[key] + newNode.attrs[key];
         curValue = newValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height);
         return newNode;
-      })
+      }),
     );
   }
 }

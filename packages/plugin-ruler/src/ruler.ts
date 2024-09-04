@@ -19,7 +19,7 @@ export class Ruler {
   constructor(
     private app: App,
     axis: RulerAxis,
-    options: Omit<Options, 'axis'>
+    options: Omit<Options, 'axis'>,
   ) {
     this.axis = axis;
     this.jump = options.jump;

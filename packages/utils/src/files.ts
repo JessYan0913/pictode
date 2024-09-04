@@ -49,7 +49,7 @@ export const selectFile = (accepts: string[] = ['*'], multiple?: boolean): Promi
           }
         }, 1000);
       },
-      { once: true }
+      { once: true },
     );
     inputElement.addEventListener('change', () => {
       if (!inputElement.files || inputElement.files?.length === 0) {
@@ -83,19 +83,19 @@ export const isAudio = (file: File): boolean => {
 
 export const isWordDocument = (file: File): boolean => {
   return /^application\/(?:vnd\.openxmlformats-officedocument\.wordprocessingml\.document|msword|vnd\.ms-word\.document\.macroenabled\.12|vnd\.openxmlformats-officedocument\.wordprocessingml\.template|vnd\.ms-word\.template\.macroenabled\.12)$/.test(
-    file.type
+    file.type,
   );
 };
 
 export const isExcelDocument = (file: File): boolean => {
   return /^application\/(?:vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet|vnd\.ms-excel|vnd\.ms-excel\.sheet\.macroenabled\.12|vnd\.openxmlformats-officedocument\.spreadsheetml\.template|vnd\.ms-excel\.template\.macroenabled\.12)$/.test(
-    file.type
+    file.type,
   );
 };
 
 export const isPowerPointDocument = (file: File): boolean => {
   return /^application\/(?:vnd\.ms-powerpoint|vnd\.openxmlformats-officedocument\.presentationml\.presentation|vnd\.ms-powerpoint\.presentation\.macroenabled\.12|vnd\.openxmlformats-officedocument\.presentationml\.template|vnd\.ms-powerpoint\.template\.macroenabled\.12)$/.test(
-    file.type
+    file.type,
   );
 };
 

@@ -130,7 +130,7 @@ export const getUserGeolocation = (): Promise<Geolocation> => {
         },
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   } else {

@@ -99,7 +99,7 @@ export const getMiddleValue = (array: number[]): number => {
 };
 
 export const qrDecompose = (
-  a: number[]
+  a: number[],
 ): {
   rotation: number;
   scaleX: number;

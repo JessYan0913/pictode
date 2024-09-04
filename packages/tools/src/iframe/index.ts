@@ -41,7 +41,7 @@ export class IframeTool implements Tool {
       return;
     }
     this.iframe.setPosition(
-      new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y))
+      new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y)),
     );
     this.iframe.width(Math.abs(app.pointer.x - this.startPointer.x));
     this.iframe.height(Math.abs(app.pointer.y - this.startPointer.y));

@@ -103,7 +103,7 @@ const handleFormChange = (value: any) => {
         ...value,
       };
       return newNode;
-    })
+    }),
   );
 };
 </script>

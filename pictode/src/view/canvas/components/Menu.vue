@@ -22,7 +22,7 @@ const { execute: exportToFile } = useExport(
   () => app.toJSON(),
   () => `Pictode-${new Date()}.pictode`,
   MimeType.JSON,
-  'utf-8'
+  'utf-8',
 );
 
 const menuGroups: MenuConfig[][] = [

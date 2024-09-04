@@ -15,7 +15,7 @@ watch(
     } else {
       theme.value = 'light';
     }
-  }
+  },
 );
 
 watchEffect(() => {
