@@ -354,6 +354,7 @@ export class Selector {
   };
 
   private onMouseMove = (): void => {
+    // TODO: 操作形变后，this.enable会变成false，但不知道为啥？？？
     if (!this.enabled) {
       return;
     }
