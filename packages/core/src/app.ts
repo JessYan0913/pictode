@@ -449,7 +449,7 @@ export class App extends BaseService<EventArgs> {
 
   public toJSON(): string {
     const result = this?.mainLayer?.toObject() || {};
-    result.children.forEach((child: KonvaNode) => {
+    result.children?.forEach((child: KonvaNode) => {
       if (child.className === 'Image') {
         child.attrs.image = child?.attrs?.image?.currentSrc;
       }
