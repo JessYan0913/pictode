@@ -427,6 +427,7 @@ export class Selector {
     this.enabled = false;
     this.transformer.remove();
     this.rubberRect.remove();
+    this.innerPortal.remove();
   }
 }
 
