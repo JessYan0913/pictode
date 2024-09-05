@@ -219,9 +219,18 @@ export class Selector {
 
       // 当锚点被拖动时更新 Line 的顶点坐标
       anchor.on('dragmove', ({ target }) => {
-        const pos = target.getPosition(); // 获取锚点的新位置
-        points[index] = pos.x; // 更新 Line 的 x 坐标
-        points[index + 1] = pos.y; // 更新 Line 的 y 坐标
+        // 获取锚点的新位置
+        const pos = target.getPosition();
+
+        // 将 innerPortal 的坐标系下的点转换为绝对坐标
+        const absolutePos = this.innerPortal.getAbsoluteTransform().copy().point(pos);
+
+        // 将绝对坐标转换为 line 的坐标系下的点
+        const linePos = line.getAbsoluteTransform().copy().invert().point(absolutePos);
+
+        // 更新 Line 的坐标点
+        points[index] = linePos.x;
+        points[index + 1] = linePos.y;
         line.points(points); // 更新 Line 的所有点
         line.getLayer()?.batchDraw(); // 重新绘制 Line
       });
@@ -233,6 +242,28 @@ export class Selector {
     for (let index = 0; index < points.length; index += 2) {
       createAnchor(index);
     }
+
+    // 更新锚点位置
+    const updateAnchors = () => {
+      const lineTransform = line.getAbsoluteTransform().copy();
+      const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
+
+      this.innerPortal.children?.forEach((anchor) => {
+        const index = parseInt(anchor.name().split('_')[0], 10);
+        if (!isNaN(index) && index < points.length) {
+          // 将 Line 点坐标转换为 innerPortal 的坐标系
+          const { x, y } = lineTransform.point({
+            x: points[index],
+            y: points[index + 1],
+          });
+          const { x: portalX, y: portalY } = portalTransform.point({ x, y });
+          anchor.position({ x: portalX, y: portalY });
+        }
+      });
+    };
+    line.on('transform', () => {
+      updateAnchors();
+    });
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
