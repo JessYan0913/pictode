@@ -37,6 +37,7 @@ export class Selector {
   private rubberStartPoint: util.Point = new util.Point(0, 0);
   private rubberEnable: boolean = false;
   private hightLightRects: Map<string, HightLightRect>;
+  private innerPortal: Konva.Group;
 
   constructor(app: App, options: Options) {
     const { enabled, multipleSelect, transformer, hightLight, rubber } = options;
@@ -48,6 +49,9 @@ export class Selector {
     this.transformerConfig = transformer;
     this.hightLightConfig = hightLight;
     this.rubberConfig = rubber;
+
+    this.innerPortal = new Konva.Group({ name: 'inner_portal' });
+    this.app.optionLayer.add(this.innerPortal);
 
     this.transformer = new Konva.Transformer({
       name: 'pictode:transformer',
@@ -134,11 +138,7 @@ export class Selector {
     this.setHightRect(...nodes);
     if (nodes.length === 1 && nodes[0].className === 'Line') {
       const line = nodes[0] as Konva.Line;
-      // 遍历线条上的点
-      const points = line.points();
-      for (let index = 0; index < points.length; index += 2) {
-        this.createPointAnchor(new util.Point(points[index], points[index + 1]));
-      }
+      this.createLineAnchor(line);
     }
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
@@ -192,37 +192,47 @@ export class Selector {
     return this.transformer.getClientRect();
   }
 
-  private createPointAnchor(point: util.Point) {
-    // 这里的point需要转换为transformer坐标系下的坐标
-    const transformerTransform = this.transformer.getAbsoluteTransform().copy();
-    const { x, y } = transformerTransform.invert().point(point);
-    let anchor = new Konva.Rect({
-      stroke: 'rgb(0, 161, 255)',
-      fill: 'white',
-      strokeWidth: 1,
-      name: 'point_anchor',
-      dragDistance: 0,
-      draggable: true,
-      hitStrokeWidth: 10,
-      x,
-      y,
-      width: 10,
-      height: 10,
-    });
-    // anchor.on('dragstart', (e) => {
-    //   anchor.stopDrag();
-    //   e.cancelBubble = true;
-    // });
-    // anchor.on('dragend', (e) => {
-    //   e.cancelBubble = true;
-    // });
-    this.transformer.add(anchor);
-    this.transformer.on('transform', ({ target }) => {
-      const transformerTransform = target.getAbsoluteTransform().copy();
-      const newPoint = transformerTransform.point(point);
-      const { x, y } = this.transformer.getAbsoluteTransform().copy().invert().point(newPoint);
-      anchor.setPosition({ x, y });
-    });
+  private createLineAnchor(line: Konva.Line) {
+    const points = line.points(); // 获取线条的所有点
+
+    const createAnchor = (index: number) => {
+      // 直接获取点的坐标，不进行坐标转换
+      const x = points[index];
+      const y = points[index + 1];
+
+      let anchor = new Konva.Rect({
+        stroke: 'rgb(0, 161, 255)',
+        fill: 'white',
+        strokeWidth: 1,
+        name: index + '_anchor',
+        dragDistance: 0,
+        draggable: true,
+        hitStrokeWidth: 10,
+        x,
+        y,
+        width: 10,
+        height: 10,
+        offsetX: 5,
+        offsetY: 5,
+      });
+      this.innerPortal.add(anchor);
+
+      // 当锚点被拖动时更新 Line 的顶点坐标
+      anchor.on('dragmove', ({ target }) => {
+        const pos = target.getPosition(); // 获取锚点的新位置
+        points[index] = pos.x; // 更新 Line 的 x 坐标
+        points[index + 1] = pos.y; // 更新 Line 的 y 坐标
+        line.points(points); // 更新 Line 的所有点
+        line.getLayer()?.batchDraw(); // 重新绘制 Line
+      });
+
+      return anchor;
+    };
+
+    // 为每个点创建锚点
+    for (let index = 0; index < points.length; index += 2) {
+      createAnchor(index);
+    }
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
