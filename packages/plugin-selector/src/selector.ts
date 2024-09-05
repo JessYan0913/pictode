@@ -209,14 +209,20 @@ export class Selector {
       width: 10,
       height: 10,
     });
-    anchor.on('dragstart', (e) => {
-      anchor.stopDrag();
-      e.cancelBubble = true;
-    });
-    anchor.on('dragend', (e) => {
-      e.cancelBubble = true;
-    });
+    // anchor.on('dragstart', (e) => {
+    //   anchor.stopDrag();
+    //   e.cancelBubble = true;
+    // });
+    // anchor.on('dragend', (e) => {
+    //   e.cancelBubble = true;
+    // });
     this.transformer.add(anchor);
+    this.transformer.on('transform', ({ target }) => {
+      const transformerTransform = target.getAbsoluteTransform().copy();
+      const newPoint = transformerTransform.point(point);
+      const { x, y } = this.transformer.getAbsoluteTransform().copy().invert().point(newPoint);
+      anchor.setPosition({ x, y });
+    });
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
