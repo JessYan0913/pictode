@@ -80,7 +80,7 @@ export class Selector {
       anchor.on('mousedown', () => {
         this.enabled = false;
       });
-      anchor.on('mouseup', () => {
+      anchor.on('mouseup mouseout', () => {
         this.enabled = true;
       });
       anchor.on('mouseenter', () => {
