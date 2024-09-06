@@ -137,8 +137,7 @@ export class Selector {
     );
     this.setHightRect(...nodes);
     if (nodes.length === 1 && nodes[0].className === 'Line') {
-      const line = nodes[0] as Konva.Line;
-      this.createLineAnchor(line);
+      this.createLineAnchor(nodes[0] as Konva.Line);
     }
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
@@ -156,6 +155,9 @@ export class Selector {
       node.draggable(false);
       node.off('removed', this.handleNodeRemoved);
       this.selected.delete(node.id());
+      if (node.className === 'Line') {
+        this.innerPortal.removeChildren();
+      }
     });
     this.removeHightRect(...nodes);
     this.transformer.nodes([...this.selected.values()]);
@@ -196,9 +198,15 @@ export class Selector {
     const points = line.points(); // 获取线条的所有点
 
     const createAnchor = (index: number) => {
+      const lineTransform = line.getAbsoluteTransform().copy();
+      const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
       // 直接获取点的坐标，不进行坐标转换
-      const x = points[index];
-      const y = points[index + 1];
+      const { x, y } = portalTransform.point(
+        lineTransform.point({
+          x: points[index],
+          y: points[index + 1],
+        }),
+      );
 
       let anchor = new Konva.Rect({
         stroke: 'rgb(0, 161, 255)',
