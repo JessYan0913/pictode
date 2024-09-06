@@ -261,7 +261,7 @@ export class Selector {
         }
       });
     };
-    line.on('transform', () => {
+    line.on('transform dragmove', () => {
       updateAnchors();
     });
   }
