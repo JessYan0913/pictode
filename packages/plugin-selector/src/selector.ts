@@ -139,6 +139,7 @@ export class Selector {
     this.setHightRect(...nodes);
     if (nodes.length === 1 && nodes[0].className === 'Line') {
       this.currentLine = nodes[0] as Konva.Line;
+      this.currentLine.on('transform dragmove', this.onCurrentLineTransform);
     }
     this.createLineAnchor();
     this.app.render();
@@ -159,6 +160,7 @@ export class Selector {
       this.selected.delete(node.id());
       if (node.className === 'Line') {
         this.innerPortal.removeChildren();
+        this.currentLine?.off('transform dragmove', this.onCurrentLineTransform);
         this.currentLine = undefined;
       }
     });
@@ -230,9 +232,8 @@ export class Selector {
         if (!this.currentLine) {
           return;
         }
-        const pos = target.getPosition();
         const { x, y } = transformPoint(
-          new util.Point(pos.x, pos.y),
+          target.getPosition(),
           this.innerPortal.getAbsoluteTransform(),
           this.currentLine.getAbsoluteTransform(),
         );
@@ -247,23 +248,6 @@ export class Selector {
     for (let index = 0; index < points.length; index += 2) {
       createAnchor(index);
     }
-
-    this.currentLine.on('transform dragmove', ({ target }) => {
-      const lineTransform = target.getAbsoluteTransform().copy();
-      const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
-
-      this.innerPortal.children?.forEach((anchor) => {
-        const index = parseInt(anchor.name().split('_')[0], 10);
-        if (!isNaN(index) && index < points.length) {
-          const { x, y } = transformPoint(
-            new util.Point(points[index], points[index + 1]),
-            lineTransform,
-            portalTransform,
-          );
-          anchor.position({ x, y });
-        }
-      });
-    });
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
@@ -318,6 +302,23 @@ export class Selector {
     rect.rotation(node.rotation());
   }
 
+  private onCurrentLineTransform = (): void => {
+    if (!this.currentLine) {
+      return;
+    }
+    const points = this.currentLine.points();
+    const lineTransform = this.currentLine.getAbsoluteTransform().copy();
+    const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
+
+    this.innerPortal.children?.forEach((anchor) => {
+      const index = parseInt(anchor.name().split('_')[0], 10);
+      if (!isNaN(index) && index < points.length) {
+        const { x, y } = transformPoint({ x: points[index], y: points[index + 1] }, lineTransform, portalTransform);
+        anchor.position({ x, y });
+      }
+    });
+  };
+
   private onTransformStart = (): void => {
     this.app.emit('node:transform:start', { nodes: [...this.selected.values()] });
     this.app.emit('node:update:before', { nodes: [...this.selected.values()] });
@@ -354,7 +355,6 @@ export class Selector {
   };
 
   private onMouseMove = (): void => {
-    // TODO: 操作形变后，this.enable会变成false，但不知道为啥？？？
     if (!this.enabled) {
       return;
     }

@@ -1,7 +1,7 @@
 import { Konva, KonvaNode, util } from '@pictode/core';
 
 export const transformPoint = (
-  point: util.Point,
+  point: util.Point | { x: number; y: number },
   originalTransform: Konva.Transform,
   targetTransform: Konva.Transform,
 ) => targetTransform.copy().invert().point(originalTransform.copy().point(point));
