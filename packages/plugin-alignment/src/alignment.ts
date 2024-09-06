@@ -19,7 +19,7 @@ export class Alignment {
     const minX = Math.min(...clientRects.map((node) => node.x));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetX = clientRects[index].x - minX;
         newNode.attrs = {
           ...newNode.attrs,
@@ -36,7 +36,7 @@ export class Alignment {
     const maxX = Math.max(...clientRects.map((node) => node.x + node.width));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetX = maxX - (clientRects[index].x + clientRects[index].width);
         newNode.attrs = {
           ...newNode.attrs,
@@ -53,7 +53,7 @@ export class Alignment {
     const minY = Math.min(...clientRects.map((node) => node.y));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetY = clientRects[index].y - minY;
         newNode.attrs = {
           ...newNode.attrs,
@@ -70,7 +70,7 @@ export class Alignment {
     const maxY = Math.max(...clientRects.map((node) => node.y + node.height));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetY = maxY - (clientRects[index].y + clientRects[index].height);
         newNode.attrs = {
           ...newNode.attrs,
@@ -88,7 +88,7 @@ export class Alignment {
 
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetX = centerX - (clientRects[index].x + clientRects[index].width / 2);
         newNode.attrs = {
           ...newNode.attrs,
@@ -106,7 +106,7 @@ export class Alignment {
 
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetY = centerY - (clientRects[index].y + clientRects[index].height / 2);
         newNode.attrs = {
           ...newNode.attrs,
@@ -159,7 +159,7 @@ export class Alignment {
     let curValue = firstValue;
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         if (index === 0 || index === nodes.length - 1) {
           return newNode;
         }

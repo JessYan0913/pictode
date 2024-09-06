@@ -89,7 +89,7 @@ export class HistoryPlugin implements Plugin {
   };
 
   private onNodeUpdateBefore = ({ nodes }: EventArgs['node:transform:start']) => {
-    this.oldNodes = nodes.map((node) => node.toObject());
+    this.oldNodes = nodes.map((node) => node.clone());
   };
 
   private onNodeUpdated = ({ nodes }: EventArgs['node:transform:end']) => {
@@ -99,7 +99,7 @@ export class HistoryPlugin implements Plugin {
     this.history.execute(
       new ModifiedObjectCmd(this.app, {
         oldNodes: this.oldNodes,
-        newNodes: nodes.map((node) => node.toObject()),
+        newNodes: nodes.map((node) => node.clone()),
       }),
     );
   };
