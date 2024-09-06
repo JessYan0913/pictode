@@ -196,23 +196,18 @@ export class Selector {
 
   private createLineAnchor(line: Konva.Line) {
     const points = line.points(); // 获取线条的所有点
+    const lineTransform = line.getAbsoluteTransform().copy();
+    const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
 
+    // 创建锚点函数
     const createAnchor = (index: number) => {
-      const lineTransform = line.getAbsoluteTransform().copy();
-      const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
-      // 直接获取点的坐标，不进行坐标转换
-      const { x, y } = portalTransform.point(
-        lineTransform.point({
-          x: points[index],
-          y: points[index + 1],
-        }),
-      );
+      const { x, y } = transformPoint(index, lineTransform, portalTransform);
 
-      let anchor = new Konva.Rect({
+      const anchor = new Konva.Rect({
         stroke: 'rgb(0, 161, 255)',
         fill: 'white',
         strokeWidth: 1,
-        name: index + '_anchor',
+        name: `${index}_anchor`,
         dragDistance: 0,
         draggable: true,
         hitStrokeWidth: 10,
@@ -223,35 +218,36 @@ export class Selector {
         offsetX: 5,
         offsetY: 5,
       });
+
       this.innerPortal.add(anchor);
-
-      // 当锚点被拖动时更新 Line 的顶点坐标
-      anchor.on('dragmove', ({ target }) => {
-        // 获取锚点的新位置
-        const pos = target.getPosition();
-
-        // 将 innerPortal 的坐标系下的点转换为绝对坐标
-        const absolutePos = this.innerPortal.getAbsoluteTransform().copy().point(pos);
-
-        // 将绝对坐标转换为 line 的坐标系下的点
-        const linePos = line.getAbsoluteTransform().copy().invert().point(absolutePos);
-
-        // 更新 Line 的坐标点
-        points[index] = linePos.x;
-        points[index + 1] = linePos.y;
-        line.points(points); // 更新 Line 的所有点
-        line.getLayer()?.batchDraw(); // 重新绘制 Line
-      });
-
-      return anchor;
+      addDragMoveEvent(anchor, index, points, line);
     };
 
-    // 为每个点创建锚点
+    // 转换坐标函数
+    const transformPoint = (index: number, lineTransform: Konva.Transform, portalTransform: Konva.Transform) => {
+      return portalTransform.point(lineTransform.point({ x: points[index], y: points[index + 1] }));
+    };
+
+    // 处理拖动事件
+    const addDragMoveEvent = (anchor: Konva.Rect, index: number, points: number[], line: Konva.Line) => {
+      anchor.on('dragmove', ({ target }) => {
+        const pos = target.getPosition();
+        const absolutePos = this.innerPortal.getAbsoluteTransform().copy().point(pos);
+        const linePos = line.getAbsoluteTransform().copy().invert().point(absolutePos);
+
+        points[index] = linePos.x;
+        points[index + 1] = linePos.y;
+        line.points(points);
+        line.getLayer()?.batchDraw();
+      });
+    };
+
+    // 创建所有锚点
     for (let index = 0; index < points.length; index += 2) {
       createAnchor(index);
     }
 
-    // 更新锚点位置
+    // 更新所有锚点位置
     const updateAnchors = () => {
       const lineTransform = line.getAbsoluteTransform().copy();
       const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
@@ -259,19 +255,13 @@ export class Selector {
       this.innerPortal.children?.forEach((anchor) => {
         const index = parseInt(anchor.name().split('_')[0], 10);
         if (!isNaN(index) && index < points.length) {
-          // 将 Line 点坐标转换为 innerPortal 的坐标系
-          const { x, y } = lineTransform.point({
-            x: points[index],
-            y: points[index + 1],
-          });
-          const { x: portalX, y: portalY } = portalTransform.point({ x, y });
-          anchor.position({ x: portalX, y: portalY });
+          const { x, y } = transformPoint(index, lineTransform, portalTransform);
+          anchor.position({ x, y });
         }
       });
     };
-    line.on('transform dragmove', () => {
-      updateAnchors();
-    });
+
+    line.on('transform dragmove', updateAnchors);
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
