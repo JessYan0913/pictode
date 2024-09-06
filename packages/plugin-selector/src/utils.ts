@@ -1,5 +1,11 @@
 import { Konva, KonvaNode, util } from '@pictode/core';
 
+export const transformPoint = (
+  point: util.Point,
+  originalTransform: Konva.Transform,
+  targetTransform: Konva.Transform,
+) => targetTransform.copy().invert().point(originalTransform.copy().point(point));
+
 export const getNodeRect = (
   node: KonvaNode,
   padding: number = 0,

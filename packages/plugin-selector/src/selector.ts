@@ -2,7 +2,7 @@ import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 import { EnabledCheck } from '@pictode/utils';
 
 import { HightLightConfig, Options, RubberConfig, TransformerConfig } from './types';
-import { getNodeRect } from './utils';
+import { getNodeRect, transformPoint } from './utils';
 
 interface HightLightRect {
   rect: Konva.Rect;
@@ -196,12 +196,12 @@ export class Selector {
 
   private createLineAnchor(line: Konva.Line) {
     const points = line.points(); // 获取线条的所有点
-    const lineTransform = line.getAbsoluteTransform().copy();
-    const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
+    const lineTransform = line.getAbsoluteTransform();
+    const portalTransform = this.innerPortal.getAbsoluteTransform();
 
     // 创建锚点函数
     const createAnchor = (index: number) => {
-      const { x, y } = transformPoint(index, lineTransform, portalTransform);
+      const { x, y } = transformPoint(new util.Point(points[index], points[index + 1]), lineTransform, portalTransform);
 
       const anchor = new Konva.Rect({
         stroke: 'rgb(0, 161, 255)',
@@ -223,22 +223,19 @@ export class Selector {
       addDragMoveEvent(anchor, index, points, line);
     };
 
-    // 转换坐标函数
-    const transformPoint = (index: number, lineTransform: Konva.Transform, portalTransform: Konva.Transform) => {
-      return portalTransform.point(lineTransform.point({ x: points[index], y: points[index + 1] }));
-    };
-
     // 处理拖动事件
     const addDragMoveEvent = (anchor: Konva.Rect, index: number, points: number[], line: Konva.Line) => {
       anchor.on('dragmove', ({ target }) => {
         const pos = target.getPosition();
-        const absolutePos = this.innerPortal.getAbsoluteTransform().copy().point(pos);
-        const linePos = line.getAbsoluteTransform().copy().invert().point(absolutePos);
+        const { x, y } = transformPoint(
+          new util.Point(pos.x, pos.y),
+          this.innerPortal.getAbsoluteTransform(),
+          line.getAbsoluteTransform(),
+        );
 
-        points[index] = linePos.x;
-        points[index + 1] = linePos.y;
+        points[index] = x;
+        points[index + 1] = y;
         line.points(points);
-        line.getLayer()?.batchDraw();
       });
     };
 
@@ -255,7 +252,11 @@ export class Selector {
       this.innerPortal.children?.forEach((anchor) => {
         const index = parseInt(anchor.name().split('_')[0], 10);
         if (!isNaN(index) && index < points.length) {
-          const { x, y } = transformPoint(index, lineTransform, portalTransform);
+          const { x, y } = transformPoint(
+            new util.Point(points[index], points[index + 1]),
+            lineTransform,
+            portalTransform,
+          );
           anchor.position({ x, y });
         }
       });
