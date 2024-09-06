@@ -38,6 +38,7 @@ export class Selector {
   private rubberEnable: boolean = false;
   private hightLightRects: Map<string, HightLightRect>;
   private innerPortal: Konva.Group;
+  private currentLine?: Konva.Line;
 
   constructor(app: App, options: Options) {
     const { enabled, multipleSelect, transformer, hightLight, rubber } = options;
@@ -137,8 +138,9 @@ export class Selector {
     );
     this.setHightRect(...nodes);
     if (nodes.length === 1 && nodes[0].className === 'Line') {
-      this.createLineAnchor(nodes[0] as Konva.Line);
+      this.currentLine = nodes[0] as Konva.Line;
     }
+    this.createLineAnchor();
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -157,6 +159,7 @@ export class Selector {
       this.selected.delete(node.id());
       if (node.className === 'Line') {
         this.innerPortal.removeChildren();
+        this.currentLine = undefined;
       }
     });
     this.removeHightRect(...nodes);
@@ -194,9 +197,12 @@ export class Selector {
     return this.transformer.getClientRect();
   }
 
-  private createLineAnchor(line: Konva.Line) {
-    const points = line.points(); // 获取线条的所有点
-    const lineTransform = line.getAbsoluteTransform();
+  private createLineAnchor() {
+    if (!this.currentLine) {
+      return;
+    }
+    const points = this.currentLine.points(); // 获取线条的所有点
+    const lineTransform = this.currentLine.getAbsoluteTransform();
     const portalTransform = this.innerPortal.getAbsoluteTransform();
 
     // 创建锚点函数
@@ -220,22 +226,20 @@ export class Selector {
       });
 
       this.innerPortal.add(anchor);
-      addDragMoveEvent(anchor, index, points, line);
-    };
-
-    // 处理拖动事件
-    const addDragMoveEvent = (anchor: Konva.Rect, index: number, points: number[], line: Konva.Line) => {
       anchor.on('dragmove', ({ target }) => {
+        if (!this.currentLine) {
+          return;
+        }
         const pos = target.getPosition();
         const { x, y } = transformPoint(
           new util.Point(pos.x, pos.y),
           this.innerPortal.getAbsoluteTransform(),
-          line.getAbsoluteTransform(),
+          this.currentLine.getAbsoluteTransform(),
         );
 
         points[index] = x;
         points[index + 1] = y;
-        line.points(points);
+        this.currentLine.points(points);
       });
     };
 
@@ -244,9 +248,8 @@ export class Selector {
       createAnchor(index);
     }
 
-    // 更新所有锚点位置
-    const updateAnchors = () => {
-      const lineTransform = line.getAbsoluteTransform().copy();
+    this.currentLine.on('transform dragmove', ({ target }) => {
+      const lineTransform = target.getAbsoluteTransform().copy();
       const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
 
       this.innerPortal.children?.forEach((anchor) => {
@@ -260,9 +263,7 @@ export class Selector {
           anchor.position({ x, y });
         }
       });
-    };
-
-    line.on('transform dragmove', updateAnchors);
+    });
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
