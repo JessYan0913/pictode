@@ -70,7 +70,7 @@ const onDownload = async () => {
     () => `Pictode-${new Date()}.${formatOptions.find((item) => item.value === selectedFormatValue.value)?.format}`,
     selectedFormatValue.value,
     'utf-8',
-    true
+    true,
   );
   await execute();
   dialogVisible.value = false;

@@ -40,7 +40,7 @@ export const useOSContext = (needLocation: MaybeRef<boolean> = false) => {
     () => isDarkModel.value,
     () => {
       osContext.OSTheme = isDarkModel.value ? 'Dark' : 'Light';
-    }
+    },
   );
   provide(OSContextKey, osContext);
   return osContext;

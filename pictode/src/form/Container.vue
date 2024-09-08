@@ -17,7 +17,7 @@ const props = withDefaults(
   {
     prop: '',
     size: 'small',
-  }
+  },
 );
 
 const emits = defineEmits<(event: 'change', model: FormValue) => void>();

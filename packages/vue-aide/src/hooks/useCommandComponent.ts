@@ -32,7 +32,7 @@ const initInstance = <T extends Component>(
   Component: T,
   props: Options,
   container: HTMLElement,
-  appContext: AppContext | null = null
+  appContext: AppContext | null = null,
 ) => {
   const vNode = createVNode(Component, props);
   vNode.appContext = appContext;

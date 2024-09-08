@@ -19,14 +19,14 @@ export class Alignment {
     const minX = Math.min(...clientRects.map((node) => node.x));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetX = clientRects[index].x - minX;
         newNode.attrs = {
           ...newNode.attrs,
           x: newNode.attrs.x - offsetX,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -36,14 +36,14 @@ export class Alignment {
     const maxX = Math.max(...clientRects.map((node) => node.x + node.width));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetX = maxX - (clientRects[index].x + clientRects[index].width);
         newNode.attrs = {
           ...newNode.attrs,
           x: newNode.attrs.x + offsetX,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -53,14 +53,14 @@ export class Alignment {
     const minY = Math.min(...clientRects.map((node) => node.y));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetY = clientRects[index].y - minY;
         newNode.attrs = {
           ...newNode.attrs,
           y: newNode.attrs.y - offsetY,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -70,14 +70,14 @@ export class Alignment {
     const maxY = Math.max(...clientRects.map((node) => node.y + node.height));
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetY = maxY - (clientRects[index].y + clientRects[index].height);
         newNode.attrs = {
           ...newNode.attrs,
           y: newNode.attrs.y + offsetY,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -88,14 +88,14 @@ export class Alignment {
 
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetX = centerX - (clientRects[index].x + clientRects[index].width / 2);
         newNode.attrs = {
           ...newNode.attrs,
           x: newNode.attrs.x + offsetX,
         };
         return newNode;
-      })
+      }),
     );
   }
 
@@ -106,21 +106,21 @@ export class Alignment {
 
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         const offsetY = centerY - (clientRects[index].y + clientRects[index].height / 2);
         newNode.attrs = {
           ...newNode.attrs,
           y: newNode.attrs.y + offsetY,
         };
         return newNode;
-      })
+      }),
     );
   }
 
   @EnabledCheck
   public dispersionX(nodes: KonvaNode[]): void {
     const centerXValues = nodes.map((node) => node.getClientRect().x + node.getClientRect().width / 2);
-    const isCenterXConsistent = centerXValues.every((value, index, arr) => value === arr[0]);
+    const isCenterXConsistent = centerXValues.every((value, _index, arr) => value === arr[0]);
     if (isCenterXConsistent) {
       return;
     }
@@ -130,7 +130,7 @@ export class Alignment {
   @EnabledCheck
   public dispersionY(nodes: KonvaNode[]): void {
     const centerYValues = nodes.map((node) => node.getClientRect().y + node.getClientRect().height / 2);
-    const isCenterYConsistent = centerYValues.every((value, index, arr) => value === arr[0]);
+    const isCenterYConsistent = centerYValues.every((value, _index, arr) => value === arr[0]);
     if (isCenterYConsistent) {
       return;
     }
@@ -152,14 +152,14 @@ export class Alignment {
     const middleNodes = nodes.slice(1, -1);
     const middleValue = middleNodes.reduce(
       (middleValue, node) => middleValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height),
-      0
+      0,
     );
     const gap = Math.max((space - middleValue) / (nodes.length - 1), 0);
 
     let curValue = firstValue;
     this.app.update(
       ...nodes.map((node, index) => {
-        const newNode = node.toObject();
+        const newNode = node.clone();
         if (index === 0 || index === nodes.length - 1) {
           return newNode;
         }
@@ -168,7 +168,7 @@ export class Alignment {
         newNode.attrs[key] = newValue - node.getClientRect()[key] + newNode.attrs[key];
         curValue = newValue + (key === 'x' ? node.getClientRect().width : node.getClientRect().height);
         return newNode;
-      })
+      }),
     );
   }
 }

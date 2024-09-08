@@ -11,7 +11,7 @@ const props = withDefaults(
   }>(),
   {
     model: () => ({}),
-  }
+  },
 );
 
 const emits = defineEmits<(event: 'change', prop: string, value: number) => void>();
@@ -24,14 +24,14 @@ const step = computed<number>(() => config.value.step ?? 0.01);
 
 watch(
   () => value.value,
-  (v) => emits('change', prop.value, +v)
+  (v) => emits('change', prop.value, +v),
 );
 
 watch(
   () => model.value,
   () => {
     value.value = model?.value?.[prop?.value];
-  }
+  },
 );
 </script>
 

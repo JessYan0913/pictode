@@ -40,7 +40,7 @@ export class HtmlTool implements Tool {
       return;
     }
     this.html.setPosition(
-      new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y))
+      new util.Point(Math.min(this.startPointer.x, app.pointer.x), Math.min(this.startPointer.y, app.pointer.y)),
     );
     this.html.width(Math.abs(app.pointer.x - this.startPointer.x));
     this.html.height(Math.abs(app.pointer.y - this.startPointer.y));

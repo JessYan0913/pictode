@@ -3,7 +3,7 @@ import { Modifier } from '../types';
 export const matchKeyScheme = (
   opts: Pick<Partial<Modifier>, 'shiftKey' | 'altKey' | 'ctrlKey' | 'exact'>,
   event: WheelEvent,
-  isWindows: boolean
+  isWindows: boolean,
 ): boolean => {
   const ctrlKey = opts.ctrlKey ?? false;
   const shiftKey = opts.shiftKey ?? false;

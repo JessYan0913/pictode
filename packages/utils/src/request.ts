@@ -50,18 +50,18 @@ export class Request {
         // 请求阶段出错则取消请求
         this.requestCanceler.cancelRequest(error.config);
         return error;
-      }
+      },
     );
 
     // 用户自定义拦截器
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
-      this.interceptors?.requestInterceptorCatch
+      this.interceptors?.requestInterceptorCatch,
     );
 
     this.instance.interceptors.response.use(
       this.interceptors?.responseInterceptor,
-      this.interceptors?.responseInterceptorCatch
+      this.interceptors?.responseInterceptorCatch,
     );
 
     this.instance.interceptors.response.use(
@@ -94,7 +94,7 @@ export class Request {
           }, config.retryDelay);
         });
         return await this.request(config);
-      }
+      },
     );
   }
 

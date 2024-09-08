@@ -2,7 +2,7 @@ import logger from './logger';
 
 type EnabledTarget = { enabled: boolean };
 
-export function EnabledCheck<T extends EnabledTarget>(target: T, propertyKey: string, descriptor: PropertyDescriptor) {
+export function EnabledCheck<T extends EnabledTarget>(_target: T, propertyKey: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
 
   descriptor.value = function (this: T, ...args: any[]) {

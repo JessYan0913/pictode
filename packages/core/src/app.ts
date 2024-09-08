@@ -160,7 +160,7 @@ export class App extends BaseService<EventArgs> {
           node.id(`#${guid()}`);
         }
         return node;
-      })
+      }),
     );
     this.render();
     return this;
@@ -224,7 +224,7 @@ export class App extends BaseService<EventArgs> {
       ...nodes.map((node) => {
         node.draggable(false);
         return node;
-      })
+      }),
     );
     this._add(group);
     return group;
@@ -314,7 +314,7 @@ export class App extends BaseService<EventArgs> {
 
   public getShapesInArea(shape: Konva.Shape): KonvaNode[] {
     return this.mainLayer.getChildren(
-      (node) => node.visible() && node !== shape && this.haveIntersection(shape, node as Konva.Shape)
+      (node) => node.visible() && node !== shape && this.haveIntersection(shape, node as Konva.Shape),
     );
   }
 
@@ -378,7 +378,7 @@ export class App extends BaseService<EventArgs> {
       mimeType?: string;
       quality?: number;
       haveBackground?: boolean;
-    }
+    },
   ): Promise<{ dataURL: string; width: number; height: number }> {
     const { padding = 10, pixelRatio = 2, mimeType = 'image/png', quality = 1, haveBackground = false } = config ?? {};
 
@@ -449,7 +449,7 @@ export class App extends BaseService<EventArgs> {
 
   public toJSON(): string {
     const result = this?.mainLayer?.toObject() || {};
-    result.children.forEach((child: KonvaNode) => {
+    result.children?.forEach((child: KonvaNode) => {
       if (child.className === 'Image') {
         child.attrs.image = child?.attrs?.image?.currentSrc;
       }

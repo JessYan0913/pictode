@@ -24,7 +24,7 @@ export type RuleValidatorHandler = (
     };
   },
   data: FormHandlerData,
-  formState: FormState | undefined
+  formState: FormState | undefined,
 ) => void;
 
 export interface Rule {

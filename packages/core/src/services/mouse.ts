@@ -98,7 +98,7 @@ export class Mouse extends Service {
     const pointer = this.app.stage.getPointerPosition() ?? new Point(0, 0);
     const mousePointTo = new Point(
       (pointer.x - this.app.stage.x()) / oldScale,
-      (pointer.y - this.app.stage.y()) / oldScale
+      (pointer.y - this.app.stage.y()) / oldScale,
     );
 
     const { shiftKey, ctrlKey, deltaX, deltaY } = event.evt;

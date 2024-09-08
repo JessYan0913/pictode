@@ -2,6 +2,7 @@ import { App, EventArgs, Konva, KonvaNode, util } from '@pictode/core';
 import { EnabledCheck } from '@pictode/utils';
 
 import { HightLightConfig, Options, RubberConfig, TransformerConfig } from './types';
+import { getNodeRect, transformPoint } from './utils';
 
 interface HightLightRect {
   rect: Konva.Rect;
@@ -36,6 +37,8 @@ export class Selector {
   private rubberStartPoint: util.Point = new util.Point(0, 0);
   private rubberEnable: boolean = false;
   private hightLightRects: Map<string, HightLightRect>;
+  private innerPortal: Konva.Group;
+  private currentLine?: Konva.Line;
 
   constructor(app: App, options: Options) {
     const { enabled, multipleSelect, transformer, hightLight, rubber } = options;
@@ -48,6 +51,9 @@ export class Selector {
     this.hightLightConfig = hightLight;
     this.rubberConfig = rubber;
 
+    this.innerPortal = new Konva.Group({ name: 'inner_portal' });
+    this.app.optionLayer.add(this.innerPortal);
+
     this.transformer = new Konva.Transformer({
       name: 'pictode:transformer',
       ...this.transformerConfig,
@@ -57,7 +63,7 @@ export class Selector {
     this.transformer.anchorStyleFunc((anchor) => {
       if (
         ['middle-left', 'middle-right', 'top-center', 'bottom-center'].some((anchorName) =>
-          anchor.hasName(anchorName)
+          anchor.hasName(anchorName),
         ) &&
         ([...this.selected.values()]?.[0] instanceof Konva.Text ||
           [...this.selected.values()]?.[0] instanceof Konva.Group ||
@@ -75,22 +81,16 @@ export class Selector {
       anchor.on('mousedown', () => {
         this.enabled = false;
       });
-      anchor.on('mouseup', () => {
+      anchor.on('mouseup mouseout', () => {
         this.enabled = true;
       });
       anchor.on('mouseenter', () => {
         this.enabled = false;
-        if (!anchor.hasName('rotater')) {
-          return;
+        if (anchor.hasName('rotater')) {
+          setAnchorCursor('grabbing');
+        } else if (anchor.hasName('point')) {
+          setAnchorCursor('pointer');
         }
-        setAnchorCursor('grabbing');
-      });
-      anchor.on('mouseout', () => {
-        this.enabled = true;
-        if (!anchor.hasName('rotater')) {
-          return;
-        }
-        setAnchorCursor();
       });
     });
 
@@ -134,9 +134,15 @@ export class Selector {
         node.on<'removed'>('removed', this.handleNodeRemoved);
         this.selected.set(node.id(), node);
         return node !== this.rubberRect;
-      })
+      }),
     );
-    this.setHightRect(...nodes);
+    if (nodes.length > 1) {
+      this.setHightRect(...nodes);
+    } else if (nodes.length === 1 && nodes[0].className === 'Line') {
+      this.currentLine = nodes[0] as Konva.Line;
+      this.currentLine.on('transform dragmove', this.onCurrentLineTransform);
+    }
+    this.createLineAnchor();
     this.app.render();
     this.app.emit('selected:changed', { selected: [...this.selected.values()] });
   }
@@ -153,6 +159,11 @@ export class Selector {
       node.draggable(false);
       node.off('removed', this.handleNodeRemoved);
       this.selected.delete(node.id());
+      if (node.className === 'Line') {
+        this.innerPortal.removeChildren();
+        this.currentLine?.off('transform dragmove', this.onCurrentLineTransform);
+        this.currentLine = undefined;
+      }
     });
     this.removeHightRect(...nodes);
     this.transformer.nodes([...this.selected.values()]);
@@ -189,6 +200,53 @@ export class Selector {
     return this.transformer.getClientRect();
   }
 
+  private createLineAnchor() {
+    if (!this.currentLine) {
+      return;
+    }
+    const points = this.currentLine.points(); // 获取线条的所有点
+    const lineTransform = this.currentLine.getAbsoluteTransform();
+    const portalTransform = this.innerPortal.getAbsoluteTransform();
+    const anchorSize = this.transformerConfig.anchorSize ?? 10;
+    // 创建所有锚点
+    for (let index = 0; index < points.length; index += 2) {
+      const { x, y } = transformPoint(new util.Point(points[index], points[index + 1]), lineTransform, portalTransform);
+
+      const anchor = new Konva.Rect({
+        stroke: this.transformerConfig.anchorStroke,
+        fill: this.transformerConfig.anchorFill ?? 'white',
+        strokeWidth: this.transformerConfig.anchorStrokeWidth,
+        name: `${index}_anchor`,
+        dragDistance: 0,
+        draggable: true,
+        hitStrokeWidth: 10,
+        x,
+        y,
+        width: anchorSize,
+        height: anchorSize,
+        offsetX: anchorSize / 2,
+        offsetY: anchorSize / 2,
+        cornerRadius: this.transformerConfig.anchorCornerRadius,
+      });
+
+      this.innerPortal.add(anchor);
+      anchor.on('dragmove', ({ target }) => {
+        if (!this.currentLine) {
+          return;
+        }
+        const { x, y } = transformPoint(
+          target.getPosition(),
+          this.innerPortal.getAbsoluteTransform(),
+          this.currentLine.getAbsoluteTransform(),
+        );
+
+        points[index] = x;
+        points[index + 1] = y;
+        this.currentLine.points(points);
+      });
+    }
+  }
+
   private setHightRect(...nodes: KonvaNode[]) {
     this.hightLightRects = nodes.reduce((hightRects, node) => {
       const rect = new Konva.Rect({
@@ -199,11 +257,11 @@ export class Selector {
         fillEnabled: false,
         strokeScaleEnabled: false,
       });
-      this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
+      this.getAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
       this.app.optionLayer.add(rect);
 
       const transformHandler = () =>
-        requestAnimationFrame(() => this.calculateNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
+        requestAnimationFrame(() => this.getAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
 
       node.on('absoluteTransformChange', transformHandler);
 
@@ -223,14 +281,15 @@ export class Selector {
       if (!hightLight) {
         return;
       }
-      node.off('dragmove transform xChange yChange', hightLight.transformHandler);
+      node.off('absoluteTransformChange', hightLight.transformHandler);
+      node.off(TRANSFORM_CHANGE_STR.join(' '), hightLight.transformHandler);
       hightLight.rect.remove();
       this.hightLightRects.delete(node.id());
     });
   }
 
-  private calculateNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
-    const { x, y, width, height } = this.getNodeRect(node, padding);
+  private getAbsoluteNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
+    const { x, y, width, height } = getNodeRect(node, padding);
     rect.position({
       x: (x - this.app.stage.x()) / this.app.stage.scaleX(),
       y: (y - this.app.stage.y()) / this.app.stage.scaleY(),
@@ -240,69 +299,22 @@ export class Selector {
     rect.rotation(node.rotation());
   }
 
-  private getNodeRect(
-    node: KonvaNode,
-    padding: number = 0
-  ): {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  } {
-    const getAngle = (angle: number): number => {
-      return Konva.angleDeg ? (angle * Math.PI) / 180 : angle;
-    };
-    const totalPoints: Array<util.Point> = [];
-    let nodes: KonvaNode[] = [];
-    if (node instanceof Konva.Group) {
-      nodes = node.getChildren();
-    } else {
-      nodes = [node];
+  private onCurrentLineTransform = (): void => {
+    if (!this.currentLine) {
+      return;
     }
-    nodes.forEach((node) => {
-      const box = node.getClientRect({
-        skipTransform: true,
-        skipShadow: true,
-        skipStroke: this.transformer.ignoreStroke(),
-      });
-      let points = [
-        { x: box.x, y: box.y },
-        { x: box.x + box.width, y: box.y },
-        { x: box.x + box.width, y: box.y + box.height },
-        { x: box.x, y: box.y + box.height },
-      ];
-      let trans = node.getAbsoluteTransform();
-      points.forEach(function (point) {
-        let transformed = trans.point(point);
-        totalPoints.push(new util.Point(transformed.x, transformed.y));
-      });
-    });
-    const tr = new Konva.Transform();
-    tr.rotate(-getAngle(node.rotation()));
-    let minX: number | undefined;
-    let minY: number | undefined;
-    let maxX: number | undefined;
-    let maxY: number | undefined;
-    totalPoints.forEach(function (point) {
-      let transformed = tr.point(point);
-      if (minX === undefined || minY === undefined || maxX === undefined || maxY === undefined) {
-        minX = maxX = transformed.x;
-        minY = maxY = transformed.y;
+    const points = this.currentLine.points();
+    const lineTransform = this.currentLine.getAbsoluteTransform().copy();
+    const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
+
+    this.innerPortal.children?.forEach((anchor) => {
+      const index = parseInt(anchor.name().split('_')[0], 10);
+      if (!isNaN(index) && index < points.length) {
+        const { x, y } = transformPoint({ x: points[index], y: points[index + 1] }, lineTransform, portalTransform);
+        anchor.position({ x, y });
       }
-      minX = Math.min(minX, transformed.x);
-      minY = Math.min(minY, transformed.y);
-      maxX = Math.max(maxX, transformed.x);
-      maxY = Math.max(maxY, transformed.y);
     });
-    tr.invert();
-    const p = tr.point({ x: (minX ?? 0) - padding, y: (minY ?? 0) - padding });
-    return {
-      x: p.x,
-      y: p.y,
-      width: (maxX ?? 0) - (minX ?? 0) + padding * 2,
-      height: (maxY ?? 0) - (minY ?? 0) + padding * 2,
-    };
-  }
+  };
 
   private onTransformStart = (): void => {
     this.app.emit('node:transform:start', { nodes: [...this.selected.values()] });
@@ -349,7 +361,7 @@ export class Selector {
     // 如果弹性框选可用，则改变弹性框的尺寸
     const position = new util.Point(
       Math.min(this.app.pointer.x, this.rubberStartPoint.x),
-      Math.min(this.app.pointer.y, this.rubberStartPoint.y)
+      Math.min(this.app.pointer.y, this.rubberStartPoint.y),
     );
     this.rubberRect.setPosition(position);
     this.rubberRect.width(Math.max(this.app.pointer.x, this.rubberStartPoint.x) - position.x);
@@ -413,6 +425,7 @@ export class Selector {
     this.enabled = false;
     this.transformer.remove();
     this.rubberRect.remove();
+    this.innerPortal.remove();
   }
 }
 

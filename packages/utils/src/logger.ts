@@ -80,7 +80,7 @@ export class Logger {
       `%c${this.productName} - ${type.toUpperCase()}%c ${formattedMessage.join('')}`,
       style.title,
       style.text,
-      ...formattedStyles
+      ...formattedStyles,
     );
   }
 

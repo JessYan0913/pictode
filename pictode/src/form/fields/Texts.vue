@@ -11,7 +11,7 @@ const props = withDefaults(
   }>(),
   {
     model: () => ({}),
-  }
+  },
 );
 
 const emits = defineEmits<(event: 'change', props: string, value: string) => void>();
@@ -21,14 +21,14 @@ const value = ref<string>(prop?.value && model?.value?.[prop?.value]);
 
 watch(
   () => value.value,
-  (v) => emits('change', prop.value, v)
+  (v) => emits('change', prop.value, v),
 );
 
 watch(
   () => model.value,
   () => {
     value.value = model?.value?.[prop?.value];
-  }
+  },
 );
 </script>
 

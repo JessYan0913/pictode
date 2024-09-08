@@ -62,7 +62,7 @@ export const usePictode = () => {
           ...model,
           [key]: selected.value?.[0].attrs[key],
         }),
-        {}
+        {},
       );
     }
     panelFormModel.value = newPanelConfig?.model ?? {};

@@ -5,7 +5,7 @@ import { useEventListener } from './useEventListener';
 export const useOnEventOutside = (
   event: 'mousedown' | 'mouseup' | 'mousemove' | 'dblclick' | 'click',
   rootEl: Ref<HTMLElement | null>,
-  callback: () => any
+  callback: () => any,
 ) => {
   useEventListener(window, event, (e: Event) => {
     const clickedEl = e.target as HTMLElement;

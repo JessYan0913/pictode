@@ -37,6 +37,7 @@ export type TransformerConfig = Pick<
   | 'borderStrokeWidth'
   | 'borderDash'
   | 'anchorSize'
+  | 'anchorFill'
   | 'anchorStroke'
   | 'anchorCornerRadius'
   | 'anchorStrokeWidth'

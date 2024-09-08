@@ -14,7 +14,7 @@ const props = withDefaults(
   }>(),
   {
     model: () => ({}),
-  }
+  },
 );
 
 const emits = defineEmits<(event: 'change', prop: string, value: T) => void>();
@@ -26,14 +26,14 @@ const strokeColor = computed<string>(() => (theme.value === 'dark' ? '#d1d5db' :
 
 watch(
   () => value.value,
-  (v) => emits('change', prop.value, v as T)
+  (v) => emits('change', prop.value, v as T),
 );
 
 watch(
   () => model.value,
   () => {
     value.value = model?.value?.[prop?.value];
-  }
+  },
 );
 </script>
 

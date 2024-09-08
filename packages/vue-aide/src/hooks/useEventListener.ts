@@ -5,7 +5,7 @@ type EventMap = HTMLElementEventMap & DocumentEventMap & WindowEventMap & MediaQ
 export const useEventListener = <K extends keyof EventMap>(
   target: Ref<EventTarget | null> | EventTarget,
   event: K,
-  handler: (event: EventMap[K]) => void
+  handler: (event: EventMap[K]) => void,
 ): (() => void) => {
   const eventHandler = (event: Event) => {
     handler(event as EventMap[K]);
