@@ -136,8 +136,9 @@ export class Selector {
         return node !== this.rubberRect;
       }),
     );
-    this.setHightRect(...nodes);
-    if (nodes.length === 1 && nodes[0].className === 'Line') {
+    if (nodes.length > 1) {
+      this.setHightRect(...nodes);
+    } else if (nodes.length === 1 && nodes[0].className === 'Line') {
       this.currentLine = nodes[0] as Konva.Line;
       this.currentLine.on('transform dragmove', this.onCurrentLineTransform);
     }
@@ -206,25 +207,26 @@ export class Selector {
     const points = this.currentLine.points(); // 获取线条的所有点
     const lineTransform = this.currentLine.getAbsoluteTransform();
     const portalTransform = this.innerPortal.getAbsoluteTransform();
-
-    // 创建锚点函数
-    const createAnchor = (index: number) => {
+    const anchorSize = this.transformerConfig.anchorSize ?? 10;
+    // 创建所有锚点
+    for (let index = 0; index < points.length; index += 2) {
       const { x, y } = transformPoint(new util.Point(points[index], points[index + 1]), lineTransform, portalTransform);
 
       const anchor = new Konva.Rect({
-        stroke: 'rgb(0, 161, 255)',
-        fill: 'white',
-        strokeWidth: 1,
+        stroke: this.transformerConfig.anchorStroke,
+        fill: this.transformerConfig.anchorFill ?? 'white',
+        strokeWidth: this.transformerConfig.anchorStrokeWidth,
         name: `${index}_anchor`,
         dragDistance: 0,
         draggable: true,
         hitStrokeWidth: 10,
         x,
         y,
-        width: 10,
-        height: 10,
-        offsetX: 5,
-        offsetY: 5,
+        width: anchorSize,
+        height: anchorSize,
+        offsetX: anchorSize / 2,
+        offsetY: anchorSize / 2,
+        cornerRadius: this.transformerConfig.anchorCornerRadius,
       });
 
       this.innerPortal.add(anchor);
@@ -242,11 +244,6 @@ export class Selector {
         points[index + 1] = y;
         this.currentLine.points(points);
       });
-    };
-
-    // 创建所有锚点
-    for (let index = 0; index < points.length; index += 2) {
-      createAnchor(index);
     }
   }
 
