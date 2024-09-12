@@ -9,7 +9,7 @@ interface HightLightRect {
   transformHandler: (...args: any) => any;
 }
 
-let TRANSFORM_CHANGE_STR = [
+const TRANSFORM_CHANGE_STR = [
   'widthChange',
   'heightChange',
   'scaleXChange',
@@ -21,6 +21,7 @@ let TRANSFORM_CHANGE_STR = [
   'offsetYChange',
   'transformsEnabledChange',
   'strokeWidthChange',
+  'absoluteTransformChange',
 ];
 
 export class Selector {
@@ -39,6 +40,7 @@ export class Selector {
   private hightLightRects: Map<string, HightLightRect>;
   private innerPortal: Konva.Group;
   private currentLine?: Konva.Line;
+  private lineAnchor: Konva.Rect;
 
   constructor(app: App, options: Options) {
     const { enabled, multipleSelect, transformer, hightLight, rubber } = options;
@@ -50,6 +52,16 @@ export class Selector {
     this.transformerConfig = transformer;
     this.hightLightConfig = hightLight;
     this.rubberConfig = rubber;
+
+    this.lineAnchor = new Konva.Rect({
+      stroke: this.transformerConfig.anchorStroke,
+      fill: this.transformerConfig.anchorFill ?? 'white',
+      strokeWidth: this.transformerConfig.anchorStrokeWidth,
+      dragDistance: 0,
+      draggable: true,
+      hitStrokeWidth: 10,
+      cornerRadius: this.transformerConfig.anchorCornerRadius,
+    });
 
     this.innerPortal = new Konva.Group({ name: 'inner_portal' });
     this.app.optionLayer.add(this.innerPortal);
@@ -140,7 +152,7 @@ export class Selector {
       this.setHightRect(...nodes);
     } else if (nodes.length === 1 && nodes[0].className === 'Line') {
       this.currentLine = nodes[0] as Konva.Line;
-      this.currentLine.on('transform dragmove', this.onCurrentLineTransform);
+      this.currentLine.on('transform dragmove', this.updateLineAnchor);
     }
     this.createLineAnchor();
     this.app.render();
@@ -161,7 +173,7 @@ export class Selector {
       this.selected.delete(node.id());
       if (node.className === 'Line') {
         this.innerPortal.removeChildren();
-        this.currentLine?.off('transform dragmove', this.onCurrentLineTransform);
+        this.currentLine?.off('transform dragmove', this.updateLineAnchor);
         this.currentLine = undefined;
       }
     });
@@ -205,30 +217,10 @@ export class Selector {
       return;
     }
     const points = this.currentLine.points(); // 获取线条的所有点
-    const lineTransform = this.currentLine.getAbsoluteTransform();
-    const portalTransform = this.innerPortal.getAbsoluteTransform();
-    const anchorSize = this.transformerConfig.anchorSize ?? 10;
     // 创建所有锚点
     for (let index = 0; index < points.length; index += 2) {
-      const { x, y } = transformPoint(new util.Point(points[index], points[index + 1]), lineTransform, portalTransform);
-
-      const anchor = new Konva.Rect({
-        stroke: this.transformerConfig.anchorStroke,
-        fill: this.transformerConfig.anchorFill ?? 'white',
-        strokeWidth: this.transformerConfig.anchorStrokeWidth,
-        name: `${index}_anchor`,
-        dragDistance: 0,
-        draggable: true,
-        hitStrokeWidth: 10,
-        x,
-        y,
-        width: anchorSize,
-        height: anchorSize,
-        offsetX: anchorSize / 2,
-        offsetY: anchorSize / 2,
-        cornerRadius: this.transformerConfig.anchorCornerRadius,
-      });
-
+      const anchor = this.lineAnchor.clone() as Konva.Rect;
+      anchor.name(`${index}_anchor`);
       this.innerPortal.add(anchor);
       anchor.on('dragmove', ({ target }) => {
         if (!this.currentLine) {
@@ -245,6 +237,8 @@ export class Selector {
         this.currentLine.points(points);
       });
     }
+
+    this.updateLineAnchor();
   }
 
   private setHightRect(...nodes: KonvaNode[]) {
@@ -257,13 +251,11 @@ export class Selector {
         fillEnabled: false,
         strokeScaleEnabled: false,
       });
-      this.getAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
+      this.setAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0);
       this.app.optionLayer.add(rect);
 
       const transformHandler = () =>
-        requestAnimationFrame(() => this.getAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
-
-      node.on('absoluteTransformChange', transformHandler);
+        requestAnimationFrame(() => this.setAbsoluteNodeRect(node, rect, this.hightLightConfig.padding ?? 0));
 
       node.on(TRANSFORM_CHANGE_STR.join(' '), transformHandler);
 
@@ -281,14 +273,13 @@ export class Selector {
       if (!hightLight) {
         return;
       }
-      node.off('absoluteTransformChange', hightLight.transformHandler);
       node.off(TRANSFORM_CHANGE_STR.join(' '), hightLight.transformHandler);
       hightLight.rect.remove();
       this.hightLightRects.delete(node.id());
     });
   }
 
-  private getAbsoluteNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
+  private setAbsoluteNodeRect(node: KonvaNode, rect: Konva.Rect, padding: number = 0): void {
     const { x, y, width, height } = getNodeRect(node, padding);
     rect.position({
       x: (x - this.app.stage.x()) / this.app.stage.scaleX(),
@@ -299,21 +290,27 @@ export class Selector {
     rect.rotation(node.rotation());
   }
 
-  private onCurrentLineTransform = (): void => {
-    if (!this.currentLine) {
+  private updateLineAnchor = (): void => {
+    if (!this.currentLine || !this.innerPortal.hasChildren()) {
       return;
     }
     const points = this.currentLine.points();
-    const lineTransform = this.currentLine.getAbsoluteTransform().copy();
-    const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
-
-    this.innerPortal.children?.forEach((anchor) => {
+    const anchorSize = this.transformerConfig.anchorSize ?? 10;
+    for (const anchor of this.innerPortal.getChildren()) {
       const index = parseInt(anchor.name().split('_')[0], 10);
       if (!isNaN(index) && index < points.length) {
-        const { x, y } = transformPoint({ x: points[index], y: points[index + 1] }, lineTransform, portalTransform);
+        const { x, y } = transformPoint(
+          { x: points[index], y: points[index + 1] },
+          this.currentLine.getAbsoluteTransform(),
+          this.innerPortal.getAbsoluteTransform(),
+        );
         anchor.position({ x, y });
+        anchor.width(anchorSize);
+        anchor.height(anchorSize);
+        anchor.offsetX(anchorSize / 2);
+        anchor.offsetY(anchorSize / 2);
       }
-    });
+    }
   };
 
   private onTransformStart = (): void => {
