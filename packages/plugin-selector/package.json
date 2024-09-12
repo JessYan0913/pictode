@@ -1,7 +1,7 @@
 {
   "name": "@pictode/plugin-selector",
   "private": false,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/pictode-plugin-selector.umd.js",
   "module": "dist/pictode-plugin-selector.mjs",
   "types": "types/index.d.ts",
