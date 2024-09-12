@@ -1,5 +1,5 @@
 import { App } from '../app';
-import { KonvaMouseEvent, KonvaWheelEvent, Service } from '../types';
+import { KonvaMouseEvent, KonvaTouchEvent, KonvaWheelEvent, Service } from '../types';
 import { Point } from '../utils';
 
 export class Mouse extends Service {
@@ -22,6 +22,8 @@ export class Mouse extends Service {
     this.app.stage.on<'dblclick'>('dblclick', this.onMouseDoubleClick);
     this.app.stage.on<'click'>('click', this.onMouseClick);
     this.app.stage.on<'contextmenu'>('contextmenu', this.onMouseContextmenu);
+
+    this.app.stage.on<'touchstart'>('touchstart', this.onTouchStart);
   }
 
   // 释放鼠标事件
@@ -58,16 +60,16 @@ export class Mouse extends Service {
     this.app.emit('mouse:down', { event });
   };
 
-  private onTouchStart = (event: KonvaMouseEvent): void => {
-    this.app.emit('mouse:down', { event });
+  private onTouchStart = (event: KonvaTouchEvent): void => {
+    this.app.emit('touch:start', { event });
   };
 
   private onMouseUp = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:up', { event });
   };
 
-  private onTouchEnd = (event: KonvaMouseEvent): void => {
-    this.app.emit('mouse:up', { event });
+  private onTouchEnd = (event: KonvaTouchEvent): void => {
+    this.app.emit('touch:end', { event });
   };
 
   private onMouseMove = (event: KonvaMouseEvent): void => {
@@ -77,11 +79,11 @@ export class Mouse extends Service {
     this.app.emit('mouse:move', { event });
   };
 
-  private onTouchMove = (event: KonvaMouseEvent): void => {
+  private onTouchMove = (event: KonvaTouchEvent): void => {
     if (this.app.stage.draggable()) {
       return;
     }
-    this.app.emit('mouse:move', { event });
+    this.app.emit('touch:move', { event });
   };
 
   private onMouseOver = (event: KonvaMouseEvent): void => {

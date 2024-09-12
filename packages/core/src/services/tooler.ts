@@ -15,6 +15,7 @@ export class Tooler extends Service {
     this.app.on('mouse:up', this.onMouseup);
     this.app.on('mouse:click', this.onClick);
     this.app.on('mouse:dbclick', this.onDoubleClick);
+    this.app.on('touch:start', this.onTouchStart);
   }
 
   public get available(): boolean {
@@ -51,6 +52,10 @@ export class Tooler extends Service {
       return;
     }
     this.currentTool.mousedown({ event, pointer: this.app.pointer, app: this.app });
+  };
+
+  private onTouchStart = ({ event }: EventArgs['touch:start']): void => {
+    console.log('=====>', event);
   };
 
   private onMouseup = ({ event }: EventArgs['mouse:up']): void => {

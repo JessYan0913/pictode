@@ -42,6 +42,7 @@ export interface AppConfig {
 }
 
 export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
+export type KonvaTouchEvent = Konva.KonvaEventObject<TouchEvent>;
 export type KonvaWheelEvent = Konva.KonvaEventObject<WheelEvent>;
 export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
 export type KonvaNode = Konva.Group | Konva.Shape;
@@ -174,6 +175,15 @@ export interface EventArgs {
   };
   'mouse:contextmenu': {
     event: KonvaMouseEvent;
+  };
+  'touch:start': {
+    event: KonvaTouchEvent;
+  };
+  'touch:end': {
+    event: KonvaTouchEvent;
+  };
+  'touch:move': {
+    event: KonvaTouchEvent;
   };
 }
 
