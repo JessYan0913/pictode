@@ -305,7 +305,7 @@ export class Selector {
     }
     const points = this.currentLine.points();
     const lineTransform = this.currentLine.getAbsoluteTransform().copy();
-    const portalTransform = this.innerPortal.getAbsoluteTransform().copy().invert();
+    const portalTransform = this.innerPortal.getAbsoluteTransform().copy();
 
     this.innerPortal.children?.forEach((anchor) => {
       const index = parseInt(anchor.name().split('_')[0], 10);
