@@ -15,8 +15,11 @@ export class Mouse extends Service {
 
   private bindMouseEvent(): void {
     this.app.stage.on<'mousedown'>('mousedown', this.onMouseDown);
+    this.app.stage.on<'touchstart'>('touchstart', this.onTouchStart);
     this.app.stage.on<'mouseup'>('mouseup', this.onMouseUp);
+    this.app.stage.on<'touchend'>('touchend', this.onTouchEnd);
     this.app.stage.on<'mousemove'>('mousemove', this.onMouseMove);
+    this.app.stage.on<'touchmove'>('touchmove', this.onTouchMove);
     this.app.stage.on<'mouseover'>('mouseover', this.onMouseOver);
     this.app.stage.on<'mouseout'>('mouseout', this.onMouseOut);
     this.app.stage.on<'dblclick'>('dblclick', this.onMouseDoubleClick);
@@ -27,8 +30,11 @@ export class Mouse extends Service {
   // 释放鼠标事件
   private unbindMouseEvent(): void {
     this.app.stage.off('mousedown', this.onMouseDown);
+    this.app.stage.off('touchstart', this.onTouchStart);
     this.app.stage.off('mouseup', this.onMouseUp);
+    this.app.stage.off('touchend', this.onTouchEnd);
     this.app.stage.off('mousemove', this.onMouseMove);
+    this.app.stage.off('touchmove', this.onTouchMove);
     this.app.stage.off('mouseover', this.onMouseOver);
     this.app.stage.off('mouseout', this.onMouseOut);
     this.app.stage.off('dblclick', this.onMouseDoubleClick);
@@ -55,11 +61,26 @@ export class Mouse extends Service {
     this.app.emit('mouse:down', { event });
   };
 
+  private onTouchStart = (event: KonvaMouseEvent): void => {
+    this.app.emit('mouse:down', { event });
+  };
+
   private onMouseUp = (event: KonvaMouseEvent): void => {
     this.app.emit('mouse:up', { event });
   };
 
+  private onTouchEnd = (event: KonvaMouseEvent): void => {
+    this.app.emit('mouse:up', { event });
+  };
+
   private onMouseMove = (event: KonvaMouseEvent): void => {
+    if (this.app.stage.draggable()) {
+      return;
+    }
+    this.app.emit('mouse:move', { event });
+  };
+
+  private onTouchMove = (event: KonvaMouseEvent): void => {
     if (this.app.stage.draggable()) {
       return;
     }
