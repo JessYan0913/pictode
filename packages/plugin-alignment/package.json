@@ -1,7 +1,7 @@
 {
   "name": "@pictode/plugin-alignment",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.4",
   "main": "dist/pictode-plugin-alignment.umd.js",
   "module": "dist/pictode-plugin-alignment.mjs",
   "types": "types/index.d.ts",

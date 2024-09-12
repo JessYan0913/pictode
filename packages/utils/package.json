@@ -1,7 +1,7 @@
 {
   "name": "@pictode/utils",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.4",
   "main": "dist/pictode-utils.umd.js",
   "module": "dist/pictode-utils.mjs",
   "types": "types/index.d.ts",
