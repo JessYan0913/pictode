@@ -15,11 +15,8 @@ export class Mouse extends Service {
 
   private bindMouseEvent(): void {
     this.app.stage.on<'mousedown'>('mousedown', this.onMouseDown);
-    this.app.stage.on<'touchstart'>('touchstart', this.onTouchStart);
     this.app.stage.on<'mouseup'>('mouseup', this.onMouseUp);
-    this.app.stage.on<'touchend'>('touchend', this.onTouchEnd);
     this.app.stage.on<'mousemove'>('mousemove', this.onMouseMove);
-    this.app.stage.on<'touchmove'>('touchmove', this.onTouchMove);
     this.app.stage.on<'mouseover'>('mouseover', this.onMouseOver);
     this.app.stage.on<'mouseout'>('mouseout', this.onMouseOut);
     this.app.stage.on<'dblclick'>('dblclick', this.onMouseDoubleClick);

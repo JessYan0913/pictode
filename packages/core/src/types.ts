@@ -41,7 +41,7 @@ export interface AppConfig {
   };
 }
 
-export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent | TouchEvent>;
+export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
 export type KonvaWheelEvent = Konva.KonvaEventObject<WheelEvent>;
 export type KonvaDragEvent = Konva.KonvaEventObject<DragEvent>;
 export type KonvaNode = Konva.Group | Konva.Shape;
