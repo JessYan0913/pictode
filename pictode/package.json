@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "github": "gh-pages -d dist -r https://github.com/JessYan0913/pictode-playground.git",
-    "build:github": "npm run build && npm run github"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.15",
@@ -35,7 +33,6 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "ant-design-vue": "^4.0.6",
     "autoprefixer": "^10.4.14",
-    "gh-pages": "^5.0.0",
     "postcss": "^8.4.27",
     "postcss-import": "^15.1.0",
     "sass": "^1.63.6",

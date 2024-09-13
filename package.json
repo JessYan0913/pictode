@@ -8,7 +8,6 @@
     "pictode": "pnpm --filter \"pictode\" dev",
     "build": "pnpm --filter \"@pictode/*\" build",
     "build:pictode": "pnpm --filter \"pictode\" build",
-    "build:pictode:github": "pnpm --filter \"pictode\" build:github",
     "lint": "eslint . --ext .js,.vue,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.vue,.ts,.tsx",
     "commit": "git-cz",
