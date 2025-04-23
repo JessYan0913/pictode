@@ -324,11 +324,17 @@ export class Selector {
   };
 
   private onDragStart = (): void => {
+    this.app.stage.listening(false);
+
     this.app.emit('node:transform:start', { nodes: [...this.selected.values()] });
     this.app.emit('node:update:before', { nodes: [...this.selected.values()] });
   };
 
   private onDragEnd = (): void => {
+    setTimeout(() => {
+      this.app.stage.listening(true);
+    }, 100);
+
     this.app.emit('node:transform:end', { nodes: [...this.selected.values()] });
     this.app.emit('node:updated', { nodes: [...this.selected.values()] });
   };
